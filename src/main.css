@@ -1,0 +1,255 @@
+body, html{
+    margin:0px; height: 100%; font-family: Microsoft JhengHei;
+}
+
+body{
+    position: absolute; 
+    top: 0px;  
+    left: 0px;
+    right: 0px; 
+    bottom: 0px; 
+    width: auto; 
+    height: auto; 
+    background: url(../images/mainBackground.jpg) no-repeat;
+    background-size: 100% auto ;
+    opacity: 1; 
+}
+
+main> view{
+    display: flex; flex-direction: column; height: 100vh;
+} 
+
+img {
+    width: 100%;
+}
+
+view>.topBar {
+    max-height: 43px;
+    display: flex; 
+    background-color:  rgba(70, 65, 89, 0.25);
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 5px 5px 0px 5px;
+}
+view>.secondBar {
+    max-height: 43px;
+    display: flex; 
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 5px 5px 0px 5px;
+}
+view>.board {
+    flex-grow:1;
+}
+
+view>.topBar>.topLeft,
+view>.topBar>.topRight,
+view>.secondBar>.secondLeft,
+view>.secondBar>.secondRight {
+    display: flex;margin: 5px;flex-wrap: wrap;align-items: center;
+}
+
+view>.topBar>.topLeft>.searchBar input {
+    height: 23px; border-radius: 20px; border: 1px solid white; background: url("../images/magnifying-glass.png") no-repeat calc(100% - 12px) calc(100% - 4px) 
+}
+
+view>.topBar>.topRight>.boardList,
+view>.topBar>.topLeft>.home {
+    width: 28px;
+}
+
+view>.topBar>.topRight>.memberIcon,
+view>.secondBar>.secondLeft>.friendList>.friend{
+    width: 32px;
+}
+view>.secondBar>.secondRight>.addBoard {
+    width: 24px;
+}
+view>.secondBar>.secondLeft>.friendList {
+    display: flex;
+}
+
+view>.secondBar>.secondLeft>.friendList>.friend {
+    margin-right: 5px;
+}
+
+view>.topBar>.topRight>.memberIcon img,
+view>.secondBar>.secondLeft img,
+view>.secondBar>.secondRight img{
+    border-radius: 100%;
+}
+view>.topBar>.topLeft>.home,
+view>.topBar>.topRight>.boardList,
+view>.secondBar>.secondLeft>.invite {
+    margin-right: 20px; 
+}
+
+view>.secondBar>.secondLeft>.invite {
+    line-height: 32px; color: white
+}
+
+view>.board {
+    height: (100vh - 86px);
+    box-sizing: border-box;
+    display: flex;
+    /* flex-wrap:  nowrap; */
+    overflow: scroll;
+    overflow-y:auto;
+    /* overflow-y: hidden; */
+    max-height: calc(100vh - 99px);
+}
+
+view>.board>.sectionWrapper{
+    scroll-snap-align: center;
+    box-sizing: border-box;
+}
+
+view>.board>.sectionWrapper>.section {
+    color: black;width: 310px;
+    background: rgba(254, 246, 251, 0.36);
+    border-radius: 10px;
+    padding:10px;
+
+}
+
+view>.board>.sectionWrapper>.section>.head {
+    display: flex;justify-content: space-between;margin:3px 3px 6px 3px;align-items: center;background-color: rgba(67, 67, 67, 0.26);border-radius: 5px;padding: 5px;color: white;
+}
+
+view>.board>.sectionWrapper>.section>.head>.titleRight {
+    width: 24px;
+}
+view>.board>.sectionWrapper>.section>.head>.titleLeft {
+    max-width: 265px;
+}
+
+view>.board>.sectionWrapper>.section{
+    margin: 10px 10px;display: inline-flex;max-height: 90%;overflow-y: auto;flex-direction: column;
+}
+view>.board>.sectionWrapper>.section>.comment>.item{
+    margin:3px 3px 6px 3px; background-color: rgba(145, 152, 159, 0.56);border-radius: 5px;
+}
+
+view>.board>.sectionWrapper>.section>.comment>.item>.itemHead {
+    display: flex;position: relative;margin: 2px 2px 2px 2px ;
+}
+
+view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagImg {
+    width: 22px;position: absolute; top: 5px; right: 5px;
+}
+
+.tags {
+    display: flex; 
+}
+.tag {
+    margin: 5px 0 5px 5px;border-radius: 20px;font-size: 12px;padding: 1px 5px;font-weight: bold;color: white;
+}
+.planning {
+    background-color: rgba(204 ,94, 28, 0.8);
+}
+.process {
+    background-color: rgba(46 ,169, 223, 0.8);
+}
+.risk {
+    background-color: rgba(215 ,84, 85, 0.8);
+}
+.achived {
+    background-color: rgba(123 ,162, 63, 0.8);;
+}
+view>.board>.sectionWrapper>.section>.comment {
+    overflow-y: scroll; 
+}
+
+view>.board>.sectionWrapper>.section>.comment>.item>.itemBody {
+    display: flex;margin:10px 5px;
+}
+view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgText,
+view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgImg {
+    margin-bottom: 6px ;
+}
+/* view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgImg {
+    height: 110px;
+} */
+
+view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.featureDiv {
+    display: flex;
+}
+
+view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.featureDiv>.feature {
+    display: flex; flex-direction: column; justify-content: space-between;margin: 2px 2px 0px 8px;height: 100%;
+}
+view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.featureDiv>.feature>.edit,
+view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.featureDiv>.feature>.trashcan,
+view>.board>.sectionWrapper>.section>.comment>.item>.itemFooter>.addItemIcon{
+    width: 18px;
+}
+
+view>.board>.sectionWrapper>.section>.addItem {
+    display: flex; flex-direction: column; margin: 20px 5px 2px 5px;background-color: rgba(255, 255, 251, 0.45); border-radius: 10px;text-align: center;
+}
+view>.board>.sectionWrapper>.section>.addItem textarea{
+    height: 100px; width: 94%;
+}
+view>.board>.sectionWrapper>.section>.addItem>.tags {
+    display: flex;
+}
+view>.board>.sectionWrapper>.section>.addItem>.addItemFooter {
+    display: flex; flex-direction: column; margin: 2px 5px 5px 2px;
+}
+
+view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFeature {
+    display: flex; margin: 2px 5px 5px 2px;
+}
+view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFeature{
+    display: flex; justify-content: flex-end;
+}
+view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFeature>.addComment,
+view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFeature>.cancel {
+    width: 24px;margin-left: 20px;
+}
+
+view>.board>.sectionWrapper>.section>.itemFooter {
+    display: flex;padding: 5px 10px; justify-content: flex-end;margin-top: 10px;
+}
+view>.board>.sectionWrapper>.section>.itemFooter>.add {
+    width: 24px;
+}
+
+footer>.footerBar {
+    background-color: black;
+     color: white; 
+     text-align: center;
+     line-height: 30px;
+     box-sizing: border-box;
+     position: absolute;
+     bottom: 0;
+     width: 100%;
+}
+
+
+::-webkit-scrollbar {
+    width: 10px; height: 10px;
+}
+/* 內層軌道 */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+/* 可拖曳長條 */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(55,55,55,0.3); 
+}
+.comment::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(154,152,159,0.3); 
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(55,55,55,0.5);
+}
+.comment::-webkit-scrollbar-thumb:hover {
+    background: rgba(120,125,123,0.3); 
+}
+/* ::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(255,0,0,0.4); 
+} */
