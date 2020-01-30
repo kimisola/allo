@@ -77,7 +77,11 @@ class App extends React.Component {
             try {
               const response = await fetch(`https://api.appworks-school.tw/api/1.0/products/all`)
               .then((response) => {
-                  console.log(response.json())
+                  console.log(response)
+                  return response.json()
+              })
+              .then((data) => {
+                  console.log(data)
               })
               if (!response.ok) {
                 throw Error(response.statusText);
