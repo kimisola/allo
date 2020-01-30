@@ -8,30 +8,54 @@ import CommentItem from "../components/commentItem";
 import AddItem from "../components/addItem";
 import "./main.css";
 import ItemFooter from "../components/itemFooter";
-import Cross from "../images/cross.png";
+
 import fire from "./fire";
 
 
 let initialState = {
     text: [],
+    listTitle: [],
     loadPage: true,  //是不是要設一個東西讓原始 state 裡有資料才會動
 }
 
 //read db
 const db = fire.firestore();
-    db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/SkTpwyyxJROSml7RnqBV/Items/").get().then((querySnapshot) => {
+    db.collection("Boards").get().then((querySnapshot) => {
+        
         querySnapshot.forEach(doc => {
-            initialState.text.push( doc.data());
+            // initialState.text.push( doc.data());
+            let boardId = "";
+            boardId = doc.id
+            console.log(boardId)
+
+            db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get().then((querySnapshot) => {
+                querySnapshot.forEach(doc =>{
+                    console.log(doc.id)
+                    console.log(doc.data().title)
+                    initialState.listTitle.push(doc.data().title)
+                    let listsId = "";
+                    listsId = doc.id
+
+                    db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId + "/Items").get().then((querySnapshot) => {
+                        querySnapshot.forEach(doc =>{
+                            console.log(doc.id)
+                            console.log(doc.data())
+                            initialState.text.push(doc.data())
+                        })
+                        store.dispatch({ type: "renderComments" });
+                        console.log(initialState.text);
+                    })
+                })
+            })
         });
-        store.dispatch({ type: "renderComments" });
-        console.log(initialState.text);
     });
 
 function reducer(state = initialState, action) {  
     switch(action.type) {
         case "renderComments":
             return {  
-                text: state.text
+                text: state.text,
+                listTitle: state.listTitle
             };
       default:
         return state;
@@ -68,21 +92,16 @@ class App extends React.Component {
                         <Topbar />
                         <SecondBar />
                         <div className="board">
-                            <div className="sectionWrapper">
-                                <div className="section">
-                                    <div className="head">
-                                        <div className="titleLeft" onClick={ this.getdbData }>我是第1個列表的標題</div>
-                                        <div className="titleRight">
-                                            <img src={ Cross } />
-                                        </div>
-                                    </div>
-                                    <div className="comment">
-                                        <CommentItem />
-                                    </div>
-                                    <AddItem />
-                                    <ItemFooter />
-                                </div>
-                            </div>
+                            {/* <div className="sectionWrapper">
+                                <div className="section"> */}
+                                 
+                         
+                                    <CommentItem />
+     
+                                    {/* <AddItem />
+                                    <ItemFooter /> */}
+                                {/* </div>
+                            </div> */}
                         </div>
                     </view>
                 </main>
