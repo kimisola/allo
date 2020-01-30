@@ -22,8 +22,6 @@ class CommentItem extends React.Component {
         
         return(
             <React.Fragment>
-           
-           
             {this.props.listTitle.map((item) =>
                 <React.Fragment>
                 <div className="sectionWrapper">
@@ -34,63 +32,62 @@ class CommentItem extends React.Component {
                                 <img src={ Cross } />
                             </div>
                         </div>
-                <div class="comment">
-                    {this.props.text.map((item) =>
-                    
-                    <div className="item">
-                        <div className="itemHead">
-                            <div className="tags">
+                        <div class="comment">
+                            {this.props.text.map((item) =>
+                            
+                                <div className="item">
+                                    <div className="itemHead">
+                                        <div className="tags">
 
-                            {item.tags.map((tag) => {
-                                switch (tag) {
-                                    case "planning":
-                                        return <div className="tag planning">Planning</div>
+                                        {item.tags.map((tag) => {
+                                            switch (tag) {
+                                                case "planning":
+                                                    return <div className="tag planning">Planning</div>
 
-                                    case "process":
-                                        return <div className="tag process" >In Process</div>
-                                
+                                                case "process":
+                                                    return <div className="tag process" >In Process</div>
+                                            
 
-                                    case "risk":
-                                        return <div className="tag risk">At Risk</div>
-                                
+                                                case "risk":
+                                                    return <div className="tag risk">At Risk</div>
+                                            
 
-                                    case "achived":
-                                        return <div className="tag achived">Achieved</div>
+                                                case "achived":
+                                                    return <div className="tag achived">Achieved</div>
 
-                                        default:
-                                    break;
-                                    }
-                                })}
-                        
-                            </div>
+                                                    default:
+                                                break;
+                                                }
+                                            })}
+                                    
+                                        </div>
 
-                            <div className="tagImg">
-                                <img src={ Tag } />
-                            </div>
-                        </div>
-                        <div className="itemBody">
-                            <div className="message">                       
-                                <div className="msgText"> {item.text} </div>         
-                                <div className="msgImg"> <img src={ item.img } /> </div>
-                            </div>
-                            <div className="featureDiv">
-                                <div className="feature">
-                                    <div className="edit">
-                                        <img src={ Pencil } />
+                                        <div className="tagImg">
+                                            <img src={ Tag } />
+                                        </div>
                                     </div>
-                                    <div className="trashcan">
-                                        <img src={ GarbageCan } />
+                                    <div className="itemBody">
+                                        <div className="message">                       
+                                            <div className="msgText"> {item.text} </div>         
+                                            <div className="msgImg"> <img src={ item.img } /> </div>
+                                        </div>
+                                        <div className="featureDiv">
+                                            <div className="feature">
+                                                <div className="edit">
+                                                    <img src={ Pencil } />
+                                                </div>
+                                                <div className="trashcan">
+                                                    <img src={ GarbageCan } />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
+                        <AddItem />
+                        <ItemFooter />
                     </div>
-                    
-                )}
-                </div>
-                <AddItem />
-                <ItemFooter />
-                </div>
                 </div>
                 </React.Fragment>
             )}

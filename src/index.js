@@ -18,38 +18,6 @@ let initialState = {
     loadPage: true,  //是不是要設一個東西讓原始 state 裡有資料才會動
 }
 
-//read db
-const db = fire.firestore();
-    db.collection("Boards").get().then((querySnapshot) => {
-        
-        querySnapshot.forEach(doc => {
-            // initialState.text.push( doc.data());
-            let boardId = "";
-            boardId = doc.id
-            console.log(boardId)
-
-            db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get().then((querySnapshot) => {
-                querySnapshot.forEach(doc =>{
-                    console.log(doc.id)
-                    console.log(doc.data().title)
-                    initialState.listTitle.push(doc.data().title)
-                    let listsId = "";
-                    listsId = doc.id
-
-                    db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId + "/Items").get().then((querySnapshot) => {
-                        querySnapshot.forEach(doc =>{
-                            console.log(doc.id)
-                            console.log(doc.data())
-                            initialState.text.push(doc.data())
-                        })
-                        store.dispatch({ type: "renderComments" });
-                        console.log(initialState.text);
-                    })
-                })
-            })
-        });
-    });
-
 function reducer(state = initialState, action) {  
     switch(action.type) {
         case "renderComments":
@@ -68,8 +36,59 @@ const store = createStore(reducer);
 class App extends React.Component {
     constructor(props){
         super(props);
-        // this.state = store.getState();
     }
+
+    async componentDidMount() {
+        console.log("run componentDidMount")
+
+        //read db
+        // const db = fire.firestore();
+        // db.collection("Boards").get().then((querySnapshot) => {
+    
+        // querySnapshot.forEach(doc => {
+        //     initialState.text.push( doc.data());
+        //     let boardId = "";
+        //     boardId = doc.id
+        //     console.log(boardId)
+        //});
+
+        // db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get().then((querySnapshot) => {
+        //         querySnapshot.forEach(doc => {
+        //             console.log(doc.id)
+        //             console.log(doc.data().title)
+        //             initialState.listTitle.push(doc.data().title)
+        //             let listsId = "";
+        //             listsId = doc.id
+
+        //             db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId + "/Items").get().then((querySnapshot) => {
+        //                 querySnapshot.forEach(doc => {
+        //                     console.log(doc.id)
+        //                     console.log(doc.data())
+        //                     initialState.text.push(doc.data())
+        //                 })
+        //                 store.dispatch({ type: "renderComments" });
+        //                 console.log(initialState.text);
+        //             })
+        //         })
+        //     })
+        // });
+
+       
+            try {
+              const response = await fetch(`https://api.appworks-school.tw/api/1.0/products/all`)
+              .then((response) => {
+                  console.log(response.json())
+              })
+              if (!response.ok) {
+                throw Error(response.statusText);
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          
+          
+    }
+
 
     //write db
     getdbData1 = () => {
