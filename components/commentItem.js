@@ -27,7 +27,7 @@ class CommentItem extends React.Component {
                 <div className="sectionWrapper">
                     <div className="section">
                         <div class="head">
-                            <div className="titleLeft" onClick={ this.getdbData }> {item} </div>
+                            <div className="titleLeft"> {item} </div>
                             <div className="titleRight">
                                 <img src={ Cross } />
                             </div>

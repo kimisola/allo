@@ -22,8 +22,8 @@ function reducer(state = initialState, action) {
     switch(action.type) {
         case "renderComments":
             return {  
-                text: state.text,
-                listTitle: state.listTitle
+                text: action.myDataText,
+                listTitle: action.myDataTitle
             };
       default:
         return state;
@@ -42,8 +42,8 @@ class App extends React.Component {
         console.log("run componentDidMount")
 
         //read db
-        // const db = fire.firestore();
-        // db.collection("Boards").get().then((querySnapshot) => {
+        // await db.collection("Boards").get().then((querySnapshot) => {
+        // });
     
         // querySnapshot.forEach(doc => {
         //     initialState.text.push( doc.data());
@@ -52,45 +52,57 @@ class App extends React.Component {
         //     console.log(boardId)
         //});
 
-        // db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get().then((querySnapshot) => {
+        const db = fire.firestore();
+        let myDataTitle = [];
+        let myDataText = [];
+        let listsId = "";
+
+        const getListId = await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get().then((querySnapshot) => {
+                querySnapshot.forEach(doc => {
+                    myDataTitle.push(doc.data().title)                  
+                    listsId = doc.id
+                    console.log(myDataTitle)
+                    
+                    db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId + "/Items").get().then((querySnapshot) => {
+                        querySnapshot.forEach(doc => {
+                            console.log(doc.data())
+                            myDataText.push(doc.data())
+                            console.log(myDataText)
+                        })
+                        store.dispatch({ type: "renderComments", myDataText, myDataTitle });
+                    })
+                })                
+            })
+
+
+        // const getItemData = await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId + "/Items").get().then((querySnapshot) => {
         //         querySnapshot.forEach(doc => {
         //             console.log(doc.id)
-        //             console.log(doc.data().title)
-        //             initialState.listTitle.push(doc.data().title)
-        //             let listsId = "";
-        //             listsId = doc.id
-
-        //             db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId + "/Items").get().then((querySnapshot) => {
-        //                 querySnapshot.forEach(doc => {
-        //                     console.log(doc.id)
-        //                     console.log(doc.data())
-        //                     initialState.text.push(doc.data())
-        //                 })
-        //                 store.dispatch({ type: "renderComments" });
-        //                 console.log(initialState.text);
-        //             })
+        //             console.log(doc.data())
+        //             myDataText.push(doc.data())
         //         })
+        //         store.dispatch({ type: "renderComments" });
+        //         console.log(myDataText);
         //     })
-        // });
+        
+        
 
        
-            try {
-              const response = await fetch(`https://api.appworks-school.tw/api/1.0/products/all`)
-              .then((response) => {
-                  console.log(response)
-                  return response.json()
-              })
-              .then((data) => {
-                  console.log(data)
-              })
-              if (!response.ok) {
-                throw Error(response.statusText);
-              }
-            } catch (error) {
-              console.log(error);
-            }
-          
-          
+            // try {
+            //   const response = await fetch(`https://api.appworks-school.tw/api/1.0/products/all`)
+            //   .then((response) => {
+            //       console.log(response)
+            //       return response.json()
+            //   })
+            //   .then((data) => {
+            //       console.log(data)
+            //   })
+            //   if (!response.ok) {
+            //     throw Error(response.statusText);
+            //   }
+            // } catch (error) {
+            //   console.log(error);
+            // }
     }
 
 
