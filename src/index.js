@@ -21,6 +21,9 @@ let initialState = {
     //add new list
     addNewListClicked: false,
     addNewListOpen: false,
+
+    //add new comment item
+    addNewCommentOpen: false,
 }
 
 function reducer(state = initialState, action) {  
@@ -44,15 +47,21 @@ function reducer(state = initialState, action) {
 
         case "newRenderComments": {
             return Object.assign({}, state, {
-                text: state.text = action.Ntext,
-                listTitle: state.listTitle = action.NlistTitle,
+                text: state.text = action.newText,
+                listTitle: state.listTitle = action.newListTitle,
             });
         }
 
         case "getNewTitleValue": {
             return Object.assign({}, state, {
-                TitleValue: state.TitleValue = action.value
+                titleValue: state.titleValue = action.value
             });
+        }
+
+        case "addComment": {
+            return Object.assign({}, state, {
+                addNewCommentOpen:state.addNewCommentOpen = !state.addNewCommentOpen,
+            })
         }
 
         default:
@@ -123,16 +132,9 @@ class App extends React.Component {
     }
 
 
-    //write db
+    //check state
     getdbData1 = () => {
-        const db = fire.firestore();
-        let aaa = db.collection("Users").doc();
-        aaa.set({
-            email: "789@gmail.com",            
-            img: "741852963",
-            name: "suisqi",
-        });
-        console.log(db.collection("Users").doc())
+        console.log(store.getState(),"store.getNewTitleValue()")
     }
 
     render(){
@@ -143,6 +145,7 @@ class App extends React.Component {
                 <main>
                     <view>
                         <Topbar />
+                        <button onClick={this.getdbData1}> Click me </button>
                         <SecondBar />
                         <div className="board">
                             {/* <div className="sectionWrapper">
@@ -157,8 +160,6 @@ class App extends React.Component {
                         </div>
                     </view>
                 </main>             
-
-                {/* exact and switch choose one */}
  
                 </Route>
             </React.Fragment>

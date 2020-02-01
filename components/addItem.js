@@ -13,7 +13,7 @@ class AddItem extends React.Component {
     render(){
         return(
             <React.Fragment>
-                <div className="addItem">
+                
                     <div className="tags">
                         <div className="tag planning">Planning</div>
                         <div className="tag process">In Process</div>
@@ -38,7 +38,7 @@ class AddItem extends React.Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                
 
             </React.Fragment>
         )

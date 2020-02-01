@@ -21,29 +21,32 @@ class SecondBar extends React.Component {
         let value = event.target.value
         console.log(value)
         this.props.dispatch({ type: "getNewTitleValue", value })
+        // if(event.key === "Enter") {
+        //     event.target.value = "";
+        // }
+        
     }
 
     creatTitle = (event) => {
-        let Ntext = this.props.text;
-        let NlistTitle =  this.props.listTitle;
-        let TitleValue =  this.props.TitleValue;
+        let newText = this.props.text;
+        let newListTitle =  this.props.listTitle;
+        let titleValue =  this.props.titleValue;
 
         if(event.key === "Enter") {
-            console.log(TitleValue,"Tvalue")
+            console.log(titleValue,"Tvalue")
             console.log("enter creat title")
             let db = fire.firestore();
             let titleCollection = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").doc();
             titleCollection.set({
-                title: TitleValue,
+                title: titleValue,
             })
-            NlistTitle.push(TitleValue);
-            Ntext.push([]);
+            newListTitle.push(titleValue);
+            newText.push([]);
             console.log("finish add")
+            this.props.dispatch({ type: "addList" })
         }
-
-        console.log(NlistTitle)
-        this.props.dispatch({ type: "newRenderComments", NlistTitle, Ntext })
-        
+        console.log(newListTitle)
+        this.props.dispatch({ type: "newRenderComments", newListTitle, newText })
     } 
     
 
@@ -86,7 +89,7 @@ const mapStateToProps = (state) => {
     return {
         text: state.text,
         listTitle: state.listTitle,
-        TitleValue: state.TitleValue,
+        titleValue: state.titleValue,
         addNewListClicked: state.addNewListClicked,
         addNewListOpen: state.addNewListOpen,
     }

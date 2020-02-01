@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import "../src/main.css";
 import Plus from "../images/plus.png";
+import { connect } from 'react-redux';
 
 
 class ItemFooter extends React.Component {
@@ -9,13 +10,20 @@ class ItemFooter extends React.Component {
         super(props);
     }
 
+
+    creatComment = () => {
+        console.log("run creat comment")
+        this.props.dispatch({ type: "addComment" })
+    }
+
+
     render(){
         return(
             <React.Fragment>
                 
                 <div className="itemFooter">
                     <div className="add">
-                        <img src={ Plus } />
+                        <img src={ Plus } onClick={this.creatComment}/>
                     </div>
                 </div>
 
@@ -23,4 +31,13 @@ class ItemFooter extends React.Component {
         )
     }
 }
-export default ItemFooter;
+
+const mapStateToProps = (state) => {
+    return {
+        text: state.text,
+        listTitle: state.listTitle,
+        addNewCommentOpen:state.addNewCommentOpen
+    }
+}
+
+export default connect(mapStateToProps)(ItemFooter);

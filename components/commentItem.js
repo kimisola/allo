@@ -18,6 +18,11 @@ class CommentItem extends React.Component {
         super(props);
     }
 
+    deleteTheme = (i) => {
+        console.log("run delete theme")
+        console.log(i)
+    }
+
     render(){
         
         return(
@@ -26,32 +31,32 @@ class CommentItem extends React.Component {
                 <React.Fragment>
                 <div className="sectionWrapper">
                     <div className="section">
-                        <div class="head">
-                            <div className="titleLeft" key={i}> {item} </div>
-                            <div className="titleRight">
+                        <div className="head">
+                            <div className="titleLeft"> {item} </div>
+                            <div className="titleRight" onClick={this.deleteTheme(i)}>
                                 <img src={ Cross } />
                             </div>
                         </div>
-                        <div class="comment">
-                            {this.props.text[i].map((item, i) =>
+                        <div className="comment">
+                            {this.props.text[i].map((item) =>
                             
                                 <div className="item">
                                     <div className="itemHead">
                                         <div className="tags">
 
-                                        {item.tags.map((tag, i) => {
+                                        {item.tags.map((tag) => {
                                             switch (tag) {
                                                 case "planning":
-                                                    return <div className="tag planning" key={i}>Planning</div>
+                                                    return <div className="tag planning">Planning</div>
 
                                                 case "process":
-                                                    return <div className="tag process" key={i}>In Process</div>
+                                                    return <div className="tag process">In Process</div>
                                             
                                                 case "risk":
-                                                    return <div className="tag risk" key={i}>At Risk</div>
+                                                    return <div className="tag risk">At Risk</div>
                                             
                                                 case "achived":
-                                                    return <div className="tag achived" key={i}>Achieved</div>
+                                                    return <div className="tag achived">Achieved</div>
 
                                                     default:
                                                 break;
@@ -65,7 +70,7 @@ class CommentItem extends React.Component {
                                         </div>
                                     </div>
                                     <div className="itemBody">
-                                        <div className="message" key={i}>                       
+                                        <div className="message">                       
                                             <div className="msgText"> {item.text} </div>         
                                             <div className="msgImg"> <img src={ item.img } /> </div>
                                         </div>
@@ -83,7 +88,9 @@ class CommentItem extends React.Component {
                                 </div>
                             )}
                         </div>
+                        <div className="addItem" style={{display: this.props.addNewCommentOpen ? 'block' : 'none' }}>
                         <AddItem />
+                        </div>
                         <ItemFooter />
                     </div>
                 </div>
@@ -99,6 +106,7 @@ const mapStateToProps = (state) => {
     return {
         text: state.text,
         listTitle: state.listTitle,
+        addNewCommentOpen:state.addNewCommentOpen
     }
 }
 
