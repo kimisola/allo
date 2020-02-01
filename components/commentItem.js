@@ -99,7 +99,6 @@ const mapStateToProps = (state) => {
     return {
         text: state.text,
         listTitle: state.listTitle,
-        myData: state.myData,
     }
 }
 

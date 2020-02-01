@@ -10,13 +10,11 @@ import AddItem from "../components/addItem";
 import ItemFooter from "../components/itemFooter";
 import HomePage from "../components/homePage";
 import "./main.css";
-
 import fire from "./fire";
 
 
 let initialState = {
     //render board data
-    myData:[],
     text: [],
     listTitle: [],
 
@@ -27,24 +25,38 @@ let initialState = {
 
 function reducer(state = initialState, action) {  
     console.log("run reducer")
-    console.log(action.Data)
+    console.log(action)
+    console.log(initialState)
+    console.log(state)
     switch(action.type) {
-        case "renderComments":
-            state.myData.listTitle = action.Data1;
-            state.myData.listTitle.text = action.Data2;
-            return {
-                myData: state.myData,
+        case "renderComments": {
+            return Object.assign({}, state, {  // copy now state and update using items
                 text: state.text = action.Data2,
                 listTitle: state.listTitle = action.Data1,
-            };
+            });
+        }
 
         case "addList": {
-            return {
-                addNewListOpen:!state.addNewListOpen,
-            }
+            return Object.assign({}, state, {
+                addNewListOpen:state.addNewListOpen = !state.addNewListOpen,
+            });
         }
-      default:
-        return state;
+
+        case "newRenderComments": {
+            return Object.assign({}, state, {
+                text: state.text = action.Ntext,
+                listTitle: state.listTitle = action.NlistTitle,
+            });
+        }
+
+        case "getNewTitleValue": {
+            return Object.assign({}, state, {
+                TitleValue: state.TitleValue = action.value
+            });
+        }
+
+        default:
+            return state;
     }
 }
 
@@ -64,13 +76,14 @@ class App extends React.Component {
         let myDataTitle = [];
         let myDataText = [];
         let listsId = [];
-        let Data = [];
+        let Data = [];  // combine titles and texts
         let Data1 = [];  // store title
         let Data2 = [];  // store comment text
 
         getTitles();
-        async function getTitles(){
-            db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get().then(async (querySnapshot) => {
+        async function getTitles(){  // 逐行執行
+            db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get()
+            .then(async (querySnapshot) => {
                 let doc = querySnapshot.docs;
                 for ( let i = 0; i < doc.length; i++ ) {       
                     listsId.push(doc[i].id)
@@ -82,15 +95,16 @@ class App extends React.Component {
 
             async function getCommentText(){
                 for(let i = 0; i < listsId.length; i++ ) {
-                    await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId[i] + "/Items").get().then((querySnapshot2) => {
-                    console.log(listsId[i])
-                    let doc2 = querySnapshot2.docs;
-                    for ( let j = 0; j < doc2.length; j++ ) {
-                        myDataText.push(doc2[j].data())
-                    }
-                    Data2.push(myDataText);
-                    console.log(Data2)
-                    myDataText = [];
+                    await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId[i] + "/Items").get()
+                    .then((querySnapshot2) => {
+                        console.log(listsId[i])
+                        let doc2 = querySnapshot2.docs;
+                        for ( let j = 0; j < doc2.length; j++ ) {
+                            myDataText.push(doc2[j].data())
+                        }
+                        Data2.push(myDataText);
+                        console.log(Data2)
+                        myDataText = [];
                     })
                 } combineData();
             }

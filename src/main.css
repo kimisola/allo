@@ -63,7 +63,7 @@ view>.secondBar>.secondLeft>.friendList>.friend{
     width: 32px;
 }
 view>.secondBar>.secondRight>.addBoard {
-    width: 24px;
+    width: 24px;cursor: crosshair;
 }
 view>.secondBar>.secondLeft>.friendList {
     display: flex;
