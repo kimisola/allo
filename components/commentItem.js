@@ -47,11 +47,9 @@ class CommentItem extends React.Component {
                                                 case "process":
                                                     return <div className="tag process" key={i}>In Process</div>
                                             
-
                                                 case "risk":
                                                     return <div className="tag risk" key={i}>At Risk</div>
                                             
-
                                                 case "achived":
                                                     return <div className="tag achived" key={i}>Achieved</div>
 

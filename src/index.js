@@ -30,12 +30,12 @@ function reducer(state = initialState, action) {
     console.log(action.Data)
     switch(action.type) {
         case "renderComments":
-            state.myData.listTitle=action.Data1;
-            state.myData.listTitle.text=action.Data2;
+            state.myData.listTitle = action.Data1;
+            state.myData.listTitle.text = action.Data2;
             return {
                 myData: state.myData,
-                text: state.text=action.Data2,
-                listTitle: state.listTitle=action.Data1,
+                text: state.text = action.Data2,
+                listTitle: state.listTitle = action.Data1,
             };
 
         case "addList": {
@@ -65,48 +65,47 @@ class App extends React.Component {
         let myDataText = [];
         let listsId = [];
         let Data = [];
-        let Data1 = [];
-        let Data2 = [];
+        let Data1 = [];  // store title
+        let Data2 = [];  // store comment text
 
-        dbget()
-        async function dbget(){
+        getTitles();
+        async function getTitles(){
             db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get().then(async (querySnapshot) => {
                 let doc = querySnapshot.docs;
                 for ( let i = 0; i < doc.length; i++ ) {       
                     listsId.push(doc[i].id)
                     myDataTitle.push(doc[i].data().title)
-                    console.log(1111) //真
                     Data1.push(myDataTitle[i]);
                 }
-                ssee()
-            })
+                getCommentText();
+            });
 
-            async function ssee(){
-                for(let i =0 ; i< listsId.length; i++ ){
-                await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId[i] + "/Items").get().then((querySnapshot2) => {
-                console.log(listsId[i])
-                let doc2 = querySnapshot2.docs;
-                for ( let j = 0; j < doc2.length; j++ ) {
-                    myDataText.push(doc2[j].data())
-                }
-                Data2.push(myDataText);
-                console.log(Data2)
-                myDataText = [];
+            async function getCommentText(){
+                for(let i = 0; i < listsId.length; i++ ) {
+                    await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId[i] + "/Items").get().then((querySnapshot2) => {
+                    console.log(listsId[i])
+                    let doc2 = querySnapshot2.docs;
+                    for ( let j = 0; j < doc2.length; j++ ) {
+                        myDataText.push(doc2[j].data())
+                    }
+                    Data2.push(myDataText);
+                    console.log(Data2)
+                    myDataText = [];
                     })
-                }end();
-                }
+                } combineData();
+            }
         }
 
-
-    function end(){
-        console.log("請進")
-        for(let z=0; z<Data1.length ;z++){
-            Data.push(Data1[z]);
-            Data.push(Data2[z]);
-            console.log(Data)
-        }
-        console.log("出去")
-        store.dispatch({ type: "renderComments", Data1,Data2 })};
+        function combineData() {
+            console.log("Hello")
+            for(let z = 0; z < Data1.length; z++) {
+                Data.push(Data1[z]);
+                Data.push(Data2[z]);
+                console.log(Data)
+            }
+            console.log("goodbey")
+            store.dispatch({ type: "renderComments", Data1, Data2 })
+        };
     }
 
 
@@ -134,8 +133,7 @@ class App extends React.Component {
                         <div className="board">
                             {/* <div className="sectionWrapper">
                                 <div className="section"> */}
-                                 
-                         
+                                                         
                                     <CommentItem />
      
                                     {/* <AddItem />
@@ -144,14 +142,10 @@ class App extends React.Component {
                             </div> */}
                         </div>
                     </view>
-                </main>
-                
-
+                </main>             
 
                 {/* exact and switch choose one */}
-                
-                
-
+ 
                 </Route>
             </React.Fragment>
         )
