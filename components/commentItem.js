@@ -22,38 +22,38 @@ class CommentItem extends React.Component {
         
         return(
             <React.Fragment>
-            {this.props.listTitle.map((item) =>
+            {this.props.listTitle.map((item , i) =>
                 <React.Fragment>
                 <div className="sectionWrapper">
                     <div className="section">
                         <div class="head">
-                            <div className="titleLeft"> {item} </div>
+                            <div className="titleLeft" key={i}> {item} </div>
                             <div className="titleRight">
                                 <img src={ Cross } />
                             </div>
                         </div>
                         <div class="comment">
-                            {this.props.text.map((item) =>
+                            {this.props.text[i].map((item, i) =>
                             
                                 <div className="item">
                                     <div className="itemHead">
                                         <div className="tags">
 
-                                        {item.tags.map((tag) => {
+                                        {item.tags.map((tag, i) => {
                                             switch (tag) {
                                                 case "planning":
-                                                    return <div className="tag planning">Planning</div>
+                                                    return <div className="tag planning" key={i}>Planning</div>
 
                                                 case "process":
-                                                    return <div className="tag process" >In Process</div>
+                                                    return <div className="tag process" key={i}>In Process</div>
                                             
 
                                                 case "risk":
-                                                    return <div className="tag risk">At Risk</div>
+                                                    return <div className="tag risk" key={i}>At Risk</div>
                                             
 
                                                 case "achived":
-                                                    return <div className="tag achived">Achieved</div>
+                                                    return <div className="tag achived" key={i}>Achieved</div>
 
                                                     default:
                                                 break;
@@ -67,7 +67,7 @@ class CommentItem extends React.Component {
                                         </div>
                                     </div>
                                     <div className="itemBody">
-                                        <div className="message">                       
+                                        <div className="message" key={i}>                       
                                             <div className="msgText"> {item.text} </div>         
                                             <div className="msgImg"> <img src={ item.img } /> </div>
                                         </div>
@@ -99,9 +99,9 @@ class CommentItem extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        text : state.text,
+        text: state.text,
         listTitle: state.listTitle,
-        loadPage: state.loadPage,
+        myData: state.myData,
     }
 }
 

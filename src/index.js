@@ -2,29 +2,47 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createStore } from "redux";
 import { connect, Provider } from "react-redux";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Topbar from "../components/topbar";
 import SecondBar from "../components/secondBar";
 import CommentItem from "../components/commentItem";
 import AddItem from "../components/addItem";
-import "./main.css";
 import ItemFooter from "../components/itemFooter";
+import HomePage from "../components/homePage";
+import "./main.css";
 
 import fire from "./fire";
 
 
 let initialState = {
+    //render board data
+    myData:[],
     text: [],
     listTitle: [],
-    loadPage: true,  //是不是要設一個東西讓原始 state 裡有資料才會動
+
+    //add new list
+    addNewListClicked: false,
+    addNewListOpen: false,
 }
 
 function reducer(state = initialState, action) {  
+    console.log("run reducer")
+    console.log(action.Data)
     switch(action.type) {
         case "renderComments":
-            return {  
-                text: action.myDataText,
-                listTitle: action.myDataTitle
+            state.myData.listTitle=action.Data1;
+            state.myData.listTitle.text=action.Data2;
+            return {
+                myData: state.myData,
+                text: state.text=action.Data2,
+                listTitle: state.listTitle=action.Data1,
             };
+
+        case "addList": {
+            return {
+                addNewListOpen:!state.addNewListOpen,
+            }
+        }
       default:
         return state;
     }
@@ -38,71 +56,57 @@ class App extends React.Component {
         super(props);
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         console.log("run componentDidMount")
 
         //read db
-        // await db.collection("Boards").get().then((querySnapshot) => {
-        // });
-    
-        // querySnapshot.forEach(doc => {
-        //     initialState.text.push( doc.data());
-        //     let boardId = "";
-        //     boardId = doc.id
-        //     console.log(boardId)
-        //});
-
         const db = fire.firestore();
         let myDataTitle = [];
         let myDataText = [];
-        let listsId = "";
+        let listsId = [];
+        let Data = [];
+        let Data1 = [];
+        let Data2 = [];
 
-        const getListId = await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get().then((querySnapshot) => {
-                querySnapshot.forEach(doc => {
-                    myDataTitle.push(doc.data().title)                  
-                    listsId = doc.id
-                    console.log(myDataTitle)
-                    
-                    db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId + "/Items").get().then((querySnapshot) => {
-                        querySnapshot.forEach(doc => {
-                            console.log(doc.data())
-                            myDataText.push(doc.data())
-                            console.log(myDataText)
-                        })
-                        store.dispatch({ type: "renderComments", myDataText, myDataTitle });
-                    })
-                })                
+        dbget()
+        async function dbget(){
+            db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get().then(async (querySnapshot) => {
+                let doc = querySnapshot.docs;
+                for ( let i = 0; i < doc.length; i++ ) {       
+                    listsId.push(doc[i].id)
+                    myDataTitle.push(doc[i].data().title)
+                    console.log(1111) //真
+                    Data1.push(myDataTitle[i]);
+                }
+                ssee()
             })
 
+            async function ssee(){
+                for(let i =0 ; i< listsId.length; i++ ){
+                await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId[i] + "/Items").get().then((querySnapshot2) => {
+                console.log(listsId[i])
+                let doc2 = querySnapshot2.docs;
+                for ( let j = 0; j < doc2.length; j++ ) {
+                    myDataText.push(doc2[j].data())
+                }
+                Data2.push(myDataText);
+                console.log(Data2)
+                myDataText = [];
+                    })
+                }end();
+                }
+        }
 
-        // const getItemData = await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId + "/Items").get().then((querySnapshot) => {
-        //         querySnapshot.forEach(doc => {
-        //             console.log(doc.id)
-        //             console.log(doc.data())
-        //             myDataText.push(doc.data())
-        //         })
-        //         store.dispatch({ type: "renderComments" });
-        //         console.log(myDataText);
-        //     })
-        
-        
 
-       
-            // try {
-            //   const response = await fetch(`https://api.appworks-school.tw/api/1.0/products/all`)
-            //   .then((response) => {
-            //       console.log(response)
-            //       return response.json()
-            //   })
-            //   .then((data) => {
-            //       console.log(data)
-            //   })
-            //   if (!response.ok) {
-            //     throw Error(response.statusText);
-            //   }
-            // } catch (error) {
-            //   console.log(error);
-            // }
+    function end(){
+        console.log("請進")
+        for(let z=0; z<Data1.length ;z++){
+            Data.push(Data1[z]);
+            Data.push(Data2[z]);
+            console.log(Data)
+        }
+        console.log("出去")
+        store.dispatch({ type: "renderComments", Data1,Data2 })};
     }
 
 
@@ -121,6 +125,7 @@ class App extends React.Component {
     render(){
         return(
             <React.Fragment>
+                <Route>
 
                 <main>
                     <view>
@@ -140,7 +145,14 @@ class App extends React.Component {
                         </div>
                     </view>
                 </main>
+                
 
+
+                {/* exact and switch choose one */}
+                
+                
+
+                </Route>
             </React.Fragment>
         )
     }
@@ -149,7 +161,10 @@ export default App
 
 
 ReactDOM.render(
+    <Router>
     <Provider store={store}>
         <App />
     </Provider>
+    </Router>
+
     , document.querySelector("#root"))

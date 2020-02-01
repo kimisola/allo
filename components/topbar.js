@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import HomeImg from "../images/home.png";
 import Blackboard from "../images/blackboard.png";
 import TestIcon from "../images/testIcon.jpg";
+import HomePage from "./homePage";
+import App from "../src/index"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 
 class Topbar extends React.Component {
@@ -13,10 +16,12 @@ class Topbar extends React.Component {
     render(){
         return(
             <React.Fragment>
+            <Router>
               <div className="topBar">
                 <div className="topLeft">
                     <div className="home">
-                        <img src={ HomeImg } /> 
+                        <Link to={"/HomePage"}> <img src={ HomeImg } /> </Link>
+                         
                     </div>
                     <div className="searchBar">
                         <input />
@@ -33,6 +38,17 @@ class Topbar extends React.Component {
                     </div>
                 </div>
             </div>  
+
+            <Switch>
+                <Route exact path="/">
+                
+                </Route>
+                <Route path="/HomePage">
+                    <HomePage />
+                </Route>
+            </Switch>
+            
+            </Router>
             </React.Fragment>
         )
     }

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Plus from "../images/plus.png";
 import TestIcon from "../images/testIcon.jpg";
+import { connect } from 'react-redux';
+import store from "../src/index";
 
 
 
@@ -11,7 +13,8 @@ class SecondBar extends React.Component {
     }
 
     creatTheme = () => {
-        console.log("creatTheme~~")
+        console.log("run creatTheme")
+        this.props.dispatch({ type: "addList" })
     }
 
     render(){
@@ -33,9 +36,27 @@ class SecondBar extends React.Component {
                         </div>
                     </div>
                 </div>
+                <div className="addThemeDiv" style={{display: this.props.addNewListOpen ? 'block' : 'none' }}>
+                    <div className="addTheme">
+                        <p>請輸入列表標題：</p>
+                        <input type="text"/>
+                        <div className="buttons">
+                            <div className="no">取消</div>
+                            <div className="yes">確定</div>
+                        </div>
+                    </div>
+                </div>
 
             </React.Fragment>
         )
     }
 }
-export default SecondBar;
+
+const mapStateToProps = (state) => {
+    return {
+        addNewListClicked: state.addNewListClicked,
+        addNewListOpen: state.addNewListOpen,
+    }
+}
+
+export default connect(mapStateToProps)(SecondBar);
