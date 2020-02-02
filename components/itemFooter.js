@@ -13,7 +13,10 @@ class ItemFooter extends React.Component {
 
     creatComment = () => {
         console.log("run creat comment")
+        console.log(i)
+
         this.props.dispatch({ type: "addComment" })
+
     }
 
 
@@ -23,7 +26,7 @@ class ItemFooter extends React.Component {
                 
                 <div className="itemFooter">
                     <div className="add">
-                        <img src={ Plus } onClick={this.creatComment}/>
+                        <img src={ Plus } onClick={ () => creatComment()}/>
                     </div>
                 </div>
 

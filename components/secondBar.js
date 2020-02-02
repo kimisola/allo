@@ -20,11 +20,7 @@ class SecondBar extends React.Component {
     getTitleValue = (event) => { //use onChange to get value
         let value = event.target.value
         console.log(value)
-        this.props.dispatch({ type: "getNewTitleValue", value })
-        // if(event.key === "Enter") {
-        //     event.target.value = "";
-        // }
-        
+        this.props.dispatch({ type: "getNewTitleValue", value })      
     }
 
     creatTitle = (event) => {

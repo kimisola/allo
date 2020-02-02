@@ -121,9 +121,9 @@ class App extends React.Component {
 
         function combineData() {
             console.log("Hello")
-            for(let z = 0; z < Data1.length; z++) {
-                Data.push(Data1[z]);
-                Data.push(Data2[z]);
+            for(let k = 0; k < Data1.length; k++) {
+                Data.push(Data1[k]);
+                Data.push(Data2[k]);
                 console.log(Data)
             }
             console.log("goodbey")
@@ -145,7 +145,7 @@ class App extends React.Component {
                 <main>
                     <view>
                         <Topbar />
-                        <button onClick={this.getdbData1}> Click me </button>
+                        {/* <button onClick={this.getdbData1}> Click me </button> */}
                         <SecondBar />
                         <div className="board">
                             {/* <div className="sectionWrapper">
