@@ -17,7 +17,7 @@ let initialState = {
     //render board data
     text: [],
     listTitle: [],
-    commentWindow: [],
+    commentWindow: [], //pop-up window
 
     //add new list window
     addNewListOpen: false,
