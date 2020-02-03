@@ -3,11 +3,37 @@ import ReactDOM from 'react-dom';
 import "../src/main.css";
 import Tick from "../images/tick2.png";
 import Cross from "../images/letter-x.png";
+import { connect } from 'react-redux';
+import fire from "../src/fire";
 
 
 class AddItem extends React.Component {
     constructor(props){
         super(props);
+    }
+
+    getTextValue = (event) => {
+        let textValue = event.target.value
+        this.props.dispatch({ type: "getNewTextValue", textValue })
+    }
+
+
+    sendComment = () => {
+        console.log("run send")
+        this.props.dispatch({ type: "sendComment" })
+        let textValue = "";
+        this.props.dispatch({ type: "getNewTextValue", textValue }) //reset textarea value
+        let t = this.props.whichTheme
+        console.log(t)
+        const db = fire.firestore();
+        const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
+
+        coll.get().then((querySnapshot) => {
+            console.log(querySnapshot.docs[t].id)
+        })
+
+        this.props.dispatch({ type: "addNewCommentOpen", t })
+
     }
 
 
@@ -27,7 +53,7 @@ class AddItem extends React.Component {
                         <div className="tag achived">Achieved</div>
                     </div>
                     <div>
-                        <textarea type="text"></textarea>
+                        <textarea type="text" value={this.props.textValue} onChange={this.getTextValue}></textarea>
                     </div>
                     <div className="addItemFooter">
                         <div className="imgUpload">
@@ -36,7 +62,7 @@ class AddItem extends React.Component {
                             </form>
                         </div>
                         <div className="addItemFeature">
-                            <div className="addComment">
+                            <div className="addComment" onClick={this.sendComment}>
                                 <img src={ Tick } />
                             </div>
                             <div className="cancel">
@@ -50,4 +76,16 @@ class AddItem extends React.Component {
         )
     }
 }
-export default AddItem;
+
+const mapStateToProps = (state) => {
+    return {
+        text: state.text,
+        listTitle: state.listTitle,
+        textValue: state.textValue,
+        whichTheme: state.whichTheme,
+        addNewCommentOpen: state.addNewCommentOpen,
+        commentWindow: state.commentWindow,
+    }
+}
+
+export default connect(mapStateToProps)(AddItem);

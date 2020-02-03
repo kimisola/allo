@@ -29,17 +29,18 @@ class SecondBar extends React.Component {
 
         if(event.key === "Enter" ) {
             console.log("enter creat title", titleValue)
+            this.props.mCreatTheme();
+            newListTitle.push(titleValue);
+            newText.push([]);
+            this.props.mCreatTitle(newListTitle, newText)
+            
             let db = fire.firestore();
             let titleCollection = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").doc();
             titleCollection.set({
                 title: titleValue,
             }).then(() => {
-                newListTitle.push(titleValue);
-                newText.push([]);
-                this.props.mCreatTheme();
-                this.props.getTvalue("");
+                this.props.getTvalue(""); //reset input value
                 console.log("Document successfully written!");
-                this.props.mCreatTitle(newListTitle, newText)
             }).catch(() => {
                 console.error("Error writing document: ", error);
             })

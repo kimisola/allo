@@ -38,7 +38,7 @@ class CommentItem extends React.Component {
             let docId = querySnapshot.docs[t].id
 
             //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            coll.doc(docId).delete().then(() => {
+            coll.doc(docId).get().then(() => {
                 console.log("Document successfully deleted!");
                 this.props.dispatch({ type: "deleteTheme", t })
                 this.props.dispatch({ type: "deleteThemeConfirmOpen" })
@@ -105,7 +105,7 @@ class CommentItem extends React.Component {
                                             <div className="msgImg"> <img src={ item.img } /> </div>
                                         </div>
                                         <div className="featureDiv">
-                                            <div className="feature">
+                                            <div className="feature" style={{display: 'none' }}>
                                                 <div className="edit">
                                                     <img src={ Pencil } />
                                                 </div>
@@ -138,8 +138,8 @@ class CommentItem extends React.Component {
                     <div className="addTheme">
                         <p>確定要刪除該列表嗎？</p>
                         <div className="buttons">
-                            <div className="no" onClick={ () => this.openConfirmWin() }>取消</div>
-                            <div className="yes" onClick={ () => this.deleteTheme() }>確定</div>
+                            <div className="no" onClick={ this.openConfirmWin }>取消</div>
+                            <div className="yes" onClick={ this.deleteTheme }>確定</div>
                         </div>
                     </div>
                 </div>
@@ -162,5 +162,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(CommentItem);
-
- 

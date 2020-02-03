@@ -65,16 +65,6 @@ function reducer(state = initialState, action) {
             });
         }
 
-        case "addComment": {
-            let openValue = ! state.addNewCommentOpen
-            console.log(openValue)
-            state.commentWindow.splice(action.i, 1, openValue)
-            return Object.assign({}, state, {
-                commentWindow: state.commentWindow.slice(0),
-                addNewCommentOpen: !state.addNewCommentOpen
-            })
-        }
-
         case "deleteTheme": {
             console.log(action.t)
             state.listTitle.splice(action.t, 1)
@@ -84,11 +74,57 @@ function reducer(state = initialState, action) {
                 listTitle: state.listTitle.slice(0),
             }); 
         }
+       
         case "deleteThemeConfirmOpen": {
             return Object.assign({}, state, {
                 deleteThemeConfirmOpen: !state.deleteThemeConfirmOpen,
                 whichWindowOpen: action.i
             }); 
+        }
+
+        case "addNewCommentOpen": {
+            console.log(action.t)
+            let openValue = !state.addNewCommentOpen
+            state.commentWindow.splice(action.t, 1, openValue)
+            return Object.assign({}, state, {
+                commentWindow: state.commentWindow.slice(0),
+                addNewCommentOpen: !state.addNewCommentOpen,
+            })
+        }
+
+        case "addComment": {
+            let openValue = ! state.addNewCommentOpen
+            state.commentWindow.splice(action.i, 1, openValue)
+            return Object.assign({}, state, {
+                commentWindow: state.commentWindow.slice(0),
+                addNewCommentOpen: !state.addNewCommentOpen,
+                whichTheme: action.i
+            })
+        }
+
+        case "getNewTextValue": {
+            console.log(action.textValue)
+            return Object.assign({}, state, {
+                textValue: action.textValue
+            });
+        }
+ 
+        case "sendComment": {
+            console.log(state.text)
+            console.log(state.textValue)
+            console.log(state.whichTheme)
+            let i = state.whichTheme
+            let newText = state.text
+            console.log( newText[i])
+            newText[i].push({
+                text: state.textValue,
+                tags: ["planning"]
+            })
+
+            console.log(newText[i])
+            return Object.assign({}, state, {
+                text: newText.slice(0),
+            });
         }
 
         default:
