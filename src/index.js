@@ -17,14 +17,14 @@ let initialState = {
     //render board data
     text: [],
     listTitle: [],
+    commentWindow: [],
 
     //add new list window
     addNewListOpen: false,
     //add new comment item window
     addNewCommentOpen: false,
     //delete confirm window
-    deleteConfirmThemeOpen: false,
-    deleteConfirmTextOpen: false
+    deleteThemeConfirmOpen: false,
 }
 
 function reducer(state = initialState, action) {  
@@ -37,6 +37,12 @@ function reducer(state = initialState, action) {
             return Object.assign({}, state, {  // copy now state and update using items
                 text: action.Data2,
                 listTitle: action.Data1,
+            });
+        }
+
+        case "setUpComWin": {
+            return Object.assign({}, state, {
+                commentWindow: action.myComWin
             });
         }
 
@@ -60,8 +66,12 @@ function reducer(state = initialState, action) {
         }
 
         case "addComment": {
+            let openValue = ! state.addNewCommentOpen
+            console.log(openValue)
+            state.commentWindow.splice(action.i, 1, openValue)
             return Object.assign({}, state, {
-                addNewCommentOpen: !state.addNewCommentOpen,
+                commentWindow: state.commentWindow.slice(0),
+                addNewCommentOpen: !state.addNewCommentOpen
             })
         }
 
@@ -74,9 +84,9 @@ function reducer(state = initialState, action) {
                 listTitle: state.listTitle.slice(0),
             }); 
         }
-        case "deleteConfirmThemeOpen": {
+        case "deleteThemeConfirmOpen": {
             return Object.assign({}, state, {
-                deleteConfirmThemeOpen: !state.deleteConfirmThemeOpen,
+                deleteThemeConfirmOpen: !state.deleteThemeConfirmOpen,
                 whichWindowOpen: action.i
             }); 
         }
@@ -101,6 +111,7 @@ class App extends React.Component {
         const db = fire.firestore();
         let myDataTitle = [];
         let myDataText = [];
+        let myComWin = [];
         let listsId = [];
         let Data = [];  // combine titles and texts
         let Data1 = [];  // store title
@@ -114,8 +125,10 @@ class App extends React.Component {
                 for ( let i = 0; i < doc.length; i++ ) {       
                     listsId.push(doc[i].id)
                     myDataTitle.push(doc[i].data().title)
+                    myComWin.push(doc[i].data().addComWin)
                     Data1.push(myDataTitle[i]);
                 }
+                store.dispatch({ type: "setUpComWin", myComWin })
                 getCommentText();
             });
 
@@ -128,7 +141,7 @@ class App extends React.Component {
                             myDataText.push(doc2[j].data())
                         }
                         Data2.push(myDataText);
-                        myDataText = [];
+                        myDataText = []; //reset comments under certain title
                     })
                 } combineData();
             }

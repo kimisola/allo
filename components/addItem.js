@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import "../src/main.css";
-import Tick from "../images/tick.png";
-import Cross from "../images/cross.png";
+import Tick from "../images/tick2.png";
+import Cross from "../images/letter-x.png";
 
 
 class AddItem extends React.Component {
@@ -14,7 +14,7 @@ class AddItem extends React.Component {
     fileUperload = (event) =>{
         console.log(event)
     }
-
+    
 
     render(){
         return(

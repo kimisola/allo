@@ -22,7 +22,7 @@ class CommentItem extends React.Component {
     openConfirmWin = (i) => {
         console.log("run openConfirmWin")
         console.log(i)
-        this.props.dispatch({ type: "deleteConfirmThemeOpen", i })
+        this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
     }
 
     deleteTheme = () => {
@@ -37,22 +37,21 @@ class CommentItem extends React.Component {
             console.log(querySnapshot.docs[t].id)
             let docId = querySnapshot.docs[t].id
 
-            //為了避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            coll.doc(docId).get().then(() => {
+            //避免誤刪 code 維持 get 改成 delete 就可以刪除了
+            coll.doc(docId).delete().then(() => {
                 console.log("Document successfully deleted!");
                 this.props.dispatch({ type: "deleteTheme", t })
-                this.props.dispatch({ type: "deleteConfirmThemeOpen" })
+                this.props.dispatch({ type: "deleteThemeConfirmOpen" })
             }).catch((error) => {
                 console.error("Error removing document: ", error);
             })
         })
     }
 
-    creatComment = (i) => {
+    addComment = (i) => {
         this.props.dispatch({ type: "addComment", i })
     }
 
-    
 
     render(){
         console.log("render list title", this.props.listTitle)
@@ -119,12 +118,12 @@ class CommentItem extends React.Component {
                                 </div>
                             )}
                         </div>
-                        <div className="addItem" style={{display: this.props.addNewCommentOpen ? 'block' : 'none' }}>
+                        <div className="addItem" style={{display: this.props.commentWindow[i] ? 'block' : 'none' }}>
                         <AddItem />
                         </div>
                         <div className="itemFooter">
                             <div className="add">
-                                <img src={ Plus } onClick={ () => this.creatComment(i)}/>
+                                <img src={ Plus } onClick={ () => this.addComment(i)}/>
                             </div>
                         </div>
                     </div>
@@ -135,8 +134,7 @@ class CommentItem extends React.Component {
                 
             )}
 
-
-                <div className="addThemeDiv" style={{display: this.props.deleteConfirmThemeOpen ? 'block' : 'none' }}>
+                <div className="addThemeDiv" style={{display: this.props.deleteThemeConfirmOpen ? 'block' : 'none' }}>
                     <div className="addTheme">
                         <p>確定要刪除該列表嗎？</p>
                         <div className="buttons">
@@ -157,8 +155,9 @@ const mapStateToProps = (state) => {
         text: state.text,
         listTitle: state.listTitle,
         addNewCommentOpen: state.addNewCommentOpen,
-        deleteConfirmThemeOpen: state.deleteConfirmThemeOpen,
-        whichWindowOpen: state.whichWindowOpen
+        deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
+        whichWindowOpen: state.whichWindowOpen,
+        commentWindow: state.commentWindow
     }
 }
 
