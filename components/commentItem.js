@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tag from "../images/tag.png";
-import TestImage from "../images/IMG_0069.jpg";
 import Pencil from "../images/pencil.png";
 import GarbageCan from "../images/garbagecan.png";
 import Cross from "../images/cross.png"
@@ -32,27 +31,22 @@ class CommentItem extends React.Component {
             let docId = querySnapshot.docs[i].id
 
             //為了避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            coll.doc(docId).get().then((querySnapshot) => {
-                console.log(querySnapshot)
+            coll.doc(docId).delete().then(() => {
                 console.log("Document successfully deleted!");
             }).catch((error) => {
                 console.error("Error removing document: ", error);
             })
         })
-
-
     }
 
     creatComment = (i) => {
-        console.log("run creat comment")
-        console.log(i)
         this.props.dispatch({ type: "addComment" })
     }
 
     
 
     render(){
-        
+        console.log("render list title", this.props.listTitle)
         return(
             <React.Fragment>
             {this.props.listTitle.map((item , i) =>

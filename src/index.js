@@ -34,34 +34,42 @@ function reducer(state = initialState, action) {
     switch(action.type) {
         case "renderComments": {
             return Object.assign({}, state, {  // copy now state and update using items
-                text: state.text = action.Data2,
-                listTitle: state.listTitle = action.Data1,
+                text: action.Data2,
+                listTitle: action.Data1,
             });
         }
 
         case "addList": {
             return Object.assign({}, state, {
-                addNewListOpen:state.addNewListOpen = !state.addNewListOpen,
+                addNewListOpen: !state.addNewListOpen,
             });
         }
 
         case "newRenderComments": {
             return Object.assign({}, state, {
-                text: state.text = action.newText,
-                listTitle: state.listTitle = action.newListTitle,
+                text: action.newText.slice(0),
+                listTitle: action.newListTitle.slice(0),
             });
         }
 
         case "getNewTitleValue": {
             return Object.assign({}, state, {
-                titleValue: state.titleValue = action.value
+                titleValue: action.value
             });
         }
 
         case "addComment": {
             return Object.assign({}, state, {
-                addNewCommentOpen:state.addNewCommentOpen = !state.addNewCommentOpen,
+                addNewCommentOpen: !state.addNewCommentOpen,
             })
+        }
+
+        case "deleteTheme": {
+            
+            return {
+                text: action.newText.slice(0),
+                listTitle: action.newListTitle.slice(0),
+            }
         }
 
         default:
@@ -106,27 +114,22 @@ class App extends React.Component {
                 for(let i = 0; i < listsId.length; i++ ) {
                     await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId[i] + "/Items").get()
                     .then((querySnapshot2) => {
-                        console.log(listsId[i])
                         let doc2 = querySnapshot2.docs;
                         for ( let j = 0; j < doc2.length; j++ ) {
                             myDataText.push(doc2[j].data())
                         }
                         Data2.push(myDataText);
-                        console.log(Data2)
                         myDataText = [];
                     })
                 } combineData();
             }
         }
 
-        function combineData() {
-            console.log("Hello")
+        function combineData() { //
             for(let k = 0; k < Data1.length; k++) {
                 Data.push(Data1[k]);
                 Data.push(Data2[k]);
-                console.log(Data)
             }
-            console.log("goodbey")
             store.dispatch({ type: "renderComments", Data1, Data2 })
         };
     }
