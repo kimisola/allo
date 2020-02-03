@@ -157,7 +157,7 @@ const mapStateToProps = (state) => {
         addNewCommentOpen: state.addNewCommentOpen,
         deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
         whichWindowOpen: state.whichWindowOpen,
-        commentWindow: state.commentWindow
+        commentWindow: state.commentWindow,
     }
 }
 
