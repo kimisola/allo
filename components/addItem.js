@@ -29,7 +29,17 @@ class AddItem extends React.Component {
         const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
 
         coll.get().then((querySnapshot) => {
-            console.log(querySnapshot.docs[t].id)
+            let docId =  querySnapshot.docs[t].id
+            let route = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + docId + "/Items").doc()
+            route.set({
+                img: "",
+                tags: [],
+                text: "しなしな",
+            }).then(() => {
+                console.log("Document successfully written!")
+            }).catch(()=> {
+                console.error("Error writing document: ", error);
+            })
         })
 
         this.props.dispatch({ type: "addNewCommentOpen", t })

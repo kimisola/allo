@@ -118,7 +118,7 @@ function reducer(state = initialState, action) {
             console.log( newText[i])
             newText[i].push({
                 text: state.textValue,
-                tags: ["planning"]
+                tags: []
             })
 
             console.log(newText[i])
