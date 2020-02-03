@@ -33,6 +33,7 @@ class CommentItem extends React.Component {
             //為了避免誤刪 code 維持 get 改成 delete 就可以刪除了
             coll.doc(docId).delete().then(() => {
                 console.log("Document successfully deleted!");
+                this.props.dispatch({ type: "deleteTheme", i })
             }).catch((error) => {
                 console.error("Error removing document: ", error);
             })

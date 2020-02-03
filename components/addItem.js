@@ -25,7 +25,7 @@ class AddItem extends React.Component {
                     </div>
                     <div className="addItemFooter">
                         <div className="imgUpload">
-                            <form action="/somewhere/to/upload" enctype="multipart/form-data">
+                            <form action="/somewhere/to/upload" encType="multipart/form-data">
                                 <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" />    
                             </form>
                         </div>

@@ -65,11 +65,13 @@ function reducer(state = initialState, action) {
         }
 
         case "deleteTheme": {
-            
-            return {
-                text: action.newText.slice(0),
-                listTitle: action.newListTitle.slice(0),
-            }
+            console.log(action.i)
+            state.listTitle.splice(action.i, 1)
+            state.text.splice(action.i, 1)
+            return Object.assign({}, state, {
+                text: state.text.slice(0),
+                listTitle: state.listTitle.slice(0),
+            }); 
         }
 
         default:
@@ -125,19 +127,13 @@ class App extends React.Component {
             }
         }
 
-        function combineData() { //
+        function combineData() { 
             for(let k = 0; k < Data1.length; k++) {
                 Data.push(Data1[k]);
                 Data.push(Data2[k]);
             }
             store.dispatch({ type: "renderComments", Data1, Data2 })
         };
-    }
-
-
-    //check state
-    getdbData1 = () => {
-        console.log(store.getState(),"store.getNewTitleValue()")
     }
 
     render(){
@@ -148,7 +144,6 @@ class App extends React.Component {
                 <main>
                     <view>
                         <Topbar />
-                        {/* <button onClick={this.getdbData1}> Click me </button> */}
                         <SecondBar />
                         <div className="board">
                             {/* <div className="sectionWrapper">
