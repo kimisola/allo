@@ -17,6 +17,7 @@ class Topbar extends React.Component {
         return(
             <React.Fragment>
             <Router>
+                
               <div className="topBar">
                 <div className="topLeft">
                     <div className="home">
@@ -38,16 +39,7 @@ class Topbar extends React.Component {
                     </div>
                 </div>
             </div>  
-
-            <Switch>
-                <Route exact path="/">
-                
-                </Route>
-                <Route path="/HomePage">
-                    <HomePage />
-                </Route>
-            </Switch>
-            
+       
             </Router>
             </React.Fragment>
         )

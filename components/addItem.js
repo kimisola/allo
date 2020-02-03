@@ -10,6 +10,12 @@ class AddItem extends React.Component {
         super(props);
     }
 
+
+    fileUperload = (event) =>{
+        console.log(event)
+    }
+
+
     render(){
         return(
             <React.Fragment>
@@ -26,7 +32,7 @@ class AddItem extends React.Component {
                     <div className="addItemFooter">
                         <div className="imgUpload">
                             <form action="/somewhere/to/upload" encType="multipart/form-data">
-                                <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" />    
+                                <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={this.fileUperload()}/>    
                             </form>
                         </div>
                         <div className="addItemFeature">

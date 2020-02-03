@@ -14,7 +14,7 @@ class SecondBar extends React.Component {
 
     creatTheme = () => {
         console.log("run creatTheme")
-        this.props.cCreatTheme()
+        this.props.mCreatTheme()
     }
 
     getTitleValue = (event) => { //use onChange to get value
@@ -27,7 +27,7 @@ class SecondBar extends React.Component {
         let newListTitle =  this.props.listTitle;
         let titleValue =  this.props.titleValue;
 
-        if(event.key === "Enter") {
+        if(event.key === "Enter" ) {
             console.log("enter creat title", titleValue)
             let db = fire.firestore();
             let titleCollection = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").doc();
@@ -36,10 +36,10 @@ class SecondBar extends React.Component {
             }).then(() => {
                 newListTitle.push(titleValue);
                 newText.push([]);
-                this.props.cCreatTheme();
+                this.props.mCreatTheme();
                 this.props.getTvalue("");
                 console.log("Document successfully written!");
-                this.props.cCreatTitle(newListTitle, newText)
+                this.props.mCreatTitle(newListTitle, newText)
             }).catch(() => {
                 console.error("Error writing document: ", error);
             })
@@ -71,7 +71,7 @@ class SecondBar extends React.Component {
                         <p>請輸入列表標題：</p>
                         <input type="text" value={this.props.titleValue} onChange={this.getTitleValue} onKeyPress={this.creatTitle}/>
                         <div className="buttons">
-                            <div className="no">取消</div>
+                            <div className="no" onClick= { this.creatTheme }>取消</div>
                             <div className="yes">確定</div>
                         </div>
                     </div>
@@ -87,17 +87,17 @@ const mapStateToProps = (state) => {
         text: state.text,
         listTitle: state.listTitle,
         titleValue: state.titleValue,
-        addNewListClicked: state.addNewListClicked,
         addNewListOpen: state.addNewListOpen,
+        deleteConfirmThemeOpen: state.deleteConfirmThemeOpen,
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     console.log(ownProps,"ownPropsmapDispatchToProps")
     return {
-        cCreatTheme: () => { dispatch(aCreatTheme()) },
+        mCreatTheme: () => { dispatch(aCreatTheme()) },
         getTvalue: (value) => { dispatch(aGetTitleValue(value)) },
-        cCreatTitle: (newListTitle, newText) => { dispatch(aCreatTitle(newListTitle, newText)) }
+        mCreatTitle: (newListTitle, newText) => { dispatch(aCreatTitle(newListTitle, newText)) }
     }
 }
 

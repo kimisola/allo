@@ -18,12 +18,13 @@ let initialState = {
     text: [],
     listTitle: [],
 
-    //add new list
-    addNewListClicked: false,
+    //add new list window
     addNewListOpen: false,
-
-    //add new comment item
+    //add new comment item window
     addNewCommentOpen: false,
+    //delete confirm window
+    deleteConfirmThemeOpen: false,
+    deleteConfirmTextOpen: false
 }
 
 function reducer(state = initialState, action) {  
@@ -65,12 +66,18 @@ function reducer(state = initialState, action) {
         }
 
         case "deleteTheme": {
-            console.log(action.i)
-            state.listTitle.splice(action.i, 1)
-            state.text.splice(action.i, 1)
+            console.log(action.t)
+            state.listTitle.splice(action.t, 1)
+            state.text.splice(action.t, 1)
             return Object.assign({}, state, {
                 text: state.text.slice(0),
                 listTitle: state.listTitle.slice(0),
+            }); 
+        }
+        case "deleteConfirmThemeOpen": {
+            return Object.assign({}, state, {
+                deleteConfirmThemeOpen: !state.deleteConfirmThemeOpen,
+                whichWindowOpen: action.i
             }); 
         }
 
@@ -142,7 +149,7 @@ class App extends React.Component {
                 <Route>
 
                 <main>
-                    <view>
+                    <div className="view">
                         <Topbar />
                         <SecondBar />
                         <div className="board">
@@ -156,9 +163,19 @@ class App extends React.Component {
                                 {/* </div>
                             </div> */}
                         </div>
-                    </view>
+                    </div>
                 </main>             
  
+                <Switch>
+                    <Route exact path="/">
+                        {/* 預設用 board board 放在另個元件再引入 */}
+                    
+                    </Route>
+                    <Route path="/HomePage">
+                        <HomePage />
+                    </Route>
+                </Switch>
+
                 </Route>
             </React.Fragment>
         )

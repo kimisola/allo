@@ -19,21 +19,29 @@ class CommentItem extends React.Component {
         super(props);
     }
 
-    deleteTheme = (i) => {
-        console.log("run delete theme")
+    openConfirmWin = (i) => {
+        console.log("run openConfirmWin")
         console.log(i)
+        this.props.dispatch({ type: "deleteConfirmThemeOpen", i })
+    }
+
+    deleteTheme = () => {
+        let t = this.props.whichWindowOpen
+        console.log("run delete theme")
+        console.log(t)
 
         const db = fire.firestore();
         const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
 
         coll.get().then((querySnapshot) => {
-            console.log(querySnapshot.docs[i].id)
-            let docId = querySnapshot.docs[i].id
+            console.log(querySnapshot.docs[t].id)
+            let docId = querySnapshot.docs[t].id
 
             //為了避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            coll.doc(docId).delete().then(() => {
+            coll.doc(docId).get().then(() => {
                 console.log("Document successfully deleted!");
-                this.props.dispatch({ type: "deleteTheme", i })
+                this.props.dispatch({ type: "deleteTheme", t })
+                this.props.dispatch({ type: "deleteConfirmThemeOpen" })
             }).catch((error) => {
                 console.error("Error removing document: ", error);
             })
@@ -41,7 +49,7 @@ class CommentItem extends React.Component {
     }
 
     creatComment = (i) => {
-        this.props.dispatch({ type: "addComment" })
+        this.props.dispatch({ type: "addComment", i })
     }
 
     
@@ -52,18 +60,18 @@ class CommentItem extends React.Component {
             <React.Fragment>
             {this.props.listTitle.map((item , i) =>
                 <React.Fragment>
-                <div className="sectionWrapper">
+                <div className="sectionWrapper" >
                     <div className="section">
                         <div className="head">
                             <div className="titleLeft"> {item} </div>
-                            <div className="titleRight" onClick={ () => this.deleteTheme(i) }>
+                            <div className="titleRight" onClick={ () => this.openConfirmWin(i) }>
                                 <img src={ Cross } />
                             </div>
                         </div>
                         <div className="comment">
                             {this.props.text[i].map((item) =>
                             
-                                <div className="item">
+                                <div className="item" >
                                     <div className="itemHead">
                                         <div className="tags">
 
@@ -73,13 +81,13 @@ class CommentItem extends React.Component {
                                                     return <div className="tag planning">Planning</div>
 
                                                 case "process":
-                                                    return <div className="tag process">In Process</div>
+                                                    return <div className="tag process" >In Process</div>
                                             
                                                 case "risk":
                                                     return <div className="tag risk">At Risk</div>
                                             
                                                 case "achived":
-                                                    return <div className="tag achived">Achieved</div>
+                                                    return <div className="tag achived" >Achieved</div>
 
                                                     default:
                                                 break;
@@ -121,8 +129,23 @@ class CommentItem extends React.Component {
                         </div>
                     </div>
                 </div>
+
+                
                 </React.Fragment>
+                
             )}
+
+
+                <div className="addThemeDiv" style={{display: this.props.deleteConfirmThemeOpen ? 'block' : 'none' }}>
+                    <div className="addTheme">
+                        <p>確定要刪除該列表嗎？</p>
+                        <div className="buttons">
+                            <div className="no" onClick={ () => this.openConfirmWin() }>取消</div>
+                            <div className="yes" onClick={ () => this.deleteTheme() }>確定</div>
+                        </div>
+                    </div>
+                </div>
+            
             </React.Fragment>
         )
     }
@@ -133,7 +156,9 @@ const mapStateToProps = (state) => {
     return {
         text: state.text,
         listTitle: state.listTitle,
-        addNewCommentOpen:state.addNewCommentOpen
+        addNewCommentOpen: state.addNewCommentOpen,
+        deleteConfirmThemeOpen: state.deleteConfirmThemeOpen,
+        whichWindowOpen: state.whichWindowOpen
     }
 }
 
