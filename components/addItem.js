@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import "../src/main.css";
-import Tick from "../images/tick2.png";
-import Cross from "../images/letter-x.png";
+import Tick2 from "../images/tick2.png";
+import Letter from "../images/letter-x.png";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
 
@@ -84,10 +84,10 @@ class AddItem extends React.Component {
                         </div>
                         <div className="addItemFeature">
                             <div className="addComment" onClick={this.sendComment}>
-                                <img src={ Tick } />
+                                <img src={ Tick2 } />
                             </div>
                             <div className="cancel">
-                                <img src={ Cross } />
+                                <img src={ Letter } />
                             </div>
                         </div>
                     </div>
