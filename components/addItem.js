@@ -7,11 +7,13 @@ import { connect } from 'react-redux';
 import fire from "../src/fire";
 
 
+
 class AddItem extends React.Component {
     constructor(props){
         super(props);
     }
 
+    
     getTextValue = (event) => {
         let textValue = event.target.value
         this.props.dispatch({ type: "getNewTextValue", textValue })
@@ -21,29 +23,38 @@ class AddItem extends React.Component {
     sendComment = () => {
         console.log("run send")
         this.props.dispatch({ type: "sendComment" })
-        let textValue = "";
-        this.props.dispatch({ type: "getNewTextValue", textValue }) //reset textarea value
+        
         let t = this.props.whichTheme
         console.log(t)
         const db = fire.firestore();
         const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
 
         coll.get().then((querySnapshot) => {
-            let docId =  querySnapshot.docs[t].id
-            let route = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + docId + "/Items").doc()
+            let docId =  querySnapshot.docs[t].id;
+            let route = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + docId + "/Items").doc();
+            let newText = this.props.textValue;
+            console.log(newText)
+            
             route.set({
                 img: "",
-                tags: [],
-                text: "しなしな",
+                tags: ["planning"],
+                text: newText,
             }).then(() => {
                 console.log("Document successfully written!")
             }).catch(()=> {
                 console.error("Error writing document: ", error);
             })
+
+            let textValue = "";
+            this.props.dispatch({ type: "getNewTextValue", textValue }) //reset textarea value
         })
 
         this.props.dispatch({ type: "addNewCommentOpen", t })
+        
+    }
 
+    changePlan = () => {
+        console.log("run changePlan")
     }
 
 
@@ -57,10 +68,10 @@ class AddItem extends React.Component {
             <React.Fragment>
                 
                     <div className="tags">
-                        <div className="tag planning">Planning</div>
-                        <div className="tag process">In Process</div>
-                        <div className="tag risk">At Risk</div>
-                        <div className="tag achived">Achieved</div>
+                        <div className="tag planning" onClick={this.changePlan}>Planning</div>
+                        <div className="tag process" onClick={this.changePlan}>In Process</div>
+                        <div className="tag risk" onClick={this.changePlan}>At Risk</div>
+                        <div className="tag achived" onClick={this.changePlan}>Achieved</div>
                     </div>
                     <div>
                         <textarea type="text" value={this.props.textValue} onChange={this.getTextValue}></textarea>
