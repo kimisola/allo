@@ -18,3 +18,18 @@ export function aCreatTitle(newListTitle, newText) {
         newText
     }
 }
+
+export function aSetUpComWin(myComWin) {
+    return {
+        type: "setUpComWin",
+        myComWin
+    }
+}
+
+export function aRenderComments(Data1, Data2) {
+    return {
+        type: "renderComments",
+        Data1,
+        Data2
+    }
+}
