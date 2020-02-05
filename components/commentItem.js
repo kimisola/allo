@@ -6,10 +6,7 @@ import GarbageCan from "../images/garbagecan.png";
 import Cross from "../images/cross.png"
 import Plus from "../images/plus.png";
 import AddItem from "../components/addItem";
-import ItemFooter from "../components/itemFooter";
 import { connect } from 'react-redux';
-import { element } from 'prop-types';
-import { Switch } from 'react-router-dom';
 import fire from "../src/fire";
 
 
@@ -57,6 +54,7 @@ class CommentItem extends React.Component {
         console.log("render list title", this.props.listTitle)
         return(
             <React.Fragment>
+
             {this.props.listTitle.map((item , i) =>
                 <React.Fragment>
                 <div className="sectionWrapper" >
@@ -129,9 +127,7 @@ class CommentItem extends React.Component {
                     </div>
                 </div>
 
-                
-                </React.Fragment>
-                
+                </React.Fragment>  
             )}
 
                 <div className="addThemeDiv" style={{display: this.props.deleteThemeConfirmOpen ? 'block' : 'none' }}>

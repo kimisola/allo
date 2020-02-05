@@ -16,24 +16,26 @@ class LoginPage extends React.Component {
             <React.Fragment>
                 <Route>
 
-                <main></main>
-                <div className="gard"></div>
+                <div className="Lmain"></div>
+                <div className="Lgard"></div>
 
-                <header>
-                    <div className="title">
-                        <img src={ Slogan } /> 
-                    </div>
-                </header>
+                <div className="Lbody">
 
-                <div className="login">
-                    <div className="nameDiv">
-                        <p className="name">arello</p>
+                    <div className="Lheader">
+                        <div className="Ltitle">
+                            <img src={ Slogan } /> 
+                        </div>
                     </div>
-                    <div>
-                        <input type="text" placeholder="username" name="user" /><br />
-                        <input type="password" placeholder="password" name="password" /><br />
-                        <Link to={"/Board"} ><input type="button" value="Login" /> </Link>
-                        <GLogin />
+                    <div className="Llogin">
+                        <div className="LnameDiv">
+                            <p className="Lname">arello</p>
+                        </div>
+                        <div>
+                            <input type="text" placeholder="username" name="user" /><br />
+                            <input type="password" placeholder="password" name="password" /><br />
+                            <Link to={"/Board"} ><input type="button" value="Login" /> </Link>
+                            <GLogin />
+                        </div>
                     </div>
                 </div>
 

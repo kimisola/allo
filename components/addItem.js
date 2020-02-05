@@ -5,6 +5,7 @@ import Tick2 from "../images/tick2.png";
 import Letter from "../images/letter-x.png";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
+import { element } from 'prop-types';
 
 
 
@@ -33,11 +34,12 @@ class AddItem extends React.Component {
             let docId =  querySnapshot.docs[t].id;
             let route = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + docId + "/Items").doc();
             let newText = this.props.textValue;
+            let newTag = this.props.textTag;
             console.log(newText)
             
             route.set({
                 img: "",
-                tags: ["planning"],
+                tags: newTag,
                 text: newText,
             }).then(() => {
                 console.log("Document successfully written!")
@@ -53,13 +55,35 @@ class AddItem extends React.Component {
         
     }
 
-    changePlan = () => {
-        console.log("run changePlan")
+    selectTags = (selected) => {
+        console.log(selected)
+        let tags = this.props.commentTags
+        console.log(tags[selected])
+        tags[selected] = !tags[selected]
+
+        let tagsState = [ "planning", "process", "risk", "achived" ]
+        let textTag = []
+        tagsState.forEach((element) => {
+            if(tags[element]) {  // if key element === true
+                textTag.push(element)
+            }
+        });
+        console.log(textTag);
+        this.props.dispatch({ type: "getNewTags", textTag })
     }
 
 
     fileUperload = (event) =>{
-        console.log(event)
+        let file = event.target.files[0]
+        const storageRef = fire.storage().ref("image");
+        const imgRef = storageRef.child(file.name)
+        imgRef.put(file)
+        .then((snapshot) => {
+            console.log(snapshot)
+            console.log('Uploaded a blob or file!');
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        })
     }
     
 
@@ -68,22 +92,22 @@ class AddItem extends React.Component {
             <React.Fragment>
                 
                     <div className="tags">
-                        <div className="tag planning" onClick={this.changePlan}>Planning</div>
-                        <div className="tag process" onClick={this.changePlan}>In Process</div>
-                        <div className="tag risk" onClick={this.changePlan}>At Risk</div>
-                        <div className="tag achived" onClick={this.changePlan}>Achieved</div>
+                        <div className="tag planning" onClick={ () => this.selectTags("planning") }>Planning</div>
+                        <div className="tag process" onClick={ () => this.selectTags("process") }>In Process</div>
+                        <div className="tag risk" onClick={ () => this.selectTags("risk") }>At Risk</div>
+                        <div className="tag achived" onClick={ () => this.selectTags("achived") }>Achieved</div>
                     </div>
                     <div>
-                        <textarea type="text" value={this.props.textValue} onChange={this.getTextValue}></textarea>
+                        <textarea type="text" value={ this.props.textValue } onChange={ this.getTextValue }></textarea>
                     </div>
                     <div className="addItemFooter">
                         <div className="imgUpload">
                             <form action="/somewhere/to/upload" encType="multipart/form-data">
-                                <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={this.fileUperload()}/>    
+                                <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUperload }/>    
                             </form>
                         </div>
                         <div className="addItemFeature">
-                            <div className="addComment" onClick={this.sendComment}>
+                            <div className="addComment" onClick={ this.sendComment }> 
                                 <img src={ Tick2 } />
                             </div>
                             <div className="cancel">
@@ -103,6 +127,8 @@ const mapStateToProps = (state) => {
         text: state.text,
         listTitle: state.listTitle,
         textValue: state.textValue,
+        textTag: state.textTag,
+        commentTags: state.commentTags,
         whichTheme: state.whichTheme,
         addNewCommentOpen: state.addNewCommentOpen,
         commentWindow: state.commentWindow,

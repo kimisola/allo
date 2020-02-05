@@ -19,7 +19,8 @@ let initialState = {
     //render board data
     text: [],
     listTitle: [],
-    commentWindow: [], //pop-up window
+    commentWindow: [], //array of comment pop-up window
+    commentTags: { planning:false, process:false, risk:false, achived:false },
 
     //add new list window
     addNewListOpen: false,
@@ -110,6 +111,12 @@ function reducer(state = initialState, action) {
                 textValue: action.textValue
             });
         }
+
+        case "getNewTags": {
+            return Object.assign({}, state, {
+                textTag: action.textTag
+            });
+        }
  
         case "sendComment": {
             console.log(state.text)
@@ -120,7 +127,7 @@ function reducer(state = initialState, action) {
             console.log( newText[i])
             newText[i].push({
                 text: state.textValue,
-                tags: []
+                tags: state.textTag
             })
 
             console.log(newText[i])
