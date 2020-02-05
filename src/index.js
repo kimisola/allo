@@ -21,7 +21,7 @@ let initialState = {
     listTitle: [],
     commentWindow: [], //array of comment pop-up window
     commentTags: { planning:false, process:false, risk:false, achived:false },
-
+    textTag: [],
     //add new list window
     addNewListOpen: false,
     //add new comment item window
@@ -106,7 +106,6 @@ function reducer(state = initialState, action) {
         }
 
         case "getNewTextValue": {
-            console.log(action.textValue)
             return Object.assign({}, state, {
                 textValue: action.textValue
             });
@@ -117,15 +116,19 @@ function reducer(state = initialState, action) {
                 textTag: action.textTag
             });
         }
+
+        case "getImageURL": {
+            return Object.assign({}, state, {
+                commentURL: action.url
+            });
+        }
  
         case "sendComment": {
-            console.log(state.text)
-            console.log(state.textValue)
-            console.log(state.whichTheme)
             let i = state.whichTheme
             let newText = state.text
             console.log( newText[i])
             newText[i].push({
+                img: state.commentURL,
                 text: state.textValue,
                 tags: state.textTag
             })

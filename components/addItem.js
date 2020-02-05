@@ -6,6 +6,7 @@ import Letter from "../images/letter-x.png";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
 import { element } from 'prop-types';
+import { database } from 'firebase';
 
 
 
@@ -14,45 +15,9 @@ class AddItem extends React.Component {
         super(props);
     }
 
-    
     getTextValue = (event) => {
         let textValue = event.target.value
         this.props.dispatch({ type: "getNewTextValue", textValue })
-    }
-
-
-    sendComment = () => {
-        console.log("run send")
-        this.props.dispatch({ type: "sendComment" })
-        
-        let t = this.props.whichTheme
-        console.log(t)
-        const db = fire.firestore();
-        const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
-
-        coll.get().then((querySnapshot) => {
-            let docId =  querySnapshot.docs[t].id;
-            let route = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + docId + "/Items").doc();
-            let newText = this.props.textValue;
-            let newTag = this.props.textTag;
-            console.log(newText)
-            
-            route.set({
-                img: "",
-                tags: newTag,
-                text: newText,
-            }).then(() => {
-                console.log("Document successfully written!")
-            }).catch(()=> {
-                console.error("Error writing document: ", error);
-            })
-
-            let textValue = "";
-            this.props.dispatch({ type: "getNewTextValue", textValue }) //reset textarea value
-        })
-
-        this.props.dispatch({ type: "addNewCommentOpen", t })
-        
     }
 
     selectTags = (selected) => {
@@ -73,17 +38,55 @@ class AddItem extends React.Component {
     }
 
 
-    fileUperload = (event) =>{
+    fileUperload = (event) => {
         let file = event.target.files[0]
         const storageRef = fire.storage().ref("image");
         const imgRef = storageRef.child(file.name)
         imgRef.put(file)
-        .then((snapshot) => {
+        .then(async (snapshot) => {
             console.log(snapshot)
             console.log('Uploaded a blob or file!');
+            imgRef.getDownloadURL().then(async(url) => {
+                console.log(url)
+                this.props.dispatch({ type: "getImageURL", url })
+            })
         }).catch((error) => {
             console.error("Error removing document: ", error);
+        })      
+    }
+
+    sendComment = () => {
+        console.log("run send")
+        this.props.dispatch({ type: "sendComment" })
+        
+        let t = this.props.whichTheme
+        console.log(t)
+        const db = fire.firestore();
+        const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
+
+        coll.get().then((querySnapshot) => {
+            let docId =  querySnapshot.docs[t].id;
+            let route = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + docId + "/Items").doc();
+            let newText = this.props.textValue;
+            let newTag = this.props.textTag;
+            let newImageURL = this.props.commentURL;
+           
+            route.set({
+                img: newImageURL,
+                tags: newTag,
+                text: newText,
+            }).then(() => {
+                console.log("Document successfully written!")
+            }).catch(()=> {
+                console.error("Error writing document: ", error);
+            })
+
+            let textValue = "";
+            this.props.dispatch({ type: "getNewTextValue", textValue }) //reset textarea value
         })
+
+        this.props.dispatch({ type: "addNewCommentOpen", t })
+        
     }
     
 
@@ -128,6 +131,7 @@ const mapStateToProps = (state) => {
         listTitle: state.listTitle,
         textValue: state.textValue,
         textTag: state.textTag,
+        commentURL: state.commentURL,
         commentTags: state.commentTags,
         whichTheme: state.whichTheme,
         addNewCommentOpen: state.addNewCommentOpen,
