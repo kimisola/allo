@@ -1,18 +1,35 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { aSetCurrentUser } from"../components/actionCreators"
 import HomeImg from "../images/home.png";
 import Blackboard from "../images/blackboard.png";
 import TestIcon from "../images/testIcon.jpg";
 import SignOutImg from "../images/logout.png";
-import HomePage from "./homePage";
-import App from "../src/index"
+import firebase from 'firebase';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
 
 class Topbar extends React.Component {
     constructor(props){
         super(props);
     }
+
+    userSignOut = () => {
+
+        firebase.auth().signOut().then(() => {
+            location.href = "/";
+
+            let firebaseUid = "";
+            let userDisplayName = "";
+            let userPhotoURL = "";
+            let userEmail = "";         
+            props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)
+
+        }).catch(function(error) {
+            console.log(error)
+        });
+    }
+
 
     render(){
         return(
@@ -39,7 +56,7 @@ class Topbar extends React.Component {
                         <img src={ TestIcon } />
                     </div>
                     <div className="signOutImg">
-                        <img src={ SignOutImg } />
+                        <img src={ SignOutImg } onClick={ this.userSignOut }/>
                     </div>
                 </div>
             </div>  
@@ -49,4 +66,11 @@ class Topbar extends React.Component {
         )
     }
 }
-export default Topbar;
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)) }
+    }
+}
+
+export default connect(mapDispatchToProps)(Topbar);

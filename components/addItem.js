@@ -93,13 +93,8 @@ class AddItem extends React.Component {
             }).catch(()=> {
                 console.error("Error writing document: ", error);
             })
-
-            
-
         })
-
-        this.props.dispatch({ type: "addNewCommentOpen", t })
-        
+        this.props.dispatch({ type: "addNewCommentOpen", t })     
     }
     
 

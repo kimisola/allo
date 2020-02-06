@@ -27,7 +27,7 @@ let initialState = {
     deleteThemeConfirmOpen: false,
 
     //user profile
-    isSignIn: false,
+    isLoggedIn: false,
     userEmail: "",
     userDisplayName: "",
     userPhotoURL: "",
@@ -43,7 +43,7 @@ function reducer(state = initialState, action) {
     switch(action.type) {
         case "setCurrentUser": {
             return Object.assign({}, state, {
-                isSignIn: ! state.isSignIn,
+                isLoggedIn: ! state.isLoggedIn,
                 userEmail: action.userEmail,
                 userDisplayName: action.userDisplayName,
                 userPhotoURL: action.userPhotoURL,

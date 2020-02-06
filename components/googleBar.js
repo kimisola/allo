@@ -33,7 +33,6 @@ class GLogin extends Component {
             <div className="firebaseui-auth-container">
               <StyledFirebaseAuth uiConfig={ this.uiConfig } firebaseAuth={ firebase.auth() }/>
             </div>
-            <button> Click me </button>
             
             </React.Fragment>
         );

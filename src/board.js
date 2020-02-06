@@ -19,27 +19,32 @@ class Board extends React.Component {
         super(props);
     }
 
-
-
     componentDidMount() {
         console.log("run componentDidMount")
+
         // google login
         firebase.auth().onAuthStateChanged(function(user) {
+            
             if (user) {
-              console.log("Hiiiiiiiiiiiiiii", user)
-              console.log("oooooooooo", user.a.c)
-              let userData = user.providerData[0]
-              let userDisplayName = userData.displayName
-              let userPhotoURL = userData.photoURL 
-              let userEmail = userData.email
-              let firebaseUid = user.a.c
+                console.log("get user data", user)
+                let firebaseUid = user.a.c;
+                let userDisplayName;
+                let userPhotoURL;
+                let userEmail;
 
-              props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)
+                user.providerData.forEach((profile) => {
+                        userDisplayName = profile.displayName;
+                        userEmail = profile.email;
+                        userPhotoURL = profile.photoURL;
+                });           
+
+            props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)
 
             } else {
-              // No user is signed in.
-            }
-          });
+                // No user is signed in.
+            }              
+        });
+  
 
 
 
@@ -129,7 +134,7 @@ const mapStateToProps = (state) => {
         deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
         whichWindowOpen: state.whichWindowOpen,
         commentWindow: state.commentWindow,
-        isSignIn: state.isSignIn,
+        isLoggedIn: state.isLoggedIn,
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
