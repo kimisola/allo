@@ -28,10 +28,10 @@ class CommentMenu extends React.Component {
                 <div className="tagDiv"  onMouseEnter={ () => this.showMenu() } onMouseLeave={ () => this.showMenu() }>
                     <div className="tagImgDiv"></div>
                     <div className="commentMenu"  style={{display: this.state.menuShowed ? 'block' : 'none' }}>
-                        <li> <div className="menuImg"> <img src={ Cross } /></div> 標籤編輯</li>
-                        <li> <div className="menuImg"> <img src={ Cross } /></div> 文字編輯</li>
-                        <li> <div className="menuImg"> <img src={ Cross } /></div> 刪除留言</li>
-                        <li> <div className="menuImg"> <img src={ Cross } /></div> 標籤編輯</li>
+                        <li>標籤編輯</li>
+                        <li>文字編輯</li>
+                        <li>刪除留言</li>
+                        <li>標籤編輯</li>
                     </div>
                 </div>
             </React.Fragment>

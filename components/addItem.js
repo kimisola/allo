@@ -84,8 +84,15 @@ class AddItem extends React.Component {
                 this.props.dispatch({ type: "getNewTextValue", textValue }) //reset textarea value
                 let url = "";
                 this.props.dispatch({ type: "getImageURL", url }) //reset url value
-                let textTag = [];
-                this.props.dispatch({type: "getNewTags", textTag }) //reset tag value
+
+                let tags = this.props.commentTags  //reset tag value
+                let tagsState = [ "planning", "process", "risk", "achived" ]
+                tagsState.forEach((element) => {
+                    if(tags[element]) { 
+                        tags[element] = !tags[element]
+                    }
+                });
+
             }).catch((error)=> {
                 console.error("Error writing document: ", error);
             })
