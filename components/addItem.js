@@ -1,12 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import "../src/main.css";
 import Tick2 from "../images/tick2.png";
 import Letter from "../images/letter-x.png";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
-import { element } from 'prop-types';
-import { database } from 'firebase';
 
 
 
@@ -24,12 +20,12 @@ class AddItem extends React.Component {
         console.log(selected)
         let tags = this.props.commentTags
         console.log(tags[selected])
-        tags[selected] = !tags[selected]
+        tags[selected] = !tags[selected]  // the key called [selected]
 
         let tagsState = [ "planning", "process", "risk", "achived" ]
         let textTag = []
         tagsState.forEach((element) => {
-            if(tags[element]) {  // if key element === true
+            if(tags[element]) {  // if the key element === true
                 textTag.push(element)
             }
         });
@@ -90,7 +86,7 @@ class AddItem extends React.Component {
                 this.props.dispatch({ type: "getImageURL", url }) //reset url value
                 let textTag = [];
                 this.props.dispatch({type: "getNewTags", textTag }) //reset tag value
-            }).catch(()=> {
+            }).catch((error)=> {
                 console.error("Error writing document: ", error);
             })
         })

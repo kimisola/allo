@@ -21,37 +21,50 @@ class Board extends React.Component {
 
     componentDidMount() {
         console.log("run componentDidMount")
+        let props = this.props;
+        //read db
+        const db = fire.firestore();
 
         // google login
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged(async(user) => {
             
             if (user) {
                 console.log("get user data", user)
-                let firebaseUid = user.a.c;
+                console.log("get user data", user.uid)
+                let firebaseUid = user.uid;
                 let userDisplayName;
                 let userPhotoURL;
                 let userEmail;
+                let useruid;
 
                 user.providerData.forEach((profile) => {
                         userDisplayName = profile.displayName;
                         userEmail = profile.email;
                         userPhotoURL = profile.photoURL;
+                        useruid = profile.uid;
                 });           
 
-            props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)
+                props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
+
+
+                db.collection("Users").doc(`${firebaseUid}`).set({
+                    name: userDisplayName,
+                    photo: userPhotoURL,
+                    email: userEmail,
+                    uid: useruid,
+                    firebaseuid: firebaseUid
+                }).then(() => {
+                    console.log("Document successfully written!")
+                }).catch((error) => {
+                    console.error("Error writing document: ", error);
+                })
 
             } else {
                 // No user is signed in.
             }              
         });
-  
-
-
-
-        let props = this.props;
+         
         
-        //read db
-        const db = fire.firestore();
         let myDataTitle = [];
         let myDataText = [];
         let myComWin = [];
@@ -64,7 +77,6 @@ class Board extends React.Component {
         async function getTitles(){  // 逐行執行
             db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get()
             .then(async (querySnapshot) => {
-                console.log(props)
                 let doc = querySnapshot.docs;
                 for ( let i = 0; i < doc.length; i++ ) {       
                     listsId.push(doc[i].id)
@@ -108,16 +120,8 @@ class Board extends React.Component {
                     <div className="view">
                         <Topbar />
                         <SecondBar />
-                        <div className="board">
-                            {/* <div className="sectionWrapper">
-                                <div className="section"> */}
-                                                         
-                                    <CommentItem />
-     
-                                    {/* <AddItem />
-                                    <ItemFooter /> */}
-                                {/* </div>
-                            </div> */}
+                        <div className="board">                                                         
+                            <CommentItem />
                         </div>
                     </div>
                 </main>             
@@ -138,7 +142,8 @@ const mapStateToProps = (state) => {
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
-        firebaseUid: state.firebaseUid
+        firebaseUid: state.firebaseUid,
+        useruid: status.useruid
     }
 }
 
@@ -146,7 +151,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         mSetUpComWin: (myComWin) => { dispatch(aSetUpComWin(myComWin)) },
         mRenderComments: (Data1, Data2) => { dispatch(aRenderComments(Data1, Data2)) },
-        mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)) }
+        mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) }
     }
 }
 

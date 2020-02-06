@@ -6,6 +6,7 @@ import GarbageCan from "../images/garbagecan.png";
 import Cross from "../images/cross.png"
 import Plus from "../images/plus.png";
 import AddItem from "../components/addItem";
+import CommentMenu from "../components/commentMenu";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
 
@@ -49,7 +50,6 @@ class CommentItem extends React.Component {
         this.props.dispatch({ type: "addComment", i })
     }
 
-
     render(){
         console.log("render list title", this.props.listTitle)
         return(
@@ -60,13 +60,13 @@ class CommentItem extends React.Component {
                 <div className="sectionWrapper" >
                     <div className="section">
                         <div className="head">
-                            <div className="titleLeft"> {item} </div>
+                            <div className="titleLeft"> { item } </div>
                             <div className="titleRight" onClick={ () => this.openConfirmWin(i) }>
                                 <img src={ Cross } />
                             </div>
                         </div>
                         <div className="comment">
-                            {this.props.text[i].map((item) =>
+                            {this.props.text[i].map((item, j) =>
                             
                                 <div className="item" >
                                     <div className="itemHead">
@@ -93,10 +93,8 @@ class CommentItem extends React.Component {
                                     
                                         </div>
 
-                                        <div className="tagImg">
-                                            <span>test</span>
-                                            {/* <img src={ Tag } /> */}
-                                        </div>
+                                        <CommentMenu targetid={`${i}${j}`}/>
+
                                     </div>                              
                                     
                                     <div className="itemBody">
@@ -104,6 +102,7 @@ class CommentItem extends React.Component {
                                             <div className="msgText"> {item.text} </div>         
                                             <div className="msgImg"> <img src={ item.img } /> </div>
                                         </div>
+                                        {/* 可以獨立成一個 component 
                                         <div className="featureDiv">
                                             <div className="feature" style={{display: 'none' }}>
                                                 <div className="edit">
@@ -113,7 +112,7 @@ class CommentItem extends React.Component {
                                                     <img src={ GarbageCan } />
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             )}

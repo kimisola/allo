@@ -9,12 +9,8 @@ class GLogin extends Component {
 
     uiConfig = {
         callbacks: {
-          // Avoid redirects after sign-in.
-          // signInSuccess: () => false
-
           // write in db
         },
-        // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
         signInFlow: 'popup',
         signInSuccessUrl: '/Board',
         signInOptions: [

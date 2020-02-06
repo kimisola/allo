@@ -34,13 +34,14 @@ export function aRenderComments(Data1, Data2) {
     }
 }
 
-export function aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid) {
+export function aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) {
     return {
         type: "setCurrentUser",
         userDisplayName, 
         userPhotoURL, 
         userEmail, 
-        firebaseUid
+        firebaseUid,
+        useruid
     }
     
 }

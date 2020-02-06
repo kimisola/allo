@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import LoginPage from "./login";
 import Board from "./board";
-
 import HomePage from "../components/homePage";
 import "./main.css";
 
@@ -32,6 +31,7 @@ let initialState = {
     userDisplayName: "",
     userPhotoURL: "",
     firebaseUid: "",
+    useruid: "",
 
 }
 
@@ -48,6 +48,7 @@ function reducer(state = initialState, action) {
                 userDisplayName: action.userDisplayName,
                 userPhotoURL: action.userPhotoURL,
                 firebaseUid: action.firebaseUid,
+                useruid: action.useruid
             });
         }
 
@@ -174,19 +175,11 @@ class App extends React.Component {
         return(
             <React.Fragment>
                 <Route>       
- 
-                <Switch>
-                    <Route exact path="/">
-                        <LoginPage />
-                    </Route>
-                    <Route path="/HomePage">
-                        <HomePage />
-                    </Route>
-                    <Route path="/Board">
-                        <Board />
-                    </Route>
-                </Switch>
-
+                    <Switch>
+                        <Route exact path = "/" component = { LoginPage } /> 
+                        <Route path = "/HomePage" component = { HomePage } />
+                        <Route path = "/Board" component = { Board } />
+                    </Switch>
                 </Route>
             </React.Fragment>
         )
@@ -197,7 +190,7 @@ export default App
 
 ReactDOM.render(
     <Router>
-    <Provider store={store}>
+    <Provider store = { store } >
         <App />
     </Provider>
     </Router>

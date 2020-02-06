@@ -2,7 +2,6 @@ import React from 'react';
 import { aSetCurrentUser } from"../components/actionCreators"
 import HomeImg from "../images/home.png";
 import Blackboard from "../images/blackboard.png";
-import TestIcon from "../images/testIcon.jpg";
 import SignOutImg from "../images/logout.png";
 import firebase from 'firebase';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -22,10 +21,11 @@ class Topbar extends React.Component {
             let firebaseUid = "";
             let userDisplayName = "";
             let userPhotoURL = "";
-            let userEmail = "";         
-            props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)
+            let userEmail = "";  
+            let useruid = "";       
+            props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
-        }).catch(function(error) {
+        }).catch((error) => {
             console.log(error)
         });
     }
@@ -34,38 +34,46 @@ class Topbar extends React.Component {
     render(){
         return(
             <React.Fragment>
-            <Router>
+                <Router>
                 
-              <div className="topBar">
-                <div className="topLeft">
-                    <div className="home">
-                        <Link to={"/HomePage"}> <img src={ HomeImg } /> </Link>
-                         
-                    </div>
-                    <div className="searchBar">
-                        <input />
-                    </div>
-                </div>
-                <div className="topRight">
-                    <div className="boardList">
-                        <div className="boardIcon">
-                            <img src={ Blackboard } />
+                    <div className="topBar">
+                        <div className="topLeft">
+                            <div className="home">
+                                <Link to={"/HomePage"}> <img src={ HomeImg } /> </Link>
+                                
+                            </div>
+                            <div className="searchBar">
+                                <input />
+                            </div>
                         </div>
-                    </div>
-                    <div className="memberIcon">
-                        <img src={ TestIcon } />
-                    </div>
-                    <div className="signOutImg">
-                        <img src={ SignOutImg } onClick={ this.userSignOut }/>
-                    </div>
-                </div>
-            </div>  
+                        <div className="topRight">
+                            <div className="boardList">
+                                <div className="boardIcon">
+                                    <img src={ Blackboard } />
+                                </div>
+                            </div>
+                            <div className="memberIcon">
+                                <img src={ this.props.userPhotoURL } />
+                            </div>
+                            <div className="signOutImg">
+                                <img src={ SignOutImg } onClick={ this.userSignOut }/>
+                            </div>
+                        </div>
+                    </div>  
        
-            </Router>
+                </Router>
             </React.Fragment>
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        userDisplayName: state.userDisplayName,
+        userPhotoURL: state.userPhotoURL,
+    }
+}
+
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
@@ -73,4 +81,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapDispatchToProps)(Topbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Topbar);
