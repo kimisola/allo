@@ -93,7 +93,7 @@ class CommentItem extends React.Component {
                                     
                                         </div>
 
-                                        <CommentMenu targetid={`${i}${j}`}/>
+                                        <CommentMenu  listId={`${i}`} comId={`${j}`}   />
 
                                     </div>                              
                                     

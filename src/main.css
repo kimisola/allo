@@ -85,7 +85,7 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section {
-    color: black;width: 290px;background: rgba(254, 246, 251, 0.36);border-radius: 10px;padding:10px;margin: 10px 5px;display: inline-flex;max-height: 90%;overflow-y: auto;flex-direction: column;
+    color: black;width: 290px;background: rgba(254, 246, 251, 0.36);border-radius: 10px;padding:10px;margin: 10px 5px;display: inline-flex;max-height: 90%;flex-direction: column;
 
 }
 
@@ -106,29 +106,31 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead {
-    display: flex; margin: 2px 2px 2px 2px ;
+    display: flex; margin: 2px 2px 2px 2px; position: relative;
 }
 
-/* .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv {
-    display: flex; 
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv {
+    position: absolute; top: 5px; right: 5px;
+}
+/* .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu {
+    position: absolute; top: 5px; right: -90px;
 } */
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.tagImgDiv {
-    width: 24px;height: 24px; background-image: url(../images/menu.png);
+    width: 24px;height: 24px; background-image: url(../images/menu.png);position: absolute; top: 5px; right: 5px;
 }
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.tagImgDiv:hover {
     background-image: url(../images/menu2.png);
 }
-/* .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu {
-    display: flex; flex-direction: row;
-} */
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>li {
-    width: 30px;float: right;
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList {
+    display: flex; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;font-size: 15px;
 }
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>li {
-    list-style-type:none; float: right;
-    list-style-image: url(../images/pencilSmall_B.png);width:100%;
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList>.editTag,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList>.editText,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList>.setTime,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList>.deleteText {
+    width:10px; height: 10px; margin-right: 10px;
 }
 
 

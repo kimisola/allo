@@ -18,6 +18,7 @@ let initialState = {
     commentTags: { planning:false, process:false, risk:false, achived:false },
     textTag: [],
     textValue: "",
+    
     //add new list window
     addNewListOpen: false,
     //add new comment item window
@@ -122,7 +123,6 @@ function reducer(state = initialState, action) {
         }
 
         case "getNewTextValue": {
-            console.log("getNewTextValue", action.textValue)
             return Object.assign({}, state, {
                 textValue: action.textValue
             });
@@ -151,11 +151,18 @@ function reducer(state = initialState, action) {
                 text: state.textValue,
                 tags: state.textTag
             })
-
-            console.log(newText[i])
             return Object.assign({}, state, {
                 text: newText.slice(0),
             });
+        }
+
+        case "deleteComment": {
+            console.log(action.listId)
+            console.log(action.comId)
+            state.text[action.listId].splice(action.comId, 1)
+            return Object.assign({}, state, {
+                text: state.text.slice(0),
+            }); 
         }
 
         default:

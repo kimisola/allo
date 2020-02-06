@@ -88,8 +88,8 @@ class AddItem extends React.Component {
                 let tags = this.props.commentTags  //reset tag value
                 let tagsState = [ "planning", "process", "risk", "achived" ]
                 tagsState.forEach((element) => {
-                    if(tags[element]) { 
-                        tags[element] = !tags[element]
+                    if ( tags[element] ) { 
+                        tags[element] = ! tags[element]
                     }
                 });
 
