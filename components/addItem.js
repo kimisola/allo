@@ -70,6 +70,13 @@ class AddItem extends React.Component {
             let newText = this.props.textValue;
             let newTag = this.props.textTag;
             let newImageURL = this.props.commentURL;
+            if ( newImageURL === undefined ) {
+                newImageURL = "";
+            }
+
+            console.log("Hi~~~~",newText)
+            console.log("Hi~~~~",newTag)
+            console.log("Hi~~~~",newImageURL)
            
             route.set({
                 img: newImageURL,
@@ -77,12 +84,18 @@ class AddItem extends React.Component {
                 text: newText,
             }).then(() => {
                 console.log("Document successfully written!")
+                let textValue = "";
+                this.props.dispatch({ type: "getNewTextValue", textValue }) //reset textarea value
+                let url = "";
+                this.props.dispatch({ type: "getImageURL", url }) //reset url value
+                let textTag = [];
+                this.props.dispatch({type: "getNewTags", textTag }) //reset tag value
             }).catch(()=> {
                 console.error("Error writing document: ", error);
             })
 
-            let textValue = "";
-            this.props.dispatch({ type: "getNewTextValue", textValue }) //reset textarea value
+            
+
         })
 
         this.props.dispatch({ type: "addNewCommentOpen", t })

@@ -9,8 +9,9 @@ import CommentItem from "../components/commentItem";
 import AddItem from "../components/addItem";
 import ItemFooter from "../components/itemFooter";
 import HomePage from "../components/homePage";
-import { aSetUpComWin,aRenderComments } from"../components/actionCreators"
+import { aSetUpComWin, aRenderComments, aSetCurrentUser } from"../components/actionCreators"
 import "./main.css";
+import firebase from 'firebase';
 import fire from "./fire";
 
 class Board extends React.Component {
@@ -22,6 +23,26 @@ class Board extends React.Component {
 
     componentDidMount() {
         console.log("run componentDidMount")
+        // google login
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              console.log("Hiiiiiiiiiiiiiii", user)
+              console.log("oooooooooo", user.a.c)
+              let userData = user.providerData[0]
+              let userDisplayName = userData.displayName
+              let userPhotoURL = userData.photoURL 
+              let userEmail = userData.email
+              let firebaseUid = user.a.c
+
+              props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)
+
+            } else {
+              // No user is signed in.
+            }
+          });
+
+
+
         let props = this.props;
         
         //read db
@@ -108,14 +129,19 @@ const mapStateToProps = (state) => {
         deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
         whichWindowOpen: state.whichWindowOpen,
         commentWindow: state.commentWindow,
+        isSignIn: state.isSignIn,
+        userEmail: state.userEmail,
+        userDisplayName: state.userDisplayName,
+        userPhotoURL: state.userPhotoURL,
+        firebaseUid: state.firebaseUid
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    console.log(ownProps,"ownPropsmapDispatchToProps")
     return {
         mSetUpComWin: (myComWin) => { dispatch(aSetUpComWin(myComWin)) },
-        mRenderComments: (Data1, Data2) => { dispatch(aRenderComments(Data1, Data2)) }
+        mRenderComments: (Data1, Data2) => { dispatch(aRenderComments(Data1, Data2)) },
+        mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)) }
     }
 }
 

@@ -33,3 +33,14 @@ export function aRenderComments(Data1, Data2) {
         Data2
     }
 }
+
+export function aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid) {
+    return {
+        type: "setCurrentUser",
+        userDisplayName, 
+        userPhotoURL, 
+        userEmail, 
+        firebaseUid
+    }
+    
+}

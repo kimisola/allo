@@ -94,9 +94,11 @@ class CommentItem extends React.Component {
                                         </div>
 
                                         <div className="tagImg">
-                                            <img src={ Tag } />
+                                            <span>test</span>
+                                            {/* <img src={ Tag } /> */}
                                         </div>
-                                    </div>
+                                    </div>                              
+                                    
                                     <div className="itemBody">
                                         <div className="message">                       
                                             <div className="msgText"> {item.text} </div>         

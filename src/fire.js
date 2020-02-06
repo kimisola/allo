@@ -1,5 +1,8 @@
 /* installation: npm install firebase --save */
-import firebase from 'firebase'
+import firebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/firestore';
+
 
 var firebaseConfig = {
     apiKey: "AIzaSyCQoWS7vPhhScB6kcPpfLP4W1l45-rQzLg",
@@ -12,6 +15,7 @@ var firebaseConfig = {
     measurementId: "G-Z7W71Q2L1X",
 };
 
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
 const fire = firebase.initializeApp(firebaseConfig)
 console.log(fire)
 

@@ -1,18 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createStore } from "redux";
-import { connect, Provider } from "react-redux";
+import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import LoginPage from "./login";
-import Topbar from "../components/topbar";
-import SecondBar from "../components/secondBar";
 import Board from "./board";
-import CommentItem from "../components/commentItem";
-import AddItem from "../components/addItem";
-import ItemFooter from "../components/itemFooter";
+
 import HomePage from "../components/homePage";
 import "./main.css";
-import fire from "./fire";
+
 
 
 let initialState = {
@@ -22,12 +18,21 @@ let initialState = {
     commentWindow: [], //array of comment pop-up window
     commentTags: { planning:false, process:false, risk:false, achived:false },
     textTag: [],
+    textValue: "",
     //add new list window
     addNewListOpen: false,
     //add new comment item window
     addNewCommentOpen: false,
     //delete confirm window
     deleteThemeConfirmOpen: false,
+
+    //user profile
+    isSignIn: false,
+    userEmail: "",
+    userDisplayName: "",
+    userPhotoURL: "",
+    firebaseUid: "",
+
 }
 
 function reducer(state = initialState, action) {  
@@ -36,6 +41,16 @@ function reducer(state = initialState, action) {
     console.log(initialState)
     console.log(state)
     switch(action.type) {
+        case "setCurrentUser": {
+            return Object.assign({}, state, {
+                isSignIn: ! state.isSignIn,
+                userEmail: action.userEmail,
+                userDisplayName: action.userDisplayName,
+                userPhotoURL: action.userPhotoURL,
+                firebaseUid: action.firebaseUid,
+            });
+        }
+
         case "renderComments": {
             return Object.assign({}, state, {  // copy now state and update using items
                 text: action.Data2,
@@ -106,18 +121,21 @@ function reducer(state = initialState, action) {
         }
 
         case "getNewTextValue": {
+            console.log("getNewTextValue", action.textValue)
             return Object.assign({}, state, {
                 textValue: action.textValue
             });
         }
 
         case "getNewTags": {
+            console.log("getNewTags", action.textTag)
             return Object.assign({}, state, {
                 textTag: action.textTag
             });
         }
 
         case "getImageURL": {
+            console.log("getImageURL", action.url)
             return Object.assign({}, state, {
                 commentURL: action.url
             });
@@ -155,9 +173,6 @@ class App extends React.Component {
     render(){
         return(
             <React.Fragment>
-
-                
-
                 <Route>       
  
                 <Switch>

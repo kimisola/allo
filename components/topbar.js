@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import HomeImg from "../images/home.png";
 import Blackboard from "../images/blackboard.png";
 import TestIcon from "../images/testIcon.jpg";
+import SignOutImg from "../images/logout.png";
 import HomePage from "./homePage";
 import App from "../src/index"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -36,6 +37,9 @@ class Topbar extends React.Component {
                     </div>
                     <div className="memberIcon">
                         <img src={ TestIcon } />
+                    </div>
+                    <div className="signOutImg">
+                        <img src={ SignOutImg } />
                     </div>
                 </div>
             </div>  

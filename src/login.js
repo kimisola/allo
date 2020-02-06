@@ -28,7 +28,7 @@ class LoginPage extends React.Component {
                     </div>
                     <div className="Llogin">
                         <div className="LnameDiv">
-                            <p className="Lname">arello</p>
+                            <p className="Lname">a-llo</p>
                         </div>
                         <div>
                             <input type="text" placeholder="username" name="user" /><br />

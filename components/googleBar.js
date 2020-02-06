@@ -1,25 +1,39 @@
 import React, { Component } from 'react';
-import { GoogleLogin } from 'react-google-login';
-import "../src/gLogin.css";
+import firebase from 'firebase';
+//install react-firebaseui
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import "../src/main.css";
 
-
-const responseGoogle = (response) => {
-    console.log(response);
-}
 
 class GLogin extends Component {
+
+    uiConfig = {
+        callbacks: {
+          // Avoid redirects after sign-in.
+          // signInSuccess: () => false
+
+          // write in db
+        },
+        // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+        signInFlow: 'popup',
+        signInSuccessUrl: '/Board',
+        signInOptions: [
+          firebase.auth.GoogleAuthProvider.PROVIDER_ID
+          // fire.auth.FacebookAuthProvider.PROVIDER_ID
+        ],
+        // Terms of service url.
+        tosUrl: '/Board',
+
+      };
+    
     render() {
         return (
             <React.Fragment>
             
-            <GoogleLogin
-                className='glogin'
-                clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-                buttonText="Login with google"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={'single_host_origin'}
-            />
+            <div className="firebaseui-auth-container">
+              <StyledFirebaseAuth uiConfig={ this.uiConfig } firebaseAuth={ firebase.auth() }/>
+            </div>
+            <button> Click me </button>
             
             </React.Fragment>
         );
