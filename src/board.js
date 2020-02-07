@@ -54,6 +54,7 @@ class Board extends React.Component {
                     uid: useruid,
                     firebaseuid: firebaseUid
                 }).then(() => {
+                    // getTitles(uid);
                     console.log("Document successfully written!")
                 }).catch((error) => {
                     console.error("Error writing document: ", error);

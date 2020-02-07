@@ -18,6 +18,7 @@ let initialState = {
     commentTags: { planning:false, process:false, risk:false, achived:false },
     textTag: [],
     textValue: "",
+    titleValue: "",
     
     //add new list window
     addNewListOpen: false,
@@ -72,7 +73,7 @@ function reducer(state = initialState, action) {
             });
         }
 
-        case "newRenderComments": {
+        case "addTheme": {
             return Object.assign({}, state, {
                 text: action.newText.slice(0),
                 listTitle: action.newListTitle.slice(0),
@@ -82,6 +83,15 @@ function reducer(state = initialState, action) {
         case "getNewTitleValue": {
             return Object.assign({}, state, {
                 titleValue: action.value
+            });
+        }
+
+        case "getEditTitleValue": {
+            console.log(action.newValue)
+            console.log(action.indexOfValue)
+            state.listTitle.splice(action.indexOfValue, 1, action.newValue)
+            return Object.assign({}, state, {
+                listTitle: state.listTitle.slice(0),
             });
         }
 

@@ -5,6 +5,7 @@ import Pencil from "../images/pencil.png";
 import GarbageCan from "../images/garbagecan.png";
 import Cross from "../images/cross.png"
 import Plus from "../images/plus.png";
+import ListTitle from "../components/listTitle";
 import AddItem from "../components/addItem";
 import CommentMenu from "../components/commentMenu";
 import { connect } from 'react-redux';
@@ -17,41 +18,13 @@ class CommentItem extends React.Component {
         super(props);
     }
 
-    openConfirmWin = (i) => {
-        console.log("run openConfirmWin")
-        console.log(i)
-        this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
-    }
-
-    deleteTheme = () => {
-        let t = this.props.whichWindowOpen
-        console.log("run delete theme")
-        console.log(t)
-
-        const db = fire.firestore();
-        const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
-
-        coll.get().then((querySnapshot) => {
-            console.log(querySnapshot.docs[t].id)
-            let docId = querySnapshot.docs[t].id
-
-            //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            coll.doc(docId).get().then(() => {
-                console.log("Document successfully deleted!");
-                this.props.dispatch({ type: "deleteTheme", t })
-                this.props.dispatch({ type: "deleteThemeConfirmOpen" })
-            }).catch((error) => {
-                console.error("Error removing document: ", error);
-            })
-        })
-    }
-
     addComment = (i) => {
         this.props.dispatch({ type: "addComment", i })
     }
 
     render(){
         console.log("render list title", this.props.listTitle)
+        console.log("render text", this.props.text)
         return(
             <React.Fragment>
 
@@ -59,12 +32,9 @@ class CommentItem extends React.Component {
                 <React.Fragment>
                 <div className="sectionWrapper" >
                     <div className="section">
-                        <div className="head">
-                            <div className="titleLeft"> { item } </div>
-                            <div className="titleRight" onClick={ () => this.openConfirmWin(i) }>
-                                <img src={ Cross } />
-                            </div>
-                        </div>
+                        
+                        <ListTitle title={ item } indexWin={ i }/>
+                           
                         <div className="comment">
                             {this.props.text[i].map((item, j) =>
                             
@@ -130,17 +100,7 @@ class CommentItem extends React.Component {
 
                 </React.Fragment>  
             )}
-
-                <div className="addThemeDiv" style={{display: this.props.deleteThemeConfirmOpen ? 'block' : 'none' }}>
-                    <div className="addTheme">
-                        <p>確定要刪除該列表嗎？</p>
-                        <div className="buttons">
-                            <div className="no" onClick={ this.openConfirmWin }>取消</div>
-                            <div className="yes" onClick={ this.deleteTheme }>確定</div>
-                        </div>
-                    </div>
-                </div>
-            
+          
             </React.Fragment>
         )
     }

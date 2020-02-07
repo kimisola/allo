@@ -13,7 +13,7 @@ export function aGetTitleValue(value) {
 
 export function aCreatTitle(newListTitle, newText) {
     return{
-        type: "newRenderComments", 
+        type: "addTheme", 
         newListTitle,
         newText
     }

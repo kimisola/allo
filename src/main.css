@@ -100,6 +100,10 @@ img {
     max-width: 265px;
 }
 
+.view>.board>.sectionWrapper>.section>.head>.titleLeftInput {
+    max-width: 265px;height: 21px;
+}
+
 
 .view>.board>.sectionWrapper>.section>.comment>.item{
     margin:3px 3px 6px 3px; background-color: rgba(145, 152, 159, 0.56);border-radius: 5px;
@@ -112,27 +116,46 @@ img {
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv {
     position: absolute; top: 5px; right: 5px;
 }
-/* .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu {
-    position: absolute; top: 5px; right: -90px;
-} */
+
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.showMenuBackground {    
+    position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(0,0,0,0.6);z-index: 5;
+}
+
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu {
+    position: fixed; top: 300px; right: 600px; z-index: 10;display: flex; flex-direction: row;
+}
+
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuLeft {
+    margin-right: 10px;
+}
+
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuLeft input{
+    height: 150px; max-height: 200px; width: 270px;
+}
+
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuLeft div{
+    margin-top: 15px; padding: 3px; width: 50px; text-align: center; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;
+}
+
+
+
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.tagImgDiv {
     width: 24px;height: 24px; background-image: url(../images/menu.png);position: absolute; top: 5px; right: 5px;
 }
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.tagImgDiv:hover {
-    background-image: url(../images/menu2.png);
+
+
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList {
+    display: flex; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;
 }
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList {
-    display: flex; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;font-size: 15px;
-}
+/* position: relative;right: -90px; */
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList>.editTag,
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList>.editText,
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList>.setTime,
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuList>.deleteText {
-    width:10px; height: 10px; margin-right: 10px;
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList>.editTag,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList>.editText,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList>.setTime,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList>.deleteText {
+    width:16px; height: 16px; margin-right: 10px;
 }
-
 
 .tags {
     display: flex; 
@@ -153,7 +176,7 @@ img {
     background-color: rgba(123 ,162, 63, 0.8);;
 }
 .view>.board>.sectionWrapper>.section>.comment {
-    overflow-y: scroll; 
+   overflow-y: scroll; 
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody {
@@ -339,3 +362,7 @@ footer>.footerBar {
 /* CSS for google login bar */
 
 
+
+.boardLists {
+    color: blueviolet;width: 200px;
+}

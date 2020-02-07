@@ -2,10 +2,13 @@ import React from 'react';
 import "../src/main.css";
 import { Route } from 'react-router-dom';
 
-
 class HomePage extends React.Component {
     constructor(props){
         super(props);
+    }
+
+    onSave = val => {
+        console.log('Edited Value -> ', val)
     }
 
     render(){
@@ -14,9 +17,7 @@ class HomePage extends React.Component {
                 <Route>
                 
                 <div className="myBoards">
-                    <div className="boardLists">
-                        可以編輯的 boards
-                    </div>
+                    <div className="boardLists"> 這裡是 board list </div>           
                 </div>
                 
                 </Route>
