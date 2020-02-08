@@ -193,7 +193,7 @@ class App extends React.Component {
             <React.Fragment>
                 <Route>       
                     <Switch>
-                        <Route exact path = "/" component = { LoginPage } /> 
+                        <Route exact path = "/" component = { Board } /> 
                         <Route path = "/HomePage" component = { HomePage } />
                         <Route path = "/Board" component = { Board } />
                     </Switch>

@@ -118,7 +118,7 @@ class ListTitle extends React.Component {
     }
 
     render(){
-        return this.state.isInEditMode ? this.renderEditView() : this.renderDefaultView()    
+        return this.state.isInEditMode ? this.renderEditView() : this.renderDefaultView() 
     }
 }
 
@@ -127,6 +127,7 @@ const mapStateToProps = (state ,ownprops) => {
         text: state.text,
         listTitle: state.listTitle,
         title: ownprops.title,
+        firebaseUid: state.firebaseUid,
         indexWin: ownprops.indexWin,
         deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
         whichWindowOpen: state.whichWindowOpen,

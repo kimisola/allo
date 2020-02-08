@@ -33,7 +33,7 @@ class CommentItem extends React.Component {
                 <div className="sectionWrapper" >
                     <div className="section">
                         
-                        <ListTitle title={ item } indexWin={ i }/>
+                        <ListTitle title={ item } indexWin={ i } />
                            
                         <div className="comment">
                             {this.props.text[i].map((item, j) =>

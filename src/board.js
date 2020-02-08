@@ -105,7 +105,7 @@ class Board extends React.Component {
         }
 
         function combineData() { 
-            for(let k = 0; k < Data1.length; k++) {
+            for (let k = 0; k < Data1.length; k++) {
                 Data.push(Data1[k]);
                 Data.push(Data2[k]);
             }

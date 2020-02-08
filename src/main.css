@@ -129,7 +129,7 @@ img {
     margin-right: 10px;
 }
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuLeft input{
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuLeft textarea{
     height: 150px; max-height: 200px; width: 270px;
 }
 

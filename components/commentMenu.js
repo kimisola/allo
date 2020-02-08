@@ -11,7 +11,8 @@ class CommentMenu extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            menuShowed: false
+            menuShowed: false,
+            defaultText: "",
         }
     }
 
@@ -20,6 +21,15 @@ class CommentMenu extends React.Component {
             let showMenu = !prevState.menuShowed
             return { menuShowed: showMenu }
         });
+        let listId = this.props.listId;
+        let comId = this.props.comId;
+        let text = this.props.text;
+        let targetText = text[listId][comId].text
+        console.log(targetText)
+        this.setState({
+            defaultText: targetText
+        })
+
     }
 
 
@@ -38,7 +48,7 @@ class CommentMenu extends React.Component {
             coll2.get().then((querySnapshot) => {                            //取得第二層留言內容
                 let docId2 = querySnapshot.docs[comId].id                      //取得第二層留言 id
                 //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-                coll2.doc(docId2).delete().then((querySnapshot) => {                        //取得第二層留言 id 內容
+                coll2.doc(docId2).get().then((querySnapshot) => {                        //取得第二層留言 id 內容
                     console.log(querySnapshot)
                     alert("刪除成功")
                     
@@ -46,9 +56,15 @@ class CommentMenu extends React.Component {
                     console.error("Error removing document: ", error);
                 })
             })
-        })
-        
+        }) 
     }
+
+    getDefaultText = () => {
+        
+
+
+    }
+
 
     render() {
         return (
@@ -58,7 +74,7 @@ class CommentMenu extends React.Component {
                     <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }}></div>
                     <div className="commentMenu"  style={{display: this.state.menuShowed ? 'flex' : 'none' }}>
                         <div className="menuLeft">
-                            <input />
+                            <textarea  type="text" defaultValue={ this.state.defaultText } />
                             <div>儲存</div>
                         </div>
                         <div className="menuRight">
@@ -68,7 +84,7 @@ class CommentMenu extends React.Component {
                                 </div>
                                 <div>編輯標籤</div>
                             </div>
-                            <div className="menuList">
+                            <div className="menuList" onClick={ () => this.getDefaultText() }>
                                 <div className="editText">
                                     <img src={ pencil } />
                                 </div>
@@ -96,6 +112,7 @@ class CommentMenu extends React.Component {
 
 const mapStateToProps = (state ,ownprops) => {
     return {
+        listTitle: state.listTitle,
         text: state.text,
         listId : ownprops.listId,
         comId :ownprops.comId,
