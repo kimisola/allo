@@ -6,7 +6,7 @@ import fire from "../src/fire";
 
 
 
-class AddItem extends React.Component {
+class AddComment extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -28,7 +28,7 @@ class AddItem extends React.Component {
         let tagsState = [ "planning", "process", "risk", "achived" ]
         let textTag = []
         tagsState.forEach((element) => {
-            if(tags[element]) {  // if the key element === true
+            if (tags[element]) {  // if the key element === true
                 textTag.push(element)
             }
         });
@@ -110,10 +110,10 @@ class AddItem extends React.Component {
             <React.Fragment>
                 
                     <div className="tags">
-                        <div className="tag planning" onClick={ () => this.selectTags("planning") }>Planning</div>
-                        <div className="tag process" onClick={ () => this.selectTags("process") }>In Process</div>
-                        <div className="tag risk" onClick={ () => this.selectTags("risk") }>At Risk</div>
-                        <div className="tag achived" onClick={ () => this.selectTags("achived") }>Achieved</div>
+                        <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "rgba(204 ,94, 28, 0.8)" : 'grey' }} onClick={ () => this.selectTags("planning") }>Planning</div>
+                        <div className="tag process" style={{backgroundColor: this.state.commentTags.process ? "rgba(46 ,169, 223, 0.8)" : 'grey' }} onClick={ () => this.selectTags("process") }>In Process</div>
+                        <div className="tag risk" style={{backgroundColor: this.state.commentTags.risk ? "rgba(215 ,84, 85, 0.8)" : 'grey' }} onClick={ () => this.selectTags("risk") }>At Risk</div>
+                        <div className="tag achived" style={{backgroundColor: this.state.commentTags.achived ? "rgba(123 ,162, 63, 0.8)" : 'grey' }} onClick={ () => this.selectTags("achived") }>Achieved</div>
                     </div>
                     <div>
                         <textarea type="text" value={ this.props.textValue } onChange={ this.getTextValue }></textarea>
@@ -155,4 +155,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(AddItem);
+export default connect(mapStateToProps)(AddComment);

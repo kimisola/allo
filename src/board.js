@@ -5,10 +5,7 @@ import { connect, Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Topbar from "../components/topbar";
 import SecondBar from "../components/secondBar";
-import CommentItem from "../components/commentItem";
-import AddItem from "../components/addItem";
-import ItemFooter from "../components/itemFooter";
-import HomePage from "../components/homePage";
+import Section from "../components/section";
 import { aSetUpComWin, aRenderComments, aSetCurrentUser } from"../components/actionCreators"
 import "./main.css";
 import firebase from 'firebase';
@@ -121,7 +118,7 @@ class Board extends React.Component {
                         <Topbar />
                         <SecondBar />
                         <div className="board">                                                         
-                            <CommentItem />
+                            <Section />
                         </div>
                     </div>
                 </main>             

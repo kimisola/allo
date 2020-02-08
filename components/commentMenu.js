@@ -30,7 +30,15 @@ class CommentMenu extends React.Component {
         const defaultText = text[listId][comId].text
         const defaultTags = text[listId][comId].tags
         const defaultImg = text[listId][comId].img
-     
+
+        defaultTags.map((target) => {
+            this.setState( prevState => {
+                const commentTagsCopy = prevState.commentTags
+                commentTagsCopy[target] = !prevState.commentTags[target]
+                return Object.assign({}, prevState, { commentTags: commentTagsCopy });
+            });
+        });
+        console.log(this.state.commentTags)
         this.setState({
             defaultText: defaultText,
             defaultTags: defaultTags,
@@ -65,11 +73,29 @@ class CommentMenu extends React.Component {
         }) 
     }
 
-    updateText = () => {
+    selectTags = (e) =>{
+        this.setState( prevState => {
+           let commentTagsCopy =  prevState.commentTags
+           commentTagsCopy[e] = !prevState.commentTags[e]
+           console.log( prevState.commentTags)
+           return Object.assign({}, prevState, { commentTags: commentTagsCopy });
+        })
+    }
+
+    updateContent = () => {
         const newTextValue = this.refs.theTextInput.value
         const listId = this.props.listId;
         const comId = this.props.comId;
-        this.props.dispatch({ type: "getEditedTextValue", newTextValue, listId, comId})
+        const tags = this.state.commentTags
+        const tagsState = [ "planning", "process", "risk", "achived" ]
+        const textTag = [];
+        tagsState.forEach((element) => {
+            if (tags[element]) {  // if the key element === true
+                textTag.push(element)
+            }
+        });
+
+        this.props.dispatch({ type: "getEditedValue", newTextValue, textTag, listId, comId})
         //const imgValue = this.props.text[listId][comId].img
 
         const db = fire.firestore();
@@ -95,7 +121,7 @@ class CommentMenu extends React.Component {
     }
 
     sendEdited = () => {
-        this.updateText();
+        this.updateContent();
         this.showMenu();
     }
 
@@ -108,10 +134,10 @@ class CommentMenu extends React.Component {
                     <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
                     <div className="commentMenu"  style={{display: this.state.menuShowed ? 'flex' : 'none' }}>
                         <div className="tags">
-                            <div className="tag planning" onClick={ () => this.selectTags("planning") }>Planning</div>
-                            <div className="tag process" onClick={ () => this.selectTags("process") }>In Process</div>
-                            <div className="tag risk" onClick={ () => this.selectTags("risk") }>At Risk</div>
-                            <div className="tag achived" onClick={ () => this.selectTags("achived") }>Achieved</div>
+                            <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "rgba(204 ,94, 28, 0.8)" : 'grey' }} onClick={ () => this.selectTags("planning") }>Planning</div>
+                            <div className="tag process" style={{backgroundColor: this.state.commentTags.process ? "rgba(46 ,169, 223, 0.8)" : 'grey' }} onClick={ () => this.selectTags("process") }>In Process</div>
+                            <div className="tag risk" style={{backgroundColor: this.state.commentTags.risk ? "rgba(215 ,84, 85, 0.8)" : 'grey' }} onClick={ () => this.selectTags("risk") }>At Risk</div>
+                            <div className="tag achived" style={{backgroundColor: this.state.commentTags.achived ? "rgba(123 ,162, 63, 0.8)" : 'grey' }} onClick={ () => this.selectTags("achived") }>Achieved</div>
                         </div>
 
                         <div className="menuBody">

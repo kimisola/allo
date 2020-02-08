@@ -173,8 +173,9 @@ function reducer(state = initialState, action) {
             }); 
         }
 
-        case "getEditedTextValue": {
+        case "getEditedValue": {
             state.text[action.listId][action.comId].text = action.newTextValue
+            state.text[action.listId][action.comId].tags = action.textTag
             return Object.assign({}, state, {
                 text: state.text.slice(0),
             });

@@ -174,7 +174,7 @@ img {
     background-color: rgba(215 ,84, 85, 0.8);
 }
 .achived {
-    background-color: rgba(123 ,162, 63, 0.8);;
+    background-color: rgba(123 ,162, 63, 0.8);
 }
 .view>.board>.sectionWrapper>.section>.comment {
    overflow-y: scroll; 

@@ -5,7 +5,7 @@ import Tick2 from "../images/tick2.png";
 import Letter from "../images/letter-x.png";
 import fire from "../src/fire";
 
-class ListTitle extends React.Component {
+class ThemeTitle extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -137,4 +137,4 @@ const mapStateToProps = (state ,ownprops) => {
     }
 }
 
-export default connect(mapStateToProps)(ListTitle)
+export default connect(mapStateToProps)(ThemeTitle)
