@@ -4,7 +4,7 @@ import Plus from "../images/plus.png";
 import TestIcon from "../images/testIcon.jpg";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
-import { aCreatTitle,aCreatTheme,aGetTitleValue } from"./actionCreators"
+import { aCreatTitle,aAddNewListOpen,aGetTitleValue } from"./actionCreators"
 
 
 class SecondBar extends React.Component {
@@ -12,34 +12,36 @@ class SecondBar extends React.Component {
         super(props);
     }
 
-    creatTheme = () => {
+    addNewListOpen = () => {
         console.log("run creatTheme")
-        this.props.mCreatTheme()
+        this.props.getTvalue("")  //reset input value
+        this.props.mAddNewListOpen()
     }
 
-    getTitleValue = (event) => { //use onChange to get value
-        let value = event.target.value
+    getTitleValue = (event) => {  //use onChange to get value
+        const value = event.target.value
         this.props.getTvalue(value);      
     }
 
     creatTitle = (event) => {
-        let newText = this.props.text;
-        let newListTitle =  this.props.listTitle;
-        let titleValue =  this.props.titleValue;
+        const newText = this.props.text;
+        const newListTitle =  this.props.listTitle;
+        const titleValue =  this.props.titleValue;
+        const firebaseUid  = this.props.firebaseUid;
 
-        if(event.key === "Enter" ) {
+        if (event.key === "Enter" ) {
             console.log("enter creat title", titleValue)
-            this.props.mCreatTheme();
+            this.props.mAddNewListOpen();
             newListTitle.push(titleValue);
             newText.push([]);
             this.props.mCreatTitle(newListTitle, newText)
             
-            let db = fire.firestore();
-            let titleCollection = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").doc();
+            const db = fire.firestore();
+            const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
             titleCollection.set({
                 title: titleValue,
             }).then(() => {
-                this.props.getTvalue(""); //reset input value
+                // this.props.getTvalue(""); 
                 console.log("Document successfully written!");
             }).catch(() => {
                 console.error("Error writing document: ", error);
@@ -63,7 +65,7 @@ class SecondBar extends React.Component {
                     </div>
                     <div className="secondRight">
                         <div className="addBoard">
-                            <img src={ Plus }  onClick= { this.creatTheme } />
+                            <img src={ Plus }  onClick= { this.addNewListOpen } />
                         </div>
                     </div>
                 </div>
@@ -72,7 +74,7 @@ class SecondBar extends React.Component {
                         <p>請輸入列表標題：</p>
                         <input type="text" value={this.props.titleValue} onChange={this.getTitleValue} onKeyPress={this.creatTitle}/>
                         <div className="buttons">
-                            <div className="no" onClick= { this.creatTheme }>取消</div>
+                            <div className="no" onClick= { this.addNewListOpen }>取消</div>
                             <div className="yes">確定</div>
                         </div>
                     </div>
@@ -90,13 +92,14 @@ const mapStateToProps = (state) => {
         titleValue: state.titleValue,
         addNewListOpen: state.addNewListOpen,
         deleteConfirmThemeOpen: state.deleteConfirmThemeOpen,
+        firebaseUid: state.firebaseUid,
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     console.log(ownProps,"ownPropsmapDispatchToProps")
     return {
-        mCreatTheme: () => { dispatch(aCreatTheme()) },
+        mAddNewListOpen: () => { dispatch(aAddNewListOpen()) },
         getTvalue: (value) => { dispatch(aGetTitleValue(value)) },
         mCreatTitle: (newListTitle, newText) => { dispatch(aCreatTitle(newListTitle, newText)) }
     }

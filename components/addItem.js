@@ -9,6 +9,9 @@ import fire from "../src/fire";
 class AddItem extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            commentTags: { planning:false, process:false, risk:false, achived:false },
+        }
     }
 
     getTextValue = (event) => {
@@ -18,7 +21,7 @@ class AddItem extends React.Component {
 
     selectTags = (selected) => {
         console.log(selected)
-        let tags = this.props.commentTags
+        let tags = this.state.commentTags
         console.log(tags[selected])
         tags[selected] = !tags[selected]  // the key called [selected]
 
@@ -58,11 +61,12 @@ class AddItem extends React.Component {
         let t = this.props.whichTheme
         console.log(t)
         const db = fire.firestore();
-        const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
+        const firebaseUid = this.props.firebaseUid;
+        const coll = db.collection("Boards/" + firebaseUid + "/Lists");
 
         coll.get().then((querySnapshot) => {
             let docId =  querySnapshot.docs[t].id;
-            let route = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + docId + "/Items").doc();
+            let route = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc();
             let newText = this.props.textValue;
             let newTag = this.props.textTag;
             let newImageURL = this.props.commentURL;
@@ -85,7 +89,7 @@ class AddItem extends React.Component {
                 let url = "";
                 this.props.dispatch({ type: "getImageURL", url }) //reset url value
 
-                let tags = this.props.commentTags  //reset tag value
+                let tags = this.state.commentTags  //reset tag value
                 let tagsState = [ "planning", "process", "risk", "achived" ]
                 tagsState.forEach((element) => {
                     if ( tags[element] ) { 
@@ -147,6 +151,7 @@ const mapStateToProps = (state) => {
         whichTheme: state.whichTheme,
         addNewCommentOpen: state.addNewCommentOpen,
         commentWindow: state.commentWindow,
+        firebaseUid: state.firebaseUid,
     }
 }
 

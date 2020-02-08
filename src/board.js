@@ -54,7 +54,7 @@ class Board extends React.Component {
                     uid: useruid,
                     firebaseuid: firebaseUid
                 }).then(() => {
-                    // getTitles(uid);
+                    getTitles(firebaseUid)
                     console.log("Document successfully written!")
                 }).catch((error) => {
                     console.error("Error writing document: ", error);
@@ -74,9 +74,8 @@ class Board extends React.Component {
         let Data1 = [];  // store title
         let Data2 = [];  // store comment text
 
-        getTitles();
-        async function getTitles(){  // 逐行執行
-            db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").get()
+        async function getTitles(firebaseUid){  // 逐行執行
+            db.collection("Boards/" + firebaseUid + "/Lists").get()
             .then(async (querySnapshot) => {
                 let doc = querySnapshot.docs;
                 for ( let i = 0; i < doc.length; i++ ) {       
@@ -91,7 +90,7 @@ class Board extends React.Component {
 
             async function getCommentText(){
                 for(let i = 0; i < listsId.length; i++ ) {
-                    await db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists/" + listsId[i] + "/Items").get()
+                    await db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").get()
                     .then((querySnapshot2) => {
                         let doc2 = querySnapshot2.docs;
                         for ( let j = 0; j < doc2.length; j++ ) {

@@ -25,7 +25,8 @@ class ListTitle extends React.Component {
         console.log(t)
 
         const db = fire.firestore();
-        const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
+        const firebaseUid  = this.props.firebaseUid;
+        const coll = db.collection("Boards/" + firebaseUid + "/Lists");
 
         coll.get().then((querySnapshot) => {
             console.log(querySnapshot.docs[t].id)
@@ -55,17 +56,18 @@ class ListTitle extends React.Component {
         let newValue = this.refs.theTextInput.value
         let indexOfValue = this.props.indexWin
         console.log("111111111111", indexOfValue)
-        this.props.dispatch({ type: "getEditTitleValue", newValue, indexOfValue})
+        this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})
         this.setState({
             isInEditMode: false
         });
 
         const db = fire.firestore();
-        const coll = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists");
+        const firebaseUid  = this.props.firebaseUid;
+        const coll = db.collection("Boards/" + firebaseUid + "/Lists");
         coll.get().then((querySnapshot) => {
             let docId = querySnapshot.docs[indexOfValue].id
 
-            let titleCollection = db.collection("Boards/BEUG8sKBRg2amOD19CCD/Lists").doc(docId);
+            let titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc(docId);
             titleCollection.set({
                 title: newValue,
             }).then(() => {
@@ -131,6 +133,7 @@ const mapStateToProps = (state ,ownprops) => {
         indexWin: ownprops.indexWin,
         deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
         whichWindowOpen: state.whichWindowOpen,
+        firebaseUid: state.firebaseUid,
     }
 }
 

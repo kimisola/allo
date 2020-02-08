@@ -15,10 +15,8 @@ let initialState = {
     text: [],
     listTitle: [],
     commentWindow: [], //array of comment pop-up window
-    commentTags: { planning:false, process:false, risk:false, achived:false },
     textTag: [],
     textValue: "",
-    titleValue: "",
     
     //add new list window
     addNewListOpen: false,
@@ -67,7 +65,7 @@ function reducer(state = initialState, action) {
             });
         }
 
-        case "addList": {
+        case "addNewListOpen": {
             return Object.assign({}, state, {
                 addNewListOpen: !state.addNewListOpen,
             });
@@ -86,7 +84,7 @@ function reducer(state = initialState, action) {
             });
         }
 
-        case "getEditTitleValue": {
+        case "getEditedTitleValue": {
             console.log(action.newValue)
             console.log(action.indexOfValue)
             state.listTitle.splice(action.indexOfValue, 1, action.newValue)
@@ -175,6 +173,13 @@ function reducer(state = initialState, action) {
             }); 
         }
 
+        case "getEditedTextValue": {
+            state.text[action.listId][action.comId].text = action.newTextValue
+            return Object.assign({}, state, {
+                text: state.text.slice(0),
+            });
+        }
+
         default:
             return state;
     }
@@ -193,7 +198,7 @@ class App extends React.Component {
             <React.Fragment>
                 <Route>       
                     <Switch>
-                        <Route exact path = "/" component = { Board } /> 
+                        <Route exact path = "/" component = { LoginPage } /> 
                         <Route path = "/HomePage" component = { HomePage } />
                         <Route path = "/Board" component = { Board } />
                     </Switch>

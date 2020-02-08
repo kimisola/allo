@@ -1,6 +1,6 @@
-export function aCreatTheme() {
+export function aAddNewListOpen() {
     return{
-        type: "addList"
+        type: "addNewListOpen"
     }
 }
 

@@ -85,7 +85,7 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section {
-    color: black;width: 290px;background: rgba(254, 246, 251, 0.36);border-radius: 10px;padding:10px;margin: 10px 5px;display: inline-flex;max-height: 90%;flex-direction: column;
+    color: black;width: 275px;background: rgba(254, 246, 251, 0.36);border-radius: 10px;padding:10px;margin: 10px 5px;display: inline-flex;max-height: 90%;flex-direction: column;
 
 }
 
@@ -122,41 +122,42 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu {
-    position: fixed; top: 300px; right: 600px; z-index: 10;display: flex; flex-direction: row;
+    position: fixed; top: 300px; right: 600px; z-index: 10;display: flex; flex-direction: column;
 }
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuLeft {
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuLeft {
     margin-right: 10px;
 }
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuLeft textarea{
-    height: 150px; max-height: 200px; width: 270px;
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuLeft textarea{
+    height: 150px; max-height: 200px; width: 270px;margin: 3px 0 13px 0;
 }
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuLeft div{
-    margin-top: 15px; padding: 3px; width: 50px; text-align: center; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuLeft div{
+    width: 50px; text-align: center; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;
 }
-
-
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.tagImgDiv {
     width: 24px;height: 24px; background-image: url(../images/menu.png);position: absolute; top: 5px; right: 5px;
 }
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight {
+    margin-top: 3px;
+}
 
-
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList {
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList {
     display: flex; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;
 }
 
 /* position: relative;right: -90px; */
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList>.editTag,
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList>.editText,
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList>.setTime,
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuRight>.menuList>.deleteText {
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList>.editTag,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList>.editText,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList>.setTime,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList>.deleteText {
     width:16px; height: 16px; margin-right: 10px;
 }
 
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody,
 .tags {
     display: flex; 
 }
