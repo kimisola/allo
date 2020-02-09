@@ -101,7 +101,6 @@ class AddComment extends React.Component {
                     fileName: newfileName
                 }) 
             }
-             
         });
 
         imgRef.put(file)
@@ -140,7 +139,6 @@ class AddComment extends React.Component {
          
             const db = fire.firestore();
             const firebaseUid = this.props.firebaseUid;
-            const coll = db.collection("Boards/" + firebaseUid + "/Lists");
 
             db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((index+1)*2)).get()
             .then( async (querySnapshot) => {
@@ -176,7 +174,6 @@ class AddComment extends React.Component {
                     console.error("Error writing document: ", error);
                 })
             })
-            
         }         
     }
     
@@ -237,8 +234,6 @@ const mapStateToProps = (state , ownprops) => {
         indexForItem: state.indexForItem,
         text: state.text,
         listTitle: state.listTitle,
-        // textValue: state.textValue,
-        // textTag: state.textTag,
         commentURL: state.commentURL,
         commentTags: state.commentTags,
         whichTheme: state.whichTheme,

@@ -20,6 +20,13 @@ class CommentMenu extends React.Component {
     }
 
     showMenu = () => {
+        this.setState( prevState => {
+            const showMenu = !prevState.menuShowed
+            return { menuShowed: showMenu }
+        });
+    }
+
+    setDefault = () => {
         const tags = this.state.commentTags  //reset tag value
         const tagsState = [ "planning", "process", "risk", "achived" ]
         tagsState.forEach((element) => {
@@ -27,11 +34,7 @@ class CommentMenu extends React.Component {
                 tags[element] = ! tags[element]
             }
         });
-
-        this.setState( prevState => {
-            const showMenu = !prevState.menuShowed
-            return { menuShowed: showMenu }
-        });
+        
         const listId = this.props.listId;
         const comId = this.props.comId;
         const text = this.props.text;
@@ -52,28 +55,31 @@ class CommentMenu extends React.Component {
             defaultTags: defaultTags,
             defaultImg: defaultImg
         })
+
+        this.showMenu();
     }
 
     deleteComment = () => {
-        const listId = this.props.listId;
-        const comId = this.props.comId;
+        let listId = this.props.listId;
+        let comId = this.props.comId;
         console.log(listId,"listId")
         console.log(comId,"comId")
-        this.props.dispatch({ type: "deleteComment", listId, comId }) //delete comment
+        this.props.dispatch({ type: "deleteComment", listId, comId }) //delete state comment
 
         const db = fire.firestore();
         const firebaseUid = this.props.firebaseUid;
-        const coll = db.collection("Boards/" + firebaseUid + "/Lists");
-        coll.get().then((querySnapshot) => {
-            const docId = querySnapshot.docs[listId].id
-            const coll2 = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items")
-            coll2.get().then((querySnapshot) => {
-                const docId2 = querySnapshot.docs[comId].id
+        db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
+        .then( async (querySnapshot) => {
+            let docId =  querySnapshot.docs[0].id;
+            // let coll = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items")
+            db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
+            .then( async(querySnapshot) => {
+                const docId2 = querySnapshot.docs[0].id
                 //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-                coll2.doc(docId2).delete().then(() => {   
+                db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2).delete().then(() => {   
                     console.log("Document successfully deleted!");
                     alert("刪除成功")
-                    
+                    this.showMenu();
                 }).catch((error) => {
                     console.error("Error removing document: ", error);
                 })
@@ -121,6 +127,7 @@ class CommentMenu extends React.Component {
                 }).then(() => {   
                     console.log("Document successfully written!");
                     alert("編輯成功")
+                    this.showMenu();
                 }).catch((error) => {
                     console.error("Error removing document: ", error);
                 })
@@ -130,15 +137,18 @@ class CommentMenu extends React.Component {
 
     sendEdited = () => {
         this.updateContent();
-        this.showMenu();
     }
 
+
+    SS = () => {
+        console.log(this.props.SS.current.getBoundingClientRect());
+    }
 
     render() {
         return (
             <React.Fragment>
                 <div className="tagDiv">
-                    <div className="tagImgDiv"  onClick={ this.showMenu } ></div>
+                    <div className="tagImgDiv"  onClick={ this.SS} ></div>
                     <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
                     <div className="commentMenu"  style={{display: this.state.menuShowed ? 'flex' : 'none' }}>
                         <div className="tags">
@@ -194,6 +204,7 @@ const mapStateToProps = (state ,ownprops) => {
         listId : ownprops.listId,
         comId :ownprops.comId,
         firebaseUid : state.firebaseUid,
+        SS : ownprops.SS,
     }
 }
 
