@@ -17,6 +17,7 @@ let initialState = {
     commentWindow: [], //array of comment pop-up window
     textTag: [],
     textValue: "",
+    isBoardLoaded: false,
     
     //add new list window
     addNewListOpen: false,
@@ -56,6 +57,7 @@ function reducer(state = initialState, action) {
             return Object.assign({}, state, {  // copy now state and update using items
                 text: action.Data2,
                 listTitle: action.Data1,
+                isBoardLoaded: !state.isBoardLoaded
             });
         }
 

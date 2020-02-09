@@ -1,15 +1,17 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { createStore } from "redux";
 import { connect, Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import firebase from 'firebase';
+import fire from "./fire";
+import { aSetUpComWin, aRenderComments, aSetCurrentUser } from"../components/actionCreators"
+import "./main.css";
 import Topbar from "../components/topbar";
 import SecondBar from "../components/secondBar";
 import Section from "../components/section";
-import { aSetUpComWin, aRenderComments, aSetCurrentUser } from"../components/actionCreators"
-import "./main.css";
-import firebase from 'firebase';
-import fire from "./fire";
+import loagingGif from "../images/loading.gif";
+
+
+
 
 class Board extends React.Component {
     constructor(props){
@@ -106,15 +108,29 @@ class Board extends React.Component {
                 Data.push(Data2[k]);
             }
             props.mRenderComments(Data1, Data2)
+            
         };
+
+        // function nowLoaded() {
+        //     this.setState( prevState => {
+        //         let loadStatus = !prevState.isLoaded
+        //         console.log(loadStatus)
+        //         return { isLoaded: loadStatus }
+        //     });
+        // }
     }
+
+    
 
     render(){
         return(
             <React.Fragment>
 
                 <main>
-                    <div className="view">
+                    <div className="loading"  style={{display: this.props.isBoardLoaded ? 'none' : 'block' }} > 
+                        <img src={ loagingGif } />
+                    </div>
+                    <div className="view" style={{display: this.props.isBoardLoaded ? 'block' : 'none' }} >
                         <Topbar />
                         <SecondBar />
                         <div className="board">                                                         
@@ -129,6 +145,7 @@ class Board extends React.Component {
 }
 const mapStateToProps = (state) => {
     return {
+        isBoardLoaded: state.isBoardLoaded,
         text: state.text,
         listTitle: state.listTitle,
         addNewCommentOpen: state.addNewCommentOpen,

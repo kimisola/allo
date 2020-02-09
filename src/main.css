@@ -10,7 +10,15 @@ main {  /* {  原本是 body */
     background: url(../images/mainBackground.jpg) no-repeat; background-size: 100% auto; opacity: 1; 
 }
 
-main> .view{
+main>.loading {
+    position: absolute;top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto;background-color: white;
+}
+
+main>.loading img{
+    width: 100px; position: absolute;top: calc(50% - 50px); left: calc(50% - 50px);
+}
+
+main> .view {
     display: flex; flex-direction: column; height: 100vh;
 } 
 
