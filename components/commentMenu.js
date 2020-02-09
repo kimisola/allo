@@ -114,7 +114,7 @@ class CommentMenu extends React.Component {
             const coll2 = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items")
             coll2.get().then((querySnapshot) => {
                 const docId2 = querySnapshot.docs[comId].id                
-                coll2.doc(docId2).set({
+                coll2.doc(docId2).update({
                     img: this.state.defaultImg, 
                     text: newTextValue,
                     tags: newTextTag

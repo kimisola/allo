@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import fire from "../src/fire";
-import Tick2 from "../images/tick2.png";
-import Letter from "../images/letter-x.png";
+import Tick3 from "../images/tick3.png";
+import Cancel from "../images/cancel.png";
 import Plus from "../images/plus.png";
+import Upload from "../images/upload.png";
 
 
 
@@ -16,6 +17,7 @@ class AddComment extends React.Component {
             newText: "",
             newImg: "",
             newTags: [],
+            fileName: "",
         }
     }
 
@@ -83,9 +85,25 @@ class AddComment extends React.Component {
 
 
     fileUperload = (event) => {
-        let file = event.target.files[0]
+        const file = event.target.files[0]
         const storageRef = fire.storage().ref("image");
         const imgRef = storageRef.child(file.name)
+        this.setState( prevState => {
+            let newfileName = prevState.fileName
+            newfileName =  file.name
+            if (newfileName.length > 12) {
+                let shortName = newfileName.slice(0, 8) + "..." + newfileName.slice(-4)
+                return Object.assign({}, prevState, {
+                    fileName: shortName
+                }) 
+            } else {
+                return Object.assign({}, prevState, {
+                    fileName: newfileName
+                }) 
+            }
+             
+        });
+
         imgRef.put(file)
         .then(async (snapshot) => {
             console.log(snapshot)
@@ -95,7 +113,9 @@ class AddComment extends React.Component {
                 this.setState( prevState => {
                     let newImgUrl = prevState.newImg
                     newImgUrl = url
-                    return  { newImg: newImgUrl }
+                    return { 
+                        newImg: newImgUrl,
+                    }
                 });
             })
         }).catch((error) => {
@@ -109,36 +129,40 @@ class AddComment extends React.Component {
         const newText = this.state.newText;
         const newImg = this.state.newImg;
         const newTags = this.state.newTags;
-        this.props.dispatch({ type: "sendComment", index, newText, newImg, newTags})
-        this.openCommentWin();
-        
-        const db = fire.firestore();
-        const firebaseUid = this.props.firebaseUid;
-        const coll = db.collection("Boards/" + firebaseUid + "/Lists");
 
-        coll.get().then((querySnapshot) => {
-            let docId =  querySnapshot.docs[index].id;
-            let route = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc();
+        if ( newText === "" &&  newImg === "" && newTags.length === 0) {
+            alert("沒有輸入任何內容哦!")
+        } else {
+            this.props.dispatch({ type: "sendComment", index, newText, newImg, newTags})
+            this.openCommentWin();
+         
+            const db = fire.firestore();
+            const firebaseUid = this.props.firebaseUid;
+            const coll = db.collection("Boards/" + firebaseUid + "/Lists");
 
-            if ( newImg === undefined ) {
-                newImg = "";
-            }
+            coll.get().then((querySnapshot) => {
+                let docId =  querySnapshot.docs[index].id;
+                let route = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc();
 
-            console.log("Hi~~~~",newText)
-            console.log("Hi~~~~",newTags)
-            console.log("Hi~~~~",newImg)
-           
-            route.set({
-                img: newImg,
-                tags: newTags,
-                text: newText,
-            }).then(() => {
-                console.log("Document successfully written!")
-            }).catch((error)=> {
-                console.error("Error writing document: ", error);
-            })
-        })
+                if ( newImg === undefined ) {
+                    newImg = "";
+                }
+
+                console.log("Hi~~~~",newText)
+                console.log("Hi~~~~",newTags)
+                console.log("Hi~~~~",newImg)
             
+                route.set({
+                    img: newImg,
+                    tags: newTags,
+                    text: newText,
+                }).then(() => {
+                    console.log("Document successfully written!")
+                }).catch((error)=> {
+                    console.error("Error writing document: ", error);
+                })
+            })
+        }         
     }
     
 
@@ -157,17 +181,24 @@ class AddComment extends React.Component {
                         <textarea type="text" value={ this.state.newText } onChange={ this.getTextValue }></textarea>
                     </div>
                     <div className="addItemFooter">
-                        <div className="imgUpload">
-                            <form action="/somewhere/to/upload" encType="multipart/form-data">
-                                <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUperload } />    
-                            </form>
-                        </div>
-                        <div className="addItemFeature">
-                            <div className="addComment" onClick={ this.sendComment }> 
-                                <img src={ Tick2 } />
+                        <div className="addItemFooter2">
+                            <div className="imgUploadDiv">
+                                <label action="/somewhere/to/upload" encType="multipart/form-data">
+                                    <div className="imgUpload">
+                                        <img src={ Upload } />
+                                    </div>
+                                    
+                                    <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUperload } style={{display:'none' }} />    
+                                </label>
+                                <div className="fileNameDiv"> {this.state.fileName} </div>
                             </div>
-                            <div className="cancel">
-                                <img src={ Letter } />
+                            <div className="addItemFeature">
+                                <div className="addComment" onClick={ this.sendComment }> 
+                                    <img src={ Tick3 } />
+                                </div>
+                                <div className="cancel">
+                                    <img src={ Cancel } onClick={ this.openCommentWin }/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -175,7 +206,7 @@ class AddComment extends React.Component {
 
                 <div className="itemFooter">
                     <div className="add">
-                        <img src={ Plus } onClick={ () => this.openCommentWin() }/>
+                        <img src={ Plus } onClick={ this.openCommentWin }/>
                     </div>
                 </div>
                 

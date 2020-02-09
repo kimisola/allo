@@ -22,9 +22,12 @@ let initialState = {
     //add new list window
     addNewListOpen: false,
     //add new comment item window
-    addNewCommentOpen: false,
+    // addNewCommentOpen: false,
     //delete confirm window
     deleteThemeConfirmOpen: false,
+
+    // index value for next new added title and comment item
+    indexForTitle: "",
 
     //user profile
     isLoggedIn: false,
@@ -61,11 +64,18 @@ function reducer(state = initialState, action) {
             });
         }
 
-        case "setUpComWin": {
+        case "setIndexForTitle": {
+            console.log("setIndexForTitle",  action.storeTitleIndex)
             return Object.assign({}, state, {
-                commentWindow: action.myComWin
+                indexForTitle: action.storeTitleIndex
             });
         }
+
+        // case "setUpComWin": {
+        //     return Object.assign({}, state, {
+        //         commentWindow: action.myComWin
+        //     });
+        // }
 
         case "addNewListOpen": {
             return Object.assign({}, state, {

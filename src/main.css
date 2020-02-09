@@ -85,7 +85,7 @@ img {
 }
 
 .view>.board {
-    height: (100vh - 86px); box-sizing: border-box; display: flex;overflow: scroll;overflow-y:auto;max-height: calc(100vh - 99px);
+    box-sizing: border-box; display: flex;overflow: scroll;overflow-y:auto;height: calc(100vh - 99px);
 }
 
 .view>.board>.sectionWrapper{
@@ -191,9 +191,13 @@ img {
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody {
     display: flex;margin:10px 5px;
 }
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgText,
+
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgText {
+    word-break: break-all;white-space: normal;margin-bottom: 6px;
+}
+
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgImg {
-    margin-bottom: 6px ;
+    margin-bottom: 6px;
 }
 /* .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgImg {
     height: 110px;
@@ -224,15 +228,28 @@ img {
 .view>.board>.sectionWrapper>.section>.addItem>.addItemFooter {
     display: flex; flex-direction: column; margin: 2px 5px 5px 2px;
 }
+.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFooter2{
+    display: flex;justify-content: space-between;
+}
+.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFooter2>.imgUploadDiv{
+    display: flex;
+}
 
-.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFeature {
+.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFooter2>.imgUploadDiv label>.imgUpload {
+    width: 24px; margin: 5px 0 0 5px;
+}
+.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFooter2>.imgUploadDiv>.fileNameDiv {
+    width: 100px; margin: 5px 0 0 5px; font-size: 10px;
+}
+
+.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFooter2>.addItemFeature {
     display: flex; margin: 2px 5px 5px 2px;
 }
-.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFeature{
+.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFooter2>.addItemFeature{
     display: flex; justify-content: flex-end;
 }
-.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFeature>.addComment,
-.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFeature>.cancel {
+.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFooter2>.addItemFeature>.addComment,
+.view>.board>.sectionWrapper>.section>.addItem>.addItemFooter>.addItemFooter2>.addItemFeature>.cancel {
     width: 24px;margin-left: 20px;
 }
 

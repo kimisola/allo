@@ -4,7 +4,7 @@ import Plus from "../images/plus.png";
 import TestIcon from "../images/testIcon.jpg";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
-import { aCreatTitle,aAddNewListOpen,aGetTitleValue } from"./actionCreators"
+import { aCreatTitle, aAddNewListOpen, aGetTitleValue, aSetIndexForTitle } from"./actionCreators"
 
 
 class SecondBar extends React.Component {
@@ -28,6 +28,7 @@ class SecondBar extends React.Component {
         const newListTitle =  this.props.listTitle;
         const titleValue =  this.props.titleValue;
         const firebaseUid  = this.props.firebaseUid;
+        let indexForTitle = this.props.indexForTitle;
 
         if (event.key === "Enter" ) {
             console.log("enter creat title", titleValue)
@@ -40,8 +41,9 @@ class SecondBar extends React.Component {
             const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
             titleCollection.set({
                 title: titleValue,
+                index: indexForTitle
             }).then(() => {
-                // this.props.getTvalue(""); 
+                this.props.mSetIndexForTitle(indexForTitle+2)  // update index for title
                 console.log("Document successfully written!");
             }).catch(() => {
                 console.error("Error writing document: ", error);
@@ -87,6 +89,7 @@ class SecondBar extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        indexForTitle: state.indexForTitle,
         text: state.text,
         listTitle: state.listTitle,
         titleValue: state.titleValue,
@@ -101,7 +104,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         mAddNewListOpen: () => { dispatch(aAddNewListOpen()) },
         getTvalue: (value) => { dispatch(aGetTitleValue(value)) },
-        mCreatTitle: (newListTitle, newText) => { dispatch(aCreatTitle(newListTitle, newText)) }
+        mCreatTitle: (newListTitle, newText) => { dispatch(aCreatTitle(newListTitle, newText)) },
+        mSetIndexForTitle: (storeTitleIndex) => { dispatch(aSetIndexForTitle(storeTitleIndex))},
     }
 }
 

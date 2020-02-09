@@ -43,5 +43,11 @@ export function aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, fireba
         firebaseUid,
         useruid
     }
-    
+}
+
+export function aSetIndexForTitle(storeTitleIndex) {
+    return {
+        type: "setIndexForTitle",
+        storeTitleIndex
+    }
 }
