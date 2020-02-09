@@ -21,13 +21,12 @@ let initialState = {
     
     //add new list window
     addNewListOpen: false,
-    //add new comment item window
-    // addNewCommentOpen: false,
     //delete confirm window
     deleteThemeConfirmOpen: false,
 
     // index value for next new added title and comment item
     indexForTitle: "",
+    indexForItem: "",
 
     //user profile
     isLoggedIn: false,
@@ -71,11 +70,12 @@ function reducer(state = initialState, action) {
             });
         }
 
-        // case "setUpComWin": {
-        //     return Object.assign({}, state, {
-        //         commentWindow: action.myComWin
-        //     });
-        // }
+        case "setIndexForItem": {
+            console.log("setIndexForItem",  action.indexForItem)
+            return Object.assign({}, state, {
+                indexForItem: action.indexForItem
+            });
+        }
 
         case "addNewListOpen": {
             return Object.assign({}, state, {
@@ -121,46 +121,6 @@ function reducer(state = initialState, action) {
                 whichWindowOpen: action.i
             }); 
         }
-
-        // case "addNewCommentOpen": {
-        //     console.log(action.index)
-        //     let openValue = !state.addNewCommentOpen
-        //     state.commentWindow.splice(action.index, 1, openValue)
-        //     return Object.assign({}, state, {
-        //         commentWindow: state.commentWindow.slice(0),
-        //         addNewCommentOpen: !state.addNewCommentOpen,
-        //     })
-        // }
-
-        // case "addComment": {
-        //     let openValue = ! state.addNewCommentOpen
-        //     state.commentWindow.splice(action.i, 1, openValue)
-        //     return Object.assign({}, state, {
-        //         commentWindow: state.commentWindow.slice(0),
-        //         addNewCommentOpen: !state.addNewCommentOpen,
-        //         whichTheme: action.i
-        //     })
-        // }
-
-        // case "getNewTextValue": {
-        //     return Object.assign({}, state, {
-        //         textValue: action.textValue
-        //     });
-        // }
-
-        // case "getNewTags": {
-        //     console.log("getNewTags", action.textTag)
-        //     return Object.assign({}, state, {
-        //         textTag: action.textTag
-        //     });
-        // }
-
-        // case "getImageURL": {
-        //     console.log("getImageURL", action.url)
-        //     return Object.assign({}, state, {
-        //         commentURL: action.url
-        //     });
-        // }
  
         case "sendComment": {
             let i = action.index;

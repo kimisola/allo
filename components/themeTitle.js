@@ -33,7 +33,7 @@ class ThemeTitle extends React.Component {
             let docId = querySnapshot.docs[t].id
 
             //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            coll.doc(docId).get().then(() => {
+            coll.doc(docId).delete().then(() => {
                 console.log("Document successfully deleted!", t);
                 this.props.dispatch({ type: "deleteTheme", t })
                 this.props.dispatch({ type: "deleteThemeConfirmOpen" })

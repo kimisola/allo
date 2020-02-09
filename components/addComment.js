@@ -129,6 +129,8 @@ class AddComment extends React.Component {
         const newText = this.state.newText;
         const newImg = this.state.newImg;
         const newTags = this.state.newTags;
+        let indexForItem = this.state.indexForItem;
+        let docId = ""
 
         if ( newText === "" &&  newImg === "" && newTags.length === 0) {
             alert("沒有輸入任何內容哦!")
@@ -140,28 +142,41 @@ class AddComment extends React.Component {
             const firebaseUid = this.props.firebaseUid;
             const coll = db.collection("Boards/" + firebaseUid + "/Lists");
 
-            coll.get().then((querySnapshot) => {
-                let docId =  querySnapshot.docs[index].id;
+            db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((index+1)*2)).get()
+            .then( async (querySnapshot) => {
+                docId =  querySnapshot.docs[0].id;
+
                 let route = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc();
+                db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").orderBy("index").get()
+                .then( async (querySnapshot2) => {
+                    let doc2 = querySnapshot2.docs;
+                    indexForItem = ((doc2.length+1)*2)
+                    this.props.dispatch({ type: "setIndexForItem", indexForItem})
 
-                if ( newImg === undefined ) {
-                    newImg = "";
-                }
-
-                console.log("Hi~~~~",newText)
-                console.log("Hi~~~~",newTags)
-                console.log("Hi~~~~",newImg)
-            
-                route.set({
-                    img: newImg,
-                    tags: newTags,
-                    text: newText,
-                }).then(() => {
-                    console.log("Document successfully written!")
-                }).catch((error)=> {
+                    if ( newImg === undefined ) {
+                        newImg = "";
+                    }
+    
+                    console.log("Hi~~~~",newText)
+                    console.log("Hi~~~~",newTags)
+                    console.log("Hi~~~~",newImg)
+                    console.log("Hi~~~~", indexForItem)
+                
+                    route.set({
+                        img: newImg,
+                        tags: newTags,
+                        text: newText,
+                        index: indexForItem
+                    }).then(() => {
+                        console.log("Document successfully written!")
+                    }).catch((error)=> {
+                        console.error("Error writing document: ", error);
+                    })
+                }).catch(() => {
                     console.error("Error writing document: ", error);
                 })
             })
+            
         }         
     }
     
@@ -219,6 +234,7 @@ class AddComment extends React.Component {
 const mapStateToProps = (state , ownprops) => {
     return {
         index: ownprops.index,
+        indexForItem: state.indexForItem,
         text: state.text,
         listTitle: state.listTitle,
         // textValue: state.textValue,

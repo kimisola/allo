@@ -67,7 +67,6 @@ class Board extends React.Component {
         
         let myDataTitle = [];
         let myDataText = [];
-        // let myComWin = [];
         let listsId = [];
         let Data = [];  // combine titles and texts
         let Data1 = [];  // store title
@@ -85,7 +84,6 @@ class Board extends React.Component {
                         index: (((i+1)*2))  // 前後留空格讓之後移動可以有空間塞
                     })
                     myDataTitle.push(doc[i].data().title)
-                    // myComWin.push(doc[i].data().addComWin)
                     Data1.push(myDataTitle[i]);
 
                     // set an index value for next new added title
@@ -94,7 +92,6 @@ class Board extends React.Component {
                         props.mSetIndexForTitle(storeTitleIndex)
                     }
                 }
-                // props.mSetUpComWin(myComWin)
                 getCommentText();
             });
 

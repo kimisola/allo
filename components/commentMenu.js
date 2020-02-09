@@ -70,7 +70,7 @@ class CommentMenu extends React.Component {
             coll2.get().then((querySnapshot) => {
                 const docId2 = querySnapshot.docs[comId].id
                 //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-                coll2.doc(docId2).get().then(() => {   
+                coll2.doc(docId2).delete().then(() => {   
                     console.log("Document successfully deleted!");
                     alert("刪除成功")
                     
