@@ -20,8 +20,16 @@ class CommentMenu extends React.Component {
     }
 
     showMenu = () => {
+        const tags = this.state.commentTags  //reset tag value
+        const tagsState = [ "planning", "process", "risk", "achived" ]
+        tagsState.forEach((element) => {
+            if ( tags[element] ) { 
+                tags[element] = ! tags[element]
+            }
+        });
+
         this.setState( prevState => {
-            let showMenu = !prevState.menuShowed
+            const showMenu = !prevState.menuShowed
             return { menuShowed: showMenu }
         });
         const listId = this.props.listId;
@@ -87,15 +95,15 @@ class CommentMenu extends React.Component {
         const listId = this.props.listId;
         const comId = this.props.comId;
         const tags = this.state.commentTags
-        const tagsState = [ "planning", "process", "risk", "achived" ]
-        const textTag = [];
-        tagsState.forEach((element) => {
-            if (tags[element]) {  // if the key element === true
-                textTag.push(element)
+        const tagsStatus = [ "planning", "process", "risk", "achived" ]
+        const newTextTag = [];
+        tagsStatus.forEach((element) => {
+            if ( tags[element])  {  // if the key element === true
+                newTextTag.push(element)
             }
         });
 
-        this.props.dispatch({ type: "getEditedValue", newTextValue, textTag, listId, comId})
+        this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId})
         //const imgValue = this.props.text[listId][comId].img
 
         const db = fire.firestore();
@@ -109,7 +117,7 @@ class CommentMenu extends React.Component {
                 coll2.doc(docId2).set({
                     img: this.state.defaultImg, 
                     text: newTextValue,
-                    tags: this.state.defaultTags
+                    tags: newTextTag
                 }).then(() => {   
                     console.log("Document successfully written!");
                     alert("編輯成功")

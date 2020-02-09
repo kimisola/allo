@@ -1,8 +1,9 @@
 import React from 'react';
-import Tick2 from "../images/tick2.png";
-import Letter from "../images/letter-x.png";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
+import Tick2 from "../images/tick2.png";
+import Letter from "../images/letter-x.png";
+import Plus from "../images/plus.png";
 
 
 
@@ -11,29 +12,73 @@ class AddComment extends React.Component {
         super(props);
         this.state = {
             commentTags: { planning:false, process:false, risk:false, achived:false },
+            isCommentWinShowed: false,
+            newText: "",
+            newImg: "",
+            newTags: [],
         }
     }
 
+    openCommentWin = () => {
+        this.resetToDefault();
+        this.setState( prevState => {
+            let showCommentWin = !prevState.isCommentWinShowed
+            return { isCommentWinShowed: showCommentWin }
+        });
+    }
+
+    
+    resetToDefault = () => {  // no effect ;(
+        this.setState( prevState => {
+            let newtext = prevState.newText  // reset input text value
+            newtext = "";
+            let newimg = prevState.newImg  //reset url value
+            newimg = "";
+            let tagsState = [ "planning", "process", "risk", "achived" ] //reset tags value
+            tagsState.forEach((tk)=>{
+                this.setState( prevState => {
+                    let commentTagsCopy =  prevState.commentTags
+                    if ( commentTagsCopy[tk] ){
+                        commentTagsCopy[tk] = false
+                    }   
+                    return Object.assign({}, prevState, { 
+                        commentTags: commentTagsCopy,
+                        newText: newtext,
+                        newImg: newimg,
+                    });
+                });
+            })
+        });
+    }
+    
+
     getTextValue = (event) => {
-        let textValue = event.target.value
-        this.props.dispatch({ type: "getNewTextValue", textValue })
+        const textValue = event.target.value
+        console.log(textValue)
+        this.setState( prevState => {
+            let newtext = prevState.newText
+            newtext = textValue
+            return  { newText: newtext }
+        });
     }
 
     selectTags = (selected) => {
         console.log(selected)
         let tags = this.state.commentTags
-        console.log(tags[selected])
         tags[selected] = !tags[selected]  // the key called [selected]
 
         let tagsState = [ "planning", "process", "risk", "achived" ]
         let textTag = []
         tagsState.forEach((element) => {
-            if (tags[element]) {  // if the key element === true
+            if ( tags[element] ) {  // if the key element === true
                 textTag.push(element)
             }
         });
-        console.log(textTag);
-        this.props.dispatch({ type: "getNewTags", textTag })
+        this.setState( prevState => {
+            let tags =  prevState.newTags
+            tags = textTag
+            return  { newTags: tags }
+        })
     }
 
 
@@ -47,7 +92,11 @@ class AddComment extends React.Component {
             console.log('Uploaded a blob or file!');
             imgRef.getDownloadURL().then(async(url) => {
                 console.log(url)
-                this.props.dispatch({ type: "getImageURL", url })
+                this.setState( prevState => {
+                    let newImgUrl = prevState.newImg
+                    newImgUrl = url
+                    return  { newImg: newImgUrl }
+                });
             })
         }).catch((error) => {
             console.error("Error removing document: ", error);
@@ -56,59 +105,48 @@ class AddComment extends React.Component {
 
     sendComment = () => {
         console.log("run send")
-        this.props.dispatch({ type: "sendComment" })
+        const index = this.props.index;
+        const newText = this.state.newText;
+        const newImg = this.state.newImg;
+        const newTags = this.state.newTags;
+        this.props.dispatch({ type: "sendComment", index, newText, newImg, newTags})
+        this.openCommentWin();
         
-        let t = this.props.whichTheme
-        console.log(t)
         const db = fire.firestore();
         const firebaseUid = this.props.firebaseUid;
         const coll = db.collection("Boards/" + firebaseUid + "/Lists");
 
         coll.get().then((querySnapshot) => {
-            let docId =  querySnapshot.docs[t].id;
+            let docId =  querySnapshot.docs[index].id;
             let route = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc();
-            let newText = this.props.textValue;
-            let newTag = this.props.textTag;
-            let newImageURL = this.props.commentURL;
-            if ( newImageURL === undefined ) {
-                newImageURL = "";
+
+            if ( newImg === undefined ) {
+                newImg = "";
             }
 
             console.log("Hi~~~~",newText)
-            console.log("Hi~~~~",newTag)
-            console.log("Hi~~~~",newImageURL)
+            console.log("Hi~~~~",newTags)
+            console.log("Hi~~~~",newImg)
            
             route.set({
-                img: newImageURL,
-                tags: newTag,
+                img: newImg,
+                tags: newTags,
                 text: newText,
             }).then(() => {
                 console.log("Document successfully written!")
-                let textValue = "";
-                this.props.dispatch({ type: "getNewTextValue", textValue }) //reset textarea value
-                let url = "";
-                this.props.dispatch({ type: "getImageURL", url }) //reset url value
-
-                let tags = this.state.commentTags  //reset tag value
-                let tagsState = [ "planning", "process", "risk", "achived" ]
-                tagsState.forEach((element) => {
-                    if ( tags[element] ) { 
-                        tags[element] = ! tags[element]
-                    }
-                });
-
             }).catch((error)=> {
                 console.error("Error writing document: ", error);
             })
         })
-        this.props.dispatch({ type: "addNewCommentOpen", t })     
+            
     }
     
 
     render(){
         return(
             <React.Fragment>
-                
+
+                <div className="addItem" style={{display: this.state.isCommentWinShowed ? 'block' : 'none' }}>               
                     <div className="tags">
                         <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "rgba(204 ,94, 28, 0.8)" : 'grey' }} onClick={ () => this.selectTags("planning") }>Planning</div>
                         <div className="tag process" style={{backgroundColor: this.state.commentTags.process ? "rgba(46 ,169, 223, 0.8)" : 'grey' }} onClick={ () => this.selectTags("process") }>In Process</div>
@@ -116,12 +154,12 @@ class AddComment extends React.Component {
                         <div className="tag achived" style={{backgroundColor: this.state.commentTags.achived ? "rgba(123 ,162, 63, 0.8)" : 'grey' }} onClick={ () => this.selectTags("achived") }>Achieved</div>
                     </div>
                     <div>
-                        <textarea type="text" value={ this.props.textValue } onChange={ this.getTextValue }></textarea>
+                        <textarea type="text" value={ this.state.newText } onChange={ this.getTextValue }></textarea>
                     </div>
                     <div className="addItemFooter">
                         <div className="imgUpload">
                             <form action="/somewhere/to/upload" encType="multipart/form-data">
-                                <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUperload }/>    
+                                <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUperload } />    
                             </form>
                         </div>
                         <div className="addItemFeature">
@@ -133,6 +171,13 @@ class AddComment extends React.Component {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="itemFooter">
+                    <div className="add">
+                        <img src={ Plus } onClick={ () => this.openCommentWin() }/>
+                    </div>
+                </div>
                 
 
             </React.Fragment>
@@ -140,12 +185,13 @@ class AddComment extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state , ownprops) => {
     return {
+        index: ownprops.index,
         text: state.text,
         listTitle: state.listTitle,
-        textValue: state.textValue,
-        textTag: state.textTag,
+        // textValue: state.textValue,
+        // textTag: state.textTag,
         commentURL: state.commentURL,
         commentTags: state.commentTags,
         whichTheme: state.whichTheme,

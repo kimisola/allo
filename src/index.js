@@ -110,54 +110,54 @@ function reducer(state = initialState, action) {
             }); 
         }
 
-        case "addNewCommentOpen": {
-            console.log(action.t)
-            let openValue = !state.addNewCommentOpen
-            state.commentWindow.splice(action.t, 1, openValue)
-            return Object.assign({}, state, {
-                commentWindow: state.commentWindow.slice(0),
-                addNewCommentOpen: !state.addNewCommentOpen,
-            })
-        }
+        // case "addNewCommentOpen": {
+        //     console.log(action.index)
+        //     let openValue = !state.addNewCommentOpen
+        //     state.commentWindow.splice(action.index, 1, openValue)
+        //     return Object.assign({}, state, {
+        //         commentWindow: state.commentWindow.slice(0),
+        //         addNewCommentOpen: !state.addNewCommentOpen,
+        //     })
+        // }
 
-        case "addComment": {
-            let openValue = ! state.addNewCommentOpen
-            state.commentWindow.splice(action.i, 1, openValue)
-            return Object.assign({}, state, {
-                commentWindow: state.commentWindow.slice(0),
-                addNewCommentOpen: !state.addNewCommentOpen,
-                whichTheme: action.i
-            })
-        }
+        // case "addComment": {
+        //     let openValue = ! state.addNewCommentOpen
+        //     state.commentWindow.splice(action.i, 1, openValue)
+        //     return Object.assign({}, state, {
+        //         commentWindow: state.commentWindow.slice(0),
+        //         addNewCommentOpen: !state.addNewCommentOpen,
+        //         whichTheme: action.i
+        //     })
+        // }
 
-        case "getNewTextValue": {
-            return Object.assign({}, state, {
-                textValue: action.textValue
-            });
-        }
+        // case "getNewTextValue": {
+        //     return Object.assign({}, state, {
+        //         textValue: action.textValue
+        //     });
+        // }
 
-        case "getNewTags": {
-            console.log("getNewTags", action.textTag)
-            return Object.assign({}, state, {
-                textTag: action.textTag
-            });
-        }
+        // case "getNewTags": {
+        //     console.log("getNewTags", action.textTag)
+        //     return Object.assign({}, state, {
+        //         textTag: action.textTag
+        //     });
+        // }
 
-        case "getImageURL": {
-            console.log("getImageURL", action.url)
-            return Object.assign({}, state, {
-                commentURL: action.url
-            });
-        }
+        // case "getImageURL": {
+        //     console.log("getImageURL", action.url)
+        //     return Object.assign({}, state, {
+        //         commentURL: action.url
+        //     });
+        // }
  
         case "sendComment": {
-            let i = state.whichTheme
+            let i = action.index;
             let newText = state.text
             console.log( newText[i])
             newText[i].push({
-                img: state.commentURL,
-                text: state.textValue,
-                tags: state.textTag
+                img: action.newImg,
+                text: action.newText,
+                tags: action.newTags
             })
             return Object.assign({}, state, {
                 text: newText.slice(0),
@@ -175,7 +175,7 @@ function reducer(state = initialState, action) {
 
         case "getEditedValue": {
             state.text[action.listId][action.comId].text = action.newTextValue
-            state.text[action.listId][action.comId].tags = action.textTag
+            state.text[action.listId][action.comId].tags = action.newTextTag
             return Object.assign({}, state, {
                 text: state.text.slice(0),
             });
