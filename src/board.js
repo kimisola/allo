@@ -22,48 +22,7 @@ class Board extends React.Component {
         console.log("run componentDidMount")
         let props = this.props;
         //read db
-        const db = fire.firestore();
-
-        // google login
-        firebase.auth().onAuthStateChanged(async(user) => {
-            
-            if (user) {
-                console.log("get user data", user)
-                console.log("get user data", user.uid)
-                let firebaseUid = user.uid;
-                let userDisplayName;
-                let userPhotoURL;
-                let userEmail;
-                let useruid;
-
-                user.providerData.forEach((profile) => {
-                        userDisplayName = profile.displayName;
-                        userEmail = profile.email;
-                        userPhotoURL = profile.photoURL;
-                        useruid = profile.uid;
-                });           
-
-                props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
-
-
-                db.collection("Users").doc(`${firebaseUid}`).set({
-                    name: userDisplayName,
-                    photo: userPhotoURL,
-                    email: userEmail,
-                    uid: useruid,
-                    firebaseuid: firebaseUid
-                }).then(() => {
-                    getTitles(firebaseUid)
-                    console.log("Document successfully written!")
-                }).catch((error) => {
-                    console.error("Error writing document: ", error);
-                })
-
-            } else {
-                // No user is signed in.
-            }              
-        });
-         
+        const db = fire.firestore();       
         
         let myDataTitle = [];
         let myDataText = [];
@@ -71,7 +30,11 @@ class Board extends React.Component {
         let Data = [];  // combine titles and texts
         let Data1 = [];  // store title
         let Data2 = [];  // store comment text
-
+        let firebaseUid = this.props.firebaseUid
+        console.log("firebaseUid", firebaseUid);
+        if(firebaseUid){
+            getTitles(firebaseUid);
+        }
         async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
             db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
             .then(async (querySnapshot) => {
@@ -122,7 +85,10 @@ class Board extends React.Component {
             props.mRenderComments(Data1, Data2)           
         };
     }
-
+    componentDidUpdate(){
+        let firebaseUid = this.props.firebaseUid
+        console.log("firebaseUid Updated", firebaseUid);
+    }
     render(){
         return(
             <React.Fragment>
@@ -146,11 +112,11 @@ class Board extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log("map state", state.firebaseUid);
     return {
         isBoardLoaded: state.isBoardLoaded,
         text: state.text,
         listTitle: state.listTitle,
-        // addNewCommentOpen: state.addNewCommentOpen,
         deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
         whichWindowOpen: state.whichWindowOpen,
         commentWindow: state.commentWindow,

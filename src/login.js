@@ -1,10 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import GoogleLogin from 'react-google-login';
 // import "./login.css";
 import Slogan from "../images/slogan.png";
 import GLogin from "../components/googleBar.js"
-import { Route, Link } from 'react-router-dom';
 
 class LoginPage extends React.Component {
     constructor(props){
@@ -14,8 +11,6 @@ class LoginPage extends React.Component {
     render(){
         return(
             <React.Fragment>
-                <Route>
-
                 <div className="Lmain"></div>
                 <div className="Lgard"></div>
 
@@ -33,13 +28,11 @@ class LoginPage extends React.Component {
                         <div>
                             <input type="text" placeholder="username" name="user" /><br />
                             <input type="password" placeholder="password" name="password" /><br />
-                            <Link to={"/Board"} ><input type="button" value="Login" /> </Link>
+                            <input type="button" value="Login" />
                             <GLogin />
                         </div>
                     </div>
                 </div>
-
-                </Route>
             </React.Fragment>
         )
     }
