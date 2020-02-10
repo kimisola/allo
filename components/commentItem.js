@@ -11,14 +11,16 @@ class CommentItem extends React.Component {
 
         }
     
-       
+    top = () => {
+        console.log("座標來", this.myRef.current.getBoundingClientRect())
+    }
 
 
     render(){
 
         return(
 
-            <div className="item" ref={this.myRef}  >
+            <div className="item" ref={ this.myRef }>
             <button onClick={ this.top }>座標來</button>
             <div className="itemHead">
                 <div className="tags">
@@ -40,10 +42,11 @@ class CommentItem extends React.Component {
                             default:
                         break;
                         }
-                    }) }                        
+                    }) }
+                                            
                 </div>
 
-                <CommentMenu  listId={this.props.listIndex} comId={this.props.j} SS={this.myRef}  />
+                <CommentMenu  listId={ this.props.listIndex } comId={ this.props.j } coordinate={ this.myRef }  />
 
             </div>                              
             

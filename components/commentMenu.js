@@ -16,6 +16,8 @@ class CommentMenu extends React.Component {
             defaultText: "",
             defaultTags: [],
             commentTags: { planning:false, process:false, risk:false, achived:false },
+            xCoordinate: "",
+            yCoordinate: "",
         }
     }
 
@@ -55,8 +57,8 @@ class CommentMenu extends React.Component {
             defaultTags: defaultTags,
             defaultImg: defaultImg
         })
-
         this.showMenu();
+        this.getCoordinate();
     }
 
     deleteComment = () => {
@@ -140,17 +142,40 @@ class CommentMenu extends React.Component {
     }
 
 
-    SS = () => {
-        console.log(this.props.SS.current.getBoundingClientRect());
+    getCoordinate = () => {
+        console.log(this.props.coordinate.current.getBoundingClientRect());
+        let data = this.props.coordinate.current.getBoundingClientRect()
+        console.log(data.x)
+        console.log(data.y)
+        this.setState( prevState => {
+            let xCoordinate = prevState.xCoordinate
+            xCoordinate = data.x
+            let yCoordinate = prevState.yCoordinate
+            yCoordinate = data.y
+            return { 
+                xCoordinate: xCoordinate,
+                yCoordinate: yCoordinate
+             }
+        });
     }
 
     render() {
+
+        const menuStyle = {
+            menuStyle: {
+                display: this.state.menuShowed ? 'flex' : 'none',
+                position: "fixed",
+                top: this.state.yCoordinate,
+                left: this.state.xCoordinate
+            },
+        };
+
         return (
             <React.Fragment>
                 <div className="tagDiv">
-                    <div className="tagImgDiv"  onClick={ this.SS} ></div>
+                    <div className="tagImgDiv"  onClick={ this.setDefault } ></div>
                     <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
-                    <div className="commentMenu"  style={{display: this.state.menuShowed ? 'flex' : 'none' }}>
+                    <div className="commentMenu"  style={menuStyle.menuStyle} >
                         <div className="tags">
                             <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "rgba(204 ,94, 28, 0.8)" : 'grey' }} onClick={ () => this.selectTags("planning") }>Planning</div>
                             <div className="tag process" style={{backgroundColor: this.state.commentTags.process ? "rgba(46 ,169, 223, 0.8)" : 'grey' }} onClick={ () => this.selectTags("process") }>In Process</div>
@@ -204,7 +229,7 @@ const mapStateToProps = (state ,ownprops) => {
         listId : ownprops.listId,
         comId :ownprops.comId,
         firebaseUid : state.firebaseUid,
-        SS : ownprops.SS,
+        coordinate : ownprops.coordinate,
     }
 }
 
