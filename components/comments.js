@@ -9,6 +9,7 @@ class Comments extends React.Component {
     }
 
     render(){
+        //console.log("render text", this.props.text[3][0].text)
         return(
             <React.Fragment>
                            

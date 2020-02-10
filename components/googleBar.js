@@ -86,7 +86,6 @@ const mapStateToProps = (state) => {
       isBoardLoaded: state.isBoardLoaded,
       text: state.text,
       listTitle: state.listTitle,
-      // addNewCommentOpen: state.addNewCommentOpen,
       deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
       whichWindowOpen: state.whichWindowOpen,
       commentWindow: state.commentWindow,
@@ -101,10 +100,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-      mSetUpComWin: (myComWin) => { dispatch(aSetUpComWin(myComWin)) },
-      mRenderComments: (Data1, Data2) => { dispatch(aRenderComments(Data1, Data2)) },
       mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
-      mSetIndexForTitle: (storeTitleIndex) => { dispatch(aSetIndexForTitle(storeTitleIndex))},
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(GLogin);

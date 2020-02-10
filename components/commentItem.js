@@ -17,7 +17,7 @@ class CommentItem extends React.Component {
 
 
     render(){
-
+        console.log("comment", this.props.item.text);
         return(
 
             <div className="item" ref={ this.myRef }>

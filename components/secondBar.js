@@ -100,7 +100,6 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    console.log(ownProps,"ownPropsmapDispatchToProps")
     return {
         mAddNewListOpen: () => { dispatch(aAddNewListOpen()) },
         getTvalue: (value) => { dispatch(aGetTitleValue(value)) },

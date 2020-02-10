@@ -57,8 +57,9 @@ class CommentMenu extends React.Component {
             defaultTags: defaultTags,
             defaultImg: defaultImg
         })
-        this.showMenu();
         this.getCoordinate();
+        this.showMenu();
+        
     }
 
     deleteComment = () => {
@@ -76,7 +77,7 @@ class CommentMenu extends React.Component {
             // let coll = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items")
             db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
             .then( async(querySnapshot) => {
-                const docId2 = querySnapshot.docs[0].id
+                let docId2 = querySnapshot.docs[0].id
                 //避免誤刪 code 維持 get 改成 delete 就可以刪除了
                 db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2).delete().then(() => {   
                     console.log("Document successfully deleted!");
@@ -111,22 +112,31 @@ class CommentMenu extends React.Component {
             }
         });
 
-        this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId})
+        // this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId})
         //const imgValue = this.props.text[listId][comId].img
 
         const db = fire.firestore();
         const firebaseUid = this.props.firebaseUid;
-        const coll = db.collection("Boards/" + firebaseUid + "/Lists");
-        coll.get().then((querySnapshot) => {
-            const docId = querySnapshot.docs[listId].id
-            const coll2 = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items")
-            coll2.get().then((querySnapshot) => {
-                const docId2 = querySnapshot.docs[comId].id                
-                coll2.doc(docId2).update({
+        // const coll = db.collection("Boards/" + firebaseUid + "/Lists");
+        // coll
+        db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
+        .then((querySnapshot) => {
+            let docId =  querySnapshot.docs[0].id;
+            // const coll2 = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items")
+            db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
+            .then((querySnapshot) => {
+                let docId2 = querySnapshot.docs[0].id                
+                db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2)
+                .update({
                     img: this.state.defaultImg, 
                     text: newTextValue,
                     tags: newTextTag
-                }).then(() => {   
+                }).then(() => {
+                    console.log(newTextValue)
+                    console.log(newTextTag)
+                    console.log(listId)
+                    console.log(comId)
+                    this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId})
                     console.log("Document successfully written!");
                     alert("編輯成功")
                     this.showMenu();
@@ -147,7 +157,7 @@ class CommentMenu extends React.Component {
         let data = this.props.coordinate.current.getBoundingClientRect()
         console.log(data.x)
         console.log(data.y)
-        this.setState( prevState => {
+        this.setState( prevState => {  
             let xCoordinate = prevState.xCoordinate
             xCoordinate = data.x
             let yCoordinate = prevState.yCoordinate
@@ -173,7 +183,7 @@ class CommentMenu extends React.Component {
         return (
             <React.Fragment>
                 <div className="tagDiv">
-                    <div className="tagImgDiv"  onClick={ this.setDefault } ></div>
+                    <div className="tagImgDiv"  onClick={ () => this.setDefault() } ></div>
                     <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
                     <div className="commentMenu"  style={menuStyle.menuStyle} >
                         <div className="tags">

@@ -26,14 +26,15 @@ class ThemeTitle extends React.Component {
 
         const db = fire.firestore();
         const firebaseUid  = this.props.firebaseUid;
-        const coll = db.collection("Boards/" + firebaseUid + "/Lists");
 
-        coll.get().then((querySnapshot) => {
-            console.log(querySnapshot.docs[t].id)
-            let docId = querySnapshot.docs[t].id
+        db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((t+1)*2)).get()
+        .then((querySnapshot) => {
+            console.log(querySnapshot.docs[0].id)
+            let docId = querySnapshot.docs[0].id
 
             //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            coll.doc(docId).delete().then(() => {
+            db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((t+1)*2)).doc(docId).delete()
+            .then(() => {
                 console.log("Document successfully deleted!", t);
                 this.props.dispatch({ type: "deleteTheme", t })
                 this.props.dispatch({ type: "deleteThemeConfirmOpen" })
@@ -64,12 +65,14 @@ class ThemeTitle extends React.Component {
         const db = fire.firestore();
         const firebaseUid  = this.props.firebaseUid;
         const coll = db.collection("Boards/" + firebaseUid + "/Lists");
-        coll.get().then((querySnapshot) => {
-            let docId = querySnapshot.docs[indexOfValue].id
+        db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((indexOfValue+1)*2)).get()
+        .then((querySnapshot) => {
+            let docId = querySnapshot.docs[0].id
 
-            let titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc(docId);
-            titleCollection.set({
+            db.collection("Boards/" + firebaseUid + "/Lists").doc(docId)
+            .update({
                 title: newValue,
+                index: ((indexOfValue+1)*2)
             }).then(() => {
                 console.log("Document successfully written!");
             }).catch((error) => {

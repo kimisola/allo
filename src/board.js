@@ -11,8 +11,6 @@ import Section from "../components/section";
 import loagingGif from "../images/loading.gif";
 
 
-
-
 class Board extends React.Component {
     constructor(props){
         super(props);
@@ -85,9 +83,72 @@ class Board extends React.Component {
             props.mRenderComments(Data1, Data2)           
         };
     }
-    componentDidUpdate(){
+    componentDidUpdate(prevProps){
+        let props = this.props;
         let firebaseUid = this.props.firebaseUid
-        console.log("firebaseUid Updated", firebaseUid);
+        console.log("firebaseUid Updated", firebaseUid, prevProps.firebaseUid.length);
+        if(firebaseUid!==prevProps.firebaseUid){
+            //read db
+            const db = fire.firestore();       
+            
+            let myDataTitle = [];
+            let myDataText = [];
+            let listsId = [];
+            let Data = [];  // combine titles and texts
+            let Data1 = [];  // store title
+            let Data2 = [];  // store comment text
+            let firebaseUid = this.props.firebaseUid
+            getTitles(firebaseUid);
+            async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
+                db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
+                .then(async (querySnapshot) => {
+                    let doc = querySnapshot.docs;
+    
+                    for ( let i = 0; i < doc.length; i++ ) {       
+                        listsId.push(doc[i].id)
+                        let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
+                        ref.update({
+                            index: (((i+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                        })
+                        myDataTitle.push(doc[i].data().title)
+                        Data1.push(myDataTitle[i]);
+    
+                        // set an index value for next new added title
+                        if ( i === doc.length - 1 ) {
+                            let storeTitleIndex = ((doc.length+1)*2)
+                            props.mSetIndexForTitle(storeTitleIndex)
+                        }
+                    }
+                    getCommentText();
+                });
+    
+                async function getCommentText(){
+                    for(let i = 0; i < listsId.length; i++ ) {
+                        await db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
+                        .then((querySnapshot2) => {
+                            let doc2 = querySnapshot2.docs;
+                            for ( let j = 0; j < doc2.length; j++ ) {
+                                let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
+                                ref.update({
+                                    index: (((j+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                                })           
+                                myDataText.push(doc2[j].data())
+                            }
+                            Data2.push(myDataText);
+                            myDataText = []; //reset comments under certain title
+                        })
+                    } combineData();
+                }
+            }
+    
+            function combineData() { 
+                for (let k = 0; k < Data1.length; k++) {
+                    Data.push(Data1[k]);
+                    Data.push(Data2[k]);
+                }
+                props.mRenderComments(Data1, Data2)           
+            };
+        }
     }
     render(){
         return(

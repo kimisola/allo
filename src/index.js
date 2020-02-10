@@ -1,11 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { connect, Provider } from "react-redux";
 import { createStore } from "redux";
-import { Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import firebase from 'firebase';
+import fire from "../src/fire";
 import LoginPage from "./login";
 import Board from "./board";
 import HomePage from "../components/homePage";
+import {aSetCurrentUser } from"../components/actionCreators"
 import "./main.css";
 
 
@@ -146,10 +149,17 @@ function reducer(state = initialState, action) {
         }
 
         case "getEditedValue": {
+            let text=state.text.slice(0);
+            let list=text[action.listId].slice(0);
+            let item={...list[action.comId], text:action.newTextValue, tags:action.newTextTag};
+            list[action.comId]=item;
+            text[action.listId]=list;
+            /*
             state.text[action.listId][action.comId].text = action.newTextValue
             state.text[action.listId][action.comId].tags = action.newTextTag
+            */
             return Object.assign({}, state, {
-                text: state.text.slice(0),
+                text: text
             });
         }
 
@@ -166,6 +176,48 @@ class App extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
+            (user) => {
+                console.log("App userrrrrrrrrr",user)
+                if (user) {
+                    const db = fire.firestore();
+                    let firebaseUid = user.uid;
+                    let userDisplayName;
+                    let userPhotoURL;
+                    let userEmail;
+                    let useruid;
+                    console.log(firebaseUid)
+    
+                    user.providerData.forEach((profile) => {
+                        userDisplayName = profile.displayName;
+                        userEmail = profile.email;
+                        userPhotoURL = profile.photoURL;
+                        useruid = profile.uid;
+                    });           
+
+                    this.props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
+
+                    db.collection("Users").doc(`${firebaseUid}`).set({
+                        name: userDisplayName,
+                        photo: userPhotoURL,
+                        email: userEmail,
+                        uid: useruid,
+                        firebaseuid: firebaseUid
+                    }).then(() => {
+                        console.log("Document successfully written!")
+                    }).catch((error) => {
+                        console.error("Error writing document: ", error);
+                    })
+    
+                } else {
+                    // No user is signed in.
+                }
+
+            }
+        );
+      }
+
     render(){
         return(
             <React.Fragment>
@@ -180,8 +232,32 @@ class App extends React.Component {
         )
     }
 }
-export default App
 
+const mapStateToProps = (state) => {
+    return {
+        isBoardLoaded: state.isBoardLoaded,
+        text: state.text,
+        listTitle: state.listTitle,
+        deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
+        whichWindowOpen: state.whichWindowOpen,
+        commentWindow: state.commentWindow,
+        isLoggedIn: state.isLoggedIn,
+        userEmail: state.userEmail,
+        userDisplayName: state.userDisplayName,
+        userPhotoURL: state.userPhotoURL,
+        firebaseUid: state.firebaseUid,
+        useruid: status.useruid
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
+    }
+}
+
+App = connect(mapStateToProps, mapDispatchToProps)(App);
+export default App
 
 ReactDOM.render(
     <Router>

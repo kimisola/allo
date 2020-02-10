@@ -17,7 +17,7 @@ class Section extends React.Component {
 
     render(){
         console.log("render list title", this.props.listTitle)
-        console.log("render text", this.props.text)
+        
         return(
             <React.Fragment>
 
