@@ -26,7 +26,7 @@ img {
     width: 100%;
 }
 
-.view>.topBar {
+.topBar {
     max-height: 43px; display: flex; background-color:  rgba(70, 65, 89, 0.25);justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px;
 }
 .view>.secondBar {
@@ -80,6 +80,7 @@ img {
     margin-right: 20px; 
 }
 
+
 .view>.secondBar>.secondLeft>.invite {
     line-height: 32px; color: white
 }
@@ -105,11 +106,11 @@ img {
     width: 24px;
 }
 .view>.board>.sectionWrapper>.section>.head>.titleLeft {
-    max-width: 265px;
+    max-width: 265px; word-break: break-all;
 }
 
-.view>.board>.sectionWrapper>.section>.head>.titleLeftInput {
-    max-width: 265px;height: 21px;
+.view>.board>.sectionWrapper>.section>.head>.titleLeft Input {
+    max-width: 265px;height: 21px; border-radius: 4px; border-style: none; padding-left: 5px;
 }
 
 
@@ -138,25 +139,31 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuLeft textarea{
-    height: 150px; max-height: 200px; width: 270px;margin: 3px 0 13px 0;
+    height: 150px; max-height: 200px; width: 270px;margin: 3px 0 13px 0;border-radius: 3px;resize: none;
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuLeft div{
-    width: 50px; text-align: center; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;
+    position: relative; width: 50px; text-align: center; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;border-radius: 3px;
+}
+
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuLeft div:hover {
+    margin-top: 2px; margin-left: 2px;  position: relative; transition :0.05s; background-color: rgba(0,0,0,0.85)
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.tagImgDiv {
-    width: 24px;height: 24px; background-image: url(../images/menu.png);position: absolute; top: 5px; right: 5px;
+    width: 24px;height: 24px; background-image: url(../images/menu.png); position: absolute; top: 5px; right: 5px;
 }
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight {
     margin-top: 3px;
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList {
-    display: flex; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55);padding: 5px;
+    position: relative; display: flex; margin-bottom: 5px; color: white; background-color: rgba(0,0,0,0.55); padding: 5px; width: 100px;border-radius: 3px;
 }
 
-/* position: relative;right: -90px; */
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList:hover {
+    margin-left: 7px;  position: relative; transition :0.05s; background-color: rgba(0,0,0,0.85); 
+}
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList>.editTag,
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList>.editText,
@@ -172,6 +179,16 @@ img {
 .tag {
     margin: 5px 0 5px 5px;border-radius: 20px;font-size: 12px;padding: 1px 5px;font-weight: bold;color: white;
 }
+/*  comment menu tags */
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.tags>.tag:active {
+    position: relative;  bottom: 1px; 
+}
+
+/* board tags */
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tags>.tag:active{  
+    position: relative;  bottom: 1px; 
+}
+
 .planning {
     background-color: rgba(204 ,94, 28, 0.8);
 }
@@ -193,15 +210,12 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgText {
-    word-break: break-all;white-space: normal;margin-bottom: 6px;
+    word-break: break-all; white-space:pre-wrap; margin-bottom: 6px;
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgImg {
     margin-bottom: 6px;
 }
-/* .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgImg {
-    height: 110px;
-} */
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.featureDiv {
     display: flex;
@@ -220,7 +234,7 @@ img {
     display: flex; flex-direction: column; margin: 20px 5px 2px 5px;background-color: rgba(255, 255, 251, 0.45); border-radius: 10px;text-align: center;
 }
 .view>.board>.sectionWrapper>.section>.addItem textarea{
-    height: 70px; width: 94%;
+    height: 70px; width: 94%;resize: none;
 }
 .view>.board>.sectionWrapper>.section>.addItem>.tags {
     display: flex;
@@ -291,7 +305,7 @@ footer>.footerBar {
 
 /* CSS for add theme & delete theme div */
 .addThemeDiv {
-    position: absolute; top: 30%; left: calc(50% - 120px); text-align: center; background: rgba(120,125,123,0.3); background-color: rgba(255, 255, 251); padding: 20px 35px 20px 35px; border-radius: 10px;
+    position: absolute; top: 30%; left: calc(50% - 120px); text-align: center; background-color: rgba(255,255,255,0.9);  padding: 20px 35px 20px 35px; border-radius: 10px; z-index: 3;
 }
 
 .addThemeDiv>.addTheme p {
@@ -388,7 +402,70 @@ footer>.footerBar {
 /* CSS for google login bar */
 
 
+/* CSS for home page */
+#root>.topBar {
+    max-height: 43px; display: flex; background-color: rgba(28, 28, 28, 0.65) ;justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px;
+}
 
-.boardLists {
-    color: blueviolet;width: 200px;
+#root>.topBar>.topLeft,
+#root>.topBar>.topRight {
+    display: flex;margin: 5px;flex-wrap: wrap;align-items: center;
+}
+
+#root>.topBar>.topLeft>.searchBar input {
+    display: none; 
+}
+
+#root>.topBar>.topRight>.boardList,
+#root>.topBar>.topRight>.signOutImg,
+#root>.topBar>.topLeft>.home {
+    width: 28px;
+}
+
+#root>.topBar>.topRight>.memberIcon{
+    width: 32px;
+}
+
+#root>.topBar>.topRight>.memberIcon img{
+    border-radius: 100%;
+}
+#root>.topBar>.topLeft>.home,
+#root>.topBar>.topRight>.memberIcon,
+#root>.topBar>.topRight>.boardList {
+    margin-right: 20px; 
+}
+.homepage {
+    display: flex;margin: 3% auto 0px auto; width: 65%; 
+}
+
+.homepage>.profile {
+    flex-grow: 0.5;border: 1px solid red;display: flex; flex-direction: column; padding: 10px;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+}
+
+.homepage>.profile>.myImg {
+    width: 100px;
+}
+.homepage>.profile>.myImg img{
+    border-radius: 100%;
+}
+.homepage>.boardLists {
+    flex-grow: 4;border: 1px solid red;margin-left: 30px;
+}
+
+.homepage>.boardLists {
+    display: flex; flex-direction: column;border: 1px solid blue;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+}
+.homepage>.boardLists>.section {
+    display: flex; flex-direction: column;border: 1px solid blue ;flex-grow: 1;padding: 10px;
+}
+
+.homepage>.boardLists>.section>.category {
+    margin-bottom: 10px;
+}
+.homepage>.boardLists>.section>.items {
+    display: flex; flex-wrap: wrap;
+}
+
+.homepage>.boardLists>.section>.items>.board {
+    border: 1px solid green; background-color: khaki; width: 150px; height: 90px;margin: 0 10px 10px 0;
 }

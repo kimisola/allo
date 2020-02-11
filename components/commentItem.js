@@ -11,17 +11,15 @@ class CommentItem extends React.Component {
 
         }
     
-    top = () => {
-        console.log("座標來", this.myRef.current.getBoundingClientRect())
-    }
+    // top = () => {
+    //     console.log("座標來", this.myRef.current.getBoundingClientRect())
+    // }
 
 
     render(){
-        console.log("comment", this.props.item.text);
         return(
 
             <div className="item" ref={ this.myRef }>
-            <button onClick={ this.top }>座標來</button>
             <div className="itemHead">
                 <div className="tags">
 
@@ -55,17 +53,6 @@ class CommentItem extends React.Component {
                     <div className="msgText"> {this.props.item.text} </div>         
                     <div className="msgImg"> <img src={ this.props.item.img } /> </div>
                 </div>
-                {/* 可以獨立成一個 component 
-                <div className="featureDiv">
-                    <div className="feature" style={{display: 'none' }}>
-                        <div className="edit">
-                            <img src={ Pencil } />
-                        </div>
-                        <div className="trashcan">
-                            <img src={ GarbageCan } />
-                        </div>
-                    </div>
-                </div> */}
             </div>
         </div>
         )

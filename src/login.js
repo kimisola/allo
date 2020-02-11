@@ -1,7 +1,8 @@
 import React from 'react';
 // import "./login.css";
 import Slogan from "../images/slogan.png";
-import GLogin from "../components/googleBar.js"
+import GLogin from "../components/googleBar.js";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 class LoginPage extends React.Component {
     constructor(props){

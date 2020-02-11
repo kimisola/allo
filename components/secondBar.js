@@ -49,7 +49,33 @@ class SecondBar extends React.Component {
                 console.error("Error writing document: ", error);
             })
         }
-    } 
+    }
+
+    creatTitleByButton = () => {
+        const newText = this.props.text;
+        const newListTitle =  this.props.listTitle;
+        const titleValue =  this.props.titleValue;
+        const firebaseUid  = this.props.firebaseUid;
+        let indexForTitle = this.props.indexForTitle;
+
+        console.log("enter creat title", titleValue)
+        this.props.mAddNewListOpen();
+        newListTitle.push(titleValue);
+        newText.push([]);
+        this.props.mCreatTitle(newListTitle, newText)
+        
+        const db = fire.firestore();
+        const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
+        titleCollection.set({
+            title: titleValue,
+            index: indexForTitle
+        }).then(() => {
+            this.props.mSetIndexForTitle( indexForTitle + 2 )  // update index for next new title
+            console.log("Document successfully written!");
+        }).catch(() => {
+            console.error("Error writing document: ", error);
+        })
+    }
     
 
     render(){
@@ -76,8 +102,8 @@ class SecondBar extends React.Component {
                         <p>請輸入列表標題：</p>
                         <input type="text" value={this.props.titleValue} onChange={this.getTitleValue} onKeyPress={this.creatTitle}/>
                         <div className="buttons">
-                            <div className="no" onClick= { this.addNewListOpen }>取消</div>
-                            <div className="yes">確定</div>
+                            <div className="no" onClick={this.addNewListOpen}>取消</div>
+                            <div className="yes" onClick={this.creatTitleByButton}>確定</div>
                         </div>
                     </div>
                 </div>

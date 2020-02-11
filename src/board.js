@@ -30,9 +30,14 @@ class Board extends React.Component {
         let Data2 = [];  // store comment text
         let firebaseUid = this.props.firebaseUid
         console.log("firebaseUid", firebaseUid);
-        if(firebaseUid){
+        if (firebaseUid) {
             getTitles(firebaseUid);
+         } 
+        else {
+            console.log("尚未登入喔喔喔喔")
+            window.location = "/"
         }
+
         async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
             db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
             .then(async (querySnapshot) => {
@@ -57,7 +62,7 @@ class Board extends React.Component {
             });
 
             async function getCommentText(){
-                for(let i = 0; i < listsId.length; i++ ) {
+                for(let i = 0; i < listsId.length; i++ ) {  //讀取每一個 list 底下的 items
                     await db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
                     .then((querySnapshot2) => {
                         let doc2 = querySnapshot2.docs;
@@ -86,10 +91,9 @@ class Board extends React.Component {
     componentDidUpdate(prevProps){
         let props = this.props;
         let firebaseUid = this.props.firebaseUid
-        console.log("firebaseUid Updated", firebaseUid, prevProps.firebaseUid.length);
-        if(firebaseUid!==prevProps.firebaseUid){
+        if (firebaseUid !== prevProps.firebaseUid) {
             //read db
-            const db = fire.firestore();       
+            const db = fire.firestore();
             
             let myDataTitle = [];
             let myDataText = [];
@@ -150,11 +154,19 @@ class Board extends React.Component {
             };
         }
     }
+
+    horizontalScroll = (event) => {
+        console.log(event);
+        const delta = Math.max(-1, Math.min(1, (event.nativeEvent.wheelDelta || -event.nativeEvent.detail)))
+        event.currentTarget.scrollRight += (delta * 10)
+        event.preventDefault
+    }
+
     render(){
         return(
             <React.Fragment>
 
-                <main>
+                <main onWheel={(e) => this.horizontalScroll(e)}>
                     <div className="loading"  style={{display: this.props.isBoardLoaded ? 'none' : 'block' }} > 
                         <img src={ loagingGif } />
                     </div>

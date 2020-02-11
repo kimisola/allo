@@ -5,6 +5,7 @@ import Blackboard from "../images/blackboard.png";
 import SignOutImg from "../images/logout.png";
 import firebase from 'firebase';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { withRouter}  from "react-router";
 import { connect } from 'react-redux';
 
 
@@ -34,13 +35,11 @@ class Topbar extends React.Component {
     render(){
         return(
             <React.Fragment>
-                <Router>
-                
+                       
                     <div className="topBar">
                         <div className="topLeft">
                             <div className="home">
-                                <Link to={"/HomePage"}> <img src={ HomeImg } /> </Link>
-                                
+                                <Link to="/HomePage"> <img src={ HomeImg } /> </Link>
                             </div>
                             <div className="searchBar">
                                 <input />
@@ -49,7 +48,7 @@ class Topbar extends React.Component {
                         <div className="topRight">
                             <div className="boardList">
                                 <div className="boardIcon">
-                                    <img src={ Blackboard } />
+                                    <Link to="/Board"> <img src={ Blackboard } /> </Link>
                                 </div>
                             </div>
                             <div className="memberIcon">
@@ -60,8 +59,7 @@ class Topbar extends React.Component {
                             </div>
                         </div>
                     </div>  
-       
-                </Router>
+
             </React.Fragment>
         )
     }
@@ -81,4 +79,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Topbar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Topbar));

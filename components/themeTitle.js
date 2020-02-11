@@ -33,12 +33,22 @@ class ThemeTitle extends React.Component {
             let docId = querySnapshot.docs[0].id
 
             //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((t+1)*2)).doc(docId).delete()
+            db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).delete()
             .then(() => {
                 console.log("Document successfully deleted!", t);
                 this.props.dispatch({ type: "deleteTheme", t })
                 this.props.dispatch({ type: "deleteThemeConfirmOpen" })
                 alert("刪除成功")
+                db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
+                .then(async (querySnapshot) => {
+                    let doc = querySnapshot.docs;
+                    for ( let i = 0; i < doc.length; i++ ) {       
+                        let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
+                        ref.update({
+                            index: (((i+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                        })
+                    }
+                })
             }).catch((error) => {
                 console.error("Error removing document: ", error);
             })
@@ -56,7 +66,6 @@ class ThemeTitle extends React.Component {
     updateValue = () => {
         let newValue = this.refs.theTextInput.value
         let indexOfValue = this.props.indexWin
-        console.log("111111111111", indexOfValue)
         this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})
         this.setState({
             isInEditMode: false
@@ -64,7 +73,7 @@ class ThemeTitle extends React.Component {
 
         const db = fire.firestore();
         const firebaseUid  = this.props.firebaseUid;
-        const coll = db.collection("Boards/" + firebaseUid + "/Lists");
+        // const coll = db.collection("Boards/" + firebaseUid + "/Lists");
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((indexOfValue+1)*2)).get()
         .then((querySnapshot) => {
             let docId = querySnapshot.docs[0].id

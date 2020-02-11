@@ -5,6 +5,8 @@ import Plus from "../images/plus.png";
 import { connect } from 'react-redux';
 
 
+// 已廢
+
 class ItemFooter extends React.Component {
     constructor(props){
         super(props);

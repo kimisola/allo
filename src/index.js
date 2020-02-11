@@ -27,9 +27,9 @@ let initialState = {
     //delete confirm window
     deleteThemeConfirmOpen: false,
 
-    // index value for next new added title and comment item
-    indexForTitle: "",
-    indexForItem: "",
+    // index value for next new added title and comment item, default is 2
+    indexForTitle: 2,
+    indexForItem: 2,
 
     //user profile
     isLoggedIn: false,
@@ -212,6 +212,7 @@ class App extends React.Component {
     
                 } else {
                     // No user is signed in.
+                   // window.location = "/"
                 }
 
             }
@@ -221,13 +222,13 @@ class App extends React.Component {
     render(){
         return(
             <React.Fragment>
-                <Route>       
+                <Router>       
                     <Switch>
                         <Route exact path = "/" component = { LoginPage } /> 
                         <Route path = "/HomePage" component = { HomePage } />
                         <Route path = "/Board" component = { Board } />
                     </Switch>
-                </Route>
+                </Router>
             </React.Fragment>
         )
     }

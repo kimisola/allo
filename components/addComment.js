@@ -37,6 +37,8 @@ class AddComment extends React.Component {
             let newimg = prevState.newImg  //reset url value
             newimg = "";
             let tagsState = [ "planning", "process", "risk", "achived" ] //reset tags value
+            let newtags = prevState.newTags;
+            newtags = [];
             tagsState.forEach((tk)=>{
                 this.setState( prevState => {
                     let commentTagsCopy =  prevState.commentTags
@@ -47,6 +49,7 @@ class AddComment extends React.Component {
                         commentTags: commentTagsCopy,
                         newText: newtext,
                         newImg: newimg,
+                        newTags: newtags,
                     });
                 });
             })
@@ -128,7 +131,7 @@ class AddComment extends React.Component {
         const newText = this.state.newText;
         const newImg = this.state.newImg;
         const newTags = this.state.newTags;
-        let indexForItem = this.state.indexForItem;
+        let indexForItem = this.props.indexForItem;
         let docId = ""
 
         if ( newText === "" &&  newImg === "" && newTags.length === 0) {

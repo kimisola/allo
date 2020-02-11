@@ -79,10 +79,21 @@ class CommentMenu extends React.Component {
             .then( async(querySnapshot) => {
                 let docId2 = querySnapshot.docs[0].id
                 //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-                db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2).delete().then(() => {   
+                db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2).delete()
+                .then(() => {   
                     console.log("Document successfully deleted!");
                     alert("刪除成功")
                     this.showMenu();
+                    db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").orderBy("index").get()
+                    .then((querySnapshot2) => {
+                    let doc2 = querySnapshot2.docs;
+                        for ( let j = 0; j < doc2.length; j++ ) {
+                            let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(doc2[j].id)
+                            ref.update({
+                                index: (((j+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                            })   
+                        }
+                    })
                 }).catch((error) => {
                     console.error("Error removing document: ", error);
                 })
