@@ -66,28 +66,32 @@ class ThemeTitle extends React.Component {
     updateValue = () => {
         let newValue = this.refs.theTextInput.value
         let indexOfValue = this.props.indexWin
-        this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})
-        this.setState({
-            isInEditMode: false
-        });
 
-        const db = fire.firestore();
-        const firebaseUid  = this.props.firebaseUid;
-        // const coll = db.collection("Boards/" + firebaseUid + "/Lists");
-        db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((indexOfValue+1)*2)).get()
-        .then((querySnapshot) => {
-            let docId = querySnapshot.docs[0].id
+        if ( newValue.length > 14 ) {
+            alert("標題太長囉、再短一點!")
+        } else {
+            this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})
+            this.setState({
+                isInEditMode: false
+            });
 
-            db.collection("Boards/" + firebaseUid + "/Lists").doc(docId)
-            .update({
-                title: newValue,
-                index: ((indexOfValue+1)*2)
-            }).then(() => {
-                console.log("Document successfully written!");
-            }).catch((error) => {
-                console.error("Error removing document: ", error);
-            })
-        })    
+            const db = fire.firestore();
+            const firebaseUid  = this.props.firebaseUid;
+            db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((indexOfValue+1)*2)).get()
+            .then((querySnapshot) => {
+                let docId = querySnapshot.docs[0].id
+    
+                db.collection("Boards/" + firebaseUid + "/Lists").doc(docId)
+                .update({
+                    title: newValue,
+                    index: ((indexOfValue+1)*2)
+                }).then(() => {
+                    console.log("Document successfully written!");
+                }).catch((error) => {
+                    console.error("Error removing document: ", error);
+                })
+            }) 
+        }
     }
 
     renderEditView = () => {
@@ -103,7 +107,6 @@ class ThemeTitle extends React.Component {
                 </div>
             </div>
             </React.Fragment>
-            
         )
     }
 
@@ -128,10 +131,9 @@ class ThemeTitle extends React.Component {
             </div>
             </React.Fragment>
         )
-
     }
 
-    render(){
+    render() {
         return this.state.isInEditMode ? this.renderEditView() : this.renderDefaultView() 
     }
 }

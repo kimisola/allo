@@ -198,7 +198,7 @@ class App extends React.Component {
 
                     this.props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
-                    db.collection("Users").doc(`${firebaseUid}`).set({
+                    db.collection("Users").doc(firebaseUid).set({
                         name: userDisplayName,
                         photo: userPhotoURL,
                         email: userEmail,

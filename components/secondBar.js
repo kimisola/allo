@@ -31,23 +31,30 @@ class SecondBar extends React.Component {
         let indexForTitle = this.props.indexForTitle;
 
         if (event.key === "Enter" ) {
-            console.log("enter creat title", titleValue)
-            this.props.mAddNewListOpen();
-            newListTitle.push(titleValue);
-            newText.push([]);
-            this.props.mCreatTitle(newListTitle, newText)
-            
-            const db = fire.firestore();
-            const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
-            titleCollection.set({
-                title: titleValue,
-                index: indexForTitle
-            }).then(() => {
-                this.props.mSetIndexForTitle(indexForTitle+2)  // update index for title
-                console.log("Document successfully written!");
-            }).catch(() => {
-                console.error("Error writing document: ", error);
-            })
+            if ( titleValue.length > 14 ) {
+                console.log(titleValue.length)
+                alert("標題太長囉、再短一點!")
+            } else {
+                console.log("enter creat title", titleValue)
+                this.props.mAddNewListOpen();
+                newListTitle.push(titleValue);
+                newText.push([]);
+                this.props.mCreatTitle(newListTitle, newText)
+                
+                const db = fire.firestore();
+                const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
+                titleCollection.set({
+                    title: titleValue,
+                    index: indexForTitle
+                }).then(() => {
+                    this.props.mSetIndexForTitle(indexForTitle+2)  // update index for title
+                    console.log("Document successfully written!");
+                }).catch(() => {
+                    console.error("Error writing document: ", error);
+                })
+
+            }
+
         }
     }
 

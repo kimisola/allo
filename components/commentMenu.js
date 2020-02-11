@@ -68,6 +68,7 @@ class CommentMenu extends React.Component {
         console.log(listId,"listId")
         console.log(comId,"comId")
         this.props.dispatch({ type: "deleteComment", listId, comId }) //delete state comment
+        this.showMenu();
 
         const db = fire.firestore();
         const firebaseUid = this.props.firebaseUid;
@@ -82,8 +83,6 @@ class CommentMenu extends React.Component {
                 db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2).delete()
                 .then(() => {   
                     console.log("Document successfully deleted!");
-                    alert("刪除成功")
-                    this.showMenu();
                     db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").orderBy("index").get()
                     .then((querySnapshot2) => {
                     let doc2 = querySnapshot2.docs;
@@ -123,17 +122,15 @@ class CommentMenu extends React.Component {
             }
         });
 
-        // this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId})
-        //const imgValue = this.props.text[listId][comId].img
+        this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId})
+        this.showMenu();
 
         const db = fire.firestore();
         const firebaseUid = this.props.firebaseUid;
-        // const coll = db.collection("Boards/" + firebaseUid + "/Lists");
-        // coll
+
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
         .then((querySnapshot) => {
             let docId =  querySnapshot.docs[0].id;
-            // const coll2 = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items")
             db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
             .then((querySnapshot) => {
                 let docId2 = querySnapshot.docs[0].id                
@@ -143,14 +140,11 @@ class CommentMenu extends React.Component {
                     text: newTextValue,
                     tags: newTextTag
                 }).then(() => {
-                    console.log(newTextValue)
-                    console.log(newTextTag)
-                    console.log(listId)
-                    console.log(comId)
-                    this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId})
+                    console.log("updateContent", newTextValue)
+                    console.log("updateContent", newTextTag)
+                    console.log("updateContent", listId)
+                    console.log("updateContent", comId)
                     console.log("Document successfully written!");
-                    alert("編輯成功")
-                    this.showMenu();
                 }).catch((error) => {
                     console.error("Error removing document: ", error);
                 })
