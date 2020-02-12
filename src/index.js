@@ -20,6 +20,7 @@ let initialState = {
     commentWindow: [], //array of comment pop-up window
     textTag: [],
     textValue: "",
+    titleValue: "",
     isBoardLoaded: false,
     
     //add new list window
@@ -148,7 +149,7 @@ function reducer(state = initialState, action) {
             }); 
         }
 
-        case "getEditedValue": {
+        case "getEditedValue": {  // 要複製多層
             let text=state.text.slice(0);
             let list=text[action.listId].slice(0);
             let item={...list[action.comId], text:action.newTextValue, tags:action.newTextTag};
@@ -162,7 +163,7 @@ function reducer(state = initialState, action) {
                 text: text
             });
         }
-
+        
         default:
             return state;
     }
@@ -188,13 +189,21 @@ class App extends React.Component {
                     let userEmail;
                     let useruid;
                     console.log(firebaseUid)
-    
+                    
                     user.providerData.forEach((profile) => {
                         userDisplayName = profile.displayName;
                         userEmail = profile.email;
                         userPhotoURL = profile.photoURL;
                         useruid = profile.uid;
                     });           
+
+                    if ( userDisplayName === null && userPhotoURL === null ) {
+                        let makeName = userEmail.split("@")
+                        userDisplayName = makeName[0]
+                        console.log(userDisplayName)
+                        userPhotoURL = "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2Fuser.png?alt=media&token=7eeb9f7e-f922-427a-9040-11128fd1c5cd"
+                        console.log(userPhotoURL)
+                    }
 
                     this.props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 

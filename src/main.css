@@ -7,7 +7,7 @@ body, html{
 
 main {  /* {  原本是 body */
     position: absolute;top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto; 
-    background: url(../images/mainBackground.jpg) no-repeat; background-size: 100% auto; opacity: 1; 
+    background: url(../images/mainBackground.jpg) no-repeat; background-size: 100% auto; opacity: 1;
 }
 
 main>.loading {
@@ -329,7 +329,8 @@ footer>.footerBar {
 .Lmain {
     position: absolute;	top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto;
 	background-image: url("https://images.pexels.com/photos/7096/people-woman-coffee-meeting.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-	background-size: cover;	filter: blur(5px); z-index: -1;
+    background-size: cover;	filter: blur(5px); z-index: -1;
+    
 }
 
 .Lbody {
@@ -395,6 +396,10 @@ footer>.footerBar {
 
 ::-moz-input-placeholder{
    color: rgba(255,255,255,0.6);
+}
+
+.errmsg {
+    color: red;
 }
 
 /* font-family: Lucida Console */
