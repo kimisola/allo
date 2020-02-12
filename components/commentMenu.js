@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import fire from "../src/fire";
-import priceTag from "../images/tag.png";
-import pencil from "../images/pencil.png";
 import clock from "../images/clock.png";
 import bin from"../images/bin.png";
 
@@ -18,6 +16,8 @@ class CommentMenu extends React.Component {
             commentTags: { planning:false, process:false, risk:false, achived:false },
             xCoordinate: "",
             yCoordinate: "",
+            ownerShowed: false,
+            editorShowed: false
         }
     }
 
@@ -25,6 +25,20 @@ class CommentMenu extends React.Component {
         this.setState( prevState => {
             const showMenu = !prevState.menuShowed
             return { menuShowed: showMenu }
+        });
+    }
+
+    showOwner = () => {
+        this.setState( prevState => {
+            const showOwner = !prevState.ownerShowed
+            return { ownerShowed: showOwner }
+        });
+    }
+
+    showEditor = () => {
+        this.setState( prevState => {
+            const showEditor = !prevState.editorShowed
+            return { editorShowed: showEditor }
         });
     }
 
@@ -138,7 +152,8 @@ class CommentMenu extends React.Component {
                 .update({
                     img: this.state.defaultImg, 
                     text: newTextValue,
-                    tags: newTextTag
+                    tags: newTextTag,
+                    edited: this.props.userDisplayName,
                 }).then(() => {
                     console.log("updateContent", newTextValue)
                     console.log("updateContent", newTextTag)
@@ -155,7 +170,6 @@ class CommentMenu extends React.Component {
     sendEdited = () => {
         this.updateContent();
     }
-
 
     getCoordinate = () => {
         console.log(this.props.coordinate.current.getBoundingClientRect());
@@ -175,7 +189,7 @@ class CommentMenu extends React.Component {
     }
 
     render() {
-
+        console.log(this.props.text[this.props.listId][this.props.comId])
         const menuStyle = {
             menuStyle: {
                 display: this.state.menuShowed ? 'flex' : 'none',
@@ -204,17 +218,19 @@ class CommentMenu extends React.Component {
                                 <div onClick={ () => this.sendEdited() }>儲存</div>
                             </div>
                             <div className="menuRight">
-                                <div className="menuList">
+                                <div className="menuList" onMouseEnter={ this.showOwner } onMouseLeave={ this.showOwner }>
                                     <div className="editTag">
-                                        <img src={ priceTag } />
+                                        <img src={ this.props.userPhotoURL } />
                                     </div>
-                                    <div>編輯標籤</div>
+                                    <div style={{display: this.state.ownerShowed ? 'none' : 'block' }}>擁有者</div>
+                                    <div style={{display: this.state.ownerShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].owner }</div>
                                 </div>
-                                <div className="menuList" >
+                                <div className="menuList" onMouseEnter={ this.showEditor } onMouseLeave={ this.showEditor }>
                                     <div className="editText">
-                                        <img src={ pencil } />
+                                        <img src={ this.props.userPhotoURL } />
                                     </div>
-                                    <div>編輯文字</div>
+                                    <div style={{display: this.state.editorShowed ? 'none' : 'block' }}>更新者</div>
+                                    <div style={{display: this.state.editorShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>
                                 </div>
                                 <div className="menuList">
                                     <div className="setTime">
@@ -230,6 +246,7 @@ class CommentMenu extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </React.Fragment>
@@ -244,6 +261,8 @@ const mapStateToProps = (state ,ownprops) => {
         listId : ownprops.listId,
         comId :ownprops.comId,
         firebaseUid : state.firebaseUid,
+        userDisplayName: state.userDisplayName,
+        userPhotoURL: state.userPhotoURL,
         coordinate : ownprops.coordinate,
     }
 }

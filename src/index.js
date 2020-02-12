@@ -127,13 +127,16 @@ function reducer(state = initialState, action) {
         }
  
         case "sendComment": {
+            console.log(state.userDisplayName)
             let i = action.index;
             let newText = state.text
             console.log( newText[i])
             newText[i].push({
                 img: action.newImg,
                 text: action.newText,
-                tags: action.newTags
+                tags: action.newTags,
+                owner: state.userDisplayName,
+                edited: state.userDisplayName
             })
             return Object.assign({}, state, {
                 text: newText.slice(0),
@@ -163,7 +166,7 @@ function reducer(state = initialState, action) {
                 text: text
             });
         }
-        
+
         default:
             return state;
     }
@@ -201,7 +204,7 @@ class App extends React.Component {
                         let makeName = userEmail.split("@")
                         userDisplayName = makeName[0]
                         console.log(userDisplayName)
-                        userPhotoURL = "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2Fuser.png?alt=media&token=7eeb9f7e-f922-427a-9040-11128fd1c5cd"
+                        userPhotoURL = "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2Fuser.png?alt=media&token=2005cf1c-816d-4777-95ae-d535f7a4ebb1"
                         console.log(userPhotoURL)
                     }
 

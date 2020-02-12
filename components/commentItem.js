@@ -40,8 +40,9 @@ class CommentItem extends React.Component {
                             default:
                         break;
                         }
-                    }) }
-                                            
+                    })
+                }
+
                 </div>
 
                 <CommentMenu  listId={ this.props.listIndex } comId={ this.props.j } coordinate={ this.myRef }  />

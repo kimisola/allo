@@ -38,14 +38,13 @@ class ThemeTitle extends React.Component {
                 console.log("Document successfully deleted!", t);
                 this.props.dispatch({ type: "deleteTheme", t })
                 this.props.dispatch({ type: "deleteThemeConfirmOpen" })
-                alert("刪除成功")
                 db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
                 .then(async (querySnapshot) => {
                     let doc = querySnapshot.docs;
                     for ( let i = 0; i < doc.length; i++ ) {       
                         let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
                         ref.update({
-                            index: (((i+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                            index: (((i+1)*2))  // 重新塞一次 index 給它
                         })
                     }
                 })

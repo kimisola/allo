@@ -160,21 +160,22 @@ class AddComment extends React.Component {
     
                     console.log("Hi~~~~",newText)
                     console.log("Hi~~~~",newTags)
-                    console.log("Hi~~~~",newImg)
-                    console.log("Hi~~~~", indexForItem)
+                    console.log("Hi~~~~",this.props.userDisplayName)
                 
                     route.set({
                         img: newImg,
                         tags: newTags,
                         text: newText,
-                        index: indexForItem
+                        index: indexForItem,
+                        owner: this.props.userDisplayName,
+                        edited: this.props.userDisplayName,
                     }).then(() => {
                         console.log("Document successfully written!")
                     }).catch((error)=> {
-                        console.error("Error writing document: ", error);
+                        console.log("Error writing document: ", error);
                     })
-                }).catch(() => {
-                    console.error("Error writing document: ", error);
+                }).catch((error) => {
+                    console.log("Error writing document: ", error);
                 })
             })
         }         
@@ -242,6 +243,7 @@ const mapStateToProps = (state , ownprops) => {
         whichTheme: state.whichTheme,
         addNewCommentOpen: state.addNewCommentOpen,
         commentWindow: state.commentWindow,
+        userDisplayName: state.userDisplayName,
         firebaseUid: state.firebaseUid,
     }
 }

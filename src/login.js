@@ -40,6 +40,25 @@ class LoginPage extends React.Component {
             return Object.assign({}, prevState, { password: passwordValue }) 
         })
     }
+
+    loginEmail = (event) => {
+        let emailValue = event.target.value
+        this.setState(prevState => { 
+            return Object.assign({}, prevState, { 
+                email: emailValue ,
+                message: "",
+            }) 
+        })
+    }
+
+    Loginpassword = (event) => {
+        let passwordValue = event.target.value
+        console.log(passwordValue)
+        this.setState(prevState => { 
+            return Object.assign({}, prevState, { password: passwordValue }) 
+        })
+    }
+
     
     registerWithFire = () => {
 
@@ -48,7 +67,6 @@ class LoginPage extends React.Component {
                 return Object.assign({}, prevState, { message: "error" }) 
             })
         }
-        
         // 透過 auth().createUserWithEmailAndPassword 建立使用者
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
@@ -61,6 +79,23 @@ class LoginPage extends React.Component {
             this.setState(prevState => { 
                 return Object.assign({}, prevState, { message: error.message }) 
             })
+        });
+    }
+
+    loginWithFire = () => {
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then((user) => {
+            var user = firebase.auth().currentUser;
+            console.log(user);
+        if (user) {
+            // User is signed in.
+            console.log("Login successfully")
+        } else {
+            // No user is signed in.
+        }
+        })
+        .catch((err) => {
+            console.log(err.message);
         });
     }
 
