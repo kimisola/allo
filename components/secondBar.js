@@ -4,12 +4,39 @@ import Plus from "../images/plus.png";
 import TestIcon from "../images/testIcon.jpg";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import {  grey, COMPLEMENTARY} from '@material-ui/core/colors';
+import { sizing } from '@material-ui/system';
 import { aCreatTitle, aAddNewListOpen, aGetTitleValue, aSetIndexForTitle } from"./actionCreators"
+import { object } from 'prop-types';
 
+const InviteFriend = withStyles({
+    root: {
+      '& label.Mui-focused': {
+        color: "#ffffff",
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: grey[600],
+      },
+      '& .MuiInput-formControl': {
+        marginTop: 13,
+      }
+    },
+  })(TextField);
 
 class SecondBar extends React.Component {
     constructor(props){
         super(props);
+        this.myRef = React.createRef();
+        this.state = {
+            isShowInvitation: false,
+            userMail:"",
+            userName:"",
+            userPhoto:"",
+            userFirebaseuid:"",
+            alertMsg:[],
+        }
     }
 
     addNewListOpen = () => {
@@ -83,7 +110,88 @@ class SecondBar extends React.Component {
             console.error("Error writing document: ", error);
         })
     }
-    
+
+    showInvitation = () => {
+        this.setState( prevState => {
+            const showInvitation = !prevState.isShowInvitation
+            return { isShowInvitation: showInvitation }
+        });
+    }
+        
+    getMailValue = (event ) => {  
+        let mailValue = event.target.value
+        this.setState( prevState => {
+            return Object.assign({}, prevState, {
+                userMail: mailValue
+            })
+        });
+    }
+
+    invite = (event) => {
+        if ( event.key === "Enter" ) {
+            if ( this.state.userMail !== "" ) {
+                const db = fire.firestore();
+                db.collection("Users/").where("email", "==", this.state.userMail).get()
+                .then((querySnapshot) => {
+                    if (querySnapshot.docs[0] != undefined) {
+                        let id = querySnapshot.docs[0].id
+                        db.collection("Users/").doc(id).get()
+                        .then((querySnapshot) => {
+                            let data = querySnapshot.data()
+                            this.setState( prevState => {
+                                let usermail =  data.email
+                                let username =  data.name
+                                let userphoto =  data.photo
+                                let userfirebaseuid =  data.firebaseuid 
+                                return Object.assign({}, prevState, { 
+                                    userMail: usermail,
+                                    userName: username,
+                                    userPhoto: userphoto,
+                                    userFirebaseuid: userfirebaseuid
+                                });
+                            })
+                            console.log(this.state)
+                        })
+                        .then(() => {
+                            // 寫入被邀請人 db
+                            let route = db.collection("Users/" + this.state.userFirebaseuid + "/beInvited").doc()
+                            route.set({
+                                userMail: this.props.userEmail,
+                                userName: this.props.userDisplayName,
+                                userPhoto: this.props.userPhotoURL,
+                                userFirebaseuid: this.props.firebaseUid,
+                                confirm: false
+                            }).then(() => {
+                                console.log("Document successfully written!")
+                            }).catch((error)=> {
+                                console.log("Error writing document: ", error);
+                            })
+                        })
+                        .then(() => {
+                            // 寫入邀請人 db
+                            let route = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc()
+                            route.set({
+                                userMail: this.state.userMail,
+                                userName: this.state.userName,
+                                userPhoto: this.state.userPhoto,
+                                userFirebaseuid: this.state.userFirebaseuid,
+                                confirm: false
+                            }).then(() => {
+                                console.log("Document successfully written!")
+                            }).catch((error)=> {
+                                console.log("Error writing document: ", error);
+                            })
+                            this.showInvitation()
+                        })
+                    } else {
+                        alert("請輸入正確的 email")
+                    }
+                })
+            } else if ( this.state.userMail == "" ) {
+                alert("請輸入 email")
+            }
+        }
+    }
 
     render(){
         return(
@@ -91,8 +199,18 @@ class SecondBar extends React.Component {
 
                 <div className="secondBar">
                     <div className="secondLeft">
-                        <div className="invite">邀請</div>
-                        <div className="friendList">
+                        <div className="inviteDiv" onClick={ this.showInvitation } ref={ this.myRef }>邀請</div>
+                        <div className="invite" style={{display: this.state.isShowInvitation ? 'block' : 'none' }}>
+                            <InviteFriend
+                            id="standard-textarea"
+                            label="User Email"
+                            placeholder="email"
+                            multiline
+                            onChange={ this.getMailValue }
+                            onKeyPress={ this.invite }
+                            />
+                        </div>
+                        <div className="friendList" style={{display: this.state.isShowInvitation ? 'none' : 'flex' }}>
                             <div className="friend"> <img src={ TestIcon } /> </div>
                             <div className="friend"> <img src={ TestIcon } /> </div>
                             <div className="friend"> <img src={ TestIcon } /> </div>
@@ -128,6 +246,9 @@ const mapStateToProps = (state) => {
         titleValue: state.titleValue,
         addNewListOpen: state.addNewListOpen,
         deleteConfirmThemeOpen: state.deleteConfirmThemeOpen,
+        userEmail: state.userEmail,
+        userDisplayName: state.userDisplayName,
+        userPhotoURL: state.userPhotoURL,
         firebaseUid: state.firebaseUid,
     }
 }

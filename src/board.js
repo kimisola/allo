@@ -69,7 +69,9 @@ class Board extends React.Component {
                         for ( let j = 0; j < doc2.length; j++ ) {
                             let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
                             ref.update({
-                                index: (((j+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                                index: (((j+1)*2)), // 前後留空格讓之後移動可以有空間塞
+                                // edited: "",
+                                // owner: ""
                             })           
                             myDataText.push(doc2[j].data())
                         }
@@ -135,8 +137,6 @@ class Board extends React.Component {
                                 let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
                                 ref.update({
                                     index: (((j+1)*2)),  // 前後留空格讓之後移動可以有空間塞
-                                    edited: "default",
-                                    owner: "default"
                                 })           
                                 myDataText.push(doc2[j].data())
                             }

@@ -1,9 +1,12 @@
 import React from 'react';
-import { aSetCurrentUser } from"../components/actionCreators"
+import { aSetCurrentUser } from"../components/actionCreators";
+import Notice from "../components/notice";
 import HomeImg from "../images/home.png";
 import Blackboard from "../images/blackboard.png";
+import Bell from "../images/bell.png";
 import SignOutImg from "../images/logout.png";
 import firebase from 'firebase';
+import fire from "../src/fire";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { withRouter}  from "react-router";
 import { connect } from 'react-redux';
@@ -12,10 +15,120 @@ import { connect } from 'react-redux';
 class Topbar extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            alertMsg:[],
+            alertNum:[],
+            isShowedAlert: false,
+        }
+    }
+
+    //監聽自己的資料夾
+    componentDidMount(prevProps){
+        const db = fire.firestore();
+
+        // listen for invitation ( new message )
+        db.collection("Users/" + this.props.firebaseUid + "/invitation").where("confirm", "==", true)
+        .onSnapshot(async(doc) => {
+            var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+            console.log(source, " data: ", doc.docs)
+            let docs = doc.docs;
+            let inviArr = [];
+            for ( let i = 0; i < docs.length; i++ ) {
+                db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docs[i].id).get()
+                .then((querySnapshot) => {
+                    let doc = querySnapshot.data();
+                    let newMsg = ` ${doc.userName} 同意了您的共同編輯邀請`;
+                    inviArr.push(newMsg)
+                    
+                    if ( i ==  docs.length-1 ){
+                        this.setState( prevState => {
+                            return Object.assign({}, prevState, {
+                                alertNum: inviArr
+                            });
+                        })
+                        console.log("this.state.alertNum", this.state.alertNum)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                })
+            }
+        })
+
+        // history of invitation
+        db.collection("Users/" + this.props.firebaseUid + "/invitation").where("confirm", "==", null)
+        .onSnapshot(async(doc) => {
+            var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+            console.log(source, " data: ", doc.docs)
+            let docs = doc.docs;
+            let inviArr = [];
+            for ( let i = 0; i < docs.length; i++ ) {
+                db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docs[i].id).get()
+                .then((querySnapshot) => {
+                    let doc = querySnapshot.data();
+                    let newMsg = ` ${doc.userName} 同意了您的共同編輯邀請`;
+                    inviArr.push(newMsg)
+                    
+                    if ( i ==  docs.length-1 ){
+                        this.setState( prevState => {
+                            return Object.assign({}, prevState, {
+                                alertMsg: inviArr
+                            });
+                        })
+                        console.log("this.state.alertMsg", this.state.alertMsg)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                })
+            }
+        })
+
+        // listen for beInvited
+        db.collection("Users/" + this.props.firebaseUid + "/beInvited").where("confirm", "==", false)
+        .onSnapshot(async(doc) => {
+            console.log("77777777777777", doc.docs )
+            var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+            console.log(source, " data: ", doc.docs)
+            let docs = doc.docs;
+            let beInvitArr = [];         
+            for ( let i = 0; i < docs.length; i++ ) {
+                db.collection("Users/" + this.props.firebaseUid + "/beInvited").doc(docs[i].id).get()
+                .then((querySnapshot) => {
+                    let doc = querySnapshot.data();
+                    let newMsg = ` ${doc.userName} 邀請您的共同編輯他的看板`;
+                    beInvitArr.push(newMsg)
+                    
+                    if ( i ==  docs.length-1 ){
+                        this.setState( prevState => {
+                            return Object.assign({}, prevState, {
+                                alertMsg: beInvitArr
+                            });
+                        })
+                        console.log("77777777777777", this.state.alertMsg)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                })
+            }
+        })
+    }
+
+
+    showAlert = () => {
+        this.setState( prevState => {
+            const showedAlert = !prevState.isShowedAlert
+            let resetAlertNum = prevState.alertNum
+            // resetAlertNum.length = 0
+            return { 
+                isShowedAlert: showedAlert,
+                // alertNum: resetAlertNum
+            }
+        });
     }
 
     userSignOut = () => {
-
         firebase.auth().signOut().then(() => {
             location.href = "/";
 
@@ -30,9 +143,14 @@ class Topbar extends React.Component {
             console.log(error)
         });
     }
-
-
+    
     render(){
+
+        console.log("this.state.alertMsg", this.state.alertMsg)
+        let oldMsg = this.state.alertMsg
+        let newMsg = this.state.alertNum
+        let renderMsg = newMsg.concat(oldMsg);
+
         return(
             <React.Fragment>
                        
@@ -51,6 +169,23 @@ class Topbar extends React.Component {
                                     <Link to="/Board"> <img src={ Blackboard } /> </Link>
                                 </div>
                             </div>
+                            <div className="boardList" onClick={ this.showAlert}>
+                                <img src={ Bell } />
+                                <div className="alertMsg"> { this.state.alertNum.length } </div>
+                            </div>
+
+                            <div className="alertMenu" style={{display: this.state.isShowedAlert ? 'block' : 'none' }}>
+                            { renderMsg.map((item, i) => {
+                                return (
+                                    <React.Fragment key={i}>
+                                    {/* <div className="showMenuBackground" onClick={ this.showAlert}></div> */}
+                                    <Notice message={item} index={i} />
+                                    </React.Fragment>
+                                )
+                            }) } 
+                                    
+                            </div>
+
                             <div className="memberIcon">
                                 <img src={ this.props.userPhotoURL } />
                             </div>
@@ -69,6 +204,7 @@ const mapStateToProps = (state) => {
     return {
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
+        firebaseUid: state.firebaseUid,
     }
 }
 

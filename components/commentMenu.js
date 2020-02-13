@@ -81,13 +81,15 @@ class CommentMenu extends React.Component {
         let comId = this.props.comId;
         console.log(listId,"listId")
         console.log(comId,"comId")
-        this.props.dispatch({ type: "deleteComment", listId, comId }) //delete state comment
-        this.showMenu();
 
         const db = fire.firestore();
         const firebaseUid = this.props.firebaseUid;
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
         .then( async (querySnapshot) => {
+
+            this.props.dispatch({ type: "deleteComment", listId, comId }) //delete state comment
+            this.showMenu();    
+
             let docId =  querySnapshot.docs[0].id;
             // let coll = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items")
             db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
@@ -189,7 +191,6 @@ class CommentMenu extends React.Component {
     }
 
     render() {
-        console.log(this.props.text[this.props.listId][this.props.comId])
         const menuStyle = {
             menuStyle: {
                 display: this.state.menuShowed ? 'flex' : 'none',
