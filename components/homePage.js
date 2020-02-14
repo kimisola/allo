@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import fire from "../src/fire";
+import Cancel from "../images/cancel.png";
 
 class HomePage extends React.Component {
     constructor(props){
@@ -22,32 +23,39 @@ class HomePage extends React.Component {
         }
     } 
 
-    onSave = val => {
-        console.log('Edited Value -> ', val)
-    }
-
-
     componentDidMount  (){
-        let firebaseUid  = this.props.firebaseUid;
-        const db = fire.firestore();
-                //找到資料庫裡邀請是false的doc
+        let firebaseUid = this.props.firebaseUid
+        console.log("00000000000firebaseUid", firebaseUid);
+        if (firebaseUid == "") {  // 確認中
+
+        }else if (firebaseUid == null) {  //未登入
+            window.location = "/";
+        } 
+        else {
+            getMessageData(firebaseUid);
+        }
+
+        async function getMessageData(firebaseUid) {  
+            const db = fire.firestore();
+                //找到資料庫裡邀請是　false　的　doc
                 db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
                 .then((querySnapshot) => {
-                    //---------------這邊可以抓到所有資料 可用來渲染----------------
                     let rend = [];
                     for(let i = 0 ; i < querySnapshot.docs.length ; i ++ ){
                         console.log(querySnapshot.docs[i].data())
                         let send = querySnapshot.docs[i].data()
-                        send.userName = send.userName + "邀請您的共同編輯他的看板"
+                        send.userName = ( send.userName + "　邀請您的共同編輯他的看板" );
                         rend.push(send);
                     }
                     this.setState( prevState => {
                         return Object.assign({}, prevState, {
                             renders: rend,
                         })
-                    });
-                    
-            })
+                    });             
+                }).catch((error) =>{
+                    console.log(error.massage);
+                })
+            }
         }
 
     render(){
@@ -67,19 +75,11 @@ class HomePage extends React.Component {
                             <div className="list">
                                 {/* <div className="name">電子郵件</div> */}
                                 <div className="content">{this.props.userEmail}</div>
-                                
                             </div>
                             <div className="list">
                                 {/* <div className="name">使用者名稱</div> */}
                                 <div className="content name" >{this.props.userDisplayName}</div>
                             </div>
-                            {/* <div className="list">
-                                <div className="name">好友名單</div>
-                                <li className="content">June</li>
-                                <li className="content">Shaun</li>
-                                <li className="content">YC</li>
-                                <li className="content">CW P</li>
-                            </div> */}
                         </div>
                     </div>
 
@@ -118,22 +118,81 @@ class HomePage extends React.Component {
                             <div className="readBoard item">看板列表</div>
                             <div className="readNotice item">通知一覽</div>
                             <div className="list">
-                                <div className="name">好友名單</div>
-                                <li className="content">June</li>
-                                <li className="content">Shaun</li>
-                                <li className="content">YC</li>
-                                <li className="content">CW P</li>
+                                
+                                <div className="listTitle">
+                                    <div className="name">好友名單</div>
+                                    <div>
+                                        <img />
+                                    </div>
+                                </div>
+                                <div className="listContent">
+                                        <div className="content">
+                                            <div className="name">June</div>
+                                            <div className="delete">
+                                                <img src={Cancel}/>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            <div className="name">Shaun</div>
+                                            <div className="delete">
+                                                <img src={Cancel}/>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            <div className="name">YC</div>
+                                            <div className="delete">
+                                                <img src={Cancel}/>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            <div className="name">CW P</div>
+                                            <div className="delete">
+                                                <img src={Cancel}/>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            <div className="name">CW P</div>
+                                            <div className="delete">
+                                                <img src={Cancel}/>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            <div className="name">CW P</div>
+                                            <div className="delete">
+                                                <img src={Cancel}/>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            <div className="name">CW P</div>
+                                            <div className="delete">
+                                                <img src={Cancel}/>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            <div className="name">CW P</div>
+                                            <div className="delete">
+                                                <img src={Cancel}/>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            <div className="name">CW P</div>
+                                            <div className="delete">
+                                                <img src={Cancel}/>
+                                            </div>
+                                        </div>
+
+                                </div>
                             </div>
                         </div>
 
 
                         <div className="boardLists">
                             <div className="section">
-                                <div className="category">你的通知</div>
+                                <div className="category">通知一覽</div>
                                 <div className="bars">
 
                                 {this.state.renders.map((item)=>
-                                    
+                                   <React.Fragment> 
                                     <div className="sanckbar">
                                         <div className="msg">
                                             <div className="imgDiv">
@@ -146,6 +205,19 @@ class HomePage extends React.Component {
                                             <div className="deny">拒絕</div>
                                         </div>
                                     </div>
+                                    <div className="sanckbar">
+                                        <div className="msg">
+                                            <div className="imgDiv">
+                                                <img src={item.userPhoto} />
+                                            </div>
+                                            <p>{item.userName} </p>
+                                        </div>
+                                        <div className="buts">
+                                            <div className="accept">確認</div>
+                                            <div className="deny">拒絕</div>
+                                        </div>
+                                    </div>
+                                    </React.Fragment>
                                 )}
 
                                 </div>

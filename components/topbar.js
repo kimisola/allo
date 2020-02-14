@@ -15,15 +15,24 @@ import { connect } from 'react-redux';
 class Topbar extends React.Component {
     constructor(props){
         super(props);
+        this.myRef = React.createRef();
         this.state = {
             alertMsg:[],
-            alertNum:[],
+            alertNum: null,
             isShowedAlert: false,
+            xCoordinate: "",
+            yCoordinate: "",
         }
     }
 
     //監聽自己的資料夾
-    componentDidMount(prevProps){
+    componentDidUpdate(prevProps){
+        if(!this.props.firebaseUid){
+            return;
+        }
+        if(this.state.alertNum!==null){
+            return;
+        }
         const db = fire.firestore();
 
         // listen for invitation ( new message )
@@ -117,15 +126,29 @@ class Topbar extends React.Component {
 
 
     showAlert = () => {
+        console.log("座標來", this.myRef.current.getBoundingClientRect())
+        let data = this.myRef.current.getBoundingClientRect()
         this.setState( prevState => {
+            
+            let xCoordinate = prevState.xCoordinate
+            xCoordinate = data.x
+            let yCoordinate = prevState.yCoordinate
+            yCoordinate = data.y
+            console.log(yCoordinate)
             const showedAlert = !prevState.isShowedAlert
             let resetAlertNum = prevState.alertNum
             // resetAlertNum.length = 0
-            return { 
+            console.log(this.state)
+            return {
+                xCoordinate: xCoordinate,
+                yCoordinate: yCoordinate,
                 isShowedAlert: showedAlert,
                 // alertNum: resetAlertNum
             }
+            
         });
+
+
     }
 
     userSignOut = () => {
@@ -147,9 +170,19 @@ class Topbar extends React.Component {
     render(){
 
         console.log("this.state.alertMsg", this.state.alertMsg)
-        let oldMsg = this.state.alertMsg
-        let newMsg = this.state.alertNum
+        let oldMsg = this.state.alertMsg==null?[]:this.state.alertMsg;
+        let newMsg = this.state.alertNum==null?[]:this.state.alertNum;
         let renderMsg = newMsg.concat(oldMsg);
+
+
+        const menuStyle = {
+            menuStyle: {
+                display: this.state.isShowedAlert ? 'block' : 'none',
+                position: "fixed",
+                top: (this.state.yCoordinate + 37),
+                left: this.state.xCoordinate
+            },
+        }
 
         return(
             <React.Fragment>
@@ -169,16 +202,18 @@ class Topbar extends React.Component {
                                     <Link to="/Board"> <img src={ Blackboard } /> </Link>
                                 </div>
                             </div>
-                            <div className="boardList" onClick={ this.showAlert}>
+                            <div className="boardList" onClick={ this.showAlert} ref={ this.myRef }>
                                 <img src={ Bell } />
-                                <div className="alertMsg"> { this.state.alertNum.length } </div>
+                                <div className="alertMsg"> { newMsg.length } </div>
                             </div>
 
-                            <div className="alertMenu" style={{display: this.state.isShowedAlert ? 'block' : 'none' }}>
+                            <div className="alertMenu" style={menuStyle.menuStyle}>
+                            {/* <div className="showMenuBackground" onClick={ this.showAlert}></div> */}
                             { renderMsg.map((item, i) => {
                                 return (
                                     <React.Fragment key={i}>
-                                    {/* <div className="showMenuBackground" onClick={ this.showAlert}></div> */}
+                                    
+                                    {/* <Link to="/HomePage"> <li> {item} </li> </Link> */}
                                     <Notice message={item} index={i} />
                                     </React.Fragment>
                                 )

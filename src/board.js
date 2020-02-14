@@ -30,12 +30,13 @@ class Board extends React.Component {
         let Data2 = [];  // store comment text
         let firebaseUid = this.props.firebaseUid
         console.log("firebaseUid", firebaseUid);
-        if (firebaseUid) {
-            getTitles(firebaseUid);
-         } 
+        if (firebaseUid == "") {  // 確認中
+
+        }else if (firebaseUid == null) {  //未登入
+            window.location = "/";
+        } 
         else {
-            console.log("尚未登入喔喔喔喔")
-            window.location = "/"
+            getTitles(firebaseUid);
         }
 
         async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次

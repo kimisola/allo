@@ -62,13 +62,13 @@ img {
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: 0px;top: 0px;text-align: center;color: white;padding-bottom: 3px;
 }
 .view>.topBar>.topRight>.alertMenu {
-    position: absolute; top: 50px; right: 70px;width: 130px;border-radius: 3px;
+    width: 150px;border-radius: 3px;
 }
 .view>.topBar>.topRight>.alertMenu>.showMenuBackground {
-    position: fixed; top: 0; right: 0;left: 0;bottom: 0;
+    position: fixed; top: 0; right: 0;left: 0;bottom: 0;z-index: 2;
 }
 .view>.topBar>.topRight>.alertMenu li{
-    background-color: rgba(0,0,0,0.6);color: white; font-size: 13px; list-style:none;margin-bottom:2px; padding: 3px;z-index: 5;
+    background-color: rgba(0,0,0,0.6);color: white; font-size: 13px; padding: 3px 8px 3px 8px;z-index: 5;list-style:none;z-index: 5;
 }
 .view>.topBar>.topRight>.alertMenu li:hover{
     background-color: rgba(0,0,0,0.8);
@@ -432,11 +432,12 @@ footer>.footerBar {
 
 /* CSS for home page */
 #root>.homebackground {
-    position: fixed; top: 0; right: 0;left: 0;bottom: 0;background: url(../images/homepagecover.jpg) no-repeat; background-size: 100% auto; opacity: 1;height: 280px;z-index: -1;
+    background: url(../images/homepagecover.jpg) no-repeat; background-size: 100% auto; opacity: 1;height: 280px;z-index: -1;
 }
 
 #root>.topBar {
-    max-height: 43px; display: flex; background-color:  rgba(70, 65, 89, 0.25); justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px;
+    max-height: 43px; display: flex; background-color:  rgba(70, 65, 89, 0.25); justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px; position: absolute;top: 0;left: 0;right: 0;
+    
 }
 
 #root>.topBar>.topLeft,
@@ -474,37 +475,40 @@ footer>.footerBar {
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: 0px;top: 0px;text-align: center;color: white;padding-bottom: 3px;
 }
 #root.topBar>.topRight>.alertMenu {
-    position: absolute; top: 50px; right: 70px;width: 130px;border-radius: 3px;
+    width: 150px;border-radius: 3px;background-color: rgba(0,0,0,0.6);
 }
 #root>.topBar>.topRight>.alertMenu>.showMenuBackground {
     position: fixed; top: 0; right: 0;left: 0;bottom: 0;
 }
+
 #root>.topBar>.topRight>.alertMenu li{
-    background-color: rgba(0,0,0,0.6);color: white; font-size: 13px; list-style:none;margin-bottom:2px; padding: 3px;z-index: 5;
+    background-color: rgba(0,0,0,0.6);color: white; font-size: 13px; list-style:none;padding: 3px 8px 3px 8px;z-index: 5;list-style:none;
 }
-#root>.topBar>.topRight>.alertMenu li:hover{
+#root>.topBar>.topRight>.alertMenu li:hover {
     background-color: rgba(0,0,0,0.8);
 }
 
+
+
 .homepage {
-    display: flex;margin: 120px auto 0px auto; width: 75%; flex-direction: column;
+    display: flex; margin: -90px auto 0px auto; width: 75%; flex-direction: column;
 }
 
 .homepage>.profile {
-    flex-grow: 0.5;display: flex; padding: 10px;
+    flex-grow: 0.5; display: flex;
 }
 
 .homepage>.profile>.myImg {
-    width: 200px;
+    width: 180px;
 }
 .homepage>.profile>.myImg img{
     border-radius: 100%;
 }
 .homepage>.profile>.details {
-    display: flex;flex-direction: column-reverse;padding: 0 0 30px 30px;
+    display: flex;flex-direction: column-reverse;padding: 0 0 15px 30px;
 }
 .homepage>.profile>.details>.list>.name {
-    font-weight:bold; font-size: 23px;margin-bottom: 10px;
+    font-weight: bolder;font-size: 22px;margin-bottom: 10px;
 }
 
 
@@ -531,18 +535,42 @@ footer>.footerBar {
 
 /* menu */
 .homepage>.mainContent {
-    display: flex; margin-top: 30px;
+    display: flex; margin-top: 50px;
 }
 .homepage>.mainContent>.menu {
-    flex-grow: 1;
+    display: flex; flex-direction: column; margin-left: 15px;
 }
-.homepage>.mainContent>.boardLists {
-    flex-grow: 3;margin-left: 50px;
+.homepage>.mainContent>.menu>.readBoard,
+.homepage>.mainContent>.menu>.readNotice,
+.homepage>.mainContent>.menu>.list>.listTitle {
+    letter-spacing: 5px; height: 40px; border:1px solid rgba(211, 211, 211, 0.6);display: flex; background-color: white;margin-bottom: 10px;padding: 0 35px 0 35px;align-items: center;
 }
+.homepage>.mainContent>.menu>.readBoard:hover,
+.homepage>.mainContent>.menu>.readNotice:hover,
+.homepage>.mainContent>.menu>.list>.listTitle:hover,
+.homepage>.mainContent>.menu>.readBoard:active,
+.homepage>.mainContent>.menu>.readNotice:active,
+.homepage>.mainContent>.menu>.list>.listTitle:active{
+    border:1px solid rgba(211, 211, 211); background-color: rgba(211, 211, 211,0.3); ;
+}
+.homepage>.mainContent>.menu>.list>.listContent>.content {
+    display: flex;justify-content: space-between;margin-bottom: 8px;
+}
+.homepage>.mainContent>.menu>.list>.listContent>.content>.delete {
+    width: 16px;
+}
+
 
 
 
 /* messages */
+.homepage>.mainContent>.boardLists {
+    flex-grow: 1;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6)
+}
+
+.homepage>.mainContent>.boardLists>.section>.category {
+    font-weight: bolder; font-size: 20px; text-shadow: 0 1px 1px 0;
+}
 .homepage>.mainContent>.boardLists>.section>.bars {
     display: flex; flex-wrap: wrap;flex-direction: column;
 }
