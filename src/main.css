@@ -350,80 +350,73 @@ footer>.footerBar {
 
 
 /* CSS for login page */
-.Lmain {
-    position: absolute;	top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto;
-	background-image: url("https://images.pexels.com/photos/7096/people-woman-coffee-meeting.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-    background-size: cover;	filter: blur(5px); z-index: -1;
+.login-background {
+    background-color: rgba(0, 146, 199, 1); position: absolute; top: 0;right: 0;left: 0;height: 78%;z-index: -1;
+}
+.login-main {
+    display: flex;
+}
+.login-main>.login-content {
+    display: flex; flex-direction: column-reverse; flex-grow: 2;margin: 0 0 5% 8%;
+}
+.login-main>.login-img {
+    width: 700px;transform:rotate(5deg); margin: 7.5% 1.2% 0 20px;
+}
+.login-main>.login-content>.signinArea {
+    margin-top: 30px;
+}
+
+
+#standard-textarea-a,
+#standard-textarea-b {
+    color: white;max-height: 18px;
+}
+.login-main>.login-content>.signinArea>.signup>.errmsg {
+    height: 0px;color: rgba(255, 71, 26);font-weight: bold;
+}
+.login-main>.login-content>.signinArea>.signup>.rigister-div {
+    display: flex;flex-direction: row-reverse;
+}
+.login-main>.login-content>.signinArea>.signup>.rigister-div>.rigister-img{
+    width: 48px;
+}
+.login-main>.login-content>.signinArea>.signup {
+    display: flex;flex-direction: column;max-width: 350px;
+}
+.login-main>.login-content>.textContent {
+    width: 500px;
+}
+.login-main>.login-content>.textContent>.slogan p>.webName {
+    display: inline-block;font-size: 58px;
+}
+.login-main>.login-content>.textContent>.slogan {
+    margin-top: 8%;
+}
+.login-main>.login-content>.textContent>.slogan p{
+    color: white; font-weight: bolder;font-size: 34px;margin:5px auto;
+}
+.login-main>.login-content>.textContent>.details p{
+    color: white; font-weight: bolder;font-size: 18px;margin-top:15px;  
+}
+
+/* .login-main>.login-content>.buttons {
     
+} */
+
+.login-main>.login-content>.signinArea>.signup input,
+.b-button {
+	width: 180px; height: 40px;background: #fff; border: 1px solid #fff; border-radius: 2px;color: #a18d6c; font-family: Lucida Console; font-size: 16px;padding: 5px;margin: 30px 30px 0px 0 ;
 }
 
-.Lbody {
-    position: absolute;	top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto;
+.b-button:hover,
+.b-button:active{
+	background-color: rgba(242, 242, 242);
 }
 
-.Lgard {
-	position: absolute;	top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto; background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
-	z-index: 1;	opacity: 0.7;
-}
 
-.Lheader>.Ltitle {
-    width: 350px; margin: 80px 60px;
-}
 
-.Lheader>.Ltitle img {
-    width: 100%;
-}
-.Lname {
-    font-family: 'Exo', sans-serif ; font-size: 70px;line-height: 0px;color: #5379fa !important; margin-right: 40px; width: 150px;
-}
 
-.Llogin{
-    position: absolute; display: flex; top: calc(50% - 42px); left: calc(50% - 320px); height: 150px;width: 350px; padding: 10px; z-index: 2;
-}
 
-.Llogin input[type=text]{
-	width: 250px; height: 30px; background: transparent; border: 1px solid rgba(255,255,255,0.6); border-radius: 2px;color: #fff; font-family: Lucida Console; font-size: 16px;font-weight: 400; padding: 5px;
-}
-
-.Llogin input[type=password]{
-	width: 250px; height: 30px;background: transparent; border: 1px solid rgba(255,255,255,0.6); border-radius: 2px; color: white; font-size: 16px; font-weight: 400; font-family: Lucida Console;padding: 5px;margin-top: 10px;
-}
-
-.Llogin input[type=button]{
-	width: 260px; height: 40px;background: #fff; border: 1px solid #fff; cursor: crosshair; border-radius: 2px;color: #a18d6c; font-family: Lucida Console; font-size: 16px;padding: 5px;margin-top: 10px;
-}
-
-.Llogin input[type=button]:hover{
-	opacity: 0.8;
-}
-
-.Llogin input[type=button]:active{
-	opacity: 0.6;
-}
-
-.Llogin input[type=text]:focus{
-	outline: none; border: 1px solid rgba(255,255,255,0.9);
-}
-
-.Llogin input[type=password]:focus{
-	outline: none; border: 1px solid rgba(255,255,255,0.9);
-}
-
-.Llogin input[type=button]:focus{
-	outline: none;
-}
-
-::-webkit-input-placeholder{
-   color: rgba(255,255,255,0.6);
-}
-
-::-moz-input-placeholder{
-   color: rgba(255,255,255,0.6);
-}
-
-.errmsg {
-    color: red;
-}
 
 /* font-family: Lucida Console */
 
@@ -437,7 +430,6 @@ footer>.footerBar {
 
 #root>.topBar {
     max-height: 43px; display: flex; background-color:  rgba(70, 65, 89, 0.25); justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px; position: absolute;top: 0;left: 0;right: 0;
-    
 }
 
 #root>.topBar>.topLeft,
@@ -487,8 +479,6 @@ footer>.footerBar {
 #root>.topBar>.topRight>.alertMenu li:hover {
     background-color: rgba(0,0,0,0.8);
 }
-
-
 
 .homepage {
     display: flex; margin: -90px auto 0px auto; width: 75%; flex-direction: column;
@@ -551,7 +541,7 @@ footer>.footerBar {
 .homepage>.mainContent>.menu>.readBoard:active,
 .homepage>.mainContent>.menu>.readNotice:active,
 .homepage>.mainContent>.menu>.list>.listTitle:active{
-    border:1px solid rgba(211, 211, 211); background-color: rgba(211, 211, 211,0.3); ;
+    border:1px solid rgba(211, 211, 211); background-color: rgba(211, 211, 211,0.3);
 }
 .homepage>.mainContent>.menu>.list>.listContent>.content {
     display: flex;justify-content: space-between;margin-bottom: 8px;
@@ -605,4 +595,17 @@ footer>.footerBar {
 /* set CSS by ID */
 #standard-textarea {
     max-height: 15px; margin-bottom: 3px;width: 150px;font-size: 14px;
+}
+
+/* memo */
+.Llogin input[type=button]{
+width: 260px; height: 40px;background: #fff; border: 1px solid #fff; cursor: crosshair; border-radius: 2px;color: #a18d6c; font-family: Lucida Console; font-size: 16px;padding: 5px;margin-top: 10px;
+}
+
+.Llogin input[type=button]:hover{
+opacity: 0.8;
+}
+
+.Llogin input[type=button]:active{
+opacity: 0.6;
 }

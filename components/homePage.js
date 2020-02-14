@@ -15,13 +15,10 @@ class HomePage extends React.Component {
         this.state = {
             isShowInvitation: false,
             renders:[],
-            // userEmail:"",
-            // userName:"",
-            // userPhoto:"",
-            // userFirebaseuid:"",
-            // alertMsg:[],
         }
     } 
+
+
 
     componentDidMount  (){
         let firebaseUid = this.props.firebaseUid
@@ -31,15 +28,19 @@ class HomePage extends React.Component {
         }else if (firebaseUid == null) {  //未登入
             window.location = "/";
         } 
-        else {
-            getMessageData(firebaseUid);
-        }
+    }
 
-        async function getMessageData(firebaseUid) {  
+    componentDidUpdate (){
+        console.log(this.state.renders,"componentdidIpdateRun")
+        console.log(this.state.renders[0] == undefined)
+        if ( this.state.renders[0] == undefined ) {
             const db = fire.firestore();
-                //找到資料庫裡邀請是　false　的　doc
-                db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
+            let firebaseUid = this.props.firebaseUid
+            console.log(firebaseUid,"querySnapshotHomePage")
+            //找到資料庫裡邀請是　false　的　doc
+            db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
                 .then((querySnapshot) => {
+                    console.log(querySnapshot,"querySnapshotHomePage")
                     let rend = [];
                     for(let i = 0 ; i < querySnapshot.docs.length ; i ++ ){
                         console.log(querySnapshot.docs[i].data())
@@ -51,12 +52,57 @@ class HomePage extends React.Component {
                         return Object.assign({}, prevState, {
                             renders: rend,
                         })
-                    });             
+                    }); 
                 }).catch((error) =>{
-                    console.log(error.massage);
-                })
-            }
+            console.log(error.massage);
+            })
         }
+    }
+
+    test = (index) =>{
+        console.log(index)
+        const db = fire.firestore();
+        let firebaseUid = this.props.firebaseUid
+        //-------------抓到userFirebaseuid 反推對方invitation 改confirm->true--------------
+        db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
+        .then((querySnapshot) => {
+        console.log(querySnapshot.docs[index].data().userFirebaseuid)
+        //下方docs[0]為模擬點擊陣列第一個(index判斷沒有加上)
+        //修改自己的集合
+        let myId = querySnapshot.docs[index].id
+        let beInvitedToTrue = db.collection("Users/" + firebaseUid + "/beInvited").doc(myId)
+        beInvitedToTrue.update({confirm: true})
+
+
+        let tkFiredaseUid = querySnapshot.docs[index].data().userFirebaseuid
+        //去對方的集合找自己的firebaseUid
+        db.collection("Users/" + tkFiredaseUid + "/invitation").where("userFirebaseuid", "==", firebaseUid)
+        .get().then((querySnapshot) => {
+        console.log(querySnapshot)
+        //querySnapshot.docs[0].id 為固定寫法 因為where抓firebaseUid常理只會有一筆
+        let tkDocId = querySnapshot.docs[0].id
+        let  ref = db.collection("Users/" + tkFiredaseUid + "/invitation").doc(tkDocId)
+        console.log(ref)
+        ref.update({confirm: true}) 
+        })
+    })
+    }
+    test1 = (index) =>{
+        console.log(index)
+        const db = fire.firestore();
+        let firebaseUid = this.props.firebaseUid
+        //-------------抓到userFirebaseuid 反推對方invitation 改confirm->true--------------
+        db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
+        .then((querySnapshot) => {
+        console.log(querySnapshot.docs[index].data().userFirebaseuid)
+        //下方docs[0]為模擬點擊陣列第一個(index判斷沒有加上)
+        //修改自己的集合
+        let myId = querySnapshot.docs[index].id
+        let beInvitedToTrue = db.collection("Users/" + firebaseUid + "/beInvited").doc(myId)
+        beInvitedToTrue.update({confirm: null})
+
+    })
+    }
 
     render(){
         return(
@@ -191,7 +237,7 @@ class HomePage extends React.Component {
                                 <div className="category">通知一覽</div>
                                 <div className="bars">
 
-                                {this.state.renders.map((item)=>
+                                {this.state.renders.map((item, index)=>
                                    <React.Fragment> 
                                     <div className="sanckbar">
                                         <div className="msg">
@@ -201,8 +247,8 @@ class HomePage extends React.Component {
                                             <p>{item.userName} </p>
                                         </div>
                                         <div className="buts">
-                                            <div className="accept">確認</div>
-                                            <div className="deny">拒絕</div>
+                                            <div className="accept" onClick={ () => this.test(index)}>確認</div>
+                                            <div className="deny" onClick={ () => this.test1(index)}>拒絕</div>
                                         </div>
                                     </div>
                                     <div className="sanckbar">
@@ -213,8 +259,8 @@ class HomePage extends React.Component {
                                             <p>{item.userName} </p>
                                         </div>
                                         <div className="buts">
-                                            <div className="accept">確認</div>
-                                            <div className="deny">拒絕</div>
+                                            <div className="accept" onClick={ () => this.test(index)}>確認</div>
+                                            <div className="deny" onClick={ () => this.test1(index)}>拒絕</div>
                                         </div>
                                     </div>
                                     </React.Fragment>
