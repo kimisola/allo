@@ -354,35 +354,44 @@ footer>.footerBar {
     background-color: rgba(0, 146, 199, 1); position: absolute; top: 0;right: 0;left: 0;height: 78%;z-index: -1;
 }
 .login-main {
-    display: flex;
+    display: flex;position: relative;
 }
 .login-main>.login-content {
-    display: flex; flex-direction: column-reverse; flex-grow: 2;margin: 0 0 5% 8%;
+    flex-grow: 2; display: flex; flex-direction: column-reverse; margin: 0 0 5% 8%;
 }
 .login-main>.login-img {
-    width: 700px;transform:rotate(5deg); margin: 7.5% 1.2% 0 20px;
-}
-.login-main>.login-content>.signinArea {
-    margin-top: 30px;
+    width: 47%; transform:rotate(5deg); margin: 6% 1.3% 0 0;box-shadow: 0 5px 15px 0 lightgray
 }
 
+.login-main>.login-content>.signinArea {
+    margin-top: 30px;height: 260px;
+}
 
 #standard-textarea-a,
-#standard-textarea-b {
+#standard-textarea-b,
+#standard-textarea-c,
+#standard-textarea-d {
     color: white;max-height: 18px;
 }
-.login-main>.login-content>.signinArea>.signup>.errmsg {
-    height: 0px;color: rgba(255, 71, 26);font-weight: bold;
-}
-.login-main>.login-content>.signinArea>.signup>.rigister-div {
-    display: flex;flex-direction: row-reverse;
-}
-.login-main>.login-content>.signinArea>.signup>.rigister-div>.rigister-img{
-    width: 48px;
-}
-.login-main>.login-content>.signinArea>.signup {
+
+.login-main>.login-content>.signinArea>.signup,
+.login-main>.login-content>.signinArea>.login {
     display: flex;flex-direction: column;max-width: 350px;
 }
+
+.login-main>.login-content>.signinArea>.signup>.errmsg ,
+.login-main>.login-content>.signinArea>.login>.errmsg {
+    height: 0px;color: rgba(255, 71, 26);font-weight: bold;
+}
+.login-main>.login-content>.signinArea>.signup>.rigister-div,
+.login-main>.login-content>.signinArea>.login>.login-div {
+    display: flex;flex-direction: row-reverse;
+}
+.login-main>.login-content>.signinArea>.signup>.rigister-div>.rigister-img,
+.login-main>.login-content>.signinArea>.login>.login-div>.login-img{
+    width: 48px;
+}
+
 .login-main>.login-content>.textContent {
     width: 500px;
 }

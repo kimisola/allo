@@ -8,8 +8,6 @@ import fire from "../src/fire";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import {  grey, COMPLEMENTARY} from '@material-ui/core/colors';
-import { sizing } from '@material-ui/system';
 
 const InviteFriend = withStyles({
     root: {
@@ -17,7 +15,7 @@ const InviteFriend = withStyles({
         color: "#ffffff",
       },
       '& .MuiInput-underline:after': {
-        borderBottomColor: grey[600],
+        borderBottomColor: "#ffffff",
       },
     //   '& .MuiInput-formControl': {
     //     marginTop: 13,
@@ -34,6 +32,9 @@ class LoginPage extends React.Component {
             email: "",
             password: "",
             message: "",
+            isRegisted: false,
+            isLoginin: false,
+            isSigninArea: false,
         }
     }
 
@@ -116,10 +117,45 @@ class LoginPage extends React.Component {
             // No user is signed in.
         }
         })
-        .catch((err) => {
-            console.log(err.message);
+        .catch((error) => {
+            this.setState(prevState => { 
+                return Object.assign({}, prevState, { message: error.message }) 
+            })
         });
     }
+
+    switchToRegister = () => {
+        this.setState( prevState => {
+            let isRegisted = prevState.isRegisted
+            isRegisted = true
+            let isLoginin = prevState.isLoginin
+            isLoginin = false
+            let isSigninArea = prevState.isSigninArea
+            isSigninArea = true
+            return { 
+                isRegisted: isRegisted,
+                isLoginin: isLoginin,
+                isSigninArea: isSigninArea
+            }
+        }); 
+    }
+
+    switchToLogin = () => {
+        this.setState( prevState => {
+            let isRegisted = prevState.isRegisted
+            isRegisted = false
+            let isLoginin = prevState.isLoginin
+            isLoginin = true
+            let isSigninArea = prevState.isSigninArea
+            isSigninArea = true
+            return { 
+                isRegisted: isRegisted,
+                isLoginin: isLoginin,
+                isSigninArea: isSigninArea
+            }
+        }); 
+    }
+
 
     render(){
         return(
@@ -133,24 +169,24 @@ class LoginPage extends React.Component {
                     <div className="login-content">
                                            
                         <div className="buttons">
-                            <input className="b-button" type="button" value="Register" />
-                            <input className="b-button" type="button" value="Login" />
+                            <input className="b-button switch-register" type="button" value="Register" onClick={ this.switchToRegister }/>
+                            <input className="b-button switch-login" type="button" value="Login" onClick={ this.switchToLogin }/>
                         </div>
 
-                        <div className="signinArea">
-                            <div className="signup">
+                        <div className="signinArea" style={{display: this.state.isSigninArea ? 'block' : 'none' }}>
+
+                            {/* 註冊滑出的 div */}
+                            <div className="signup" style={{display: this.state.isRegisted ? 'flex' : 'none' }}>
                                 <InviteFriend   id="standard-textarea-a"
                                 label="Enter email"
                                 multiline
                                 onChange={ this.getMailValue }
-                                onKeyPress={ this.invite }
                                 /><br />
                                 <InviteFriend
                                 id="standard-textarea-b"
                                 label="Enter password"
                                 multiline
                                 onChange={ this.getMailValue }
-                                onKeyPress={ this.invite }
                                 />
                                 <p className="errmsg"> {this.state.message} </p>
                                 <div className="rigister-div">
@@ -159,37 +195,30 @@ class LoginPage extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className="login">
-                                <input type="text" placeholder="email" name="email" onChange={ this.loginEmail }/><br />
-                                <input type="password" placeholder="password" name="password" onChange={ this.Loginpassword } /><br />
-                                <input type="button" value="Login" onClick={ this.loginWithFire }/>
+
+                            {/* 登入滑出的 div */}
+                            <div className="login" style={{display: this.state.isLoginin ? 'flex' : 'none' }}>
+                                <InviteFriend   id="standard-textarea-c"
+                                label="Email"
+                                multiline
+                                onChange={ this.loginEmail }
+                                /><br />
+                                <InviteFriend
+                                id="standard-textarea-d"
+                                label="Password"
+                                multiline
+                                onChange={ this.Loginpassword  }
+                                />
                                 <p className="errmsg"> {this.state.message} </p>
+                                <div className="login-div">
+                                    <div className="login-img">
+                                        <img src={ Right } onClick={ this.loginWithFire }/>
+                                    </div>
+                                </div>                              
                                 <GLogin />
-                            </div> */}
+                            </div>
                         </div>
 
-
-
-
-                        <GLogin />
-
-
-
-                        {/* <div className="signinArea">
-                            <div className="signup">
-                                <input type="text" placeholder="email" name="email" onChange={ this.getEmail }/><br />
-                                <input type="password" placeholder="password" name="password" onChange={ this.getPassword } /><br />
-                                <input type="button" value="Register" onClick={ this.registerWithFire }/>
-                                <p className="errmsg"> {this.state.message} </p>
-                            </div>
-                            <div className="login">
-                                <input type="text" placeholder="email" name="email" onChange={ this.loginEmail }/><br />
-                                <input type="password" placeholder="password" name="password" onChange={ this.Loginpassword } /><br />
-                                <input type="button" value="Login" onClick={ this.loginWithFire }/>
-                                <p className="errmsg"> {this.state.message} </p>
-                                <GLogin />
-                            </div>
-                        </div> */}
 
                         <div className="textContent">
                             <div className="slogan">
