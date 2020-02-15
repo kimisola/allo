@@ -36,6 +36,7 @@ class SecondBar extends React.Component {
             userPhoto:"",
             userFirebaseuid:"",
             alertMsg:[],
+            emailValue: "",
         }
     }
 
@@ -113,17 +114,21 @@ class SecondBar extends React.Component {
 
     showInvitation = () => {
         this.setState( prevState => {
-            const showInvitation = !prevState.isShowInvitation
-            return { isShowInvitation: showInvitation }
+            const showInvitationa = !prevState.isShowInvitation
+             //let emailValue = prevState.emailValue  // reset input text value
+            return Object.assign({}, prevState, { 
+                isShowInvitation: showInvitationa,
+                userMail: "",
+            })
         });
     }
         
-    getMailValue = (event ) => {  
+
+    getMailValue = (event) => {  
+
         let mailValue = event.target.value
         this.setState( prevState => {
-            return Object.assign({}, prevState, {
-                userMail: mailValue
-            })
+            return  Object.assign({}, prevState, { userMail: mailValue })
         });
     }
 
@@ -153,35 +158,49 @@ class SecondBar extends React.Component {
                             console.log(this.state)
                         })
                         .then(() => {
-                            // 寫入被邀請人 db
-                            let route = db.collection("Users/" + this.state.userFirebaseuid + "/beInvited").doc()
-                            route.set({
-                                userMail: this.props.userEmail,
-                                userName: this.props.userDisplayName,
-                                userPhoto: this.props.userPhotoURL,
-                                userFirebaseuid: this.props.firebaseUid,
-                                confirm: false
-                            }).then(() => {
-                                console.log("Document successfully written!")
-                            }).catch((error)=> {
-                                console.log("Error writing document: ", error);
+                            // 將自己資訊寫入被邀請人 db
+                            let route = db.collection("Users/" + this.state.userFirebaseuid + "/beInvited")
+                            route.get().then((querySnapshot) => {                               
+                                route.doc().set({
+                                    userMail: this.props.userEmail,
+                                    userName: this.props.userDisplayName,
+                                    userPhoto: this.props.userPhotoURL,
+                                    userFirebaseuid: this.props.firebaseUid,
+                                    confirm: false,
+                                    index: querySnapshot.docs.length,
+                                }).then(() => {
+                                    console.log("Document successfully written!")
+                                }).catch((error)=> {
+                                    console.log("Error writing document: ", error);
+                                })
                             })
                         })
                         .then(() => {
-                            // 寫入邀請人 db
-                            let route = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc()
-                            route.set({
-                                userMail: this.state.userMail,
-                                userName: this.state.userName,
-                                userPhoto: this.state.userPhoto,
-                                userFirebaseuid: this.state.userFirebaseuid,
-                                confirm: false
-                            }).then(() => {
-                                console.log("Document successfully written!")
-                            }).catch((error)=> {
-                                console.log("Error writing document: ", error);
+                            // 寫入對方資訊至自己 db
+
+                            // get 對方 board 的背景圖 url
+                            db.collection("Boards").doc(this.state.userFirebaseuid).get()
+                            .then((querySnapshot) =>{
+                                let backgroundURL = querySnapshot.data().background
+
+                                let route = db.collection("Users/" + this.props.firebaseUid + "/invitation")
+                                route.get().then((querySnapshot)=>{
+                                    route.doc().set({
+                                        userMail: this.state.userMail,
+                                        userName: this.state.userName,
+                                        userPhoto: this.state.userPhoto,
+                                        userFirebaseuid: this.state.userFirebaseuid,
+                                        confirm: false,
+                                        index: querySnapshot.docs.length,
+                                        backgroundURL: backgroundURL,
+                                    }).then(() => {
+                                        console.log("Document successfully written!")
+                                    }).catch((error)=> {
+                                        console.log("Error writing document: ", error);
+                                    })
+                                })
+                                this.showInvitation();
                             })
-                            this.showInvitation()
                         })
                     } else {
                         alert("請輸入正確的 email")
@@ -199,16 +218,17 @@ class SecondBar extends React.Component {
 
                 <div className="secondBar">
                     <div className="secondLeft">
-                        <div className="inviteDiv" onClick={ this.showInvitation } ref={ this.myRef }>邀請</div>
+                        <div className="inviteDiv" onClick={()=> this.showInvitation() } ref={ this.myRef }>邀請</div>
                         <div className="invite" style={{display: this.state.isShowInvitation ? 'block' : 'none' }}>
-                            <InviteFriend
+                            {/* <InviteFriend
                             id="standard-textarea"
                             label="User Email"
                             placeholder="email"
                             multiline
                             onChange={ this.getMailValue }
                             onKeyPress={ this.invite }
-                            />
+                            /> */}
+                            <input type="text" value={ this.state.userMail } onChange={ this.getMailValue } onKeyPress={ this.invite }/>
                         </div>
                         <div className="friendList" style={{display: this.state.isShowInvitation ? 'none' : 'flex' }}>
                             <div className="friend"> <img src={ TestIcon } /> </div>

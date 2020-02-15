@@ -5,10 +5,11 @@ body, html{
     margin:0px; height: 100%; font-family: Microsoft JhengHei;
 }
 
-main {  /* {  原本是 body */
+main {  /*   原本是 body */
     position: absolute;top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto; 
-    background: url(../images/mainBackground.jpg) no-repeat; background-size: 100% auto; opacity: 1;
+    background-size: 100% auto; opacity: 1;
 }
+/*  */
 
 main>.loading {
     position: absolute;top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto;background-color: white;
@@ -59,7 +60,7 @@ img {
     position: relative;
 }
 .view>.topBar>.topRight>.boardList>.alertMsg {
-    border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: 0px;top: 0px;text-align: center;color: white;padding-bottom: 3px;
+    border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: -3px;top: -1px;text-align: center;color: white;padding-bottom: 3px;
 }
 .view>.topBar>.topRight>.alertMenu {
     width: 150px;border-radius: 3px;
@@ -104,9 +105,16 @@ img {
     margin-right: 20px; 
 }
 
-
 .view>.secondBar>.secondLeft>.inviteDiv {
-    line-height: 32px; color: white
+    color: white
+}
+.view>.secondBar>.secondLeft>.invite input{
+    height: 24px;
+    border-radius: 8px;
+    border: 1px solid white;
+    padding-left: 10px;
+    background-color: transparent;
+    color: white;
 }
 
 .view>.board {
@@ -490,7 +498,7 @@ footer>.footerBar {
 }
 
 .homepage {
-    display: flex; margin: -90px auto 0px auto; width: 75%; flex-direction: column;
+    display: flex; margin: -105px auto 0px auto; width: 75%; flex-direction: column;
 }
 
 .homepage>.profile {
@@ -504,31 +512,10 @@ footer>.footerBar {
     border-radius: 100%;
 }
 .homepage>.profile>.details {
-    display: flex;flex-direction: column-reverse;padding: 0 0 15px 30px;
+    display: flex;flex-direction: column-reverse;padding: 0 0 5px 30px;
 }
 .homepage>.profile>.details>.list>.name {
     font-weight: bolder;font-size: 22px;margin-bottom: 10px;
-}
-
-
-/* boardLists */
-.homepage>.boardLists {
-    flex-grow: 4;border: 1px solid red;
-}
-
-.homepage>.boardLists {
-    display: flex; flex-direction: column;border: 1px solid blue;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
-}
-.homepage>.boardLists>.section {
-    display: flex; flex-direction: column;border: 1px solid blue ;flex-grow: 1;padding: 10px;
-}
-
-.homepage>.boardLists>.section>.category {
-    margin-bottom: 10px;
-}
-
-.homepage>.boardLists>.section>.items>.board {
-    border: 1px solid green; background-color: khaki; width: 150px; height: 90px;margin: 0 10px 10px 0;
 }
 
 
@@ -560,44 +547,74 @@ footer>.footerBar {
 }
 
 
-
-
-/* messages */
+/* boardLists */
 .homepage>.mainContent>.boardLists {
-    flex-grow: 1;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6)
+    margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;
+    display: flex; flex-direction: column;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
 }
 
 .homepage>.mainContent>.boardLists>.section>.category {
-    font-weight: bolder; font-size: 20px; text-shadow: 0 1px 1px 0;
-}
-.homepage>.mainContent>.boardLists>.section>.bars {
-    display: flex; flex-wrap: wrap;flex-direction: column;
-}
-.homepage>.mainContent>.boardLists>.section>.bars>.sanckbar {
-    display: flex; flex-wrap: wrap;justify-content: space-between;align-items: center;
-}
-.homepage>.mainContent>.boardLists>.section>.bars>.sanckbar>.msg {
-    display: flex;align-items: center;
-}
-.homepage>.mainContent>.boardLists>.section>.bars>.sanckbar>.msg>.imgDiv {
-    width: 32px;margin-right: 15px;
+    font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1);margin-bottom: 20px;padding-bottom: 5px;
 }
 
-.homepage>.mainContent>.boardLists>.section>.bars>.sanckbar>.buts {
-    display: flex; flex-wrap: wrap;height: 50px; align-items: center;
+.homepage>.mainContent>.boardLists>.section {
+    display: flex; flex-direction: column;flex-grow: 1;margin: 20px;
 }
-.homepage>.mainContent>.boardLists>.section>.bars>.sanckbar>.buts>.accept:active,
-.homepage>.mainContent>.boardLists>.section>.bars>.sanckbar>.buts>.deny:active {
+
+.homepage>.mainContent>.boardLists>.section>.category {
+    margin-bottom: 10px;letter-spacing: 2px;
+}
+.homepage>.mainContent>.boardLists>.section>.items {
+    display: flex; flex-wrap: wrap;
+}
+.homepage>.mainContent>.boardLists>.section>.items>.board {
+    border: 1px solid darkgray; background-color: rgba(211, 211, 211, 0.6); width: 150px; height: 90px; margin: 5px 20px 10px 0; text-align: center;line-height: 90px;border-radius: 12px;color: white;
+}
+
+
+
+/* messages */
+.homepage>.mainContent>.notifications {
+    flex-grow: 1;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+}
+.homepage>.mainContent>.notifications>.section {
+    margin: 20px;
+}
+.homepage>.mainContent>.notifications>.section>.category {
+    font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1);margin-bottom: 20px;padding-bottom: 5px;letter-spacing: 2px;
+}
+.homepage>.mainContent>.notifications>.section>.bars {
+    display: flex; flex-wrap: wrap;flex-direction: column;
+}
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar {
+    display: flex; flex-wrap: wrap;justify-content: space-between;align-items: center;
+}
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar:hover {
+    background-color: rgba(211, 211, 211,0.3);border-radius: 5px;
+}
+
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.msg {
+    display: flex;align-items: center;margin-left: 15px;
+}
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.msg>.imgDiv {
+    width: 28px;margin-right: 15px;
+}
+
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts {
+    display: flex; flex-wrap: wrap;align-items: center;
+}
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.accept:active,
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.deny:active {
     margin-top: 3px; position: relative; 
 }
 
-.homepage>.mainContent>.boardLists>.section>.bars>.sanckbar>.buts>.accept {
-    margin-right: 15px;background-color: rgba(102,163,255,0.7);width: 50px;height: 25px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.accept {
+    margin-right: 15px;background-color: rgba(102,163,255,0.7);width: 50px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
 
 }
 
-.homepage>.mainContent>.boardLists>.section>.bars>.sanckbar>.buts>.deny {
-    margin-right: 15px;background-color: rgba(255,77,77,0.7);width: 50px;height: 25px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.deny {
+    margin-right: 15px;background-color: rgba(255,77,77,0.7);width: 50px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
 }
 
 

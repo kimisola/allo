@@ -39,7 +39,6 @@ class Topbar extends React.Component {
         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("confirm", "==", true)
         .onSnapshot(async(doc) => {
             var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-            console.log(source, " data: ", doc.docs)
             let docs = doc.docs;
             let inviArr = [];
             for ( let i = 0; i < docs.length; i++ ) {
@@ -55,7 +54,6 @@ class Topbar extends React.Component {
                                 alertNum: inviArr
                             });
                         })
-                        console.log("this.state.alertNum", this.state.alertNum)
                     }
                 })
                 .catch((error) => {
@@ -68,7 +66,6 @@ class Topbar extends React.Component {
         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("confirm", "==", null)
         .onSnapshot(async(doc) => {
             var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-            console.log(source, " data: ", doc.docs)
             let docs = doc.docs;
             let inviArr = [];
             for ( let i = 0; i < docs.length; i++ ) {
@@ -84,7 +81,6 @@ class Topbar extends React.Component {
                                 alertMsg: inviArr
                             });
                         })
-                        console.log("this.state.alertMsg", this.state.alertMsg)
                     }
                 })
                 .catch((error) => {
@@ -96,9 +92,7 @@ class Topbar extends React.Component {
         // listen for beInvited
         db.collection("Users/" + this.props.firebaseUid + "/beInvited").where("confirm", "==", false)
         .onSnapshot(async(doc) => {
-            console.log("77777777777777", doc.docs )
             var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-            console.log(source, " data: ", doc.docs)
             let docs = doc.docs;
             let beInvitArr = [];         
             for ( let i = 0; i < docs.length; i++ ) {
@@ -114,7 +108,6 @@ class Topbar extends React.Component {
                                 alertMsg: beInvitArr
                             });
                         })
-                        console.log("77777777777777", this.state.alertMsg)
                     }
                 })
                 .catch((error) => {
@@ -144,12 +137,10 @@ class Topbar extends React.Component {
                 yCoordinate: yCoordinate,
                 isShowedAlert: showedAlert,
                 // alertNum: resetAlertNum
-            }
-            
+            }           
         });
-
-
     }
+
 
     userSignOut = () => {
         firebase.auth().signOut().then(() => {
@@ -169,11 +160,9 @@ class Topbar extends React.Component {
     
     render(){
 
-        console.log("this.state.alertMsg", this.state.alertMsg)
         let oldMsg = this.state.alertMsg==null?[]:this.state.alertMsg;
         let newMsg = this.state.alertNum==null?[]:this.state.alertNum;
         let renderMsg = newMsg.concat(oldMsg);
-
 
         const menuStyle = {
             menuStyle: {

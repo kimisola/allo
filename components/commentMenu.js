@@ -191,7 +191,7 @@ class CommentMenu extends React.Component {
     }
 
     render() {
-        const menuStyle = {
+        const style = {
             menuStyle: {
                 display: this.state.menuShowed ? 'flex' : 'none',
                 position: "fixed",
@@ -205,7 +205,7 @@ class CommentMenu extends React.Component {
                 <div className="tagDiv">
                     <div className="tagImgDiv"  onClick={ () => this.setDefault() } ></div>
                     <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
-                    <div className="commentMenu"  style={menuStyle.menuStyle} >
+                    <div className="commentMenu"  style={style.menuStyle} >
                         <div className="tags">
                             <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "rgba(204 ,94, 28, 0.8)" : 'grey' }} onClick={ () => this.selectTags("planning") }>Planning</div>
                             <div className="tag process" style={{backgroundColor: this.state.commentTags.process ? "rgba(46 ,169, 223, 0.8)" : 'grey' }} onClick={ () => this.selectTags("process") }>In Process</div>

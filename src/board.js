@@ -14,6 +14,9 @@ import loagingGif from "../images/loading.gif";
 class Board extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            boardURL: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+        }
     }
 
     componentDidMount() {
@@ -98,6 +101,30 @@ class Board extends React.Component {
             //read db
             const db = fire.firestore();
             
+            // set up or get background image
+            db.collection("Boards").doc(this.props.firebaseUid).get()
+            .then((querySnapshot) => {
+                console.log("BoardsBoardsBoardsBoardsBoards",querySnapshot.data().background)
+                if( querySnapshot.data().background !== undefined ){
+                    this.setState( prevState => {
+                        let boardURL = prevState.boardURL
+                        boardURL = querySnapshot.data().background
+                        return { 
+                            boardURL: boardURL,
+                        }
+                    }); 
+                } else {
+                    let ref = db.collection("Boards").doc(this.props.firebaseUid)
+                    ref.set({
+                        background: this.state.boardURL
+                    }).then(() => {
+                        console.log("Document successfully written!");
+                    }).catch((error) => {
+                        console.error("Error removing document: ", error);
+                    })
+                }
+            })
+
             let myDataTitle = [];
             let myDataText = [];
             let listsId = [];
@@ -165,10 +192,21 @@ class Board extends React.Component {
     }
 
     render(){
+        
+        const style = {
+            backgroundStyle: {
+                backgroundImage: `url("${this.state.boardURL}")`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat'
+            },
+        };
+        
+
         return(
             <React.Fragment>
 
-                <main onWheel={(e) => this.horizontalScroll(e)}>
+                <main style={ style.backgroundStyle} onWheel={(e) => this.horizontalScroll(e)}>
                     <div className="loading"  style={{display: this.props.isBoardLoaded ? 'none' : 'block' }} > 
                         <img src={ loagingGif } />
                     </div>
