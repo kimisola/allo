@@ -51,3 +51,22 @@ export function aSetIndexForTitle(storeTitleIndex) {
         storeTitleIndex
     }
 }
+
+export function switchBoard(targetLink) {
+    return {
+        type: "switchBoard",
+        targetLink
+    }
+}
+
+export function loadingGifOff() {
+    return {
+        type: "loadingGifOff",
+    }
+}
+
+export function loadingGifOn() {
+    return {
+        type: "loadingGifOn",
+    }
+}

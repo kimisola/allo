@@ -12,7 +12,7 @@ main {  /*   原本是 body */
 /*  */
 
 main>.loading {
-    position: absolute;top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto;background-color: white;
+    position: absolute;top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto;background-color: white;z-index: 10;
 }
 
 main>.loading img{
@@ -365,14 +365,20 @@ footer>.footerBar {
     display: flex;position: relative;
 }
 .login-main>.login-content {
-    flex-grow: 2; display: flex; flex-direction: column-reverse; margin: 0 0 5% 8%;
+    flex-grow: 2; display: flex; flex-direction: column-reverse; margin: 0 0 0 8%;
 }
 .login-main>.login-img {
-    width: 47%; transform:rotate(5deg); margin: 6% 1.3% 0 0;box-shadow: 0 5px 15px 0 lightgray
+    width: 47%; transform:rotate(5deg); 
+    position: relative;
+    bottom: -180px;
+    right: 10px;
 }
-
+.login-main>.login-img>img {
+    box-shadow: 0 5px 15px 0 lightgray
+}
 .login-main>.login-content>.signinArea {
-    margin-top: 30px;height: 260px;
+    margin-top: 30px;transition: 0.5s 0.5s cubic-bezier(0.25,0.1,0.25,1);width: 500px;
+    display: flex; align-items: center; flex-direction: column;
 }
 
 #standard-textarea-a,
@@ -382,18 +388,22 @@ footer>.footerBar {
     color: white;max-height: 18px;
 }
 
-.login-main>.login-content>.signinArea>.signup,
 .login-main>.login-content>.signinArea>.login {
-    display: flex;flex-direction: column;max-width: 350px;
+    display: flex;flex-direction: column;width: 350px;transition: 0.5s 0.5s cubic-bezier(0.25,0.1,0.25,1);
+}
+.login-main>.login-content>.signinArea>.signup{
+    display: flex;flex-direction: column;width: 350px;transition: 0.5s 0.5s cubic-bezier(0.25,0.1,0.25,1);
 }
 
 .login-main>.login-content>.signinArea>.signup>.errmsg ,
 .login-main>.login-content>.signinArea>.login>.errmsg {
     height: 0px;color: rgba(255, 71, 26);font-weight: bold;
 }
-.login-main>.login-content>.signinArea>.signup>.rigister-div,
+.login-main>.login-content>.signinArea>.signup>.rigister-div{
+    display: flex;align-items: center;justify-content: flex-end;
+}
 .login-main>.login-content>.signinArea>.login>.login-div {
-    display: flex;flex-direction: row-reverse;
+    display: flex;align-items: center;justify-content: space-between;
 }
 .login-main>.login-content>.signinArea>.signup>.rigister-div>.rigister-img,
 .login-main>.login-content>.signinArea>.login>.login-div>.login-img{
@@ -416,22 +426,80 @@ footer>.footerBar {
     color: white; font-weight: bolder;font-size: 18px;margin-top:15px;  
 }
 
-/* .login-main>.login-content>.buttons {
-    
-} */
+.login-main>.login-content>.buttons {
+    justify-content: space-around;
+    display: FLEX;
+    width: 500px;
+}
 
-.login-main>.login-content>.signinArea>.signup input,
-.b-button {
+
+.login-main>.login-content>.signinArea>.signup input {
 	width: 180px; height: 40px;background: #fff; border: 1px solid #fff; border-radius: 2px;color: #a18d6c; font-family: Lucida Console; font-size: 16px;padding: 5px;margin: 30px 30px 0px 0 ;
 }
 
-.b-button:hover,
-.b-button:active{
-	background-color: rgba(242, 242, 242);
+.registerButton {
+    padding: 10px 25px;
+    position: relative;
+    color: #fff;
 }
 
+.registerButton::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 5px;
+    right: 5px;
+    background-color: rgb(235, 186, 82);
+    z-index: -1;
+    transition: transform .2s ease-in-out;
+}
 
+.registerButton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #474E51;
+}
 
+.registerButton:hover::before {
+    transform: translate(6px, -4px);
+}
+
+.loginButton {
+    padding: 10px 25px;
+    position: relative;
+    color: #fff;
+}
+
+.loginButton::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 5px;
+    right: 5px;
+    background-color: rgb(235, 186, 82);
+    z-index: -1;
+    transition: transform .2s ease-in-out;
+}
+
+.loginButton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #474E51;
+}
+
+.loginButton:hover::before {
+    transform: translate(6px, -4px);
+}
 
 
 
@@ -483,7 +551,7 @@ footer>.footerBar {
 #root>.topBar>.topRight>.boardList>.alertMsg {
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: 0px;top: 0px;text-align: center;color: white;padding-bottom: 3px;
 }
-#root.topBar>.topRight>.alertMenu {
+#root>.topBar>.topRight>.alertMenu {
     width: 150px;border-radius: 3px;background-color: rgba(0,0,0,0.6);
 }
 #root>.topBar>.topRight>.alertMenu>.showMenuBackground {
@@ -539,8 +607,21 @@ footer>.footerBar {
 .homepage>.mainContent>.menu>.list>.listTitle:active{
     border:1px solid rgba(211, 211, 211); background-color: rgba(211, 211, 211,0.3);
 }
+
+
+.homepage>.mainContent>.menu>.list>.listTitle {
+    position: relative;
+}
+.homepage>.mainContent>.menu>.list>.listTitle>.dropdownIcon {
+    position: absolute; top:9px; right: 5px; width: 24px;
+}
+
 .homepage>.mainContent>.menu>.list>.listContent>.content {
-    display: flex;justify-content: space-between;margin-bottom: 8px;
+    display: flex;justify-content: space-between;margin-bottom: 8px;padding: 4px 10px;
+}
+
+.homepage>.mainContent>.menu>.list>.listContent>.content:hover {
+    background-color: rgba(211, 211, 211,0.28); border-radius: 5px;
 }
 .homepage>.mainContent>.menu>.list>.listContent>.content>.delete {
     width: 16px;

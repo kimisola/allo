@@ -40,6 +40,8 @@ let initialState = {
     firebaseUid: "",
     useruid: "",
 
+    // key for switch board
+    currentBoard: "",
 }
 
 function reducer(state = initialState, action) {  
@@ -59,11 +61,26 @@ function reducer(state = initialState, action) {
             });
         }
 
+        case "loadingGifOff": {
+            let isBoardLoaded = true
+            return Object.assign({}, state, {
+                isBoardLoaded: isBoardLoaded
+            });
+        }
+
+        case "loadingGifOn": {
+            let isBoardLoaded = false
+            return Object.assign({}, state, {
+                isBoardLoaded: isBoardLoaded
+            });
+        }
+
+
         case "renderComments": {
             return Object.assign({}, state, {  // copy now state and update using items
                 text: action.Data2,
                 listTitle: action.Data1,
-                isBoardLoaded: !state.isBoardLoaded
+                isBoardLoaded: true
             });
         }
 
@@ -153,17 +170,25 @@ function reducer(state = initialState, action) {
         }
 
         case "getEditedValue": {  // 要複製多層
-            let text=state.text.slice(0);
-            let list=text[action.listId].slice(0);
-            let item={...list[action.comId], text:action.newTextValue, tags:action.newTextTag};
-            list[action.comId]=item;
-            text[action.listId]=list;
+            let text = state.text.slice(0);
+            let list = text[action.listId].slice(0);
+            let item = {...list[action.comId], text:action.newTextValue, tags:action.newTextTag};
+            list[action.comId] = item;
+            text[action.listId] = list;
             /*
             state.text[action.listId][action.comId].text = action.newTextValue
             state.text[action.listId][action.comId].tags = action.newTextTag
             */
             return Object.assign({}, state, {
                 text: text
+            });
+        }
+
+        case "switchBoard": {
+            console.log("9999999999", action.targetLink)
+            let currentBoard = action.targetLink
+            return Object.assign({}, state, {
+                currentBoard: currentBoard
             });
         }
 

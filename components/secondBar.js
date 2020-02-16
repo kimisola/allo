@@ -168,6 +168,7 @@ class SecondBar extends React.Component {
                                     userFirebaseuid: this.props.firebaseUid,
                                     confirm: false,
                                     index: querySnapshot.docs.length,
+                                    read: false,  // 被邀請通知來要亮燈提醒
                                 }).then(() => {
                                     console.log("Document successfully written!")
                                 }).catch((error)=> {
@@ -193,6 +194,7 @@ class SecondBar extends React.Component {
                                         confirm: false,
                                         index: querySnapshot.docs.length,
                                         backgroundURL: backgroundURL,
+                                        read: null,  // 當對方確認後改成 false 亮燈提醒
                                     }).then(() => {
                                         console.log("Document successfully written!")
                                     }).catch((error)=> {

@@ -83,7 +83,13 @@ class CommentMenu extends React.Component {
         console.log(comId,"comId")
 
         const db = fire.firestore();
-        const firebaseUid = this.props.firebaseUid;
+        let firebaseUid = "";
+        if ( this.props.currentBoard !== "" ) {
+            firebaseUid = this.props.currentBoard
+        } else {
+            firebaseUid = this.props.firebaseUid
+        } 
+
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
         .then( async (querySnapshot) => {
 
@@ -142,7 +148,12 @@ class CommentMenu extends React.Component {
         this.showMenu();
 
         const db = fire.firestore();
-        const firebaseUid = this.props.firebaseUid;
+        let firebaseUid = "";
+        if ( this.props.currentBoard !== "" ) {
+            firebaseUid = this.props.currentBoard
+        } else {
+            firebaseUid = this.props.firebaseUid
+        } 
 
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
         .then((querySnapshot) => {
@@ -265,6 +276,7 @@ const mapStateToProps = (state ,ownprops) => {
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
         coordinate : ownprops.coordinate,
+        currentBoard: state.currentBoard,
     }
 }
 

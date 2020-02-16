@@ -25,7 +25,12 @@ class ThemeTitle extends React.Component {
         console.log(t)
 
         const db = fire.firestore();
-        const firebaseUid  = this.props.firebaseUid;
+        let firebaseUid = "";
+        if ( this.props.currentBoard !== "" ) {
+            firebaseUid = this.props.currentBoard
+        } else {
+            firebaseUid = this.props.firebaseUid
+        } 
 
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((t+1)*2)).get()
         .then((querySnapshot) => {
@@ -147,6 +152,7 @@ const mapStateToProps = (state ,ownprops) => {
         deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
         whichWindowOpen: state.whichWindowOpen,
         firebaseUid: state.firebaseUid,
+        currentBoard: state.currentBoard,
     }
 }
 

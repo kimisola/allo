@@ -3,7 +3,7 @@ import { connect, Provider } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import firebase from 'firebase';
 import fire from "./fire";
-import { aSetUpComWin, aRenderComments, aSetCurrentUser, aSetIndexForTitle } from"../components/actionCreators"
+import { aSetUpComWin, aRenderComments, aSetCurrentUser, aSetIndexForTitle, loadingGifOff, loadingGifOn } from"../components/actionCreators"
 import "./main.css";
 import Topbar from "../components/topbar";
 import SecondBar from "../components/secondBar";
@@ -20,10 +20,13 @@ class Board extends React.Component {
     }
 
     componentDidMount() {
+
+        
         console.log("run componentDidMount")
         let props = this.props;
+        props.loadingGifOn();
         //read db
-        const db = fire.firestore();       
+        const db = fire.firestore();
         
         let myDataTitle = [];
         let myDataText = [];
@@ -31,18 +34,37 @@ class Board extends React.Component {
         let Data = [];  // combine titles and texts
         let Data1 = [];  // store title
         let Data2 = [];  // store comment text
-        let firebaseUid = this.props.firebaseUid
-        console.log("firebaseUid", firebaseUid);
-        if (firebaseUid == "") {  // 確認中
 
-        }else if (firebaseUid == null) {  //未登入
+        let firebaseUid = "";
+
+        
+        if (firebaseUid == null) {  // 未登入
             window.location = "/";
         } 
         else {
+            if ( this.props.currentBoard !== "" ) {
+                firebaseUid = this.props.currentBoard
+            } else {
+                firebaseUid = this.props.firebaseUid
+            } 
             getTitles(firebaseUid);
         }
 
+        let userEmail = this.props.userEmail
         async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
+            db.collection("Boards/").doc(firebaseUid).get().then((querySnapshot)=>{
+                if (querySnapshot.data() === undefined ) {
+                    let ref = db.collection("Boards").doc(firebaseUid)
+                    ref.set({
+                        background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+                        owner : userEmail
+                    }).then(() => {
+                        console.log("Document successfully written!");
+                    }).catch((error) => {
+                        console.error("Error removing document: ", error.message);
+                    })
+                }
+            })
             db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
             .then(async (querySnapshot) => {
                 let doc = querySnapshot.docs;
@@ -91,7 +113,8 @@ class Board extends React.Component {
                 Data.push(Data1[k]);
                 Data.push(Data2[k]);
             }
-            props.mRenderComments(Data1, Data2)           
+            props.mRenderComments(Data1, Data2);
+           // props.loadingGifOff();         
         };
     }
     componentDidUpdate(prevProps){
@@ -100,12 +123,18 @@ class Board extends React.Component {
         if (firebaseUid !== prevProps.firebaseUid) {
             //read db
             const db = fire.firestore();
-            
+            let firebaseUid = "";
+            if ( this.props.currentBoard !== "" ) {
+                firebaseUid = this.props.currentBoard
+            } else {
+                firebaseUid = this.props.firebaseUid
+            }
+
+
             // set up or get background image
-            db.collection("Boards").doc(this.props.firebaseUid).get()
+            db.collection("Boards").doc(firebaseUid).get()
             .then((querySnapshot) => {
-                console.log("BoardsBoardsBoardsBoardsBoards",querySnapshot.data().background)
-                if( querySnapshot.data().background !== undefined ){
+                if( querySnapshot.data() !== undefined ){
                     this.setState( prevState => {
                         let boardURL = prevState.boardURL
                         boardURL = querySnapshot.data().background
@@ -114,9 +143,9 @@ class Board extends React.Component {
                         }
                     }); 
                 } else {
-                    let ref = db.collection("Boards").doc(this.props.firebaseUid)
+                    let ref = db.collection("Boards").doc(firebaseUid)
                     ref.set({
-                        background: this.state.boardURL
+                        background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
                     }).then(() => {
                         console.log("Document successfully written!");
                     }).catch((error) => {
@@ -125,15 +154,17 @@ class Board extends React.Component {
                 }
             })
 
+           
             let myDataTitle = [];
             let myDataText = [];
             let listsId = [];
             let Data = [];  // combine titles and texts
             let Data1 = [];  // store title
             let Data2 = [];  // store comment text
-            let firebaseUid = this.props.firebaseUid
+ 
             getTitles(firebaseUid);
             async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
+
                 db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
                 .then(async (querySnapshot) => {
                     let doc = querySnapshot.docs;
@@ -180,7 +211,8 @@ class Board extends React.Component {
                     Data.push(Data1[k]);
                     Data.push(Data2[k]);
                 }
-                props.mRenderComments(Data1, Data2)           
+                props.mRenderComments(Data1, Data2);
+               // props.loadingGifOff();   
             };
         }
     }
@@ -210,7 +242,7 @@ class Board extends React.Component {
                     <div className="loading"  style={{display: this.props.isBoardLoaded ? 'none' : 'block' }} > 
                         <img src={ loagingGif } />
                     </div>
-                    <div className="view" style={{display: this.props.isBoardLoaded ? 'block' : 'none' }} >
+                    <div className="view" style={{display: this.props.isBoardLoaded ? 'block' : 'block' }} >
                         <Topbar />
                         <SecondBar />
                         <div className="board">                                                         
@@ -238,7 +270,8 @@ const mapStateToProps = (state) => {
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
         firebaseUid: state.firebaseUid,
-        useruid: status.useruid
+        useruid: state.useruid,
+        currentBoard: state.currentBoard
     }
 }
 
@@ -248,6 +281,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         mRenderComments: (Data1, Data2) => { dispatch(aRenderComments(Data1, Data2)) },
         mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
         mSetIndexForTitle: (storeTitleIndex) => { dispatch(aSetIndexForTitle(storeTitleIndex))},
+        loadingGifOff: () => { dispatch(loadingGifOff()) },
+        loadingGifOn: () => { dispatch(loadingGifOn()) },
     }
 }
 

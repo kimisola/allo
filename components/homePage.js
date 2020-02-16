@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import fire from "../src/fire";
 import Cancel from "../images/cancel.png";
+import DropdownIcon from "../images/dropdownIcon.png";
 import Background from "../images/mainBackground.jpg";
 
 class HomePage extends React.Component {
@@ -17,35 +18,47 @@ class HomePage extends React.Component {
         this.state = {
             isBoardListShowed: false,
             isNotificationShowed: false,
+            isFriendListShowed: false,
             isShowInvitation: false,
+            isIconTurn: false,
             beInvitedData:[],
-            invitationData:[]
+            invitationData:[],
+            currentUserBackground: "",
         }
     } 
 
-    componentDidMount  (){
+    componentDidMount() {
         let firebaseUid = this.props.firebaseUid
-        console.log("00000000000firebaseUid", firebaseUid);
         if (firebaseUid == "") {  // 確認中
 
-        }else if (firebaseUid == null) {  //未登入
+        } else if (firebaseUid == null) {  //未登入
             window.location = "/";
-        } 
+        } else  {
+        }
     }
 
     componentDidUpdate (){
-            console.log("componentDidUpdate")
-        if ( this.state.beInvitedData[0] == [] || this.state.beInvitedData[0] == undefined ) {
+        if ( this.state.beInvitedData == [] || this.state.beInvitedData[0] == undefined ) {
             const db = fire.firestore();
-            let firebaseUid = this.props.firebaseUid
-            console.log(firebaseUid,"querySnapshotHomePage")
-            //找到資料庫裡邀請是　false　的　doc
+            let firebaseUid = this.props.firebaseUid  
+            
+            //  get current user's background image
+            db.collection("Boards").doc(firebaseUid).get()
+            .then((querySnapshot) => {
+                this.setState(prevState => {
+                    let currentUserBackground = querySnapshot.data().background
+                    return Object.assign({}, prevState, {
+                        currentUserBackground: currentUserBackground
+                    })
+                }) 
+            })
+
+            
+            //  找到資料庫裡邀請是　false　的　doc
             db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
                 .then((querySnapshot) => {
-                    console.log(querySnapshot,"querySnapshotHomePage")
                     let data = [];
-                    for(let i = 0 ; i < querySnapshot.docs.length ; i ++ ){
-                        console.log(querySnapshot.docs[i].data())
+                    for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
                         let send = querySnapshot.docs[i].data()
                         data.push(send);
                     }
@@ -57,19 +70,35 @@ class HomePage extends React.Component {
 
                     db.collection("Users/" + firebaseUid + "/invitation").orderBy("index").get()
                     .then((querySnapshot) => {
-                        console.log(querySnapshot,"querySnapshotHomePage")
                         let data = [];
-                        for(let i = 0 ; i < querySnapshot.docs.length ; i ++ ){
-                            console.log(querySnapshot.docs[i].data())
+                        for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
+                            
                             let send = querySnapshot.docs[i].data()
-                            if(send.confirm){
-                                data.push(send);
+                            if(send.confirm){  // 找到 confirm true 的人更新自己 db 邀請函裡的資訊再渲染
+                                let ref = db.collection("Users").doc(send.userFirebaseuid)
+                                ref.get()
+                                .then((querySnapshot) =>{
+                                    console.log("signupsignupsignup", querySnapshot.data())
+                                    send.userName = querySnapshot.data().name;
+                                    send.userPhoto =  querySnapshot.data().photo;
+
+                                    let ref2 = db.collection("Boards").doc(send.userFirebaseuid)
+                                    ref2.get()
+                                    .then((querySnapshot) =>{
+                                        send.backgroundURL = querySnapshot.data().background
+                                        data.push(send);
+                                    }).catch((error)=> {
+                                        console.log("Error writing document: ", error);
+                                    })
+
+                                }).catch((error)=> {
+                                    console.log("Error writing document: ", error);
+                                })
                             }
                         }
-
                         this.setState( prevState => {
                             return Object.assign({}, prevState, {
-                                invitationData: data.slice(0)
+                                invitationData: data
                             })
                         }); 
                     }).catch((error) =>{
@@ -95,6 +124,7 @@ class HomePage extends React.Component {
             let ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
             ref.update({ 
                 confirm: true,
+                read: false,
             })
 
             let oppFiredaseUid = querySnapshot.docs[index].data().userFirebaseuid   //去對方的集合找自己的 firebaseUid
@@ -103,7 +133,8 @@ class HomePage extends React.Component {
                 let docId = querySnapshot.docs[0].id
                 let  ref = db.collection("Users/" + oppFiredaseUid + "/invitation").doc(docId)
                 ref.update({ 
-                    confirm: true
+                    confirm: true,
+                    read: false,
                 })
             })
         })
@@ -152,17 +183,26 @@ class HomePage extends React.Component {
     }
 
 
+    friendListShow = () => {
+        this.setState( prevState => {
+            let isFriendListShowed =  !prevState.isFriendListShowed
+            let isIconTurn = !prevState.isIconTurn
+            return Object.assign({}, prevState, { 
+                isFriendListShowed: isFriendListShowed,
+                isIconTurn: isIconTurn,
+            });
+         })
+    }
+
 
     render(){
 
-        // let beInvited = this.state.beInvitedData
-        // let invitation = this.state.invitationData
-        // let data = beInvited.concat(invitation)
-        // let invitationData = []
-        // if ( this.state.invitationData !== [] ) {
-        //     invitationData = this.state.invitationData
-        // }
-
+        const style = {
+            dropdownIcon: {
+                transform: this.state.isIconTurn ? '' : 'rotate(-90deg)',
+                transition: "transform .25s ease-in-out",
+            }
+        }
 
         return(
             <React.Fragment>
@@ -192,37 +232,22 @@ class HomePage extends React.Component {
                             <div className="readNotice item" onClick={ this.showNotifications }>通知一覽</div>
                             <div className="list">
                                 
-                                <div className="listTitle">
+                                <div className="listTitle" onClick={ this.friendListShow }>
                                     <div className="name">好友名單</div>
-                                    <div>
-                                        <img />
+                                    <div className="dropdownIcon">
+                                        <img src={ DropdownIcon }style={ style.dropdownIcon }/>
                                     </div>
                                 </div>
-                                <div className="listContent">
-                                        <div className="content">
-                                            <div className="name">June</div>
-                                            <div className="delete">
-                                                <img src={Cancel}/>
-                                            </div>
+                                <div className="listContent" style={{display: this.state.isFriendListShowed ? 'block' : 'none' }}>
+                                    { this.state.invitationData.map((item, index) =>
+                                    <div className="content" key={index}>
+                                        <div className="name">{ item.userName }</div>
+                                        <div className="delete">
+                                            <img src={Cancel}/>
                                         </div>
-                                        <div className="content">
-                                            <div className="name">Shaun</div>
-                                            <div className="delete">
-                                                <img src={Cancel}/>
-                                            </div>
-                                        </div>
-                                        <div className="content">
-                                            <div className="name">YC</div>
-                                            <div className="delete">
-                                                <img src={Cancel}/>
-                                            </div>
-                                        </div>
-                                        <div className="content">
-                                            <div className="name">CW P</div>
-                                            <div className="delete">
-                                                <img src={Cancel}/>
-                                            </div>
-                                        </div>
+                                    </div>
+                                    )}
+                               
                                 </div>
                             </div>
                         </div>
@@ -243,27 +268,24 @@ class HomePage extends React.Component {
                             <div className="section">
                                 <div className="category">我的看板</div>
                                 <div className="items">
-                                { this.state.invitationData.map((item, index) => 
-                                        <BoardLink 
-                                        boardURL={ item.backgroundURL }
-                                        targetLink={ item.userFirebaseuid }
-                                        boardName={ item.userName }
+                                    <BoardLink 
+                                    boardURL={ this.state.currentUserBackground }
+                                    targetLink={ this.props.firebaseUid }
+                                    boardName={ this.props.userDisplayName }
                                     />
-                                )}
                                 </div>
-                                
                             </div>
                             <div className="section">
                                 <div className="category">好友看板</div>
                                 <div className="items">
-                                    <div className="board">看板1</div>
-                                    <div className="board">看板2</div>
-                                    <div className="board">看板3</div>
-                                    <div className="board">看板4</div>
-                                    <div className="board">看板5</div>
-                                    <div className="board">看板6</div>
-                                    <div className="board">看板7</div>
-                                    <div className="board">看板8</div>
+                                    { this.state.invitationData.map((item, index) => 
+                                        <BoardLink 
+                                        boardURL={ item.backgroundURL }
+                                        targetLink={ item.userFirebaseuid }
+                                        boardName={ item.userName }
+                                        key={index}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>   
@@ -274,7 +296,7 @@ class HomePage extends React.Component {
                                 <div className="bars">
 
                                 {this.state.beInvitedData.map((item, index)=>
-                                   <React.Fragment> 
+                                   <React.Fragment key={index}> 
                                     <div className="sanckbar">
                                         <div className="msg">
                                             <div className="imgDiv">
@@ -291,7 +313,7 @@ class HomePage extends React.Component {
                                 )}
 
                                 {this.state.invitationData.map((item, index)=>
-                                   <React.Fragment> 
+                                   <React.Fragment key={index}> 
                                     <div className="sanckbar">
                                         <div className="msg">
                                             <div className="imgDiv">

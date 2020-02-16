@@ -85,6 +85,8 @@ class LoginPage extends React.Component {
     
     registerWithFire = () => {
 
+
+        console.log("000000000000000")
         if ( this.state.email === "" ) {
             this.setState(prevState => { 
                 return Object.assign({}, prevState, { message: "error" }) 
@@ -158,6 +160,24 @@ class LoginPage extends React.Component {
 
 
     render(){
+
+        const style = {
+            signinArea: {
+                opacity: this.state.isSigninArea ? '1' : '0' ,
+                height: this.state.isSigninArea ? '260px' : '0px',
+            },
+            signup: {
+                opacity: this.state.isRegisted ? '1' : '0' ,
+                width: this.state.isRegisted ? '350px' : '0px' ,
+                height: this.state.isRegisted ? '260px' : '0px', 
+            },
+            login: {
+                opacity: this.state.isLoginin ? '1' : '0' ,
+                width: this.state.isLoginin ? '350px' : '0px' ,
+                height: this.state.isLoginin ? '260px' : '0px',
+            }
+        }
+
         return(
             <React.Fragment>
                 <div className="login-background"></div>
@@ -165,28 +185,34 @@ class LoginPage extends React.Component {
                 <div className="login-topBar">
                     a-llo
                 </div>
+
                 <div className="login-main">
                     <div className="login-content">
                                            
                         <div className="buttons">
-                            <input className="b-button switch-register" type="button" value="Register" onClick={ this.switchToRegister }/>
-                            <input className="b-button switch-login" type="button" value="Login" onClick={ this.switchToLogin }/>
+                              <div className="registerButton" onClick={ this.switchToRegister }>
+                                    <label className="b-button switch-register"  value="Register" >Register</label>
+                                </div>
+                                
+                                <div className="loginButton" onClick={ this.switchToLogin }>
+                                    <label className="b-button switch-login" type="button" value="Login" >Login</label>
+                                </div>
                         </div>
 
-                        <div className="signinArea" style={{display: this.state.isSigninArea ? 'block' : 'none' }}>
+                        <div className="signinArea" style={ style.signinArea }>
 
                             {/* 註冊滑出的 div */}
-                            <div className="signup" style={{display: this.state.isRegisted ? 'flex' : 'none' }}>
+                            <div className="signup" style={ style.signup }>
                                 <InviteFriend   id="standard-textarea-a"
                                 label="Enter email"
                                 multiline
-                                onChange={ this.getMailValue }
+                                onChange={ this.getEmail }
                                 /><br />
                                 <InviteFriend
                                 id="standard-textarea-b"
                                 label="Enter password"
                                 multiline
-                                onChange={ this.getMailValue }
+                                onChange={ this.getPassword }
                                 />
                                 <p className="errmsg"> {this.state.message} </p>
                                 <div className="rigister-div">
@@ -197,7 +223,7 @@ class LoginPage extends React.Component {
                             </div>
 
                             {/* 登入滑出的 div */}
-                            <div className="login" style={{display: this.state.isLoginin ? 'flex' : 'none' }}>
+                            <div className="login" style={style.login}>
                                 <InviteFriend   id="standard-textarea-c"
                                 label="Email"
                                 multiline
@@ -209,13 +235,16 @@ class LoginPage extends React.Component {
                                 multiline
                                 onChange={ this.Loginpassword  }
                                 />
+                                
                                 <p className="errmsg"> {this.state.message} </p>
                                 <div className="login-div">
+                                <GLogin />
                                     <div className="login-img">
                                         <img src={ Right } onClick={ this.loginWithFire }/>
                                     </div>
                                 </div>                              
-                                <GLogin />
+                                
+                                
                             </div>
                         </div>
 
@@ -231,10 +260,14 @@ class LoginPage extends React.Component {
                         </div>
 
                     </div>
-                    <div className="login-img">
+                    <div type="checkbox" className="login-img">
                         <img src={ LoginImg }/>
                     </div>
+                    
                 </div>
+
+
+
 
 
             </React.Fragment>

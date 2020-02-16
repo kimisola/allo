@@ -1,7 +1,8 @@
 import React from 'react';
 import "../src/main.css";
-import { Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import { switchBoard } from"./actionCreators"
 import fire from "../src/fire";
 import Background from "../images/mainBackground.jpg";
 
@@ -11,22 +12,36 @@ class BoardLink extends React.Component {
     }
 
 
+    switchBoard = () => {
+        let targetLink = this.props.targetLink
+        console.log("targetLinktargetLinktargetLink", this.props.targetLink)
+        this.props.switchBoard(targetLink)
+    }
+
     render(){
 
         const boardStyle = {
             boardStyle: {
                 backgroundImage: `url(${this.props.boardURL}) `,
-                backgroundPosition: 'center',
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                textDecoration: "none",
             },
+            link: {
+                color: "white", 
+                textDecoration: "none",
+            }
         };
-console.log("this.propsthis.propsthis.props", this.props)
+
         return(
             <React.Fragment>
                 
-                    <div className="board" style={ boardStyle.boardStyle }>{ this.props.boardName }</div>
+                 <div className="board" 
+                        style={ boardStyle.boardStyle }
+                        onClick={ this.switchBoard }
+                         
+                    > <Link to="/Board" style={ boardStyle.link }>  { this.props.boardName }   </Link> </div>　 
 
             </React.Fragment>
 
@@ -47,4 +62,10 @@ const mapStateToProps = (state, ownprops) => {
     }
 }
 
-export default connect(mapStateToProps)(BoardLink);
+const mapDispatchToProps = (dispatch, ownprops) => {
+    return {
+        switchBoard: (targetLink) => { dispatch(switchBoard(targetLink)) },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BoardLink);

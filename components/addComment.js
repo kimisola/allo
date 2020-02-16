@@ -141,7 +141,12 @@ class AddComment extends React.Component {
             this.openCommentWin();
          
             const db = fire.firestore();
-            const firebaseUid = this.props.firebaseUid;
+            let firebaseUid = "";
+            if ( this.props.currentBoard !== "" ) {
+                firebaseUid = this.props.currentBoard
+            } else {
+                firebaseUid = this.props.firebaseUid
+            } 
 
             db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((index+1)*2)).get()
             .then( async (querySnapshot) => {
@@ -245,6 +250,7 @@ const mapStateToProps = (state , ownprops) => {
         commentWindow: state.commentWindow,
         userDisplayName: state.userDisplayName,
         firebaseUid: state.firebaseUid,
+        currentBoard: state.currentBoard,
     }
 }
 
