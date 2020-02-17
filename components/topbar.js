@@ -28,7 +28,6 @@ class Topbar extends React.Component {
     //監聽自己的資料夾
     componentDidUpdate(prevProps){
 
-
         if ( !this.props.firebaseUid ) {
             return;
         }
@@ -49,24 +48,15 @@ class Topbar extends React.Component {
                     let doc = querySnapshot.data();
                     let newMsg = ` ${doc.userName} 同意了您的共同編輯邀請`;
                     alertMessage.push(newMsg)
-                                        
-                    // if ( i ==  docs.length-1 ){
-                    //     this.setState( prevState => {
-                    //         return Object.assign({}, prevState, {
-                    //             alertMsg: prevState.alertMsg.push(alertMessage),
-                    //         });
-                    //     })
-                    //     console.log(this.state.alertMsg,"massssssssssssssssssssssssssssssssssssssggggggggggggggggg")
-                    // }
                 })
                 .catch((error) => {
                     console.log(error.message)
                 })
             }            
-                    // listen for beInvited
-
         })
         
+
+        // listen for beInvited
         db.collection("Users/" + this.props.firebaseUid + "/beInvited").where("read", "==", false)
         .onSnapshot(async(doc) => {
             let docs = doc.docs;
@@ -75,8 +65,7 @@ class Topbar extends React.Component {
                 .then((querySnapshot) => {
                     let doc = querySnapshot.data();
                     let newMsg = ` ${doc.userName} 邀請您的共同編輯他的看板`;
-                    alertMessage.push(newMsg)
-                    
+                    alertMessage.push(newMsg)                  
                     if ( i ==  docs.length-1 ){
                         this.setState( prevState => {
                             return Object.assign({}, prevState, {
@@ -90,11 +79,6 @@ class Topbar extends React.Component {
                 })
             }
         })
-
-
-        
-
-
 
         // history of invitation
         // db.collection("Users/" + this.props.firebaseUid + "/invitation").where("confirm", "==", null)
@@ -235,9 +219,7 @@ class Topbar extends React.Component {
                             { this.state.alertMsg.map((item, i) => {
                                 return (
                                     <React.Fragment key={i}>
-                                    
-                                    {/* <Link to="/HomePage"> <li> {item} </li> </Link> */}
-                                    <Notice message={item} index={i} />
+                                        <Notice message={item} index={i} />
                                     </React.Fragment>
                                 )
                             }) } 

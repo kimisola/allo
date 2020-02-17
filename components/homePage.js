@@ -2,7 +2,8 @@ import React from 'react';
 import "../src/main.css";
 import { Route } from 'react-router-dom';
 import Topbar from "../components/topbar";
-import BoardLink from "../components/boardLink"
+import BoardLink from "../components/boardLink";
+import ReplyButtons from "../components/replyButtons";
 import TestIcon from "../images/testIcon.jpg";
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -111,49 +112,73 @@ class HomePage extends React.Component {
         }
     }
 
-    accept = (index) =>{
-        console.log(index)
-        const db = fire.firestore();
-        let firebaseUid = this.props.firebaseUid
+    // accept = (index) =>{
+    //     console.log(index)
+
+    //     // this.setState(prevState => {
+    //     //     return Object.assign({}, prevState, {
+    //     //         accepted: true
+    //     //     })
+    //     // })
+
+    //     const db = fire.firestore();
+    //     let firebaseUid = this.props.firebaseUid
         
-        //用自己的 userFirebaseuid 反推去找對方 invitation 裡面的文件、將 confirm → true
-        db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
-        .then((querySnapshot) => {
-            console.log(querySnapshot.docs[index].data().userFirebaseuid)    // 用 index 找到邀請我的人的 uid
-            let docId = querySnapshot.docs[index].id    // 用 uid 找到文件編號
-            let ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
-            ref.update({ 
-                confirm: true,
-                read: false,
-            })
+    //     //用自己的 userFirebaseuid 反推去找對方 invitation 裡面的文件、將 confirm → true
+    //     db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
+    //     .then((querySnapshot) => {
+    //         console.log(querySnapshot.docs[index].data().userFirebaseuid)    // 用 index 找到邀請我的人的 uid
+    //         let docId = querySnapshot.docs[index].id    // 用 uid 找到文件編號
+    //         let ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
+    //         ref.update({ 
+    //             confirm: true,
+    //             read: false,
+    //         })
 
-            let oppFiredaseUid = querySnapshot.docs[index].data().userFirebaseuid   //去對方的集合找自己的 firebaseUid
-            db.collection("Users/" + oppFiredaseUid + "/invitation").where("userFirebaseuid", "==", firebaseUid)
-            .get().then((querySnapshot) => {      // querySnapshot.docs[0].id 為固定寫法、where 抓 firebaseUid 常理只會有一筆
-                let docId = querySnapshot.docs[0].id
-                let  ref = db.collection("Users/" + oppFiredaseUid + "/invitation").doc(docId)
-                ref.update({ 
-                    confirm: true,
-                    read: false,
-                })
-            })
-        })
-    }
+    //         let oppFiredaseUid = querySnapshot.docs[index].data().userFirebaseuid   //去對方的集合找自己的 firebaseUid
+    //         db.collection("Users/" + oppFiredaseUid + "/invitation").where("userFirebaseuid", "==", firebaseUid)
+    //         .get().then((querySnapshot) => {      // querySnapshot.docs[0].id 為固定寫法、where 抓 firebaseUid 常理只會有一筆
+    //             let docId = querySnapshot.docs[0].id
+    //             let  ref = db.collection("Users/" + oppFiredaseUid + "/invitation").doc(docId)
+    //             ref.update({ 
+    //                 confirm: true,
+    //                 read: false,
+    //             })
+    //         })
+    //     })
+    // }
 
 
-    deny = (index) => {
-        console.log(index)
-        const db = fire.firestore();
-        let firebaseUid = this.props.firebaseUid
-        db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
-        .then((querySnapshot) => {
-            console.log(querySnapshot.docs[index].data().userFirebaseuid)
-            let docId = querySnapshot.docs[index].id
-            let ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
-            ref.update({
-                confirm: null,
-            })
-        })
+    // deny = (index) => {
+        
+    //     // this.setState(prevState => {
+    //     //     return Object.assign({}, prevState, {
+    //     //         denied: true
+    //     //     })
+    //     // })
+
+    //     const db = fire.firestore();
+    //     let firebaseUid = this.props.firebaseUid
+    //     db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
+    //     .then((querySnapshot) => {
+    //         console.log(querySnapshot.docs[index].data().userFirebaseuid)
+    //         let docId = querySnapshot.docs[index].id
+    //         let ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
+    //         ref.update({
+    //             confirm: null,
+    //         })
+    //     })
+    // }
+
+    friendListShow = () => {
+        this.setState( prevState => {
+            let isFriendListShowed =  !prevState.isFriendListShowed
+            let isIconTurn = !prevState.isIconTurn
+            return Object.assign({}, prevState, { 
+                isFriendListShowed: isFriendListShowed,
+                isIconTurn: isIconTurn,
+            });
+         })
     }
 
     showBoardLists = () => {
@@ -183,15 +208,25 @@ class HomePage extends React.Component {
     }
 
 
-    friendListShow = () => {
-        this.setState( prevState => {
-            let isFriendListShowed =  !prevState.isFriendListShowed
-            let isIconTurn = !prevState.isIconTurn
-            return Object.assign({}, prevState, { 
-                isFriendListShowed: isFriendListShowed,
-                isIconTurn: isIconTurn,
-            });
-         })
+    unfriend = (userFirebaseuid) => {
+        const db = fire.firestore();
+        db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", userFirebaseuid)
+        .get().then((querySnapshot) => {
+            let docId = querySnapshot.docs[0].id
+            let  ref = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docId)
+            ref.update({ 
+                confirm: null,
+            })
+        })
+
+        db.collection("Users/" + userFirebaseuid + "/beInvited").where("userFirebaseuid", "==", this.props.firebaseUid)
+        .get().then((querySnapshot) => {
+            let docId = querySnapshot.docs[0].id
+            let  ref = db.collection("Users/" + this.props.firebaseUid + "/beInvited").doc(docId)
+            ref.update({ 
+                confirm: null,
+            })
+        })
     }
 
 
@@ -199,7 +234,7 @@ class HomePage extends React.Component {
 
         const style = {
             dropdownIcon: {
-                transform: this.state.isIconTurn ? '' : 'rotate(-90deg)',
+                transform: this.state.isIconTurn ? "" : "rotate(-90deg)",
                 transition: "transform .25s ease-in-out",
             }
         }
@@ -213,37 +248,37 @@ class HomePage extends React.Component {
 
                     <div className="profile">
                         <div className="myImg">
-                            <img src= {this.props.userPhotoURL} />
+                            <img src= { this.props.userPhotoURL } />
                         </div>
 
                         <div className="details">
                             <div className="list">
-                                <div className="content">{this.props.userEmail}</div>
+                                <div className="content">{ this.props.userEmail} </div>
                             </div>
                             <div className="list">
-                                <div className="content name" >{this.props.userDisplayName}</div>
+                                <div className="content name" >{ this.props.userDisplayName }</div>
                             </div>
                         </div>
                     </div>
 
                     <div className="mainContent">
                         <div className="menu">
-                            <div className="readBoard item" onClick={ this.showBoardLists }>看板列表</div>
-                            <div className="readNotice item" onClick={ this.showNotifications }>通知一覽</div>
+                            <div className="readBoard item" onClick={ () => this.showBoardLists() }>看板列表</div>
+                            <div className="readNotice item" onClick={ () => this.showNotifications() }>通知一覽</div>
                             <div className="list">
                                 
-                                <div className="listTitle" onClick={ this.friendListShow }>
+                                <div className="listTitle" onClick={ () => this.friendListShow() }>
                                     <div className="name">好友名單</div>
                                     <div className="dropdownIcon">
                                         <img src={ DropdownIcon }style={ style.dropdownIcon }/>
                                     </div>
                                 </div>
-                                <div className="listContent" style={{display: this.state.isFriendListShowed ? 'block' : 'none' }}>
+                                <div className="listContent" style={{ display: this.state.isFriendListShowed ? 'block' : 'none' }}>
                                     { this.state.invitationData.map((item, index) =>
                                     <div className="content" key={index}>
                                         <div className="name">{ item.userName }</div>
                                         <div className="delete">
-                                            <img src={Cancel}/>
+                                            <img src={Cancel} onClick={ () => this.unfriend(item.userFirebaseuid) }/>
                                         </div>
                                     </div>
                                     )}
@@ -305,8 +340,7 @@ class HomePage extends React.Component {
                                             <p>{item.userName}　邀請您的共同編輯他的看板</p>
                                         </div>
                                         <div className="buts">
-                                            <div className="accept" onClick={ () => this.accept(index)}>確認</div>
-                                            <div className="deny" onClick={ () => this.deny(index)}>拒絕</div>
+                                        <ReplyButtons confirm={ item.confirm } index={ index } userFirebaseuid={ item.userFirebaseuid }/> 
                                         </div>
                                     </div>
                                     </React.Fragment>

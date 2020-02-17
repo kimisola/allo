@@ -275,7 +275,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         mSetUpComWin: (myComWin) => { dispatch(aSetUpComWin(myComWin)) },
         mRenderComments: (Data1, Data2) => { dispatch(aRenderComments(Data1, Data2)) },
