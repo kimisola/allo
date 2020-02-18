@@ -14,6 +14,10 @@ class CommentMenu extends React.Component {
             defaultText: "",
             defaultTags: [],
             commentTags: { planning:false, process:false, risk:false, achived:false },
+            defaultedited: "",
+            defaultEditorImg: "",
+            defaultOwner: "",
+            defaultOwnerImg: "",
             xCoordinate: "",
             yCoordinate: "",
             ownerShowed: false,
@@ -57,6 +61,10 @@ class CommentMenu extends React.Component {
         const defaultText = text[listId][comId].text
         const defaultTags = text[listId][comId].tags
         const defaultImg = text[listId][comId].img
+        const defaultedited = text[listId][comId].edited;
+        const defaultEditorImg = text[listId][comId].editorImg;
+        const defaultOwner = text[listId][comId].owner;
+        const defaultOwnerImg = text[listId][comId].ownerImg;
 
         defaultTags.map((target) => {
             this.setState( prevState => {
@@ -65,11 +73,14 @@ class CommentMenu extends React.Component {
                 return Object.assign({}, prevState, { commentTags: commentTagsCopy });
             });
         });
-        console.log(this.state.commentTags)
         this.setState({
             defaultText: defaultText,
             defaultTags: defaultTags,
-            defaultImg: defaultImg
+            defaultImg: defaultImg,
+            defaultedited: defaultedited,
+            defaultEditorImg: defaultEditorImg,
+            defaultOwner: defaultOwner,
+            defaultOwnerImg: defaultOwnerImg,
         })
         this.getCoordinate();
         this.showMenu();
@@ -135,7 +146,9 @@ class CommentMenu extends React.Component {
         const newTextValue = this.refs.theTextInput.value
         const listId = this.props.listId;
         const comId = this.props.comId;
-        const tags = this.state.commentTags
+        const edited = this.props.userDisplayName;
+        const editorImg = this.props.userPhotoURL
+        const tags = this.state.commentTags;
         const tagsStatus = [ "planning", "process", "risk", "achived" ]
         const newTextTag = [];
         tagsStatus.forEach((element) => {
@@ -144,7 +157,7 @@ class CommentMenu extends React.Component {
             }
         });
 
-        this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId})
+        this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId, edited, editorImg })
         this.showMenu();
 
         const db = fire.firestore();
@@ -163,15 +176,12 @@ class CommentMenu extends React.Component {
                 let docId2 = querySnapshot.docs[0].id                
                 db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2)
                 .update({
-                    img: this.state.defaultImg, 
+                    img: this.state.defaultImg,
                     text: newTextValue,
                     tags: newTextTag,
                     edited: this.props.userDisplayName,
+                    editorImg: this.props.userPhotoURL,
                 }).then(() => {
-                    console.log("updateContent", newTextValue)
-                    console.log("updateContent", newTextTag)
-                    console.log("updateContent", listId)
-                    console.log("updateContent", comId)
                     console.log("Document successfully written!");
                 }).catch((error) => {
                     console.error("Error removing document: ", error);
@@ -187,8 +197,6 @@ class CommentMenu extends React.Component {
     getCoordinate = () => {
         console.log(this.props.coordinate.current.getBoundingClientRect());
         let data = this.props.coordinate.current.getBoundingClientRect()
-        console.log(data.x)
-        console.log(data.y)
         this.setState( prevState => {  
             let xCoordinate = prevState.xCoordinate
             xCoordinate = data.x
@@ -232,14 +240,14 @@ class CommentMenu extends React.Component {
                             <div className="menuRight">
                                 <div className="menuList" onMouseEnter={ this.showOwner } onMouseLeave={ this.showOwner }>
                                     <div className="editTag">
-                                        <img src={ this.props.userPhotoURL } />
+                                        <img src={ this.props.text[this.props.listId][this.props.comId].ownerImg } />
                                     </div>
                                     <div style={{display: this.state.ownerShowed ? 'none' : 'block' }}>擁有者</div>
                                     <div style={{display: this.state.ownerShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].owner }</div>
                                 </div>
                                 <div className="menuList" onMouseEnter={ this.showEditor } onMouseLeave={ this.showEditor }>
                                     <div className="editText">
-                                        <img src={ this.props.userPhotoURL } />
+                                        <img src={ this.props.text[this.props.listId][this.props.comId].editorImg } />
                                     </div>
                                     <div style={{display: this.state.editorShowed ? 'none' : 'block' }}>更新者</div>
                                     <div style={{display: this.state.editorShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>

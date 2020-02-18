@@ -183,7 +183,7 @@ class LoginPage extends React.Component {
                 <div className="login-background"></div>
 
                 <div className="login-topBar">
-                    a-llo
+                    
                 </div>
 
                 <div className="login-main">
@@ -265,11 +265,6 @@ class LoginPage extends React.Component {
                     </div>
                     
                 </div>
-
-
-
-
-
             </React.Fragment>
         )
     }

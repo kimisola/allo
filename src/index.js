@@ -153,7 +153,9 @@ function reducer(state = initialState, action) {
                 text: action.newText,
                 tags: action.newTags,
                 owner: state.userDisplayName,
-                edited: state.userDisplayName
+                edited: state.userDisplayName,
+                ownerImg: state.userPhotoURL,
+                editorImg: state.userPhotoURL,
             })
             return Object.assign({}, state, {
                 text: newText.slice(0),
@@ -172,7 +174,7 @@ function reducer(state = initialState, action) {
         case "getEditedValue": {  // 要複製多層
             let text = state.text.slice(0);
             let list = text[action.listId].slice(0);
-            let item = {...list[action.comId], text:action.newTextValue, tags:action.newTextTag};
+            let item = {...list[action.comId], text:action.newTextValue, tags:action.newTextTag, edited: action.edited, editorImg: action.editorImg};
             list[action.comId] = item;
             text[action.listId] = list;
             /*

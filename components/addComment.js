@@ -174,6 +174,8 @@ class AddComment extends React.Component {
                         index: indexForItem,
                         owner: this.props.userDisplayName,
                         edited: this.props.userDisplayName,
+                        ownerImg: this.props.userPhotoURL,
+                        editorImg: this.props.userPhotoURL,
                     }).then(() => {
                         console.log("Document successfully written!")
                     }).catch((error)=> {
@@ -249,6 +251,7 @@ const mapStateToProps = (state , ownprops) => {
         addNewCommentOpen: state.addNewCommentOpen,
         commentWindow: state.commentWindow,
         userDisplayName: state.userDisplayName,
+        userPhotoURL: state.userPhotoURL,
         firebaseUid: state.firebaseUid,
         currentBoard: state.currentBoard,
     }
