@@ -87,7 +87,7 @@ class AddComment extends React.Component {
     }
 
 
-    fileUperload = (event) => {
+    fileUpload = (event) => {
         const file = event.target.files[0]
         const storageRef = fire.storage().ref("image");
         const imgRef = storageRef.child(file.name)
@@ -211,7 +211,7 @@ class AddComment extends React.Component {
                                         <img src={ Upload } />
                                     </div>
                                     
-                                    <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUperload } style={{display:'none' }} />    
+                                    <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUpload } style={{display:'none' }} />    
                                 </label>
                                 <div className="fileNameDiv"> {this.state.fileName} </div>
                             </div>

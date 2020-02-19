@@ -21,8 +21,8 @@ class BoardLink extends React.Component {
     render(){
 
         const boardStyle = {
-            boardStyle: {
-                backgroundImage: `url(${this.props.boardURL}) `,
+            board: {
+                backgroundImage: `url(${this.props.boardBackground}) `,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
@@ -34,17 +34,14 @@ class BoardLink extends React.Component {
             }
         };
 
-
         let targetURL = `/Board/${this.props.targetLink}`
 
         return(
             <React.Fragment>
                 
-                 <div className="board" 
-                        style={ boardStyle.boardStyle }
-                        onClick={ this.switchBoard }
-                         
-                    > <Link to={ targetURL }style={ boardStyle.link }>  { this.props.boardName }   </Link> </div>　 
+                <div className="board" style={ boardStyle.board } onClick={ this.switchBoard } > 
+                    <Link to={ targetURL }style={ boardStyle.link }>  { this.props.boardName } </Link>
+                </div>　 
 
             </React.Fragment>
 
@@ -59,7 +56,7 @@ const mapStateToProps = (state, ownprops) => {
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
-        boardURL: ownprops.boardURL,
+        boardBackground: ownprops.boardBackground,
         targetLink: ownprops.targetLink,
         boardName: ownprops.boardName,
     }

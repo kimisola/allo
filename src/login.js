@@ -17,14 +17,14 @@ const InviteFriend = withStyles({
       '& .MuiInput-underline:after': {
         borderBottomColor: "#ffffff",
       },
-    //   '& .MuiInput-formControl': {
-    //     marginTop: 13,
-    //   }
+      '& .MuiInput-formControl': {
+        marginTop: "2vh",
+      },
     '& .MuiInput-root': {
-        height: "25px",
+        height: "4.5vh",
       },
     },
-  })(TextField);
+})(TextField);
 
 
 
