@@ -191,6 +191,8 @@ class Topbar extends React.Component {
             },
         }
 
+        let targetURL = `/Board/${ this.props.firebaseUid }`
+
         return(
             <React.Fragment>
                        
@@ -206,7 +208,7 @@ class Topbar extends React.Component {
                         <div className="topRight">
                             <div className="boardList">
                                 <div className="boardIcon">
-                                    <Link to="/Board"> <img src={ Blackboard } /> </Link>
+                                    <Link to={ targetURL }> <img src={ Blackboard } /> </Link>
                                 </div>
                             </div>
                             <div className="boardList" onClick={ ()=>this.showAlert()} ref={ this.myRef }>

@@ -231,7 +231,8 @@ class HomePage extends React.Component {
 
 
     render(){
-
+        console.log("111111111111111111111111111111",this.props.match)
+        console.log("111111111111111111111111111111",this.props.match.params)
         const style = {
             dropdownIcon: {
                 transform: this.state.isIconTurn ? "" : "rotate(-90deg)",

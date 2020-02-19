@@ -15,7 +15,7 @@ class Comments extends React.Component {
                            
                 <div className="comment">
                     { this.props.text[this.props.listIndex].map((item, j) =>
-                        <CommentItem listIndex={ this.props.listIndex } item={ item } j={ j }/>
+                        <CommentItem listIndex={ this.props.listIndex } item={ item } j={ j } key={ j } />
                     )}
                 </div>
             </React.Fragment>

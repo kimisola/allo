@@ -23,19 +23,19 @@ class CommentItem extends React.Component {
             <div className="itemHead">
                 <div className="tags">
 
-                { this.props.item.tags.map((tag) => {
+                { this.props.item.tags.map((tag, i) => {
                     switch (tag) {
                         case "planning":
-                            return <div className="tag planning">Planning</div>
+                            return <div className="tag planning" key={ i }>Planning</div>
 
                         case "process":
-                            return <div className="tag process" >In Process</div>
+                            return <div className="tag process"  key={ i }>In Process</div>
                     
                         case "risk":
-                            return <div className="tag risk">At Risk</div>
+                            return <div className="tag risk" key={ i }>At Risk</div>
                     
                         case "achived":
-                            return <div className="tag achived" >Achieved</div>
+                            return <div className="tag achived" key={ i }>Achieved</div>
 
                             default:
                         break;

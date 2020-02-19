@@ -230,9 +230,7 @@ class App extends React.Component {
                     if ( userDisplayName === null && userPhotoURL === null ) {
                         let makeName = userEmail.split("@")
                         userDisplayName = makeName[0]
-                        console.log(userDisplayName)
                         userPhotoURL = "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2Fuser.png?alt=media&token=2005cf1c-816d-4777-95ae-d535f7a4ebb1"
-                        console.log(userPhotoURL)
                     }
 
                     this.props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
@@ -266,7 +264,7 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path = "/" component = { LoginPage } /> 
                         <Route path = "/HomePage" component = { HomePage } />
-                        <Route path = "/Board" component = { Board } />
+                        <Route path = "/Board/:id" component = { Board } />
                     </Switch>
                 </Router>
             </React.Fragment>

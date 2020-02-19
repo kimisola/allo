@@ -22,7 +22,7 @@ class Section extends React.Component {
             <React.Fragment>
 
             {this.props.listTitle.map((item , i) =>
-                <React.Fragment>
+                <React.Fragment  key={ i }>
                 <div className="sectionWrapper" >
                     <div className="section">                  
                         <ThemeTitle title={ item } indexWin={ i } />                         

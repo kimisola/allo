@@ -12,13 +12,13 @@ import {aSetCurrentUser } from"../components/actionCreators"
 class GLogin extends React.Component {
     uiConfig = {
         signInFlow: 'popup',
-        signInSuccessUrl: '/Board',
+        // signInSuccessUrl: '/Board',
         signInOptions: [
           firebase.auth.GoogleAuthProvider.PROVIDER_ID
           // fire.auth.FacebookAuthProvider.PROVIDER_ID
         ],
         // Terms of service url.
-        tosUrl: '/Board',
+        // tosUrl: '/Board',
         callbacks: {
           // write in db
           signInSuccessWithAuthResult: (user) => {
@@ -66,7 +66,8 @@ class GLogin extends React.Component {
     render() {
         console.log("render", this.props.firebaseUid);
         if (this.props.firebaseUid) {
-          return <Redirect to="/Board" />;
+          let targetURL = `/Board/${ this.props.firebaseUid }`
+          return <Redirect to={ targetURL } />;
         }
 
         return (
