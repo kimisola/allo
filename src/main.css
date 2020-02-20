@@ -601,7 +601,7 @@ footer>.footerBar {
 
 /* menu */
 .homepage>.mainContent {
-    display: flex; margin-top: 50px;
+    display: flex; margin-top: 50px;flex-direction: row;
 }
 .homepage>.mainContent>.menu {
     display: flex; flex-direction: column; margin-left: 15px;
@@ -642,7 +642,7 @@ footer>.footerBar {
 
 /* boardLists */
 .homepage>.mainContent>.boardLists {
-    margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;
+    margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;flex-grow: 4;
     display: flex; flex-direction: column;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
 }
 
@@ -668,7 +668,7 @@ footer>.footerBar {
 
 /* messages */
 .homepage>.mainContent>.notifications {
-    flex-grow: 1;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+    flex-grow: 4;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
 }
 .homepage>.mainContent>.notifications>.section {
     margin: 20px;

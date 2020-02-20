@@ -427,8 +427,17 @@ class HomePage extends React.Component {
                                         // targetLink={ uid }
                                         boardName="歷史看板"
                                     />
-                                    <div className="board" >看板3</div>
-                                    <div className="board">看板2</div>
+                                    <BoardLink 
+                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
+                                        // targetLink={ uid }
+                                        boardName="歷史看板"
+                                    />
+                                    <BoardLink 
+                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
+                                        // targetLink={ uid }
+                                        boardName="歷史看板"
+                                    />
+                                    
                                 </div>
                             </div>
                             <div className="section">

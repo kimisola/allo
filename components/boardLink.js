@@ -41,7 +41,7 @@ class BoardLink extends React.Component {
                 
                 <div className="board" style={ boardStyle.board } onClick={ this.switchBoard } > 
                     <Link to={ targetURL }style={ boardStyle.link }>  { this.props.boardName } </Link>
-                </div>　 
+                </div>
 
             </React.Fragment>
 
