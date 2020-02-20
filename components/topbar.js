@@ -78,36 +78,7 @@ class Topbar extends React.Component {
                     console.log(error.message)
                 })
             }
-        })
-
-        // history of invitation
-        // db.collection("Users/" + this.props.firebaseUid + "/invitation").where("confirm", "==", null)
-        // .onSnapshot(async(doc) => {
-        //     var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-        //     let docs = doc.docs;
-        //     let inviArr = [];
-        //     for ( let i = 0; i < docs.length; i++ ) {
-        //         db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docs[i].id).get()
-        //         .then((querySnapshot) => {
-        //             let doc = querySnapshot.data();
-        //             let newMsg = ` ${doc.userName} 同意了您的共同編輯邀請`;
-        //             inviArr.push(newMsg)
-                    
-        //             if ( i ==  docs.length-1 ){
-        //                 this.setState( prevState => {
-        //                     return Object.assign({}, prevState, {
-        //                         alertMsg: inviArr
-        //                     });
-        //                 })
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             console.log(error.message)
-        //         })
-        //     }
-        // })
-
-        
+        })       
     }
 
 
@@ -201,9 +172,9 @@ class Topbar extends React.Component {
                             <div className="home">
                                 <Link to="/HomePage"> <img src={ HomeImg } /> </Link>
                             </div>
-                            <div className="searchBar">
+                            {/* <div className="searchBar">
                                 <input />
-                            </div>
+                            </div> */}
                         </div>
                         <div className="topRight">
                             <div className="boardList">

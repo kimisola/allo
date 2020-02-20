@@ -65,7 +65,7 @@ db.collection("Boards").doc(firebaseUid).get()
         }); 
     } else {
         let ref = db.collection("Boards").doc(firebaseUid)
-        ref.set({
+        ref.update({
             background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
         }).then(() => {
             console.log("Document successfully written!");

@@ -48,7 +48,8 @@ class GLogin extends React.Component {
                   photo: userPhotoURL,
                   email: userEmail,
                   uid: useruid,
-                  firebaseuid: firebaseUid
+                  firebaseuid: firebaseUid,
+                  homepageCover: "",
               }).then(() => {
                   //window.location = "/Board"
                   console.log("Document successfully written!")

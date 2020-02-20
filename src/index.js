@@ -235,12 +235,13 @@ class App extends React.Component {
 
                     this.props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
-                    db.collection("Users").doc(firebaseUid).update({
+                    db.collection("Users").doc(firebaseUid).set({
                         name: userDisplayName,
                         photo: userPhotoURL,
                         email: userEmail,
                         uid: useruid,
-                        firebaseuid: firebaseUid
+                        firebaseuid: firebaseUid,
+                        homepageCover: "",
                     }).then(() => {
                         console.log("Document successfully written!")
                     }).catch((error) => {

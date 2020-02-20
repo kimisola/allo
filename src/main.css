@@ -28,13 +28,11 @@ img {
 }
 
 .topBar {
-    max-height: 43px; display: flex; background-color:  rgba(70, 65, 89, 0.25);justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px;
+    display: flex; background-color:  rgba(70, 65, 89, 0.25);justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px;
 }
+/* max-height: 43px;  */
 .view>.secondBar {
-    max-height: 43px; display: flex; justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px;
-}
-.view>.board {
-    flex-grow:1;
+    display: flex; justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px;
 }
 
 .view>.topBar>.topRight {
@@ -118,7 +116,7 @@ img {
 }
 
 .view>.board {
-    box-sizing: border-box; display: flex;overflow: scroll;overflow-y:auto;height: calc(100vh - 99px);
+    box-sizing: border-box; display: flex;overflow: scroll;overflow-y:auto;height: calc(100vh - 102px);flex-grow:1;
 }
 
 .view>.board>.sectionWrapper{

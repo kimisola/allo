@@ -57,12 +57,30 @@ class HomePage extends React.Component {
             // get current user's homepage cover
             db.collection("Users").doc(firebaseUid).get()
             .then((querySnapshot) => {
-                this.setState(prevState => {
-                    let homepageCover = querySnapshot.data().homepageCover
-                    return Object.assign({}, prevState, {
-                        homepageCover: homepageCover
+                if ( querySnapshot.data().homepageCover !== "" ) {
+                    this.setState(prevState => {
+                        let homepageCover = querySnapshot.data().homepageCover
+                        return Object.assign({}, prevState, {
+                            homepageCover: homepageCover
+                        })
+                    }) 
+                } else {
+                    let ref = db.collection("Users").doc(firebaseUid)
+                    ref.update({
+                        homepageCover: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fhomepagecover1.jpg?alt=media&token=6793a59f-eaac-4d76-83fb-db421ea2a0b4"
+                    }).then(() => {
+                        this.setState(prevState => {
+                            let homepageCover = "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fhomepagecover1.jpg?alt=media&token=6793a59f-eaac-4d76-83fb-db421ea2a0b4"
+                            return Object.assign({}, prevState, {
+                                homepageCover: homepageCover
+                            })
+                        })
+                        console.log("Document successfully written!");
+                    }).catch((error) => {
+                        console.error("Error removing document: ", error);
                     })
-                }) 
+                }
+                
             })
             
             //  找到資料庫裡邀請是　false　的　doc
