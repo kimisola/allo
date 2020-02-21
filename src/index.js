@@ -194,6 +194,22 @@ function reducer(state = initialState, action) {
             });
         }
 
+        case "drag-dropTheme": {
+            console.log("drag-dropTheme", action.sourceIndex, action.destinationIndex)
+            let listTitle = state.listTitle.slice(0);
+            let removeTitle = listTitle.splice(action.sourceIndex, 1)
+            listTitle.splice(action.destinationIndex, 0, `${removeTitle}`)
+
+            let text = state.text.slice(0);
+            let removeText = text.splice(action.sourceIndex, 1)
+            text.splice(action.destinationIndex, 0, removeText[0])
+            console.log("drag-dropTheme", text, listTitle)
+            return Object.assign({}, state, {
+                text: text.slice(0),
+                listTitle: listTitle.slice(0),
+            });
+        }
+
         default:
             return state;
     }
