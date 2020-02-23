@@ -1,5 +1,5 @@
 import React from 'react';
-import { aSetCurrentUser } from"../components/actionCreators";
+import { setCurrentUser } from"../components/actionCreators";
 import Notice from "../components/notice";
 import HomeImg from "../images/home.png";
 import Blackboard from "../images/blackboard.png";
@@ -140,7 +140,7 @@ class Topbar extends React.Component {
             let userPhotoURL = "";
             let userEmail = "";  
             let useruid = "";       
-            props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
+            props.setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
         }).catch((error) => {
             console.log(error)
@@ -224,7 +224,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)) }
+        setCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid) => { dispatch(setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)) }
     }
 }
 

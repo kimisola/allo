@@ -6,7 +6,7 @@ import fire from "../src/fire";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {  grey, COMPLEMENTARY} from '@material-ui/core/colors';
-import { aCreatTitle, aAddNewListOpen, aGetTitleValue, aSetIndexForTitle } from"./actionCreators"
+import { creatTitle, addNewListOpen, getTitleValue, setIndexForTitle } from"./actionCreators"
 
 const InviteFriend = withStyles({
     root: {
@@ -40,7 +40,7 @@ class SecondBar extends React.Component {
     addNewListOpen = () => {
         console.log("run creatTheme")
         this.props.getTvalue("")  //reset input value
-        this.props.mAddNewListOpen()
+        this.props.addNewListOpen()
     }
 
     getTitleValue = (event) => {  //use onChange to get value
@@ -61,10 +61,10 @@ class SecondBar extends React.Component {
                 alert("標題太長囉、再短一點!")
             } else {
                 console.log("enter creat title", titleValue)
-                this.props.mAddNewListOpen();
+                this.props.addNewListOpen();
                 newListTitle.push(titleValue);
                 newText.push([]);
-                this.props.mCreatTitle(newListTitle, newText)
+                this.props.creatTitle(newListTitle, newText)
                 
                 const db = fire.firestore();
                 const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
@@ -72,7 +72,7 @@ class SecondBar extends React.Component {
                     title: titleValue,
                     index: indexForTitle
                 }).then(() => {
-                    this.props.mSetIndexForTitle(indexForTitle+2)  // update index for title
+                    this.props.setIndexForTitle(indexForTitle+2)  // update index for title
                     console.log("Document successfully written!");
                 }).catch(() => {
                     console.error("Error writing document: ", error);
@@ -91,10 +91,10 @@ class SecondBar extends React.Component {
         let indexForTitle = this.props.indexForTitle;
 
         console.log("enter creat title", titleValue)
-        this.props.mAddNewListOpen();
+        this.props.addNewListOpen();
         newListTitle.push(titleValue);
         newText.push([]);
-        this.props.mCreatTitle(newListTitle, newText)
+        this.props.creatTitle(newListTitle, newText)
         
         const db = fire.firestore();
         const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
@@ -102,7 +102,7 @@ class SecondBar extends React.Component {
             title: titleValue,
             index: indexForTitle
         }).then(() => {
-            this.props.mSetIndexForTitle( indexForTitle + 2 )  // update index for next new title
+            this.props.setIndexForTitle( indexForTitle + 2 )  // update index for next new title
             console.log("Document successfully written!");
         }).catch(() => {
             console.error("Error writing document: ", error);
@@ -274,10 +274,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        mAddNewListOpen: () => { dispatch(aAddNewListOpen()) },
-        getTvalue: (value) => { dispatch(aGetTitleValue(value)) },
-        mCreatTitle: (newListTitle, newText) => { dispatch(aCreatTitle(newListTitle, newText)) },
-        mSetIndexForTitle: (storeTitleIndex) => { dispatch(aSetIndexForTitle(storeTitleIndex))},
+        addNewListOpen: () => { dispatch(addNewListOpen()) },
+        getTvalue: (value) => { dispatch(getTitleValue(value)) },
+        creatTitle: (newListTitle, newText) => { dispatch(creatTitle(newListTitle, newText)) },
+        setIndexForTitle: (storeTitleIndex) => { dispatch(setIndexForTitle(storeTitleIndex))},
     }
 }
 

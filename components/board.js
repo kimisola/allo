@@ -244,7 +244,7 @@ db.collection("Boards").doc(firebaseUid).get()
     // }
 
     horizontalScroll = (event) => {
-        const delta = Math.max(-1, Math.min(1, (event.nativeEvent.wheelDelta || event.nativeEvent.detail)))
+        const delta = Math.max(-1, Math.min(1, (event.nativeEvent.wheelDelta || -event.nativeEvent.detail)))
         event.currentTarget.scrollRight += (delta * 10)
         event.preventDefault
     }

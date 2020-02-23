@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import fire from "../src/fire";
 //install react-firebaseui
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import {aSetCurrentUser } from"../components/actionCreators"
+import {setCurrentUser } from"../components/actionCreators"
 
 
 class GLogin extends React.Component {
@@ -39,7 +39,7 @@ class GLogin extends React.Component {
               userPhotoURL = profile.picture;
               useruid = profile.id;
 
-              this.props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
+              this.props.setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
 
               db.collection("Users").doc(`${firebaseUid}`).update({
@@ -100,7 +100,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-      mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
+      setCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(GLogin);

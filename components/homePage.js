@@ -9,6 +9,7 @@ import fire from "../src/fire";
 import Cancel from "../images/cancel.png";
 import DropdownIcon from "../images/dropdownIcon.png";
 import Gear from "../images/gear.png";
+import "../css/homePage.css";
 
 class HomePage extends React.Component {
     constructor(props){
@@ -360,7 +361,7 @@ class HomePage extends React.Component {
 
                     <div className="profile">
                         <div className="myImg">
-                            <img src= { this.props.userPhotoURL } />
+                            <img src={ this.props.userPhotoURL } />
                         </div>
 
                         <div className="details">
@@ -401,27 +402,6 @@ class HomePage extends React.Component {
 
                         <div className="boardLists" style={{display: this.state.isBoardListShowed ? 'block' : 'none' }}>
                             <div className="section">
-                                <div className="category">歷史瀏覽</div>
-                                <div className="items">
-                                    <BoardLink 
-                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
-                                        // targetLink={ uid }
-                                        boardName="歷史看板"
-                                    />
-                                    <BoardLink 
-                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
-                                        // targetLink={ uid }
-                                        boardName="歷史看板"
-                                    />
-                                    <BoardLink 
-                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
-                                        // targetLink={ uid }
-                                        boardName="歷史看板"
-                                    />
-                                    
-                                </div>
-                            </div>
-                            <div className="section">
                                 <div className="category">我的看板</div>
                                 <div className="items">
                                     <BoardLink 
@@ -442,6 +422,26 @@ class HomePage extends React.Component {
                                         key={index}
                                         /> :""
                                     )}
+                                </div>
+                            </div>
+                            <div className="section">
+                                <div className="category">歷史瀏覽</div>
+                                <div className="items">
+                                    <BoardLink 
+                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
+                                        // targetLink={ uid }
+                                        boardName="歷史看板"
+                                    />
+                                    <BoardLink 
+                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
+                                        // targetLink={ uid }
+                                        boardName="歷史看板"
+                                    />
+                                    <BoardLink 
+                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
+                                        // targetLink={ uid }
+                                        boardName="歷史看板"
+                                    />
                                 </div>
                             </div>
                         </div>   

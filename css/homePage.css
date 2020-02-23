@@ -216,7 +216,7 @@
         flex-direction: column;
     }
     .homepage>.mainContent>.menu {
-        flex-direction: row;
+        flex-direction: row;justify-content: space-between;margin-left: 0;
     }
     .homepage>.mainContent>.menu>.item {
         margin-right: 15px;
@@ -227,10 +227,46 @@
     }
 }
 
-@media (min-width: 500px) and (max-width: 800px) {
+@media (min-width: 571px) and (max-width: 750px) {
+    .homepage>.mainContent>.menu {
+        justify-content: space-between; margin-left: 0; font-size: 14px;
+    }
+    .homepage>.mainContent>.menu>.item {
+        margin-right: 8px;
+    }
+    .homepage>.mainContent>.menu>.readBoard, 
+    .homepage>.mainContent>.menu>.readNotice, 
+    .homepage>.mainContent>.menu>.list>.listTitle {
+        padding: 0 20px 0 20px;
+    }
+    .homepage>.mainContent>.menu>.list>.listTitle {
+        display: flex;
+        flex-direction: column;
+    }
+    .homepage>.mainContent>.menu>.list>.listTitle>.dropdownIcon {
+        width: 18px;position: static;
+    }
 
 }
 
-@media (max-width: 500px) {
+@media (max-width: 570px) {
+    .homepage>.mainContent>.menu {
+        justify-content: space-between; margin-left: 0; font-size: 14px;
+    }
+    .homepage>.mainContent>.menu>.item {
+        margin-right: 8px;
+    }
+    .homepage>.mainContent>.menu>.readBoard, 
+    .homepage>.mainContent>.menu>.readNotice, 
+    .homepage>.mainContent>.menu>.list>.listTitle {
+        padding: 0 20px 0 20px;
+    }
+    .homepage>.mainContent>.menu>.list>.listTitle {
+        display: flex;
+        flex-direction: column;
+    }
+    .homepage>.mainContent>.menu>.list>.listTitle>.dropdownIcon {
+        width: 18px;position: static;
+    }
     
 }
