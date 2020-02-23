@@ -222,10 +222,10 @@ class CommentMenu extends React.Component {
         return (
             <React.Fragment>
                 <div className="tagDiv">
-                    <div className="tagImgDiv"  onClick={ () => this.setDefault() } ></div>
+                    <div className="tagImgDiv" onClick={ () => this.setDefault() } ></div>
                     <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
                     <div className="commentMenu"  style={style.menuStyle} >
-                        <div className="tags">
+                        <div className="tags" >
                             <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "rgba(204 ,94, 28, 0.8)" : 'grey' }} onClick={ () => this.selectTags("planning") }>Planning</div>
                             <div className="tag process" style={{backgroundColor: this.state.commentTags.process ? "rgba(46 ,169, 223, 0.8)" : 'grey' }} onClick={ () => this.selectTags("process") }>In Process</div>
                             <div className="tag risk" style={{backgroundColor: this.state.commentTags.risk ? "rgba(215 ,84, 85, 0.8)" : 'grey' }} onClick={ () => this.selectTags("risk") }>At Risk</div>
@@ -252,7 +252,7 @@ class CommentMenu extends React.Component {
                                     <div style={{display: this.state.editorShowed ? 'none' : 'block' }}>更新者</div>
                                     <div style={{display: this.state.editorShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>
                                 </div>
-                                <div className="menuList">
+                                <div className="menuList" >
                                     <div className="setTime">
                                         <img src={ clock } />
                                     </div>
@@ -266,7 +266,6 @@ class CommentMenu extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </React.Fragment>

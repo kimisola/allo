@@ -1,8 +1,13 @@
 import React from 'react';
+import "../css/loginPage.css";
 import Slogan from "../images/slogan.png";
 import GLogin from "../components/googleBar.js";
-import LoginImg from "../images/login-img.png";
+import LoginImg from "../images/loginpage_main1.png";
+import ContentImg1 from "../images/loginpage_content1.png";
+import ContentImg2 from "../images/loginpage_content2.png";
+import ContentImg3 from "../images/loginpage_content3.png";
 import Right from "../images/right.png";
+import Sticky from "../images/sticky.png";
 import firebase from 'firebase';
 import fire from "../src/fire";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -25,7 +30,6 @@ const InviteFriend = withStyles({
       },
     },
 })(TextField);
-
 
 
 class LoginPage extends React.Component {
@@ -167,8 +171,8 @@ class LoginPage extends React.Component {
             },
             signup: {
                 opacity: this.state.isRegisted ? '1' : '0' ,
-                width: this.state.isRegisted ? '350px' : '0px' ,
-                height: this.state.isRegisted ? '255px' : '0px', 
+                width: this.state.isRegisted ? '50vh' : '0px' ,
+                height: this.state.isRegisted ? '33vh' : '0px', 
             },
             login: {
                 opacity: this.state.isLoginin ? '1' : '0' ,
@@ -180,92 +184,136 @@ class LoginPage extends React.Component {
         return(
 
             <React.Fragment>
-                <div className="login-background">
+                <div className="login-page">
 
-                    <div className="login-main">
-                        <div className="login-content">
-                                            
-                            <div className="buttons">
-                                <div className="registerButton" onClick={ this.switchToRegister }>
-                                    <label className="b-button switch-register"  value="Register" >Register</label>
-                                </div>
-                                <div className="loginButton" onClick={ this.switchToLogin }>
-                                    <label className="b-button switch-login" type="button" value="Login" >Login</label>
-                                </div>
+                    <div className="login-topBar">
+                        <div className="topBar-Left">
+                            <div className="logoDiv">
+                                <img src={ Sticky } />
                             </div>
+                            <div className="logoName">
 
-                            <div className="signinArea" style={ style.signinArea }>
+                            </div>
+                            
+                        </div>
+                        <div className="topBar-Right">
+                            {/* <div className="regist"> Regist </div>
+                            <div className="login"> Login </div> */}
+                            <div className="guide"> Guide </div>
+                        </div>
+                    </div>
+                    <div className="login-background">
 
-                                {/* 註冊滑出的 div */}
-                                <div className="signup" style={ style.signup }>
-                                    <InviteFriend   id="standard-textarea-a"
-                                    label="Enter email"
-                                    multiline
-                                    onChange={ this.getEmail }
-                                    /><br />
-                                    <InviteFriend
-                                    id="standard-textarea-b"
-                                    label="Enter password"
-                                    multiline
-                                    onChange={ this.getPassword }
-                                    />
-                                    <p className="errmsg"> {this.state.message} </p>
-                                    <div className="rigister-div">
-                                        <div className="rigister-img">
-                                            <img src={ Right } onClick={ this.registerWithFire }/>
-                                        </div>
+                        <div className="login-main">
+                            <div className="login-content">
+                                                
+                                <div className="buttons">
+                                    <div className="registerButton" onClick={ this.switchToRegister }>
+                                        <label className="b-button switch-register"  value="Register" >Register</label>
+                                    </div>
+                                    <div className="loginButton" onClick={ this.switchToLogin }>
+                                        <label className="b-button switch-login" type="button" value="Login" >Login</label>
                                     </div>
                                 </div>
 
-                                {/* 登入滑出的 div */}
-                                <div className="login" style={style.login}>
-                                    <InviteFriend   id="standard-textarea-c"
-                                    label="Email"
-                                    multiline
-                                    onChange={ this.loginEmail }
-                                    /><br />
-                                    <InviteFriend
-                                    id="standard-textarea-d"
-                                    label="Password"
-                                    multiline
-                                    onChange={ this.Loginpassword  }
-                                    />
-                                    
-                                    <p className="errmsg"> {this.state.message} </p>
-                                    <div className="login-div">
-                                    <GLogin />
-                                        <div className="login-img">
-                                            <img src={ Right } onClick={ this.loginWithFire }/>
+                                <div className="signinArea" style={ style.signinArea }>
+
+                                    {/* 註冊滑出的 div */}
+                                    <div className="signup" style={ style.signup }>
+                                        <InviteFriend   id="standard-textarea-a"
+                                        label="Enter email"
+                                        multiline
+                                        onChange={ this.getEmail }
+                                        /><br />
+                                        <InviteFriend
+                                        id="standard-textarea-b"
+                                        label="Enter password"
+                                        multiline
+                                        onChange={ this.getPassword }
+                                        />
+                                        <p className="errmsg"> {this.state.message} </p>
+                                        <div className="rigister-div">
+                                            <div className="rigister-img">
+                                                <img src={ Right } onClick={ this.registerWithFire }/>
+                                            </div>
                                         </div>
-                                    </div>                              
+                                    </div>
+
+                                    {/* 登入滑出的 div */}
+                                    <div className="login" style={style.login}>
+                                        <InviteFriend   id="standard-textarea-c"
+                                        label="Email"
+                                        multiline
+                                        onChange={ this.loginEmail }
+                                        /><br />
+                                        <InviteFriend
+                                        id="standard-textarea-d"
+                                        label="Password"
+                                        multiline
+                                        onChange={ this.Loginpassword  }
+                                        />
+                                        
+                                        <p className="errmsg"> {this.state.message} </p>
+                                        <div className="login-div">
+                                        <GLogin />
+                                            <div className="login-img">
+                                                <img src={ Right } onClick={ this.loginWithFire }/>
+                                            </div>
+                                        </div>                              
+                                    </div>
+
                                 </div>
 
+                                <div className="textContent">
+                                    <div className="details">
+                                        <p>Trello’s boards, lists, and cards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
+                                    </div>
+                                    <div className="slogan">
+                                        <p>Enhance your teamwork </p>
+                                        <p>with <div className="webName">a-llo</div> !</p>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div className="textContent">
-                                <div className="details">
-                                    <p>Trello’s boards, lists, and cards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
-                                </div>
-                                <div className="slogan">
-                                    <p>Enhance your teamwork </p>
-                                    <p>with <div className="webName">a-llo</div> !</p>
-                                </div>
+                            <div className="login-img">
+                                <img src={ LoginImg }/>
                             </div>
+                            
                         </div>
 
-                        <div type="checkbox" className="login-img">
-                            <img src={ LoginImg }/>
-                        </div>
-                        
                     </div>
 
+                    <div className="login-content">
+                        <div className="section">
+                            <div className="picture">
+                                <img src={ ContentImg1 }/>
+                            </div>
+                            <div className="text">
+                            擁有進度標籤，支援圖片上傳和文字內容。
+                            </div>
+                        </div>
+                        <div className="section">
+                            <div className="text">
+                            團隊間共同編輯，分享內容。
+                            </div>
+                            <div className="picture">
+                                <img src={ ContentImg2 }/>
+                            </div>
+                        </div>
+                        <div className="section">
+                            <div className="picture">
+                                <img src={ ContentImg3 }/>
+                            </div>
+                            <div className="text">
+                            列表和留言拖曳，使你更方便管理。
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="login-footer">
+                        <div>&copy; a-llo Copyright 2020 </div>
+                    </div>
                 </div>
-
-                <div className="login-topBar">
-                    
-                </div>
-
-
             </React.Fragment>
         )
     }

@@ -18,44 +18,32 @@ class CommentItem extends React.Component {
 
     render(){
         return(
-
-            <div className="item" ref={ this.myRef }>
-            <div className="itemHead">
-                <div className="tags">
-
+            <React.Fragment>
+                
+                <div className="tags" ref={ this.myRef }>
                 { this.props.item.tags.map((tag, i) => {
                     switch (tag) {
                         case "planning":
-                            return <div className="tag planning" key={ i }>Planning</div>
+                            return <div className="tag planning" key={i}>Planning</div>
 
                         case "process":
-                            return <div className="tag process"  key={ i }>In Process</div>
+                            return <div className="tag process"  key={i}>In Process</div>
                     
                         case "risk":
-                            return <div className="tag risk" key={ i }>At Risk</div>
+                            return <div className="tag risk" key={i}>At Risk</div>
                     
                         case "achived":
-                            return <div className="tag achived" key={ i }>Achieved</div>
+                            return <div className="tag achived" key={i}>Achieved</div>
 
                             default:
                         break;
                         }
                     })
                 }
-
                 </div>
-
                 <CommentMenu  listId={ this.props.listIndex } comId={ this.props.j } coordinate={ this.myRef }  />
 
-            </div>                              
-            
-            <div className="itemBody">
-                <div className="message">                       
-                    <div className="msgText"> {this.props.item.text} </div>         
-                    <div className="msgImg"> <img src={ this.props.item.img } /> </div>
-                </div>
-            </div>
-        </div>
+            </React.Fragment>
         )
     }
 }

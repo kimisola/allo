@@ -1,5 +1,6 @@
 import React from 'react';
 import "../src/main.css";
+import "../css/homePage.css";
 import { Route } from 'react-router-dom';
 import Topbar from "../components/topbar";
 import BoardLink from "../components/boardLink";
@@ -15,7 +16,6 @@ class HomePage extends React.Component {
         super(props);
         this.state = {
             isBackgroundEdited: false,
-            homepageCover: "",
             backgroundURL: "",
             isBoardListShowed: false,
             isNotificationShowed: false,
@@ -57,30 +57,12 @@ class HomePage extends React.Component {
             // get current user's homepage cover
             db.collection("Users").doc(firebaseUid).get()
             .then((querySnapshot) => {
-                if ( querySnapshot.data().homepageCover !== "" ) {
-                    this.setState(prevState => {
-                        let homepageCover = querySnapshot.data().homepageCover
-                        return Object.assign({}, prevState, {
-                            homepageCover: homepageCover
-                        })
-                    }) 
-                } else {
-                    let ref = db.collection("Users").doc(firebaseUid)
-                    ref.update({
-                        homepageCover: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fhomepagecover1.jpg?alt=media&token=6793a59f-eaac-4d76-83fb-db421ea2a0b4"
-                    }).then(() => {
-                        this.setState(prevState => {
-                            let homepageCover = "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fhomepagecover1.jpg?alt=media&token=6793a59f-eaac-4d76-83fb-db421ea2a0b4"
-                            return Object.assign({}, prevState, {
-                                homepageCover: homepageCover
-                            })
-                        })
-                        console.log("Document successfully written!");
-                    }).catch((error) => {
-                        console.error("Error removing document: ", error);
+                this.setState(prevState => {
+                    let homepageCover = querySnapshot.data().homepageCover
+                    return Object.assign({}, prevState, {
+                        homepageCover: homepageCover
                     })
-                }
-                
+                }) 
             })
             
             //  找到資料庫裡邀請是　false　的　doc

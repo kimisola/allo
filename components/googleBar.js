@@ -43,13 +43,12 @@ class GLogin extends React.Component {
               this.props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
 
-              db.collection("Users").doc(`${firebaseUid}`).set({
+              db.collection("Users").doc(`${firebaseUid}`).update({
                   name: userDisplayName,
                   photo: userPhotoURL,
                   email: userEmail,
                   uid: useruid,
                   firebaseuid: firebaseUid,
-                  homepageCover: "",
               }).then(() => {
                   //window.location = "/Board"
                   console.log("Document successfully written!")

@@ -1,0 +1,236 @@
+/* CSS for home page */
+#root>.homebackground {
+    position: relative; opacity: 1;height: 280px;
+}
+
+#root>.homebackground>.imgUpload {
+    position: absolute; right: 10px; bottom: 10px; width: 32px; background-color: rgba(0, 0, 0, 0.4); border-radius: 100%;
+}
+
+#root>.homebackground>.imgUpload label {
+    display: flex; align-items: center;
+}
+
+#root>.topBar {
+    max-height: 43px; display: flex; background-color:  rgba(70, 65, 89, 0.25); justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px; position: absolute;top: 0;left: 0;right: 0;z-index: 2;
+}
+
+#root>.topBar>.topLeft,
+#root>.topBar>.topRight {
+    display: flex;margin: 5px;flex-wrap: wrap;align-items: center;
+}
+
+#root>.topBar>.topLeft>.searchBar input {
+    display: none; 
+}
+
+#root>.topBar>.topRight>.boardList,
+#root>.topBar>.topRight>.signOutImg,
+#root>.topBar>.topLeft>.home {
+    width: 28px;
+}
+
+#root>.topBar>.topRight>.memberIcon{
+    width: 32px;
+}
+
+#root>.topBar>.topRight>.memberIcon img{
+    border-radius: 100%;
+}
+#root>.topBar>.topLeft>.home,
+#root>.topBar>.topRight>.memberIcon,
+#root>.topBar>.topRight>.boardList {
+    margin-right: 20px; 
+}
+
+#root>.topBar>.topRight>.boardList {
+    position: relative;
+}
+#root>.topBar>.topRight>.boardList>.alertMsg {
+    border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: 0px;top: 0px;text-align: center;color: white;padding-bottom: 3px;
+}
+#root>.topBar>.topRight>.alertMenu {
+    width: 150px;border-radius: 3px;background-color: rgba(0,0,0,0.6);
+}
+#root>.topBar>.topRight>.alertMenu>.showMenuBackground {
+    position: fixed; top: 0; right: 0;left: 0;bottom: 0;
+}
+
+#root>.topBar>.topRight>.alertMenu li{
+    background-color: rgba(0,0,0,0.6);color: white; font-size: 13px; list-style:none;padding: 3px 8px 3px 8px;z-index: 5;list-style:none;
+}
+#root>.topBar>.topRight>.alertMenu li:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+.homepage {
+    display: flex; margin: -105px auto 0px auto; width: 75%; flex-direction: column;
+}
+
+.homepage>.profile {
+    flex-grow: 0.5; display: flex; z-index: 2;
+}
+
+.homepage>.profile>.myImg {
+    width: 180px;
+}
+.homepage>.profile>.myImg img{
+    border-radius: 100%;
+}
+.homepage>.profile>.details {
+    display: flex;flex-direction: column-reverse;padding: 0 0 5px 30px;
+}
+.homepage>.profile>.details>.list>.name {
+    font-weight: bolder;font-size: 22px;margin-bottom: 10px;
+}
+
+
+/* menu */
+.homepage>.mainContent {
+    display: flex; margin-top: 50px;flex-direction: row;
+}
+.homepage>.mainContent>.menu {
+    display: flex; flex-direction: column; margin-left: 15px;
+}
+.homepage>.mainContent>.menu>.readBoard,
+.homepage>.mainContent>.menu>.readNotice,
+.homepage>.mainContent>.menu>.list>.listTitle {
+    letter-spacing: 5px; height: 40px; border:1px solid rgba(211, 211, 211, 0.6);display: flex; background-color: white;margin-bottom: 10px;padding: 0 35px 0 35px;align-items: center;
+}
+.homepage>.mainContent>.menu>.readBoard:hover,
+.homepage>.mainContent>.menu>.readNotice:hover,
+.homepage>.mainContent>.menu>.list>.listTitle:hover,
+.homepage>.mainContent>.menu>.readBoard:active,
+.homepage>.mainContent>.menu>.readNotice:active,
+.homepage>.mainContent>.menu>.list>.listTitle:active{
+    border:1px solid rgba(211, 211, 211); background-color: rgba(211, 211, 211,0.3);
+}
+
+
+.homepage>.mainContent>.menu>.list>.listTitle {
+    position: relative;
+}
+.homepage>.mainContent>.menu>.list>.listTitle>.dropdownIcon {
+    position: absolute; top:9px; right: 5px; width: 24px;
+}
+
+.homepage>.mainContent>.menu>.list>.listContent>.content {
+    display: flex;justify-content: space-between;margin-bottom: 8px;padding: 4px 10px;
+}
+
+.homepage>.mainContent>.menu>.list>.listContent>.content:hover {
+    background-color: rgba(211, 211, 211,0.28); border-radius: 5px;
+}
+.homepage>.mainContent>.menu>.list>.listContent>.content>.delete {
+    width: 16px;
+}
+
+
+/* boardLists */
+.homepage>.mainContent>.boardLists {
+    margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;flex-grow: 4;
+    display: flex; flex-direction: column;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+}
+
+.homepage>.mainContent>.boardLists>.section>.category {
+    font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1);margin-bottom: 20px;padding-bottom: 5px;
+}
+
+.homepage>.mainContent>.boardLists>.section {
+    display: flex; flex-direction: column;flex-grow: 1;margin: 20px;
+}
+
+.homepage>.mainContent>.boardLists>.section>.category {
+    margin-bottom: 10px;letter-spacing: 2px;
+}
+.homepage>.mainContent>.boardLists>.section>.items {
+    display: flex; flex-wrap: wrap;
+}
+.homepage>.mainContent>.boardLists>.section>.items>.board {
+    border: 1px solid darkgray; background-color: rgba(211, 211, 211, 0.6); width: 150px; height: 90px; margin: 5px 20px 10px 0; text-align: center;line-height: 90px;border-radius: 12px;color: white;
+}
+
+
+
+/* messages */
+.homepage>.mainContent>.notifications {
+    flex-grow: 4;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+}
+.homepage>.mainContent>.notifications>.section {
+    margin: 20px;
+}
+.homepage>.mainContent>.notifications>.section>.category {
+    font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1);margin-bottom: 20px;padding-bottom: 5px;letter-spacing: 2px;
+}
+.homepage>.mainContent>.notifications>.section>.bars {
+    display: flex; flex-wrap: wrap;flex-direction: column;
+}
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar {
+    display: flex; flex-wrap: wrap;justify-content: space-between;align-items: center;
+}
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar:hover {
+    background-color: rgba(211, 211, 211,0.3);border-radius: 5px;
+}
+
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.msg {
+    display: flex;align-items: center;margin-left: 15px;
+}
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.msg>.imgDiv {
+    width: 28px;margin-right: 15px;
+}
+
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts {
+    display: flex; flex-wrap: wrap;align-items: center;
+
+}
+
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.accept,
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.deny {
+    display: inline-block;
+    padding: 0 14px;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    background: #fff;
+    border-radius: 4px;
+    transition: all .3s ease
+}
+
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.accept:hover,
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.deny:hover {
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+}
+
+
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.accept {
+    margin-right: 15px;background-color: rgba(102,163,255,0.7);width: 50px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
+
+}
+
+.homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.deny {
+    margin-right: 15px;background-color: rgba(255,77,77,0.7);width: 50px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
+}
+
+@media (max-width: 900px){
+	.homepage>.mainContent {
+        flex-direction: column;
+    }
+    .homepage>.mainContent>.menu {
+        flex-direction: row;
+    }
+    .homepage>.mainContent>.menu>.item {
+        margin-right: 15px;
+    }
+    .homepage>.mainContent>.notifications,
+    .homepage>.mainContent>.boardLists {
+        width: 100%; margin: 20px 0 0 0;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 800px) {
+
+}
+
+@media (max-width: 500px) {
+    
+}

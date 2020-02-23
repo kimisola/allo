@@ -187,7 +187,7 @@ function reducer(state = initialState, action) {
         }
 
         case "switchBoard": {
-            console.log("9999999999", action.targetLink)
+            console.log("targetLink_board", action.targetLink)
             let currentBoard = action.targetLink
             return Object.assign({}, state, {
                 currentBoard: currentBoard
@@ -207,6 +207,18 @@ function reducer(state = initialState, action) {
             return Object.assign({}, state, {
                 text: text.slice(0),
                 listTitle: listTitle.slice(0),
+            });
+        }
+
+        case "drag-dropText": {
+            console.log("drag-dropText", action.sourceTheme, action.sourceRow, action.destinationTheme, action.destinationRow)
+            let text = state.text.slice(0);
+            let removeText = text[action.sourceTheme].splice(action.sourceRow, 1)
+            console.log("drag-dropText", text[action.destinationTheme])
+            text[action.destinationTheme].splice(action.destinationRow, 0, removeText[0])
+            console.log("drag-dropText", removeText[0])
+            return Object.assign({}, state, {
+                text: text.slice(0),
             });
         }
 
@@ -251,19 +263,38 @@ class App extends React.Component {
 
                     this.props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
-                    db.collection("Users").doc(firebaseUid).set({
-                        name: userDisplayName,
-                        photo: userPhotoURL,
-                        email: userEmail,
-                        uid: useruid,
-                        firebaseuid: firebaseUid,
-                        homepageCover: "",
-                    }).then(() => {
-                        console.log("Document successfully written!")
-                    }).catch((error) => {
-                        console.error("Error writing document: ", error);
+                    let ref = db.collection("Users").doc(firebaseUid)
+                    ref.get().then((querySnapshot) => {
+                        console.log("querySnapshot.data().homepageCover", querySnapshot.data().homepageCover)
+                        console.log(querySnapshot.data().homepageCover == "")
+                        console.log(querySnapshot.data().homepageCover === "")
+                        if ( querySnapshot.data().homepageCover == "" ) {
+                            ref.update({
+                                name: userDisplayName,
+                                photo: userPhotoURL,
+                                email: userEmail,
+                                uid: useruid,
+                                firebaseuid: firebaseUid,
+                                homepageCover: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fhomepagecover1.jpg?alt=media&token=6793a59f-eaac-4d76-83fb-db421ea2a0b4",
+                            }).then(() => {
+                                console.log("Document successfully written!")
+                            }).catch((error) => {
+                                console.error("Error writing document: ", error);
+                            })
+                        } else {
+                            ref.update({
+                                name: userDisplayName,
+                                photo: userPhotoURL,
+                                email: userEmail,
+                                uid: useruid,
+                                firebaseuid: firebaseUid,
+                            }).then(() => {
+                                console.log("Document successfully written!")
+                            }).catch((error) => {
+                                console.error("Error writing document: ", error);
+                            })
+                        }
                     })
-    
                 } else {
                     this.props.mSetCurrentUser(null, null, null, null, null)
                     // No user is signed in.

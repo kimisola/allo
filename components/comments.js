@@ -13,11 +13,11 @@ class Comments extends React.Component {
         return(
             <React.Fragment>
                            
-                <div className="comment">
+                {/* <div className="comment">
                     { this.props.text[this.props.listIndex].map((item, j) =>
                         <CommentItem listIndex={ this.props.listIndex } item={ item } j={ j } key={ j } />
                     )}
-                </div>
+                </div> */}
             </React.Fragment>
         )
     }

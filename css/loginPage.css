@@ -1,0 +1,215 @@
+/* CSS for login page */
+
+.login-page {
+    display: flex; flex-direction: column;
+}
+
+.login-page>.login-topBar {
+    background-color: rgba(0, 146, 199, 1)
+}
+.login-page>.login-topBar,
+.login-page>.login-topBar>.topBar-Right,
+.login-page>.login-topBar>.topBar-Left {
+    display: flex; justify-content: space-between;z-index: 2;align-items: center; text-align: center;
+}
+
+.login-page>.login-topBar>.topBar-Left>.logoDiv {
+    width: 48px;
+}
+.login-page>.login-topBar>.topBar-Right>.guide {
+    width: 90px; height: 36px; color: rgba(0, 146, 199, 1);background-color:white;border-radius: 10px;font-weight: bold;font-size: 20px;line-height: 36px;margin-right: 20px;
+}
+
+.login-page>.login-topBar>.topBar-Right>.regist {
+    width: 100px; height: 46px; color: white; border-radius: 10px;font-weight: bold;font-size: 20px;line-height: 46px;margin-right: 20px;
+}
+
+.login-page>.login-topBar>.topBar-Right>.regist:hover {
+    background-color:rgba(255, 255, 255, 0.7); color: rgba(0, 146, 199, 1);
+}
+
+.login-page>.login-topBar>.topBar-Right>.login {
+    width: 100px; height: 46px; color: rgba(0, 146, 199, 1);background-color:white;border-radius: 10px;font-weight: bold;font-size: 20px;line-height: 46px;margin-right: 20px;
+}
+
+
+.login-page>.login-background {
+    background-color: rgba(0, 146, 199, 1);padding: 20px 0 20px 0;
+}
+.login-page>.login-background>.login-main {
+    display: flex;position: relative;justify-content: space-around;z-index: 1;height: 100%;
+}
+.login-page>.login-background>.login-main>.login-content {
+    display: flex; flex-direction: column-reverse; margin: 0 0 3.5% 3%;
+}
+.login-page>.login-background>.login-main>.login-img {
+    max-width: 52%;
+}
+
+.login-page>.login-background>.login-main>.login-content>.signinArea {
+    margin-top: 2%;transition: 0.5s 0.5s cubic-bezier(0.25,0.1,0.25,1);max-width: 400px; display: flex; align-items: center; flex-direction: column;
+}
+
+.login-page>.login-content {
+    display: flex; flex-direction: column; width: 70%; margin: 0 auto;
+}
+.login-page>.login-content>.section {
+    display: flex; justify-content: space-around; margin-top: 50px;align-items: center;flex-wrap: wrap;
+}
+.login-page>.login-content>.section>.picture {
+    width: 50%;
+}
+.login-page>.login-content>.section>.text {
+    width: 312px; font-size: 20px;margin: 20px 0 20px 0;
+}
+
+.login-page>.login-footer {
+    background-color: rgba(0, 146, 199, 1); color: white; height: 50px;margin-top: 50px; text-align: center;line-height: 50px;
+}
+
+
+#standard-textarea-a,
+#standard-textarea-b,
+#standard-textarea-c,
+#standard-textarea-d {
+    color: white;max-height: 18px;
+}
+
+.login-page>.login-background>.login-main>.login-content>.signinArea>.login,
+.login-page>.login-background>.login-main>.login-content>.signinArea>.signup {
+    display: flex;flex-direction: column;width: 350px;transition: 0.5s 0.5s cubic-bezier(0.25,0.1,0.25,1);
+}
+
+.login-page>.login-background>.login-main>.login-content>.signinArea>.signup>.errmsg ,
+.login-page>.login-background>.login-main>.login-content>.signinArea>.login>.errmsg {
+    height: 0px;color: rgba(255, 71, 26);font-weight: bold;
+}
+.login-page>.login-background>.login-main>.login-content>.signinArea>.signup>.rigister-div{
+    display: flex;align-items: center;justify-content: flex-end;
+}
+.login-page>.login-background>.login-main>.login-content>.signinArea>.login>.login-div {
+    display: flex;align-items: center;justify-content: space-between;
+}
+.login-page>.login-background>.login-main>.login-content>.signinArea>.signup>.rigister-div>.rigister-img,
+.login-page>.login-background>.login-main>.login-content>.signinArea>.login>.login-div>.login-img{
+    width: 48px;
+}
+
+.login-page>.login-background>.login-main>.login-content>.textContent {
+    max-width: 400px; display: flex;flex-direction: column-reverse;
+}
+.login-page>.login-background>.login-main>.login-content>.textContent>.slogan p>.webName {
+    display: inline-block;font-size: 7vh;
+}
+
+.login-page>.login-background>.login-main>.login-content>.textContent>.slogan p{
+    color: white; font-weight: bolder;font-size: 34px;margin:5px auto;
+}
+.login-page>.login-background>.login-main>.login-content>.textContent>.details {
+    max-width: 400px; text-align: left; 
+}
+.login-page>.login-background>.login-main>.login-content>.textContent>.details p{
+    color: white; font-weight: bolder;font-size: 15px;
+}
+
+.login-page>.login-background>.login-main>.login-content>.buttons {
+    display: flex; justify-content: space-between; max-width: 400px;
+}
+
+
+.login-page>.login-background>.login-main>.login-content>.signinArea>.signup input {
+	width: 180px; height: 40px;background: #fff; border: 1px solid #fff; border-radius: 2px;color: #a18d6c; font-family: Lucida Console; font-size: 16px;padding: 5px;margin: 30px 30px 0px 0 ;
+}
+
+.registerButton {
+    padding: 10px 25px;
+    position: relative;
+    color: #fff;
+}
+
+.registerButton::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 5px;
+    right: 5px;
+    background-color: rgb(235, 186, 82);
+    z-index: -1;
+    transition: transform .2s ease-in-out;
+}
+
+.registerButton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #474E51;
+}
+
+.registerButton:hover::before {
+    transform: translate(6px, -4px);
+}
+
+.loginButton {
+    padding: 10px 25px;
+    position: relative;
+    color: #fff;
+}
+
+.loginButton::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 5px;
+    right: 5px;
+    background-color: rgb(235, 186, 82);
+    z-index: -1;
+    transition: transform .2s ease-in-out;
+}
+
+.loginButton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #474E51;
+}
+
+.loginButton:hover::before {
+    transform: translate(6px, -4px);
+}
+
+
+@media (max-width: 900px){
+	.login-page>.login-background>.login-main>.login-img {
+        display: none; 
+    }
+    .login-page>.login-content>.section>.picture {
+        width: 80%; 
+    }
+    .login-page>.login-content>.section>.text {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 500px) and (max-width: 800px) {
+
+}
+
+@media (max-width: 500px) {
+    .login-page>.login-background>.login-main>.login-content {
+        margin: 0 6% 3.5% 6%;
+    }
+    .login-page>.login-background>.login-main>.login-content>.textContent>.slogan p {
+        font-size: 30px;
+    }
+    .login-page>.login-background>.login-main>.login-content>.textContent>.details p {
+        font-size: 14px;
+    }
+}

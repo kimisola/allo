@@ -125,7 +125,7 @@ class ThemeTitle extends React.Component {
         )
     }
 
-
+    // drag and drop
     drag(e) {　　// 滑鼠按下去的想做的事情
         e.preventDefault();
         e.stopPropagation();
@@ -201,7 +201,7 @@ class ThemeTitle extends React.Component {
                 for ( let i = 0; i < doc.length; i++ ) {       
                     let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
                     ref.update({
-                        index: (((i+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                        index: (((i+1)*2))
                         })
                     }
                 });
