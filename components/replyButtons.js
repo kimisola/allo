@@ -1,5 +1,4 @@
 import React from 'react';
-import "../src/main.css";
 import { connect } from 'react-redux';
 import { render } from 'react-dom';
 import fire from "../src/fire";

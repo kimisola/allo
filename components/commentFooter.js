@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import "../src/main.css";
 import Plus from "../images/plus.png";
 import { connect } from 'react-redux';
 

@@ -1,7 +1,5 @@
 import React from 'react';import firebase from 'firebase';
-import fire from "../src/fire";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { withRouter}  from "react-router";
 import { connect } from 'react-redux';
 
 class Notice extends React.Component {

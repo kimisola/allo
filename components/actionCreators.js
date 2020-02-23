@@ -1,17 +1,17 @@
-export function aAddNewListOpen() {
+export function addNewListOpen() {
     return{
         type: "addNewListOpen"
     }
 }
 
-export function aGetTitleValue(value) {
+export function getTitleValue(value) {
     return{
         type: "getNewTitleValue", 
         value
     }
 }
 
-export function aCreatTitle(newListTitle, newText) {
+export function creatTitle(newListTitle, newText) {
     return{
         type: "addTheme", 
         newListTitle,
@@ -19,14 +19,14 @@ export function aCreatTitle(newListTitle, newText) {
     }
 }
 
-export function aSetUpComWin(myComWin) {
+export function setUpComWin(myComWin) {
     return {
         type: "setUpComWin",
         myComWin
     }
 }
 
-export function aRenderComments(Data1, Data2) {
+export function renderComments(Data1, Data2) {
     return {
         type: "renderComments",
         Data1,
@@ -34,7 +34,7 @@ export function aRenderComments(Data1, Data2) {
     }
 }
 
-export function aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) {
+export function setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) {
     return {
         type: "setCurrentUser",
         userDisplayName, 
@@ -45,7 +45,7 @@ export function aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, fireba
     }
 }
 
-export function aSetIndexForTitle(storeTitleIndex) {
+export function setIndexForTitle(storeTitleIndex) {
     return {
         type: "setIndexForTitle",
         storeTitleIndex

@@ -1,9 +1,6 @@
 import React from 'react';
-import Comments from "../components/comments";
-import ThemeTitle from "../components/themeTitle";
 import CommentItem from "../components/commentItem";
 import AddComment from "../components/addComment";
-import Plus from "../images/plus.png";
 import { connect } from 'react-redux';
 import Cross from "../images/cross.png";
 import Tick2 from "../images/tick2.png";

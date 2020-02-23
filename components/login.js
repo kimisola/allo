@@ -1,6 +1,5 @@
 import React from 'react';
 import "../css/loginPage.css";
-import Slogan from "../images/slogan.png";
 import GLogin from "../components/googleBar.js";
 import LoginImg from "../images/loginpage_main1.png";
 import ContentImg1 from "../images/loginpage_content1.png";
@@ -9,7 +8,6 @@ import ContentImg3 from "../images/loginpage_content3.png";
 import Right from "../images/right.png";
 import Sticky from "../images/sticky.png";
 import firebase from 'firebase';
-import fire from "../src/fire";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';

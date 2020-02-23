@@ -1,5 +1,4 @@
 import React from 'react';
-import "../src/main.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { switchBoard } from"./actionCreators"

@@ -1,5 +1,4 @@
 import React from 'react';
-import "../src/main.css";
 import "../css/homePage.css";
 import { Route } from 'react-router-dom';
 import Topbar from "../components/topbar";

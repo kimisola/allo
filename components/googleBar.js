@@ -5,7 +5,6 @@ import firebase from 'firebase';
 import fire from "../src/fire";
 //install react-firebaseui
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import "../src/main.css";
 import {aSetCurrentUser } from"../components/actionCreators"
 
 

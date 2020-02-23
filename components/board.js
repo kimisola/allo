@@ -1,14 +1,11 @@
 import React from "react";
 import { connect, Provider } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import firebase from 'firebase';
-import fire from "./fire";
-import { aSetUpComWin, aRenderComments, aSetCurrentUser, aSetIndexForTitle, loadingGifOff, loadingGifOn } from"../components/actionCreators"
-import "./main.css";
+import fire from "../src/fire";
+import { setUpComWin, renderComments, setIndexForTitle, loadingGifOff, loadingGifOn } from"../components/actionCreators"
 import Topbar from "../components/topbar";
 import SecondBar from "../components/secondBar";
 import Section from "../components/section";
-import loagingGif from "../images/loading.gif";
+import loagingGif from "../images/loadingImg.gif";
 
 
 class Board extends React.Component {
@@ -106,7 +103,7 @@ db.collection("Boards").doc(firebaseUid).get()
                     // set an index value for next new added title
                     if ( i === doc.length - 1 ) {
                         let storeTitleIndex = ((doc.length+1)*2)
-                        props.mSetIndexForTitle(storeTitleIndex)
+                        props.setIndexForTitle(storeTitleIndex)
                     }
                 }
                 getCommentText();
@@ -138,7 +135,7 @@ db.collection("Boards").doc(firebaseUid).get()
                 Data.push(Data1[k]);
                 Data.push(Data2[k]);
             }
-            props.mRenderComments(Data1, Data2);
+            props.renderComments(Data1, Data2);
            // props.loadingGifOff();         
         };
     }
@@ -210,7 +207,7 @@ db.collection("Boards").doc(firebaseUid).get()
     //                     // set an index value for next new added title
     //                     if ( i === doc.length - 1 ) {
     //                         let storeTitleIndex = ((doc.length+1)*2)
-    //                         props.mSetIndexForTitle(storeTitleIndex)
+    //                         props.setIndexForTitle(storeTitleIndex)
     //                     }
     //                 }
     //                 getCommentText();
@@ -240,14 +237,14 @@ db.collection("Boards").doc(firebaseUid).get()
     //                 Data.push(Data1[k]);
     //                 Data.push(Data2[k]);
     //             }
-    //             props.mRenderComments(Data1, Data2);
+    //             props.renderComments(Data1, Data2);
     //            // props.loadingGifOff();   
     //         };
     //     }
     // }
 
     horizontalScroll = (event) => {
-        const delta = Math.max(-1, Math.min(1, (event.nativeEvent.wheelDelta || -event.nativeEvent.detail)))
+        const delta = Math.max(-1, Math.min(1, (event.nativeEvent.wheelDelta || event.nativeEvent.detail)))
         event.currentTarget.scrollRight += (delta * 10)
         event.preventDefault
     }
@@ -260,7 +257,7 @@ db.collection("Boards").doc(firebaseUid).get()
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat'
-            },
+            }
         };
         
 
@@ -306,10 +303,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        mSetUpComWin: (myComWin) => { dispatch(aSetUpComWin(myComWin)) },
-        mRenderComments: (Data1, Data2) => { dispatch(aRenderComments(Data1, Data2)) },
-        mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
-        mSetIndexForTitle: (storeTitleIndex) => { dispatch(aSetIndexForTitle(storeTitleIndex))},
+        setUpComWin: (myComWin) => { dispatch(setUpComWin(myComWin)) },
+        renderComments: (Data1, Data2) => { dispatch(renderComments(Data1, Data2)) },
+        //setCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
+        setIndexForTitle: (storeTitleIndex) => { dispatch(setIndexForTitle(storeTitleIndex))},
         loadingGifOff: () => { dispatch(loadingGifOff()) },
         loadingGifOn: () => { dispatch(loadingGifOn()) },
     }

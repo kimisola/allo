@@ -1,5 +1,4 @@
 import React from 'react';
-import "../src/main.css";
 import Plus from "../images/plus.png";
 import { connect } from 'react-redux';
 

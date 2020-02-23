@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Plus from "../images/plus.png";
 import TestIcon from "../images/testIcon.jpg";
 import { connect } from 'react-redux';
@@ -7,9 +6,7 @@ import fire from "../src/fire";
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {  grey, COMPLEMENTARY} from '@material-ui/core/colors';
-import { sizing } from '@material-ui/system';
 import { aCreatTitle, aAddNewListOpen, aGetTitleValue, aSetIndexForTitle } from"./actionCreators"
-import { object } from 'prop-types';
 
 const InviteFriend = withStyles({
     root: {

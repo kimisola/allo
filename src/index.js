@@ -5,11 +5,11 @@ import { createStore } from "redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import firebase from 'firebase';
 import fire from "../src/fire";
-import LoginPage from "./login";
-import Board from "./board";
+import LoginPage from "../components/login";
+import Board from "../components/board";
 import HomePage from "../components/homePage";
-import {aSetCurrentUser } from"../components/actionCreators"
-import "./main.css";
+import { setCurrentUser } from"../components/actionCreators"
+import "../css/main.css";
 
 
 
@@ -261,7 +261,7 @@ class App extends React.Component {
                         userPhotoURL = "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2Fuser.png?alt=media&token=2005cf1c-816d-4777-95ae-d535f7a4ebb1"
                     }
 
-                    this.props.mSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
+                    this.props.setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
                     let ref = db.collection("Users").doc(firebaseUid)
                     ref.get().then((querySnapshot) => {
@@ -303,9 +303,9 @@ class App extends React.Component {
 
             }
         );
-      }
+    }
 
-    render(){
+    render() {
         return(
             <React.Fragment>
                 <Router>       
@@ -339,7 +339,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        mSetCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(aSetCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
+        setCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
     }
 }
 
