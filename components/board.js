@@ -231,10 +231,16 @@ class Board extends React.Component {
         }
     }
 
-    horizontalScroll = (event) => {
-        const delta = Math.max(-1, Math.min(1, (event.nativeEvent.wheelDelta || -event.nativeEvent.detail)))
-        event.currentTarget.scrollRight += (delta * 10)
-        event.preventDefault
+    horizontalScroll = (e) => {
+        window.addEventListener("mousewheel", e => {
+            console.log("e.deltaX", e.deltaX, "e.deltaY", e.deltaY)
+            if (e.deltaX === 0) {
+                e.stopPropagation()
+                e.preventDefault()
+                // noinspection JSSuspiciousNameCombination
+                window.scrollBy(e.deltaY, 0)
+            }
+        })
     }
 
     render(){
@@ -258,9 +264,7 @@ class Board extends React.Component {
                     <div className="view" style={{display: this.props.isBoardLoaded ? 'block' : 'block' }} >
                         <Topbar />
                         <SecondBar />
-                        <div className="board">                                                         
-                            <Section />
-                        </div>
+                        <Section />
                     </div>
                 </main>             
  

@@ -11,6 +11,7 @@ import fire from "../src/fire";
 class Section extends React.Component {
     constructor(props){
         super(props);
+        this.board = React.createRef();
         this.state = {
             isInEditMode: false,
             themeHeight: "",
@@ -183,7 +184,7 @@ class Section extends React.Component {
             let x = e.clientX - offset.x;
             let y = e.clientY - offset.y;
             let themeWidth = 295;
-            let markIndex = Math.floor(( x + rect.width/2 ) / themeWidth);
+            let markIndex = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);
             console.log(markIndex)
             if ( markIndex <= 0 ) {
                 markIndex = 0;
@@ -296,11 +297,12 @@ class Section extends React.Component {
         const move = (e) => {
             e.preventDefault();
             e.stopPropagation();
+            console.log("scroll left", this.board.current.scrollLeft);
             let x = e.clientX - offset.x;
             let y = e.clientY - offset.y;
             let themeWidth = 295;
             let rowHeight = 200;  // 如果遇到高度特別高的留言就會不精準
-            let markTheme = Math.floor(( x + rect.width/2 ) / themeWidth);  // 代表同主題寬度 x 軸
+            let markTheme = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);  // 代表同主題寬度 x 軸
             let markRow = Math.floor(( y + rect.height/3 ) / rowHeight);  // 代表主題內留言高度 y 軸
             console.log("markTheme, markRow", markTheme, markRow)
             if ( markTheme <= 0 ) {
@@ -346,7 +348,7 @@ class Section extends React.Component {
             } else {
                 firebaseUid = this.props.firebaseUid
             }
-            
+
             db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((sourceTheme+1)*2)).get()
             .then((querySnapshot) => {
                 let sourceThemeRef = querySnapshot.docs[0].id
@@ -429,6 +431,7 @@ class Section extends React.Component {
             items.push([]);
             for ( let j = 0; j < texts[i].length; j++ ) {
                 if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i <= dragInfoItem.theme && j <= dragInfoItem.row ) {
+                    console.log("top",dragInfoItem.markTheme, dragInfoItem.markRow, dragInfoItem.theme, dragInfoItem.row )
                     items[i].push (
                         <div className="item" key={i+100} >
                             <div key="mark" className="mark" style={style.markItem} />
@@ -471,6 +474,7 @@ class Section extends React.Component {
                 }
 
                 if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i > dragInfoItem.theme && j > dragInfoItem.row ) {
+                    console.log("33333333333333",dragInfoItem.markTheme, dragInfoItem.markRow, dragInfoItem.theme, dragInfoItem.row )
                     items[i].push (
                         <div className="item" key={i+300} >
                             <div key="mark" className="mark" style={style.markItem} />
@@ -577,7 +581,9 @@ class Section extends React.Component {
             }        
         return(
             <React.Fragment>
-           		{ elements }
+                <div className="board" ref={this.board}>
+           		    { elements }
+                </div>
             </React.Fragment>
         )
     }

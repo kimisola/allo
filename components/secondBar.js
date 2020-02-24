@@ -3,24 +3,7 @@ import Plus from "../images/plus.png";
 import TestIcon from "../images/testIcon.jpg";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import {  grey, COMPLEMENTARY} from '@material-ui/core/colors';
 import { creatTitle, addNewListOpen, getTitleValue, setIndexForTitle } from"./actionCreators"
-
-const InviteFriend = withStyles({
-    root: {
-      '& label.Mui-focused': {
-        color: "#ffffff",
-      },
-      '& .MuiInput-underline:after': {
-        borderBottomColor: grey[600],
-      },
-      '& .MuiInput-formControl': {
-        marginTop: 13,
-      }
-    },
-  })(TextField);
 
 class SecondBar extends React.Component {
     constructor(props){
@@ -34,6 +17,8 @@ class SecondBar extends React.Component {
             userFirebaseuid:"",
             alertMsg:[],
             emailValue: "",
+            xCoordinate: "",
+            yCoordinate: "",
         }
     }
 
@@ -78,9 +63,7 @@ class SecondBar extends React.Component {
                 }).catch(() => {
                     console.error("Error writing document: ", error);
                 })
-
             }
-
         }
     }
 
@@ -110,6 +93,21 @@ class SecondBar extends React.Component {
         })
     }
 
+    getCoordinate = () => {
+        console.log(this.myRef.current.getBoundingClientRect());
+        let data = this.myRef.current.getBoundingClientRect()
+        this.setState( prevState => {  
+            let xCoordinate = prevState.xCoordinate
+            xCoordinate = data.x
+            let yCoordinate = prevState.yCoordinate
+            yCoordinate = data.y
+            return { 
+                xCoordinate: xCoordinate,
+                yCoordinate: yCoordinate
+             }
+        });
+    }
+
     showInvitation = () => {
         this.setState( prevState => {
             const showInvitationa = !prevState.isShowInvitation
@@ -119,6 +117,7 @@ class SecondBar extends React.Component {
                 userMail: "",
             })
         });
+        this.getCoordinate();
     }
         
 
@@ -213,28 +212,28 @@ class SecondBar extends React.Component {
     }
 
     render(){
-        console.log(this.props, "333333")
+
+        const style = {
+            invitedStyle: {
+                display: this.state.isShowInvitation ? "block" : "none",
+                position: "fixed",
+                top: this.state.yCoordinate + 30,
+                left: this.state.xCoordinate
+            }
+        }
         return(
             <React.Fragment>
 
                 <div className="secondBar">
                     <div className="secondLeft">
-                        <div className="inviteDiv" onClick={()=> this.showInvitation() } ref={ this.myRef }>邀請</div>
-                        <div className="invite" style={{display: this.state.isShowInvitation ? 'block' : 'none' }}>
-                            {/* <InviteFriend
-                            id="standard-textarea"
-                            label="User Email"
-                            placeholder="email"
-                            multiline
-                            onChange={ this.getMailValue }
-                            onKeyPress={ this.invite }
-                            /> */}
+                        <div className="inviteDiv" onClick={ this.showInvitation } ref={ this.myRef }>邀請編輯</div>
+                        <div className="invite" style={style.invitedStyle}>
+                            <p>請對方輸入電子郵件：</p>
                             <input type="text" value={ this.state.userMail } onChange={ this.getMailValue } onKeyPress={ this.invite }/>
-                        </div>
-                        <div className="friendList" style={{display: this.state.isShowInvitation ? 'none' : 'flex' }}>
-                            <div className="friend"> <img src={ TestIcon } /> </div>
-                            <div className="friend"> <img src={ TestIcon } /> </div>
-                            <div className="friend"> <img src={ TestIcon } /> </div>
+                            <div className="buttons">
+                                <div className="no" onClick={ this.showInvitation }>取消</div>
+                                <div className="yes" onClick={ this.inviteByButton }>送出</div>
+                            </div>
                         </div>
                     </div>
                     <div className="secondRight">

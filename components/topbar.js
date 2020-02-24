@@ -2,7 +2,7 @@ import React from 'react';
 import { setCurrentUser, switchBoard } from"../components/actionCreators";
 import Notice from "../components/notice";
 import HomeImg from "../images/home.png";
-import Blackboard from "../images/blackboard.png";
+import Blackboard from "../images/sticky-note.png";
 import Bell from "../images/bell.png";
 import SignOutImg from "../images/logout.png";
 import firebase from 'firebase';
@@ -176,9 +176,6 @@ class Topbar extends React.Component {
                             <div className="home">
                                 <Link to="/HomePage"> <img src={ HomeImg } /> </Link>
                             </div>
-                            {/* <div className="searchBar">
-                                <input />
-                            </div> */}
                         </div>
                         <div className="topRight">
                             <div className="boardList">
@@ -187,12 +184,13 @@ class Topbar extends React.Component {
                                 </div>
                             </div>
                             <div className="boardList" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
-                                <img src={ Bell } />
-                                <div className="alertMsg"> { num } </div>
+                                <div className="alert">
+                                    <img src={ Bell } />
+                                    <div className="alertMsg"> { num } </div>
+                                </div>
                             </div>
 
                             <div className="alertMenu" style={menuStyle.menuStyle}>
-                            {/* <div className="showMenuBackground" onClick={ this.showAlert}></div> */}
                             { this.state.alertMsg.map((item, i) => {
                                 return (
                                     <React.Fragment key={i}>
