@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import fire from "../src/fire";
 import Tick3 from "../images/tick3.png";
 import Cancel from "../images/cancel.png";
-import Plus from "../images/plus.png";
+import Plus from "../images/plusG.png";
 import Upload from "../images/upload.png";
 
 

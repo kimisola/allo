@@ -2,7 +2,7 @@ import React from 'react';
 import CommentItem from "../components/commentItem";
 import AddComment from "../components/addComment";
 import { connect } from 'react-redux';
-import Cross from "../images/cross.png";
+import Cross from "../images/letter-x.png";
 import Tick2 from "../images/tick2.png";
 import Letter from "../images/letter-x.png";
 import fire from "../src/fire";
@@ -410,13 +410,13 @@ class Section extends React.Component {
         let style = {
             mark: {
                 backgroundColor: "rgba(254, 246, 251, 0.36)",
-                borderRadius: "10px",
+                borderRadius: "4px",
                 width: "275px", 
                 height: this.state.themeHeight, 
             },
             markItem: {
                 backgroundColor: "rgba(254, 246, 251, 0.36)",
-                borderRadius: "10px",
+                borderRadius: "4px",
                 height: this.state.itemHeight,
                 width: "275px",
             }
