@@ -6,7 +6,7 @@ import ContentImg1 from "../images/loginpage_content1.png";
 import ContentImg2 from "../images/loginpage_content2.png";
 import ContentImg3 from "../images/loginpage_content3.png";
 import Right from "../images/right.png";
-import Sticky from "../images/sticky.png";
+import Sticky from "../images/myLogo.png";
 import firebase from 'firebase';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
@@ -197,7 +197,7 @@ class LoginPage extends React.Component {
                         <div className="topBar-Right">
                             {/* <div className="regist"> Regist </div>
                             <div className="login"> Login </div> */}
-                            <div className="guide"> Guide </div>
+                            {/* <div className="guide"> Guide </div> */}
                         </div>
                     </div>
                     <div className="login-background">
@@ -264,7 +264,7 @@ class LoginPage extends React.Component {
 
                                 <div className="textContent">
                                     <div className="details">
-                                        <p>Trello’s boards, lists, and cards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
+                                        <p>a-llo 的管理，讓你輕鬆享受生活與工作。</p>
                                     </div>
                                     <div className="slogan">
                                         <p>Enhance your teamwork </p>
@@ -287,12 +287,14 @@ class LoginPage extends React.Component {
                                 <img src={ ContentImg1 }/>
                             </div>
                             <div className="text">
-                            擁有進度標籤，支援圖片上傳和文字內容。
+                                <h2>文字以外的豐富度</h2>
+                                <p>除了文字的紀錄外，也可以分享圖片，甚至是貼上進度標籤提醒工作進度。</p>
                             </div>
                         </div>
                         <div className="section">
                             <div className="text">
-                            團隊間共同編輯，分享內容。
+                                <h2>與任何團隊合作無間</h2>
+                                <p>不論是個人的工作內容，還是團隊間的專案，甚至是家人朋友間的旅遊，a-llo 都可以井然有序地幫你紀錄相關事務。</p>
                             </div>
                             <div className="picture">
                                 <img src={ ContentImg2 }/>
@@ -303,13 +305,23 @@ class LoginPage extends React.Component {
                                 <img src={ ContentImg3 }/>
                             </div>
                             <div className="text">
-                            列表和留言拖曳，使你更方便管理。
+                                <h2>動態的行程管理</h2>
+                                <p>支援列表和留言間的拖曳，讓你有更多的彈性來管理專案內容。</p>
+                            </div>
+                        </div>
+                        <div className="section">
+                            <div className="text">
+                                <h2>簡單快速上手的操作</h2>
+                                <p>這裡預計放網站的使用教學 →</p>
+                            </div>
+                            <div className="picture">
+                                <img src={ ContentImg2 }/>
                             </div>
                         </div>
                     </div>
 
                     <div className="login-footer">
-                        <div>&copy; a-llo Copyright 2020 </div>
+                        <div>&copy; 2020 a-llo Copyright </div>
                     </div>
                 </div>
             </React.Fragment>

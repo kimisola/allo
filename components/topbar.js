@@ -2,9 +2,10 @@ import React from 'react';
 import { setCurrentUser, switchBoard } from"../components/actionCreators";
 import Notice from "../components/notice";
 import HomeImg from "../images/home.png";
-import Blackboard from "../images/sticky-note.png";
+import Blackboard from "../images/blackboard.png";
 import Bell from "../images/bell.png";
-import SignOutImg from "../images/logout.png";
+import SignOutImg from "../images/logout1.png";
+import MyLogo from "../images/myLogo.png";
 import firebase from 'firebase';
 import fire from "../src/fire";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -176,6 +177,9 @@ class Topbar extends React.Component {
                             <div className="home">
                                 <Link to="/HomePage"> <img src={ HomeImg } /> </Link>
                             </div>
+                        </div>
+                        <div className="logoDiv">
+                            <img src={ MyLogo } />
                         </div>
                         <div className="topRight">
                             <div className="boardList">

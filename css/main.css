@@ -35,6 +35,12 @@ img {
     display: flex; justify-content: space-between;flex-wrap: wrap;padding: 0 5px 0px 5px;background: rgba(0,0,0,.24);
 }
 
+.view>.topBar>.logoDiv {
+    width: 90px; height: 32px; position: absolute; left: calc(50% - 45px);
+}
+.view>.topBar>.logoDiv img{
+    margin-top: -10px;
+}
 .view>.topBar>.topRight {
     position: relative;
 }
@@ -49,11 +55,6 @@ img {
     height: 23px; border-radius: 20px; border: 1px solid white; background: url("../images/magnifying-glass.png") no-repeat calc(100% - 12px) calc(100% - 4px) 
 }
 
-.view>.topBar>.topRight>.boardList,
-.view>.topBar>.topRight>.signOutImg,
-.view>.topBar>.topLeft>.home {
-    width: 18px; 
-}
 .view>.topBar>.topRight>.boardList {
     position: relative;
 }
@@ -62,15 +63,17 @@ img {
 .view>.topBar>.topRight>.signOutImg,
 .view>.topBar>.topRight>.boardList>.alert,
 .view>.topBar>.topLeft>.home {
-    width: 18px; background-color:hsla(0,0%,100%,.3);
-    align-items: center;
-    display: flex;
-    border-radius: 3px;
-    padding: 0 10px;
-    height: 32px;
+    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;
+}
+
+.view>.topBar>.topRight>.boardList>.boardIcon img,
+.view>.topBar>.topRight>.signOutImg img,
+.view>.topBar>.topRight>.boardList>.alert img,
+.view>.topBar>.topLeft>.home img {
+    width: 22px;
 }
 .view>.topBar>.topRight>.boardList>.alert>.alertMsg {
-    border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 14px;height: 14px;position: absolute;left: 18px;top: -1px;text-align: center;color: white;padding-bottom: 5px;
+    border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 16px;height: 16px;position: absolute;right: 2px;top: 1px;text-align: center;color: white;line-height: 16px; padding: 1px;
 }
 .view>.topBar>.topRight>.alertMenu {
     width: 150px;border-radius: 3px;
@@ -101,11 +104,9 @@ img {
     border-radius: 100%;
 }
 
-.view>.topBar>.topRight>.memberIcon {
-     margin-right: 8px;
-}
+.view>.topBar>.topRight>.memberIcon,
 .view>.topBar>.topRight>.boardList {
-    margin-right: 24px;
+     margin-right: 8px;
 }
 
 .view>.secondBar>.secondLeft>.inviteDiv {
@@ -138,7 +139,7 @@ img {
 }
 
 .view>.board {
-    box-sizing: border-box; display: flex;overflow: scroll;overflow-y:auto;height: calc(100vh - 102px);flex-grow:1;opacity: 0.95;
+    box-sizing: border-box; display: flex;overflow: scroll;overflow-y:auto;height: calc(100vh - 84px);flex-grow:1;opacity: 0.95;
 }
 
 .view>.board>.sectionWrapper{
@@ -150,7 +151,7 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section {
-    color: black;width: 275px;background-color: #ebecf0;border-radius: 3px;padding:5px;margin: 0 5px;display: inline-flex;max-height: 90%;flex-direction: column;
+    color: black;width: 270px;background-color: #ebecf0;border-radius: 3px;padding:4px;margin: 0 4px;display: inline-flex;max-height: 90%;flex-direction: column;
 }
 
 .view>.board>.sectionWrapper>.section>.head {
@@ -177,11 +178,11 @@ img {
     min-height: 15px;
 }
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead {
-    display: flex; margin: 2px 2px 2px 2px; position: relative; 
+    display: flex; margin: 0 2px; position: relative; 
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv {
-    position: absolute; top: 5px; right: 5px;width: 24; height: 24;
+    position: absolute; top: 5px; right: 5px;width: 14px; height: 14px;
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.showMenuBackground {    
@@ -209,7 +210,7 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.tagImgDiv {
-    width: 24px;height: 24px; background-image: url(../images/menuG.png); position: absolute; top: 5px; right: 5px;
+    width: 14px;height: 14px; position: absolute; top: 5px; right: 5px;
 }
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight {
     margin-top: 3px;
@@ -260,19 +261,19 @@ img {
     background-color: rgba(123 ,162, 63, 0.8);
 }
 .view>.board>.sectionWrapper>.section>.comment {
-   overflow-y: scroll; 
+   overflow-y: auto; 
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody {
-    display: flex;margin:10px 5px;
+    display: flex;margin:3px 5px;
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgText {
-    word-break: break-all; white-space:pre-line; margin-bottom: 6px;width: 250px;
+    word-break: break-all; white-space:pre-line; margin-bottom: 3px;width: 250px;
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgImg {
-    margin-bottom: 6px;max-width: 250px;
+    max-width: 250px;
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.featureDiv {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import fire from "../src/fire";
 import clock from "../images/clock.png";
 import bin from"../images/bin.png";
+import menuImg from "../images/more.png"
 
 
 class CommentMenu extends React.Component {
@@ -222,7 +223,7 @@ class CommentMenu extends React.Component {
         return (
             <React.Fragment>
                 <div className="tagDiv">
-                    <div className="tagImgDiv" onClick={ () => this.setDefault() } ></div>
+                <div className="tagImgDiv" onClick={ () => this.setDefault() } > <img src={ menuImg } /> </div>
                     <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
                     <div className="commentMenu"  style={style.menuStyle} >
                         <div className="tags" >

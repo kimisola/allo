@@ -291,7 +291,7 @@ class App extends React.Component {
                         }
                     })
                 } else {
-                    this.props.mSetCurrentUser(null, null, null, null, null)
+                    this.props.setCurrentUser(null, null, null, null, null)
                     // No user is signed in.
                    // window.location = "/"
                 }

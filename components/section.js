@@ -183,7 +183,7 @@ class Section extends React.Component {
             e.stopPropagation();
             let x = e.clientX - offset.x;
             let y = e.clientY - offset.y;
-            let themeWidth = 295;
+            let themeWidth = 278;
             let markIndex = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);
             console.log(markIndex)
             if ( markIndex <= 0 ) {
@@ -300,7 +300,7 @@ class Section extends React.Component {
             console.log("scroll left", this.board.current.scrollLeft);
             let x = e.clientX - offset.x;
             let y = e.clientY - offset.y;
-            let themeWidth = 295;
+            let themeWidth = 278;
             let rowHeight = 200;  // 如果遇到高度特別高的留言就會不精準
             let markTheme = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);  // 代表同主題寬度 x 軸
             let markRow = Math.floor(( y + rect.height/3 ) / rowHeight);  // 代表主題內留言高度 y 軸
@@ -409,16 +409,16 @@ class Section extends React.Component {
         
         let style = {
             mark: {
-                backgroundColor: "rgba(254, 246, 251, 0.36)",
+                backgroundColor: "rgba(55,55,55,0.3)",
                 borderRadius: "4px",
-                width: "275px", 
+                width: "270px", 
                 height: this.state.themeHeight, 
             },
             markItem: {
-                backgroundColor: "rgba(254, 246, 251, 0.36)",
+                backgroundColor: "rgba(55,55,55,0.2)",
                 borderRadius: "4px",
                 height: this.state.itemHeight,
-                width: "275px",
+                width: "270px",
             }
         }
 

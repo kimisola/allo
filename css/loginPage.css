@@ -10,15 +10,19 @@
 .login-page>.login-topBar,
 .login-page>.login-topBar>.topBar-Right,
 .login-page>.login-topBar>.topBar-Left {
-    display: flex; justify-content: space-between;z-index: 2;align-items: center; text-align: center;
+    display: flex; justify-content: space-between;z-index: 2;align-items: center; text-align: center;height: 55px;
 }
 
 .login-page>.login-topBar>.topBar-Left>.logoDiv {
-    width: 48px;
+    width: 120px; 
 }
+
 .login-page>.login-topBar>.topBar-Right>.guide {
-    width: 90px; height: 36px; color: rgba(0, 146, 199, 1);background-color:white;border-radius: 10px;font-weight: bold;font-size: 20px;line-height: 36px;margin-right: 20px;
+    font-size: 20px;line-height: 36px; color: white;margin-right: 20px;
 }
+/* .login-page>.login-topBar>.topBar-Right>.guide {
+    width: 90px; height: 36px; color: rgba(0, 146, 199, 1);background-color:white;border-radius: 10px;font-weight: bold;font-size: 20px;line-height: 36px;margin-right: 20px;
+} */
 
 .login-page>.login-topBar>.topBar-Right>.regist {
     width: 100px; height: 46px; color: white; border-radius: 10px;font-weight: bold;font-size: 20px;line-height: 46px;margin-right: 20px;
@@ -34,7 +38,7 @@
 
 
 .login-page>.login-background {
-    background-color: rgba(0, 146, 199, 1);padding: 20px 0 20px 0;
+    background-color: rgba(0, 146, 199, 1);padding: 10px 0;
 }
 .login-page>.login-background>.login-main {
     display: flex;position: relative;justify-content: space-around;z-index: 1;height: 100%;
@@ -113,7 +117,7 @@
 }
 
 .login-page>.login-background>.login-main>.login-content>.buttons {
-    display: flex; justify-content: space-between; max-width: 400px;
+    display: flex; justify-content: space-between; max-width: 400px;margin-top: 15px;
 }
 
 
@@ -121,32 +125,21 @@
 	width: 180px; height: 40px;background: #fff; border: 1px solid #fff; border-radius: 2px;color: #a18d6c; font-family: Lucida Console; font-size: 16px;padding: 5px;margin: 30px 30px 0px 0 ;
 }
 
-.registerButton {
-    padding: 10px 25px;
-    position: relative;
-    color: #fff;
+.registerButton,
+.loginButton {
+    width: 100px; height: 36px; color: white; background-color: rgba(255, 193, 77, 1);border-radius: 20px;font-weight: bold;font-size: 20px;padding: 3px;display: flex; justify-content: center; align-items: center;
+}
+
+/* .registerButton {
+    padding: 10px 25px; position: relative; color: #fff;
 }
 
 .registerButton::before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 5px;
-    right: 5px;
-    background-color: rgb(235, 186, 82);
-    z-index: -1;
-    transition: transform .2s ease-in-out;
+    content: ""; position: absolute; height: 100%; width: 100%; top: 5px; right: 5px; background-color: rgb(235, 186, 82); z-index: -1; transition: transform .2s ease-in-out;
 }
 
 .registerButton::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    border: 1px solid #474E51;
+    content: ""; position: absolute; top: 0; left: 0; height: 100%; width: 100%; border: 1px solid #474E51;
 }
 
 .registerButton:hover::before {
@@ -154,36 +147,20 @@
 }
 
 .loginButton {
-    padding: 10px 25px;
-    position: relative;
-    color: #fff;
+    padding: 10px 25px; position: relative; color: #fff;
 }
 
 .loginButton::before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 5px;
-    right: 5px;
-    background-color: rgb(235, 186, 82);
-    z-index: -1;
-    transition: transform .2s ease-in-out;
+    content: ""; position: absolute; height: 100%; width: 100%; top: 5px; right: 5px; background-color: rgb(235, 186, 82); z-index: -1; transition: transform .2s ease-in-out;
 }
 
 .loginButton::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    border: 1px solid #474E51;
+    content: ""; position: absolute; top: 0; left: 0; height: 100%; width: 100%; border: 1px solid #474E51;
 }
 
 .loginButton:hover::before {
     transform: translate(6px, -4px);
-}
+} */
 
 
 @media (max-width: 900px){
