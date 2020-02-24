@@ -49,6 +49,7 @@ class SecondBar extends React.Component {
     }
 
     creatTitle = (event) => {
+        console.log("12345689")
         const newText = this.props.text;
         const newListTitle =  this.props.listTitle;
         const titleValue =  this.props.titleValue;
@@ -212,6 +213,7 @@ class SecondBar extends React.Component {
     }
 
     render(){
+        console.log(this.props, "333333")
         return(
             <React.Fragment>
 
@@ -241,7 +243,7 @@ class SecondBar extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="addThemeDiv" style={{display: this.props.addNewListOpen ? 'block' : 'none' }}>
+                <div className="addThemeDiv" style={{display: this.props.addNewListOpened ? 'block' : 'none' }}>
                     <div className="addTheme">
                         <p>請輸入列表標題：</p>
                         <input type="text" value={this.props.titleValue} onChange={this.getTitleValue} onKeyPress={this.creatTitle}/>
@@ -258,12 +260,13 @@ class SecondBar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    
     return {
         indexForTitle: state.indexForTitle,
         text: state.text,
         listTitle: state.listTitle,
         titleValue: state.titleValue,
-        addNewListOpen: state.addNewListOpen,
+        addNewListOpened: state.addNewListOpened,
         deleteConfirmThemeOpen: state.deleteConfirmThemeOpen,
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,

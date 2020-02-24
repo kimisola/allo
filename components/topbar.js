@@ -1,5 +1,5 @@
 import React from 'react';
-import { setCurrentUser } from"../components/actionCreators";
+import { setCurrentUser, switchBoard } from"../components/actionCreators";
 import Notice from "../components/notice";
 import HomeImg from "../images/home.png";
 import Blackboard from "../images/blackboard.png";
@@ -130,6 +130,10 @@ class Topbar extends React.Component {
         
     }
 
+    switchBoard = (targetLink) => {
+        console.log("33333333333333333", targetLink)
+        this.props.switchBoard(targetLink)
+    }
 
     userSignOut = () => {
         firebase.auth().signOut().then(() => {
@@ -178,7 +182,7 @@ class Topbar extends React.Component {
                         </div>
                         <div className="topRight">
                             <div className="boardList">
-                                <div className="boardIcon">
+                                <div className="boardIcon" onClick={ () => this.switchBoard(this.props.firebaseUid) }>
                                     <Link to={ targetURL }> <img src={ Blackboard } /> </Link>
                                 </div>
                             </div>
@@ -224,7 +228,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        setCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid) => { dispatch(setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)) }
+        setCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid) => { dispatch(setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)) },
+        switchBoard: (targetLink) => { dispatch(switchBoard(targetLink)) },
     }
 }
 

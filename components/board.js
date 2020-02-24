@@ -1,11 +1,11 @@
 import React from "react";
 import { connect, Provider } from "react-redux";
 import fire from "../src/fire";
-import { setUpComWin, renderComments, setIndexForTitle, loadingGifOff, loadingGifOn } from"../components/actionCreators"
+import { setUpComWin, renderComments, setIndexForTitle, loadingGifOn, switchBoard } from"../components/actionCreators"
 import Topbar from "../components/topbar";
 import SecondBar from "../components/secondBar";
 import Section from "../components/section";
-import loagingGif from "../images/loadingImg.gif";
+import loadingGif from "../images/loadingImg.gif";
 
 
 class Board extends React.Component {
@@ -39,38 +39,33 @@ class Board extends React.Component {
         else {
             firebaseUid = this.props.match.params.id 
             console.log("0000000000000000", this.props.match.params.id)
-            // if ( this.props.match.params.id !== "" ) {
-            //     firebaseUid = this.props.match.params.id
-            // } else {
-            //     firebaseUid = this.props.firebaseUid
-            // } 
-            // console.log("uiddddddddddddddddd", firebaseUid)
+            this.props.switchBoard(this.props.match.params.id)
             getTitles(firebaseUid);
         }
 
 
-// set up or get background image
-db.collection("Boards").doc(firebaseUid).get()
-.then((querySnapshot) => {
-    if( querySnapshot.data() !== undefined ){
-        this.setState( prevState => {
-            let boardURL = prevState.boardURL
-            boardURL = querySnapshot.data().background
-            return { 
-                boardURL: boardURL,
+        // set up or get background image
+        db.collection("Boards").doc(firebaseUid).get()
+        .then((querySnapshot) => {
+            if( querySnapshot.data() !== undefined ){
+                this.setState( prevState => {
+                    let boardURL = prevState.boardURL
+                    boardURL = querySnapshot.data().background
+                    return { 
+                        boardURL: boardURL,
+                    }
+                }); 
+            } else {
+                let ref = db.collection("Boards").doc(firebaseUid)
+                ref.update({
+                    background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                }).then(() => {
+                    console.log("Document successfully written!");
+                }).catch((error) => {
+                    console.error("Error removing document: ", error);
+                })
             }
-        }); 
-    } else {
-        let ref = db.collection("Boards").doc(firebaseUid)
-        ref.update({
-            background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-        }).then(() => {
-            console.log("Document successfully written!");
-        }).catch((error) => {
-            console.error("Error removing document: ", error);
         })
-    }
-})
 
 
         let userEmail = this.props.userEmail
@@ -136,112 +131,105 @@ db.collection("Boards").doc(firebaseUid).get()
                 Data.push(Data2[k]);
             }
             props.renderComments(Data1, Data2);
-           // props.loadingGifOff();         
         };
     }
 
 
-    // componentDidUpdate(prevProps){
+    componentDidUpdate(prevProps){
 
-    //     let props = this.props;
-    //     // let firebaseUid = this.props.firebaseUid
-    //     // if (firebaseUid !== prevProps.firebaseUid) {
-    //     let targetURL = this.props.match.params.id
-    //     if (targetURL !== prevProps.targetURL) {
-    //         //read db
-    //         const db = fire.firestore();
-    //         let firebaseUid = targetURL;
-    //         // if ( this.props.currentBoard !== "" ) {
-    //         //     firebaseUid = targetURL
-    //         // } else {
-    //         //     firebaseUid = targetURL
-    //         // }
+        let props = this.props;
 
-    //         // set up or get background image
-    //         db.collection("Boards").doc(firebaseUid).get()
-    //         .then((querySnapshot) => {
-    //             if( querySnapshot.data() !== undefined ){
-    //                 this.setState( prevState => {
-    //                     let boardURL = prevState.boardURL
-    //                     boardURL = querySnapshot.data().background
-    //                     return { 
-    //                         boardURL: boardURL,
-    //                     }
-    //                 }); 
-    //             } else {
-    //                 let ref = db.collection("Boards").doc(firebaseUid)
-    //                 ref.set({
-    //                     background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-    //                 }).then(() => {
-    //                     console.log("Document successfully written!");
-    //                 }).catch((error) => {
-    //                     console.error("Error removing document: ", error);
-    //                 })
-    //             }
-    //         })
+        let currentBoard = this.props.currentBoard
+        if ( currentBoard !==  prevProps.currentBoard) {
+            props.loadingGifOn();
+            //read db
+            const db = fire.firestore();
+            let firebaseUid = currentBoard;
+
+            // set up or get background image
+            db.collection("Boards").doc(firebaseUid).get()
+            .then((querySnapshot) => {
+                if( querySnapshot.data() !== undefined ){
+                    this.setState( prevState => {
+                        let boardURL = prevState.boardURL
+                        boardURL = querySnapshot.data().background
+                        return { 
+                            boardURL: boardURL,
+                        }
+                    }); 
+                } else {
+                    let ref = db.collection("Boards").doc(firebaseUid)
+                    ref.set({
+                        background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                    }).then(() => {
+                        console.log("Document successfully written!");
+                    }).catch((error) => {
+                        console.error("Error removing document: ", error);
+                    })
+                }
+            })
 
            
-    //         let myDataTitle = [];
-    //         let myDataText = [];
-    //         let listsId = [];
-    //         let Data = [];  // combine titles and texts
-    //         let Data1 = [];  // store title
-    //         let Data2 = [];  // store comment text
+            let myDataTitle = [];
+            let myDataText = [];
+            let listsId = [];
+            let Data = [];  // combine titles and texts
+            let Data1 = [];  // store title
+            let Data2 = [];  // store comment text
  
-    //         getTitles(firebaseUid);
-    //         async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
+            getTitles(firebaseUid);
+            async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
 
-    //             db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
-    //             .then(async (querySnapshot) => {
-    //                 let doc = querySnapshot.docs;
+                db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
+                .then(async (querySnapshot) => {
+                    let doc = querySnapshot.docs;
     
-    //                 for ( let i = 0; i < doc.length; i++ ) {       
-    //                     listsId.push(doc[i].id)
-    //                     let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
-    //                     ref.update({
-    //                         index: (((i+1)*2)),  // 前後留空格讓之後移動可以有空間塞
-    //                     })
-    //                     myDataTitle.push(doc[i].data().title)
-    //                     Data1.push(myDataTitle[i]);
+                    for ( let i = 0; i < doc.length; i++ ) {       
+                        listsId.push(doc[i].id)
+                        let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
+                        ref.update({
+                            index: (((i+1)*2)),  // 前後留空格讓之後移動可以有空間塞
+                        })
+                        myDataTitle.push(doc[i].data().title)
+                        Data1.push(myDataTitle[i]);
     
-    //                     // set an index value for next new added title
-    //                     if ( i === doc.length - 1 ) {
-    //                         let storeTitleIndex = ((doc.length+1)*2)
-    //                         props.setIndexForTitle(storeTitleIndex)
-    //                     }
-    //                 }
-    //                 getCommentText();
-    //             });
+                        // set an index value for next new added title
+                        if ( i === doc.length - 1 ) {
+                            let storeTitleIndex = ((doc.length+1)*2)
+                            props.setIndexForTitle(storeTitleIndex)
+                        }
+                    }
+                    getCommentText();
+                });
     
-    //             async function getCommentText(){
-    //                 for(let i = 0; i < listsId.length; i++ ) {
-    //                     await db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
-    //                     .then((querySnapshot2) => {
-    //                         let doc2 = querySnapshot2.docs;
-    //                         for ( let j = 0; j < doc2.length; j++ ) {
-    //                             let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
-    //                             ref.update({
-    //                                 index: (((j+1)*2)),  // 前後留空格讓之後移動可以有空間塞
-    //                             })           
-    //                             myDataText.push(doc2[j].data())
-    //                         }
-    //                         Data2.push(myDataText);
-    //                         myDataText = []; //reset comments under certain title
-    //                     })
-    //                 } combineData();
-    //             }
-    //         }
+                async function getCommentText(){
+                    for(let i = 0; i < listsId.length; i++ ) {
+                        await db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
+                        .then((querySnapshot2) => {
+                            let doc2 = querySnapshot2.docs;
+                            for ( let j = 0; j < doc2.length; j++ ) {
+                                let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
+                                ref.update({
+                                    index: (((j+1)*2)),  // 前後留空格讓之後移動可以有空間塞
+                                })           
+                                myDataText.push(doc2[j].data())
+                            }
+                            Data2.push(myDataText);
+                            myDataText = []; //reset comments under certain title
+                        })
+                    } combineData();
+                }
+            }
     
-    //         function combineData() { 
-    //             for (let k = 0; k < Data1.length; k++) {
-    //                 Data.push(Data1[k]);
-    //                 Data.push(Data2[k]);
-    //             }
-    //             props.renderComments(Data1, Data2);
-    //            // props.loadingGifOff();   
-    //         };
-    //     }
-    // }
+            function combineData() { 
+                for (let k = 0; k < Data1.length; k++) {
+                    Data.push(Data1[k]);
+                    Data.push(Data2[k]);
+                }
+                props.renderComments(Data1, Data2);
+            };
+        }
+    }
 
     horizontalScroll = (event) => {
         const delta = Math.max(-1, Math.min(1, (event.nativeEvent.wheelDelta || -event.nativeEvent.detail)))
@@ -250,7 +238,7 @@ db.collection("Boards").doc(firebaseUid).get()
     }
 
     render(){
-        console.log("match.params.id,match.params.id",this.props.match.params.id)
+
         const style = {
             backgroundStyle: {
                 backgroundImage: `url("${this.state.boardURL}")`,
@@ -259,14 +247,13 @@ db.collection("Boards").doc(firebaseUid).get()
                 backgroundRepeat: 'no-repeat'
             }
         };
-        
 
         return(
             <React.Fragment>
 
                 <main style={ style.backgroundStyle} onWheel={(e) => this.horizontalScroll(e)}>
                     <div className="loading"  style={{display: this.props.isBoardLoaded ? 'none' : 'block' }} > 
-                        <img src={ loagingGif } />
+                        <img src={ loadingGif } />
                     </div>
                     <div className="view" style={{display: this.props.isBoardLoaded ? 'block' : 'block' }} >
                         <Topbar />
@@ -305,10 +292,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setUpComWin: (myComWin) => { dispatch(setUpComWin(myComWin)) },
         renderComments: (Data1, Data2) => { dispatch(renderComments(Data1, Data2)) },
-        //setCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
         setIndexForTitle: (storeTitleIndex) => { dispatch(setIndexForTitle(storeTitleIndex))},
-        loadingGifOff: () => { dispatch(loadingGifOff()) },
         loadingGifOn: () => { dispatch(loadingGifOn()) },
+        switchBoard: (targetLink) => { dispatch(switchBoard(targetLink)) },
     }
 }
 

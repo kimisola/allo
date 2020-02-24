@@ -24,7 +24,7 @@ let initialState = {
     isBoardLoaded: false,
     
     //add new list window
-    addNewListOpen: false,
+    addNewListOpened: false,
     //delete confirm window
     deleteThemeConfirmOpen: false,
 
@@ -61,20 +61,12 @@ function reducer(state = initialState, action) {
             });
         }
 
-        case "loadingGifOff": {
-            let isBoardLoaded = true
-            return Object.assign({}, state, {
-                isBoardLoaded: isBoardLoaded
-            });
-        }
-
         case "loadingGifOn": {
             let isBoardLoaded = false
             return Object.assign({}, state, {
                 isBoardLoaded: isBoardLoaded
             });
         }
-
 
         case "renderComments": {
             return Object.assign({}, state, {  // copy now state and update using items
@@ -99,9 +91,12 @@ function reducer(state = initialState, action) {
         }
 
         case "addNewListOpen": {
+            console.log("addNewListOpenaddNewListOpen")
+            console.log(state.addNewListOpened)
             return Object.assign({}, state, {
-                addNewListOpen: !state.addNewListOpen,
+                addNewListOpened: !state.addNewListOpened,
             });
+            
         }
 
         case "addTheme": {

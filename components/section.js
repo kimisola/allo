@@ -32,33 +32,29 @@ class Section extends React.Component {
         }
         this.drag = this.drag.bind(this);
         this.dragItem = this.dragItem.bind(this);
-        // console.log("33333333333333",this.props.match.params.id)
     }
 
-
-    
     openConfirmWin = (i) => {
-        console.log("run openConfirmWin")
-        console.log(i)
+        console.log("run openConfirmWin", i)
         this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
     }
 
     deleteTheme = () => {
         let t = this.props.whichWindowOpen
-        console.log("run delete theme")
-        console.log(t)
+        console.log("run delete theme", t)
 
         const db = fire.firestore();
         let firebaseUid = "";
-        if ( this.props.currentBoard !== "" ) {
+        if ( this.props.currentBoard.length > 0) {
             firebaseUid = this.props.currentBoard
+            console.log("2222222", firebaseUid)
         } else {
             firebaseUid = this.props.firebaseUid
+            console.log("000000", firebaseUid)
         } 
 
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((t+1)*2)).get()
         .then((querySnapshot) => {
-            console.log(querySnapshot.docs[0].id)
             let docId = querySnapshot.docs[0].id
 
             //避免誤刪 code 維持 get 改成 delete 就可以刪除了
@@ -106,7 +102,14 @@ class Section extends React.Component {
             });
 
             const db = fire.firestore();
-            const firebaseUid  = this.props.firebaseUid;
+            let firebaseUid = "";
+            if ( this.props.currentBoard.length > 0) {
+                firebaseUid = this.props.currentBoard
+                console.log("2222222", firebaseUid)
+            } else {
+                firebaseUid = this.props.firebaseUid
+                console.log("000000", firebaseUid)
+            } 
             db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((indexOfValue+1)*2)).get()
             .then((querySnapshot) => {
                 let docId = querySnapshot.docs[0].id
@@ -212,7 +215,14 @@ class Section extends React.Component {
 
             // write in db
             const db = fire.firestore();
-            let firebaseUid = this.props.firebaseUid;
+            let firebaseUid = "";
+            if ( this.props.currentBoard.length > 0) {
+                firebaseUid = this.props.currentBoard
+                console.log("2222222", firebaseUid)
+            } else {
+                firebaseUid = this.props.firebaseUid
+                console.log("000000", firebaseUid)
+            } 
             console.log(sourceIndex, destinationIndex )
             db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((sourceIndex+1)*2)).get()
             .then((querySnapshot) => {
@@ -330,7 +340,13 @@ class Section extends React.Component {
             // write in db
             const db = fire.firestore();
             let dbData = [];
-            let firebaseUid = this.props.firebaseUid;
+            let firebaseUid = "";
+            if ( this.props.currentBoard.length > 0) {
+                firebaseUid = this.props.currentBoard
+            } else {
+                firebaseUid = this.props.firebaseUid
+            }
+            
             db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((sourceTheme+1)*2)).get()
             .then((querySnapshot) => {
                 let sourceThemeRef = querySnapshot.docs[0].id
@@ -387,6 +403,7 @@ class Section extends React.Component {
 
 
     render(){
+
         
         let style = {
             mark: {
@@ -485,7 +502,7 @@ class Section extends React.Component {
                             <div className="section">
                                 <div className="head" onPointerDown={ this.drag }   >
                                     <div className="titleLeft" onPointerDown={this.stopEvent} onClick={ () => this.changeEditMode() }> { item } </div>
-                                    <div className="titleRight" onPointerDown={this.stopEvent} onClick={ () => this.openConfirmWin(this.props.indexWin) }>
+                                    <div className="titleRight" onPointerDown={this.stopEvent} onClick={ () => this.openConfirmWin(i) }>
                                         <img src={ Cross } />
                                     </div>
                                 </div>
@@ -520,7 +537,7 @@ class Section extends React.Component {
                             <div className="section">
                                 <div className="head" onPointerDown={ this.drag }  style={{ display: this.props.isInEditMode ? 'none' : 'flex' }} >
                                     <div className="titleLeft" onPointerDown={ this.stopEvent } onClick={ () => this.changeEditMode() }> { item } </div>
-                                    <div className="titleRight" onPointerDown={ this.stopEvent } onClick={ () => this.openConfirmWin(this.props.indexWin) }>
+                                    <div className="titleRight" onPointerDown={ this.stopEvent } onClick={ () => this.openConfirmWin(i) }>
                                         <img src={ Cross } />
                                     </div>
                                 </div>
@@ -576,6 +593,7 @@ const mapStateToProps = (state) => {
         whichWindowOpen: state.whichWindowOpen,
         commentWindow: state.commentWindow,
         firebaseUid: state.firebaseUid,
+        currentBoard: state.currentBoard,
     }
 }
 

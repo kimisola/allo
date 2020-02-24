@@ -330,8 +330,8 @@ class HomePage extends React.Component {
     }
 
     render(){
-        // console.log("111111111111111111111111111111",this.props.match)
-        // console.log("111111111111111111111111111111",this.props.match.params)
+        console.log("this.propsthis.propsthis.props", this.props)
+
         const style = {
             cover: {
                 backgroundImage: `url(${this.state.homepageCover}) `,
