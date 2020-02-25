@@ -231,6 +231,36 @@
     margin-right: 15px;background-color: rgba(255,77,77,0.7);width: 50px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
 }
 
+/* editable */
+.homepage>.mainContent>.editors {
+    flex-grow: 4;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+}
+.homepage>.mainContent>.editors>.section {
+    display: flex; flex-direction: column;flex-grow: 1;margin: 20px;
+}
+.homepage>.mainContent>.editors>.section>.category {
+    font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1);margin-bottom: 20px;padding-bottom: 5px;letter-spacing: 2px;
+}
+.homepage>.mainContent>.editors>.section>.contents {
+    display: flex; flex-wrap: wrap; justify-content: space-between;
+}
+.homepage>.mainContent>.editors>.section>.contents>.content {
+    display: flex; width: 50%;
+}
+.homepage>.mainContent>.editors>.section>.contents>.content>.usePhoto {
+    width: 28px; margin-right: 15px;
+}
+.homepage>.mainContent>.editors>.section>.contents>.content>.delete {
+    width: 14px; margin-left: 15px;
+}
+
+
+
+
+
+
+
+
 @media (max-width: 900px){
 	.homepage>.mainContent {
         flex-direction: column;
@@ -242,7 +272,8 @@
         margin-right: 15px;
     }
     .homepage>.mainContent>.notifications,
-    .homepage>.mainContent>.boardLists {
+    .homepage>.mainContent>.boardLists,
+    .homepage>.mainContent>.editors {
         width: 100%; margin: 20px 0 0 0;
     }
 }
@@ -263,10 +294,6 @@
         display: flex;
         flex-direction: column;
     }
-    .homepage>.mainContent>.menu>.list>.listTitle>.dropdownIcon {
-        width: 18px;position: static;
-    }
-
 }
 
 @media (max-width: 570px) {
@@ -285,8 +312,4 @@
         display: flex;
         flex-direction: column;
     }
-    .homepage>.mainContent>.menu>.list>.listTitle>.dropdownIcon {
-        width: 18px;position: static;
-    }
-    
 }

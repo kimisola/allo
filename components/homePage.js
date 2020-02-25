@@ -200,11 +200,16 @@ class HomePage extends React.Component {
 
     friendListShow = () => {
         this.setState( prevState => {
-            let isFriendListShowed =  !prevState.isFriendListShowed
-            let isIconTurn = !prevState.isIconTurn
-            return Object.assign({}, prevState, { 
+            let isBoardListShowed = prevState.isBoardListShowed
+            isBoardListShowed = false
+            let isNotificationShowed = prevState.isNotificationShowed
+            isNotificationShowed = false
+            let isFriendListShowed =  prevState.isFriendListShowed
+            isFriendListShowed = true
+            return Object.assign({}, prevState, {
+                isBoardListShowed: isBoardListShowed,
+                isNotificationShowed: isNotificationShowed,
                 isFriendListShowed: isFriendListShowed,
-                isIconTurn: isIconTurn,
             });
          })
     }
@@ -215,10 +220,13 @@ class HomePage extends React.Component {
             isBoardListShowed = true
             let isNotificationShowed = prevState.isNotificationShowed
             isNotificationShowed = false
-            return { 
+            let isFriendListShowed =  prevState.isFriendListShowed
+            isFriendListShowed = false
+            return Object.assign({}, prevState, {
                 isBoardListShowed: isBoardListShowed,
                 isNotificationShowed: isNotificationShowed,
-            }
+                isFriendListShowed: isFriendListShowed,
+            })
         }); 
     }
 
@@ -228,10 +236,13 @@ class HomePage extends React.Component {
             isBoardListShowed = false
             let isNotificationShowed = prevState.isNotificationShowed
             isNotificationShowed = true
-            return { 
+            let isFriendListShowed =  prevState.isFriendListShowed
+            isFriendListShowed = false
+            return Object.assign({}, prevState, { 
                 isBoardListShowed: isBoardListShowed,
                 isNotificationShowed: isNotificationShowed,
-            }
+                isFriendListShowed: isFriendListShowed,
+            })
         }); 
     }
 
@@ -331,7 +342,7 @@ class HomePage extends React.Component {
     }
 
     render(){
-        console.log("this.propsthis.propsthis.props", this.props)
+        console.log("this.propsthis.propsthis.props", this.state.invitationData)
 
         const style = {
             cover: {
@@ -382,12 +393,12 @@ class HomePage extends React.Component {
                             <div className="list">
                                 
                                 <div className="listTitle" onClick={ () => this.friendListShow() }>
-                                    <div className="name">誰可以來編輯</div>
-                                    <div className="dropdownIcon">
+                                    <div className="name">允許編輯</div>
+                                    {/* <div className="dropdownIcon">
                                         <img src={ DropdownIcon }style={ style.dropdownIcon }/>
-                                    </div>
+                                    </div> */}
                                 </div>
-                                <div className="listContent" style={{ display: this.state.isFriendListShowed ? 'block' : 'none' }}>
+                                {/* <div className="listContent" style={{ display: this.state.isFriendListShowed ? 'block' : 'none' }}>
                                     { this.state.invitationData.map((item, index) =>
                                     <div className="content" key={index}>
                                         <div className="name">{ item.userName }</div>
@@ -397,7 +408,7 @@ class HomePage extends React.Component {
                                     </div>
                                     )}
                                
-                                </div>
+                                </div> */}
                             </div>
                         </div>
 
@@ -485,10 +496,22 @@ class HomePage extends React.Component {
                             </div>
                         </div>
 
-                        <div className="notifications" style={{display: this.state.isNotificationShowed ? 'block' : 'none' }}>
+                        <div className="editors" style={{display: this.state.isFriendListShowed ? 'block' : 'none' }}>
                             <div className="section">
-                                <div className="category">誰可以來編輯</div>
-                                
+                                <div className="category">允許編輯</div>
+                                <div className="contents">
+                                    { this.state.invitationData.map((item, index) =>
+                                        <div className="content" key={index}>
+                                            <div className="usePhoto">
+                                                <img src={ item.userPhoto } />
+                                            </div>
+                                            <div className="name">{ item.userName }</div>
+                                            <div className="delete">
+                                                <img src={ Cancel } onClick={ () => this.unfriend(item.userFirebaseuid) }/>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
 

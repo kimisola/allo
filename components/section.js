@@ -13,6 +13,7 @@ class Section extends React.Component {
         super(props);
         this.board = React.createRef();
         this.state = {
+            editedMode: [],
             isInEditMode: false,
             themeHeight: "",
             itemHeight: "",
@@ -450,7 +451,7 @@ class Section extends React.Component {
                             <div className="itemBody">
                                 <div className="message">                       
                                     <div className="msgText"> {texts[i][j].text} </div>         
-                                    <div className="msgImg"> <img src={ texts[i][j].img } /> </div>
+                                    <div className="msgImg">{texts[i][j].img == "" ? "" : <img src={ texts[i][j].img } />}  </div>
                                 </div>
                             </div>
                         </div>
@@ -466,7 +467,7 @@ class Section extends React.Component {
                             <div className="itemBody">
                                 <div className="message">                       
                                     <div className="msgText"> {texts[i][j].text} </div>         
-                                    <div className="msgImg"> <img src={ texts[i][j].img } /> </div>
+                                    <div className="msgImg">{texts[i][j].img == "" ? "" : <img src={ texts[i][j].img } />}  </div>
                                 </div>
                             </div>
                         </div>
@@ -504,7 +505,7 @@ class Section extends React.Component {
                     elements.push(
                         <div className="sectionWrapper" key={i} index={i} style={{ left:dragInfo.left, top:dragInfo.top, position:"absolute", transform:"rotate(5deg)" }}>
                             <div className="section">
-                                <div className="head" onPointerDown={ this.drag }   >
+                                <div className="head" onPointerDown={ this.drag }>
                                     <div className="titleLeft" onPointerDown={this.stopEvent} onClick={ () => this.changeEditMode() }> { item } </div>
                                     <div className="titleRight" onPointerDown={this.stopEvent} onClick={ () => this.openConfirmWin(i) }>
                                         <img src={ Cross } />
@@ -512,7 +513,7 @@ class Section extends React.Component {
                                 </div>
 
                                 <div className="head" style={{ display: this.state.isInEditMode ? 'block' : 'none' }}>
-                                    <input className="titleLeftInput" type="text" defaultValue={ this.props.title } ref="theTextInput" />
+                                    <input className="titleLeftInput" type="text" defaultValue={ item } ref="theTextInput" />
                                     <div className="titleRight" onClick={ () => this.changeEditMode() }>
                                         <img src={ Letter } />
                                     </div>
@@ -547,7 +548,7 @@ class Section extends React.Component {
                                 </div>
 
                                 <div className="head" style={{ display: this.state.isInEditMode ? 'block' : 'none' }}>
-                                    <input className="titleLeftInput" type="text" defaultValue={ this.props.title } ref="theTextInput" />
+                                    <input className="titleLeftInput" type="text" defaultValue={ item } ref="theTextInput" />
                                     <div className="titleRight" onClick={ () => this.changeEditMode() }>
                                         <img src={ Letter } />
                                     </div>

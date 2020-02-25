@@ -227,7 +227,7 @@ class LoginPage extends React.Component {
                                         id="standard-textarea-b"
                                         label="Password"
                                         type="password"
-                                        multiline
+                                      
                                         onChange={ this.getPassword  }
                                         />
                                         <p className="errmsg"> {this.state.message} </p>
