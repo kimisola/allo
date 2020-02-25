@@ -483,7 +483,14 @@ class HomePage extends React.Component {
 
                                 </div>
                             </div>
-                        </div> 
+                        </div>
+
+                        <div className="notifications" style={{display: this.state.isNotificationShowed ? 'block' : 'none' }}>
+                            <div className="section">
+                                <div className="category">誰可以來編輯</div>
+                                
+                            </div>
+                        </div>
 
                     </div>  
                 </div>

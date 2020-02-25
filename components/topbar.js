@@ -18,8 +18,8 @@ class Topbar extends React.Component {
         super(props);
         this.myRef = React.createRef();
         this.state = {
-            alertMsg:[],  // 顯示的通知內容(含歷史訊息)
-            alertNum: "",  // 幾則新訊息 (不含歷史訊息)
+            alertMsg:[],  // 顯示的通知內容
+            alertNum: 0,  // 幾則新訊息
             isShowedAlert: false,
             xCoordinate: "",
             yCoordinate: "",
@@ -28,27 +28,47 @@ class Topbar extends React.Component {
 
     //監聽自己的資料夾
     componentDidUpdate(prevProps){
-
         if ( !this.props.firebaseUid ) {
             return;
         }
-        if ( this.state.alertNum !== "" ) {
-            return;
-        }
-        let alertMessage = [];
+        // if ( this.state.alertNum !== "" ) {
+        //     return;
+        // }
 
         const db = fire.firestore();
         // listen for invitation ( new message )
         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("read", "==", false)
         .onSnapshot(async(doc) => {
-  
             let docs = doc.docs;
+            let msg  = this.state.alertMsg;
+            
             for ( let i = 0; i < docs.length; i++ ) {
                 db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docs[i].id).get()
                 .then((querySnapshot) => {
+
                     let doc = querySnapshot.data();
                     let newMsg = ` ${doc.userName} 同意了您的共同編輯邀請`;
-                    alertMessage.push(newMsg)
+                    let push = true;
+
+                    if(msg !== undefined){
+                        for (let j = 0; j < msg.length ; j++) {
+                            console.log()
+                            if(newMsg == msg[j]){
+                                push = false;
+                            }
+                        }
+                    }
+                    if(push) {
+                        this.setState( prevState => {
+                            let alertMsg = prevState.alertMsg
+                            alertMsg.push(newMsg)
+                            return Object.assign({}, prevState, {
+                                alertMsg: alertMsg,
+                                alertNum: prevState.alertNum+1,
+                            });
+                        })
+                        push = false;
+                    }
                 })
                 .catch((error) => {
                     console.log(error.message)
@@ -61,18 +81,32 @@ class Topbar extends React.Component {
         db.collection("Users/" + this.props.firebaseUid + "/beInvited").where("read", "==", false)
         .onSnapshot(async(doc) => {
             let docs = doc.docs;
+            let msg  = this.state.alertMsg;
+
             for ( let i = 0; i < docs.length; i++ ) {
                 db.collection("Users/" + this.props.firebaseUid + "/beInvited").doc(docs[i].id).get()
                 .then((querySnapshot) => {
                     let doc = querySnapshot.data();
                     let newMsg = ` ${doc.userName} 邀請您的共同編輯他的看板`;
-                    alertMessage.push(newMsg)                  
-                    if ( i ==  docs.length-1 ){
+                    let push = true;
+                    if (msg !== undefined) {
+                        for (let j = 0; j < msg.length ; j++){
+                            if (newMsg == msg[j]) {
+                                push = false;
+                            }
+                        }
+                    }
+                    if(push) {
+                        console.log("xxxxxxxxte",push)
                         this.setState( prevState => {
+                            let alertMsg = prevState.alertMsg
+                            alertMsg.push(newMsg)
                             return Object.assign({}, prevState, {
-                                alertMsg: alertMessage,
+                                alertMsg: alertMsg,
+                                alertNum: prevState.alertNum+1,
                             });
                         })
+                        push = false;
                     }
                 })
                 .catch((error) => {
@@ -97,6 +131,7 @@ class Topbar extends React.Component {
                 xCoordinate: xCoordinate,
                 yCoordinate: yCoordinate,
                 isShowedAlert: showedAlert,
+                alertNum: 0,
             }           
         });
 
@@ -121,18 +156,10 @@ class Topbar extends React.Component {
                     read: true
                 })
             }
-        })
-        
-        this.setState( prevState => {
-            return Object.assign({}, prevState, {
-                alertNum: 0
-            });
-        })
-        
+        })       
     }
 
     switchBoard = (targetLink) => {
-        console.log("33333333333333333", targetLink)
         this.props.switchBoard(targetLink)
     }
 
@@ -155,8 +182,6 @@ class Topbar extends React.Component {
     render(){
 
         let alertMsg = this.state.alertMsg==null?[]:this.state.alertMsg;
-        // let newMsg = this.state.alertNum==null?[]:this.state.alertNum;
-        let num = alertMsg.length;
 
         const menuStyle = {
             menuStyle: {
@@ -190,12 +215,12 @@ class Topbar extends React.Component {
                             <div className="boardList" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
                                 <div className="alert">
                                     <img src={ Bell } />
-                                    <div className="alertMsg"> { num } </div>
+                                    <div className="alertMsg"> { this.state.alertNum } </div>
                                 </div>
                             </div>
 
                             <div className="alertMenu" style={menuStyle.menuStyle}>
-                            { this.state.alertMsg.map((item, i) => {
+                            { alertMsg.map((item, i) => {
                                 return (
                                     <React.Fragment key={i}>
                                         <Notice message={item} index={i} />

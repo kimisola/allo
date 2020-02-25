@@ -511,7 +511,7 @@ class Section extends React.Component {
                                     </div>
                                 </div>
 
-                                <div className="head" style={{ display: this.props.isInEditMode ? 'block' : 'none' }}>
+                                <div className="head" style={{ display: this.state.isInEditMode ? 'block' : 'none' }}>
                                     <input className="titleLeftInput" type="text" defaultValue={ this.props.title } ref="theTextInput" />
                                     <div className="titleRight" onClick={ () => this.changeEditMode() }>
                                         <img src={ Letter } />
@@ -539,14 +539,14 @@ class Section extends React.Component {
                     elements.push(
                         <div className="sectionWrapper" key={i} index={i}>
                             <div className="section">
-                                <div className="head" onPointerDown={ this.drag }  style={{ display: this.props.isInEditMode ? 'none' : 'flex' }} >
+                                <div className="head" onPointerDown={ this.drag }  style={{ display: this.state.isInEditMode ? 'none' : 'flex' }} >
                                     <div className="titleLeft" onPointerDown={ this.stopEvent } onClick={ () => this.changeEditMode() }> { item } </div>
                                     <div className="titleRight" onPointerDown={ this.stopEvent } onClick={ () => this.openConfirmWin(i) }>
                                         <img src={ Cross } />
                                     </div>
                                 </div>
 
-                                <div className="head" style={{ display: this.props.isInEditMode ? 'block' : 'none' }}>
+                                <div className="head" style={{ display: this.state.isInEditMode ? 'block' : 'none' }}>
                                     <input className="titleLeftInput" type="text" defaultValue={ this.props.title } ref="theTextInput" />
                                     <div className="titleRight" onClick={ () => this.changeEditMode() }>
                                         <img src={ Letter } />

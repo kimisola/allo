@@ -141,7 +141,7 @@ class SecondBar extends React.Component {
                         
                         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", id).get()
                         .then((querySnapshot) => {
-                            console.log("33333333333333333333", querySnapshot.docs.length, querySnapshot.docs[0], querySnapshot.docs[0].id)
+                            // console.log("33333333333333333333", querySnapshot.docs.length, querySnapshot.docs[0], querySnapshot.docs[0].id)
                             if(querySnapshot.docs.length == 0) {
                                 db.collection("Users/").doc(id).get()
                                 .then((querySnapshot) => {
