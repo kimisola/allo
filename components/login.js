@@ -225,9 +225,10 @@ class LoginPage extends React.Component {
                                         /><br />
                                         <InviteFriend
                                         id="standard-textarea-b"
-                                        label="Enter password"
+                                        label="Password"
+                                        type="password"
                                         multiline
-                                        onChange={ this.getPassword }
+                                        onChange={ this.getPassword  }
                                         />
                                         <p className="errmsg"> {this.state.message} </p>
                                         <div className="rigister-div">
@@ -247,7 +248,7 @@ class LoginPage extends React.Component {
                                         <InviteFriend
                                         id="standard-textarea-d"
                                         label="Password"
-                                        multiline
+                                        type="password"
                                         onChange={ this.Loginpassword  }
                                         />
                                         

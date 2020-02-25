@@ -155,7 +155,7 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.head {
-    display: flex;justify-content: space-between;margin:3px 3px 6px 3px;align-items: center;background-color:#ebecf0;border-radius: 5px;padding: 5px;color: #172b4d;font-weight: bold;
+    display: flex;justify-content: space-between;margin:3px 3px 6px 3px;align-items: center;background-color:#ebecf0;border-radius: 5px;padding: 5px;color: #172b4d;font-weight: bold;cursor: pointer;
 }
 
 .view>.board>.sectionWrapper>.section>.head>.titleRight {
@@ -175,7 +175,7 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemPointer{
-    min-height: 15px;
+    min-height: 15px;cursor: pointer;
 }
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead {
     display: flex; margin: 0 2px; position: relative; 

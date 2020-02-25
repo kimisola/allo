@@ -57,6 +57,7 @@ class HomePage extends React.Component {
             // get current user's homepage cover
             db.collection("Users").doc(firebaseUid).get()
             .then((querySnapshot) => {
+                console.log("querySnapshot", firebaseUid, querySnapshot.doc)
                 this.setState(prevState => {
                     let homepageCover = querySnapshot.data().homepageCover
                     return Object.assign({}, prevState, {

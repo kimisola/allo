@@ -409,7 +409,7 @@ class Section extends React.Component {
         
         let style = {
             mark: {
-                backgroundColor: "rgba(55,55,55,0.3)",
+                backgroundColor: "rgba(235,236,240,0.4)",
                 borderRadius: "4px",
                 width: "270px", 
                 height: this.state.themeHeight, 
