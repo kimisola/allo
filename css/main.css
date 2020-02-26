@@ -61,18 +61,18 @@ img {
 
 .view>.topBar>.topRight>.boardList>.boardIcon,
 .view>.topBar>.topRight>.signOutImg,
-.view>.topBar>.topRight>.boardList>.alert,
+.view>.topBar>.topRight>.boardList>a .alert,
 .view>.topBar>.topLeft>.home {
     width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;
 }
 
 .view>.topBar>.topRight>.boardList>.boardIcon img,
 .view>.topBar>.topRight>.signOutImg img,
-.view>.topBar>.topRight>.boardList>.alert img,
+.view>.topBar>.topRight>.boardList>a .alert img,
 .view>.topBar>.topLeft>.home img {
     width: 22px;
 }
-.view>.topBar>.topRight>.boardList>.alert>.alertMsg {
+.view>.topBar>.topRight>.boardList>a .alert>.alertMsg {
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 16px;height: 16px;position: absolute;right: 2px;top: 1px;text-align: center;color: white;line-height: 16px; padding: 1px;
 }
 .view>.topBar>.topRight>.alertMenu {
@@ -179,7 +179,7 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemPointer{
-    min-height: 15px;cursor: pointer;
+    min-height: 13px;cursor: pointer;
 }
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead {
     display: flex; margin: 0 2px; position: relative; 

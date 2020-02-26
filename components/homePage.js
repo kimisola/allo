@@ -1,13 +1,14 @@
 import React from 'react';
 import "../css/homePage.css";
-import { Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { connect } from 'react-redux';
 import Topbar from "../components/topbar";
 import BoardLink from "../components/boardLink";
+import BoardLists from "../components/homePageBoardLists";
+import Notifications from "../components/homePageNotifications";
+import Editors from "../components/homePageEditors";
 import ReplyButtons from "../components/replyButtons";
-import { connect } from 'react-redux';
 import fire from "../src/fire";
-import Cancel from "../images/cancel.png";
-import DropdownIcon from "../images/dropdownIcon.png";
 import Gear from "../images/gear.png";
 import "../css/homePage.css";
 
@@ -17,10 +18,6 @@ class HomePage extends React.Component {
         this.state = {
             isBackgroundEdited: false,
             backgroundURL: "",
-            isBoardListShowed: false,
-            isNotificationShowed: false,
-            isFriendListShowed: false,
-            isShowInvitation: false,
             isIconTurn: false, 
             beInvitedData:[],
             invitationData:[],
@@ -42,6 +39,7 @@ class HomePage extends React.Component {
         if ( this.state.beInvitedData == [] || this.state.beInvitedData[0] == undefined ) {
             const db = fire.firestore();
             let firebaseUid = this.props.firebaseUid  
+            console.log("homepage firebaseUid", firebaseUid)
             
             //  get current user's board background image
             db.collection("Boards").doc(firebaseUid).get()
@@ -198,77 +196,6 @@ class HomePage extends React.Component {
     //     })
     // }
 
-    friendListShow = () => {
-        this.setState( prevState => {
-            let isBoardListShowed = prevState.isBoardListShowed
-            isBoardListShowed = false
-            let isNotificationShowed = prevState.isNotificationShowed
-            isNotificationShowed = false
-            let isFriendListShowed =  prevState.isFriendListShowed
-            isFriendListShowed = true
-            return Object.assign({}, prevState, {
-                isBoardListShowed: isBoardListShowed,
-                isNotificationShowed: isNotificationShowed,
-                isFriendListShowed: isFriendListShowed,
-            });
-         })
-    }
-
-    showBoardLists = () => {
-        this.setState( prevState => {
-            let isBoardListShowed = prevState.isBoardListShowed
-            isBoardListShowed = true
-            let isNotificationShowed = prevState.isNotificationShowed
-            isNotificationShowed = false
-            let isFriendListShowed =  prevState.isFriendListShowed
-            isFriendListShowed = false
-            return Object.assign({}, prevState, {
-                isBoardListShowed: isBoardListShowed,
-                isNotificationShowed: isNotificationShowed,
-                isFriendListShowed: isFriendListShowed,
-            })
-        }); 
-    }
-
-    showNotifications = () => {
-        this.setState( prevState => {
-            let isBoardListShowed = prevState.isBoardListShowed
-            isBoardListShowed = false
-            let isNotificationShowed = prevState.isNotificationShowed
-            isNotificationShowed = true
-            let isFriendListShowed =  prevState.isFriendListShowed
-            isFriendListShowed = false
-            return Object.assign({}, prevState, { 
-                isBoardListShowed: isBoardListShowed,
-                isNotificationShowed: isNotificationShowed,
-                isFriendListShowed: isFriendListShowed,
-            })
-        }); 
-    }
-
-
-    unfriend = (userFirebaseuid) => {
-        const db = fire.firestore();
-        db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", userFirebaseuid)
-        .get().then((querySnapshot) => {
-            let docId = querySnapshot.docs[0].id
-            let  ref = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docId)
-            ref.update({ 
-                confirm: null,
-            })
-        })
-
-        db.collection("Users/" + userFirebaseuid + "/beInvited").where("userFirebaseuid", "==", this.props.firebaseUid)
-        .get().then((querySnapshot) => {
-            let docId = querySnapshot.docs[0].id
-            let  ref = db.collection("Users/" + this.props.firebaseUid + "/beInvited").doc(docId)
-            ref.update({ 
-                confirm: null,
-            })
-        })
-    }
-
-
     backgroundEditedOn = () => {
         this.setState( prevState => {
             let isBackgroundEdited = prevState.isBackgroundEdited
@@ -288,7 +215,6 @@ class HomePage extends React.Component {
             }
         }); 
     }
-
 
     fileUpload = (event) => {
         const file = event.target.files[0]
@@ -326,8 +252,7 @@ class HomePage extends React.Component {
                                 console.log("Error writing document: ", error);
                             })
                         })
-                        
-                        }else { 
+                        } else { 
                             alert("檔案解析度太低了喔~")
                             break;
                         }
@@ -350,10 +275,6 @@ class HomePage extends React.Component {
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
-            },
-            dropdownIcon: {
-                transform: this.state.isIconTurn ? "" : "rotate(-90deg)",
-                transition: "transform .25s ease-in-out",
             }
         }
 
@@ -388,132 +309,22 @@ class HomePage extends React.Component {
 
                     <div className="mainContent">
                         <div className="menu">
-                            <div className="readBoard item" onClick={ () => this.showBoardLists() }>看板列表</div>
-                            <div className="readNotice item" onClick={ () => this.showNotifications() }>通知一覽</div>
-                            <div className="list">
-                                
-                                <div className="listTitle" onClick={ () => this.friendListShow() }>
-                                    <div className="name">允許編輯</div>
-                                    {/* <div className="dropdownIcon">
-                                        <img src={ DropdownIcon }style={ style.dropdownIcon }/>
-                                    </div> */}
-                                </div>
-                                {/* <div className="listContent" style={{ display: this.state.isFriendListShowed ? 'block' : 'none' }}>
-                                    { this.state.invitationData.map((item, index) =>
-                                    <div className="content" key={index}>
-                                        <div className="name">{ item.userName }</div>
-                                        <div className="delete">
-                                            <img src={Cancel} onClick={ () => this.unfriend(item.userFirebaseuid) }/>
-                                        </div>
-                                    </div>
-                                    )}
-                               
-                                </div> */}
-                            </div>
+                            <Link to="/HomePage/boardLists"><div className="readBoard item">看板列表</div></Link>
+                            <Link to="/HomePage/notifications"><div className="readNotice item">通知一覽</div></Link>
+                            <Link to="/HomePage/editors"><div className="readEditor item">允許編輯</div></Link>
                         </div>
 
-                        <div className="boardLists" style={{display: this.state.isBoardListShowed ? 'block' : 'none' }}>
-                            <div className="section">
-                                <div className="category">我的看板</div>
-                                <div className="items">
-                                    <BoardLink 
-                                    boardBackground={ this.state.currentUserBackground }
-                                    targetLink={ this.props.firebaseUid }
-                                    boardName={ this.props.userDisplayName }
-                                    />
-                                </div>
-                            </div>
-                            <div className="section">
-                                <div className="category">可編輯看板</div>
-                                <div className="items">
-                                { this.state.beInvitedData.map((item, index) => item.confirm ?
-                                        <BoardLink 
-                                        boardBackground={ item.backgroundURL }
-                                        targetLink={ item.userFirebaseuid }
-                                        boardName={ item.userName }
-                                        key={index}
-                                        /> :""
-                                    )}
-                                </div>
-                            </div>
-                            <div className="section">
-                                <div className="category">歷史瀏覽</div>
-                                <div className="items">
-                                    <BoardLink 
-                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
-                                        // targetLink={ uid }
-                                        boardName="歷史看板"
-                                    />
-                                    <BoardLink 
-                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
-                                        // targetLink={ uid }
-                                        boardName="歷史看板"
-                                    />
-                                    <BoardLink 
-                                        boardBackground={ "https://images.unsplash.com/photo-1581309553233-a6d8e331c921?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80" }
-                                        // targetLink={ uid }
-                                        boardName="歷史看板"
-                                    />
-                                </div>
-                            </div>
-                        </div>   
-
-                        <div className="notifications" style={{display: this.state.isNotificationShowed ? 'block' : 'none' }}>
-                            <div className="section">
-                                <div className="category">通知一覽</div>
-                                <div className="bars">
-
-                                {this.state.beInvitedData.map((item, index)=>
-                                   <React.Fragment key={index}> 
-                                    <div className="sanckbar">
-                                        <div className="msg">
-                                            <div className="imgDiv">
-                                                <img src={item.userPhoto} />
-                                            </div>
-                                            <p>{item.userName}　邀請您的共同編輯他的看板</p>
-                                        </div>
-                                        <div className="buts">
-                                        <ReplyButtons confirm={ item.confirm } index={ index } userFirebaseuid={ item.userFirebaseuid }/> 
-                                        </div>
-                                    </div>
-                                    </React.Fragment>
-                                )}
-
-                                {this.state.invitationData.map((item, index)=>
-                                   <React.Fragment key={index}> 
-                                    <div className="sanckbar">
-                                        <div className="msg">
-                                            <div className="imgDiv">
-                                                <img src={item.userPhoto} />
-                                            </div>
-                                            <p>{item.userName}　同意了您的共同編輯邀請</p>
-                                        </div>
-                                    </div>
-                                    </React.Fragment>
-                                )}
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="editors" style={{display: this.state.isFriendListShowed ? 'block' : 'none' }}>
-                            <div className="section">
-                                <div className="category">允許編輯</div>
-                                <div className="contents">
-                                    { this.state.invitationData.map((item, index) =>
-                                        <div className="content" key={index}>
-                                            <div className="usePhoto">
-                                                <img src={ item.userPhoto } />
-                                            </div>
-                                            <div className="name">{ item.userName }</div>
-                                            <div className="delete">
-                                                <img src={ Cancel } onClick={ () => this.unfriend(item.userFirebaseuid) }/>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                        <Switch>
+                            <Route path="/HomePage/boardLists">
+                                <BoardLists beInvitedData={ this.state.beInvitedData } currentUserBackground={ this.state.currentUserBackground }/>
+                            </Route>
+                            <Route path="/HomePage/notifications">
+                                <Notifications beInvitedData={ this.state.beInvitedData } invitationData={ this.state.invitationData }/>
+                            </Route>
+                            <Route path="/HomePage/editors">
+                                <Editors invitationData={ this.state.invitationData }/>
+                            </Route>
+                        </Switch>
 
                     </div>  
                 </div>

@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Cross from "../images/cross.png";
-import Tick2 from "../images/tick2.png";
 import Letter from "../images/letter-x.png";
 import fire from "../src/fire";
 
@@ -37,7 +35,7 @@ class ThemeTitle extends React.Component {
             let docId = querySnapshot.docs[0].id
 
             //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).get()
+            db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).delete()
             .then(() => {
                 console.log("Document successfully deleted!", t);
                 this.props.dispatch({ type: "deleteTheme", t })
@@ -98,12 +96,6 @@ class ThemeTitle extends React.Component {
                 }) 
             }
         }
-    }
-    
-    stopEvent = (e) => {
-        console.log("run stopEvent")
-        e.preventDefault();
-        e.stopPropagation();
     }
 
     renderEditView = () => {

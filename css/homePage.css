@@ -26,14 +26,14 @@
 
 #root>.topBar>.topRight>.boardList>.boardIcon,
 #root>.topBar>.topRight>.signOutImg,
-#root>.topBar>.topRight>.boardList>.alert,
+#root>.topBar>.topRight>.boardList>a .alert,
 #root>.topBar>.topLeft>.home {
     width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;
 }
 
 #root>.topBar>.topRight>.boardList>.boardIcon img,
 #root>.topBar>.topRight>.signOutImg img,
-#root>.topBar>.topRight>.boardList>.alert img,
+#root>.topBar>.topRight>.boardList>a .alert img,
 #root>.topBar>.topLeft>.home img {
     width: 22px;
 }
@@ -54,7 +54,7 @@
 #root>.topBar>.topRight>.boardList {
     position: relative;
 }
-#root>.topBar>.topRight>.boardList>.alert>.alertMsg {
+#root>.topBar>.topRight>.boardList>a .alert>.alertMsg {
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: 0px;top: 0px;text-align: center;color: white;padding-bottom: 3px;
 }
 #root>.topBar>.topRight>.alertMenu {
@@ -80,9 +80,7 @@
 }
 
 
-
-
-
+/* profile */
 .homepage {
     display: flex; margin: -105px auto 0px auto; width: 75%; flex-direction: column;
 }
@@ -112,17 +110,17 @@
 .homepage>.mainContent>.menu {
     display: flex; flex-direction: column; margin-left: 15px;
 }
-.homepage>.mainContent>.menu>.readBoard,
-.homepage>.mainContent>.menu>.readNotice,
-.homepage>.mainContent>.menu>.list>.listTitle {
+.homepage>.mainContent>.menu>a {
+    text-decoration: none; 
+}
+.homepage>.mainContent>.menu>a .readBoard,
+.homepage>.mainContent>.menu>a .readNotice,
+.homepage>.mainContent>.menu>a .readEditor {
     letter-spacing: 5px; height: 40px; border:1px solid rgba(211, 211, 211, 0.6);display: flex; background-color: white;margin-bottom: 10px;padding: 0 35px 0 35px;align-items: center;
 }
-.homepage>.mainContent>.menu>.readBoard:hover,
-.homepage>.mainContent>.menu>.readNotice:hover,
-.homepage>.mainContent>.menu>.list>.listTitle:hover,
-.homepage>.mainContent>.menu>.readBoard:active,
-.homepage>.mainContent>.menu>.readNotice:active,
-.homepage>.mainContent>.menu>.list>.listTitle:active{
+.homepage>.mainContent>.menu>a .readBoard:hover,
+.homepage>.mainContent>.menu>a .readNotice:hover,
+.homepage>.mainContent>.menu>a .readEditor:hover {
     border:1px solid rgba(211, 211, 211); background-color: rgba(211, 211, 211,0.3);
 }
 
@@ -130,10 +128,6 @@
 .homepage>.mainContent>.menu>.list>.listTitle {
     position: relative;
 }
-.homepage>.mainContent>.menu>.list>.listTitle>.dropdownIcon {
-    position: absolute; top:9px; right: 5px; width: 24px;
-}
-
 .homepage>.mainContent>.menu>.list>.listContent>.content {
     display: flex;justify-content: space-between;margin-bottom: 8px;padding: 4px 10px;
 }
@@ -171,7 +165,6 @@
 }
 
 
-
 /* messages */
 .homepage>.mainContent>.notifications {
     flex-grow: 4;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
@@ -206,19 +199,12 @@
 
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.accept,
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.deny {
-    display: inline-block;
-    padding: 0 14px;
-    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
-    background: #fff;
-    border-radius: 4px;
-    transition: all .3s ease
+    display: inline-block; padding: 0 14px; box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08); background: #fff; border-radius: 4px; transition: all .3s ease
 }
 
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.accept:hover,
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.deny:hover {
-    color: white;
-    transform: translateY(-1px);
-    box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+    color: white;transform: translateY(-1px); box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
 }
 
 
@@ -245,19 +231,20 @@
     display: flex; flex-wrap: wrap; justify-content: space-between;
 }
 .homepage>.mainContent>.editors>.section>.contents>.content {
-    display: flex; width: 50%;
+    display: flex; width: 46%;justify-content: space-between; margin: 2px 7px;padding: 3px 8px; align-items: center; border-radius: 4px;
 }
-.homepage>.mainContent>.editors>.section>.contents>.content>.usePhoto {
+.homepage>.mainContent>.editors>.section>.contents>.content:hover {
+    background-color: rgba(211, 211, 211,0.3);
+}
+.homepage>.mainContent>.editors>.section>.contents>.content>.userDetails {
+    display: flex;align-items: center;
+}
+.homepage>.mainContent>.editors>.section>.contents>.content>.userDetails>.userPhoto {
     width: 28px; margin-right: 15px;
 }
 .homepage>.mainContent>.editors>.section>.contents>.content>.delete {
-    width: 14px; margin-left: 15px;
+    width: 14px;
 }
-
-
-
-
-
 
 
 
@@ -287,12 +274,8 @@
     }
     .homepage>.mainContent>.menu>.readBoard, 
     .homepage>.mainContent>.menu>.readNotice, 
-    .homepage>.mainContent>.menu>.list>.listTitle {
+    .homepage>.mainContent>.menu>.readEditor {
         padding: 0 20px 0 20px;
-    }
-    .homepage>.mainContent>.menu>.list>.listTitle {
-        display: flex;
-        flex-direction: column;
     }
 }
 
@@ -305,11 +288,7 @@
     }
     .homepage>.mainContent>.menu>.readBoard, 
     .homepage>.mainContent>.menu>.readNotice, 
-    .homepage>.mainContent>.menu>.list>.listTitle {
+    .homepage>.mainContent>.menu>.readEditor {
         padding: 0 20px 0 20px;
-    }
-    .homepage>.mainContent>.menu>.list>.listTitle {
-        display: flex;
-        flex-direction: column;
     }
 }

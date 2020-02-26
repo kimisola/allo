@@ -18,8 +18,8 @@ class BoardLink extends React.Component {
     }
 
     render(){
-
-        const boardStyle = {
+console.log(this.props.boardBackground)
+        let boardStyle = {
             board: {
                 backgroundImage: `url(${this.props.boardBackground}) `,
                 backgroundPosition: "center",
@@ -43,13 +43,12 @@ class BoardLink extends React.Component {
                 </div>
 
             </React.Fragment>
-
         )
     }
-
 }
 
 const mapStateToProps = (state, ownprops) => {
+    console.log("1010101",ownprops.boardBackground, ownprops.boardName)
     return {
         firebaseUid: state.firebaseUid,
         userEmail: state.userEmail,

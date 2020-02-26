@@ -333,7 +333,7 @@ class App extends React.Component {
                 <Router>       
                     <Switch>
                         <Route exact path = "/" component = { LoginPage } /> 
-                        <Route path = "/HomePage" component = { HomePage } />
+                        <Route path = "/HomePage/:id" component = { HomePage } />
                         <Route path = "/Board/:id" component = { Board } />
                     </Switch>
                 </Router>

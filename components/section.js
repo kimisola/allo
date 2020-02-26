@@ -442,7 +442,7 @@ class Section extends React.Component {
 
                 if ( i === dragInfoItem.theme && j === dragInfoItem.row ) {
                     items[i].push (
-                        <div className="item" index={ `${i}-${j}` } style={{ left:dragInfoItem.left, top:dragInfoItem.top, position:"absolute", transform:"rotate(5deg)" }} key={j}>
+                        <div className="item" index={ `${i}-${j}` } style={{ left:dragInfoItem.left, top:dragInfoItem.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }} key={j}>
                             <div className="itemPointer" onPointerDown={ this.dragItem }></div>
                             <div className="itemHead">
                                 <CommentItem item={ texts[i][j] } listIndex={ i } j={ j }/>
@@ -503,7 +503,7 @@ class Section extends React.Component {
 
                 if (i === dragInfo.index) {
                     elements.push(
-                        <div className="sectionWrapper" key={i} index={i} style={{ left:dragInfo.left, top:dragInfo.top, position:"absolute", transform:"rotate(5deg)" }}>
+                        <div className="sectionWrapper" key={i} index={i} style={{ left:dragInfo.left, top:dragInfo.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }}>
                             <div className="section">
                                 <div className="dragArea" onPointerDown={ this.drag }></div>
                                 <ThemeTitle themeIndex={ i } title={ item }/>

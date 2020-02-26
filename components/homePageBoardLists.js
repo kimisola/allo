@@ -1,0 +1,58 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import BoardLink from "./boardLink";
+import fire from "../src/fire";
+
+class BoardLists extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    
+    render(){
+        console.log("111111111111111111",this.props.beInvitedData.backgroundURL)
+        return(
+            <React.Fragment>
+                <div className="boardLists">
+                    <div className="section">
+                        <div className="category">我的看板</div>
+                        <div className="items">
+                            <BoardLink 
+                            boardBackground={ this.props.currentUserBackground }
+                            targetLink={ this.props.firebaseUid }
+                            boardName={ this.props.userDisplayName }
+                            />
+                        </div>
+                    </div>
+                    <div className="section">
+                        <div className="category">可編輯看板</div>
+                        <div className="items">
+                        { this.props.beInvitedData.map((item, index) => item.confirm ?
+                        // console.log( item,item.backgroundURL,item.userName, "222222222222222222222222" )}
+                            <BoardLink
+                            boardBackground={ item.backgroundURL }
+                            targetLink={ item.userFirebaseuid }
+                            boardName={ item.userName }
+                            key={index}
+                            /> : ""
+                        )}
+                        </div>
+                    </div>
+                </div>
+            </React.Fragment>
+        )
+    }
+}
+
+const mapStateToProps = (state, ownprops) => {
+    return {
+        firebaseUid: state.firebaseUid,
+        userEmail: state.userEmail,
+        userDisplayName: state.userDisplayName,
+        userPhotoURL: state.userPhotoURL,
+        beInvitedData: ownprops.beInvitedData,
+        currentUserBackground: ownprops.currentUserBackground
+    }
+}
+
+export default connect(mapStateToProps)(BoardLists);

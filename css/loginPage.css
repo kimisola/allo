@@ -12,9 +12,11 @@
 .login-page>.login-topBar>.topBar-Left {
     display: flex; justify-content: space-between;z-index: 2;align-items: center; text-align: center;height: 55px;
 }
-
 .login-page>.login-topBar>.topBar-Left>.logoDiv {
-    width: 120px; 
+    margin-left: 10px; width: 36px; 
+}
+.login-page>.login-topBar>.topBar-Left>.logoName {
+    width: 120px; margin-left: -13px;
 }
 
 .login-page>.login-topBar>.topBar-Right>.guide {
@@ -68,7 +70,7 @@
 }
 
 .login-page>.login-footer {
-    background-color: rgba(0, 146, 199, 1); color: white; height: 50px;margin-top: 50px; text-align: center;line-height: 50px;
+    background-color: rgba(0, 146, 199, 1); color: white; height: 60px;margin-top: 90px; text-align: center;line-height: 60px;
 }
 
 

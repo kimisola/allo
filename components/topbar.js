@@ -116,7 +116,6 @@ class Topbar extends React.Component {
         })       
     }
 
-
     showAlert = () => {
         console.log("座標來", this.myRef.current.getBoundingClientRect())
         let data = this.myRef.current.getBoundingClientRect()
@@ -200,7 +199,7 @@ class Topbar extends React.Component {
                     <div className="topBar">
                         <div className="topLeft">
                             <div className="home">
-                                <Link to="/HomePage"> <img src={ HomeImg } /> </Link>
+                                <Link to="/HomePage/boardLists"><img src={ HomeImg } /></Link>
                             </div>
                         </div>
                         <div className="logoDiv">
@@ -213,10 +212,10 @@ class Topbar extends React.Component {
                                 </div>
                             </div>
                             <div className="boardList" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
-                                <div className="alert">
+                                <Link to="/HomePage/notifications"><div className="alert">
                                     <img src={ Bell } />
-                                    <div className="alertMsg"> { this.state.alertNum } </div>
-                                </div>
+                                    { this.state.alertNum == 0 ? "" : <div className="alertMsg"> { this.state.alertNum } </div> }    
+                                </div></Link>
                             </div>
 
                             <div className="alertMenu" style={menuStyle.menuStyle}>
@@ -227,7 +226,6 @@ class Topbar extends React.Component {
                                     </React.Fragment>
                                 )
                             }) } 
-                                    
                             </div>
 
                             <div className="memberIcon">

@@ -6,7 +6,8 @@ import ContentImg1 from "../images/loginpage_content1.png";
 import ContentImg2 from "../images/loginpage_content2.png";
 import ContentImg3 from "../images/loginpage_content3.png";
 import Right from "../images/right.png";
-import Sticky from "../images/myLogo.png";
+import Mylogo from "../images/myLogo.png";
+import Postit from "../images/post-it-w.png"
 import firebase from 'firebase';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
@@ -187,12 +188,11 @@ class LoginPage extends React.Component {
                     <div className="login-topBar">
                         <div className="topBar-Left">
                             <div className="logoDiv">
-                                <img src={ Sticky } />
+                                <img src={ Postit } />
                             </div>
                             <div className="logoName">
-
-                            </div>
-                            
+                                <img src={ Mylogo } />
+                            </div>                           
                         </div>
                         <div className="topBar-Right">
                             {/* <div className="regist"> Regist </div>
@@ -260,9 +260,7 @@ class LoginPage extends React.Component {
                                             </div>
                                         </div>                              
                                     </div>
-
                                 </div>
-
                                 <div className="textContent">
                                     <div className="details">
                                         <p>a-llo 的管理，讓你輕鬆享受生活與工作。</p>
@@ -316,7 +314,7 @@ class LoginPage extends React.Component {
                                 <p>Drag and drop between list and comment offers you more flexibility.</p>
                             </div>
                         </div>
-                        <div className="section">
+                        {/* <div className="section">
                             <div className="text">
                                 <h2>簡單快速上手的操作</h2>
                                 <p>這裡預計放網站的使用教學 →</p>
@@ -324,7 +322,7 @@ class LoginPage extends React.Component {
                             <div className="picture">
                                 <img src={ ContentImg2 }/>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="login-footer">

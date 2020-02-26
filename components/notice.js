@@ -10,7 +10,7 @@ class Notice extends React.Component {
 render(){
     return (
         <React.Fragment>
-            <Link to="/HomePage"> <li> {this.props.message} </li> </Link>
+            <Link to="/HomePage/notifications"> <li> {this.props.message} </li> </Link>
         </React.Fragment>
     )
 }
