@@ -1,6 +1,7 @@
 import React from 'react';
 import CommentItem from "../components/commentItem";
 import AddComment from "../components/addComment";
+import ThemeTitle from "../components/themeTitle";
 import { connect } from 'react-redux';
 import Cross from "../images/letter-x.png";
 import Tick2 from "../images/tick2.png";
@@ -407,7 +408,6 @@ class Section extends React.Component {
 
     render(){
 
-        
         let style = {
             mark: {
                 backgroundColor: "rgba(235,236,240,0.4)",
@@ -505,32 +505,8 @@ class Section extends React.Component {
                     elements.push(
                         <div className="sectionWrapper" key={i} index={i} style={{ left:dragInfo.left, top:dragInfo.top, position:"absolute", transform:"rotate(5deg)" }}>
                             <div className="section">
-                                <div className="head" onPointerDown={ this.drag }>
-                                    <div className="titleLeft" onPointerDown={this.stopEvent} onClick={ () => this.changeEditMode() }> { item } </div>
-                                    <div className="titleRight" onPointerDown={this.stopEvent} onClick={ () => this.openConfirmWin(i) }>
-                                        <img src={ Cross } />
-                                    </div>
-                                </div>
-
-                                <div className="head" style={{ display: this.state.isInEditMode ? 'block' : 'none' }}>
-                                    <input className="titleLeftInput" type="text" defaultValue={ item } ref="theTextInput" />
-                                    <div className="titleRight" onClick={ () => this.changeEditMode() }>
-                                        <img src={ Letter } />
-                                    </div>
-                                    <div className="titleRight" onClick={ () => this.updateValue() }>
-                                        <img src={ Tick2 } />
-                                    </div>
-                                </div>
-
-                                <div className="addThemeDiv" style={{ display: this.props.deleteThemeConfirmOpen ? 'block' : 'none' }}>
-                                    <div className="addTheme">
-                                        <p>確定要刪除該列表嗎？</p>
-                                        <div className="buttons">
-                                            <div className="no" onClick={ this.openConfirmWin }>取消</div>
-                                            <div className="yes" onClick={ this.deleteTheme }>確定</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div className="dragArea" onPointerDown={ this.drag }></div>
+                                <ThemeTitle themeIndex={ i } title={ item }/>
                                 <div className="comment"> { items[i] } </div>
                                 <AddComment index={ i }/>
                             </div>
@@ -540,32 +516,8 @@ class Section extends React.Component {
                     elements.push(
                         <div className="sectionWrapper" key={i} index={i}>
                             <div className="section">
-                                <div className="head" onPointerDown={ this.drag }  style={{ display: this.state.isInEditMode ? 'none' : 'flex' }} >
-                                    <div className="titleLeft" onPointerDown={ this.stopEvent } onClick={ () => this.changeEditMode() }> { item } </div>
-                                    <div className="titleRight" onPointerDown={ this.stopEvent } onClick={ () => this.openConfirmWin(i) }>
-                                        <img src={ Cross } />
-                                    </div>
-                                </div>
-
-                                <div className="head" style={{ display: this.state.isInEditMode ? 'block' : 'none' }}>
-                                    <input className="titleLeftInput" type="text" defaultValue={ item } ref="theTextInput" />
-                                    <div className="titleRight" onClick={ () => this.changeEditMode() }>
-                                        <img src={ Letter } />
-                                    </div>
-                                    <div className="titleRight" onClick={ () => this.updateValue() }>
-                                        <img src={ Tick2 } />
-                                    </div>
-                                </div>
-
-                                <div className="addThemeDiv" style={{ display: this.props.deleteThemeConfirmOpen ? 'block' : 'none' }}>
-                                    <div className="addTheme">
-                                        <p>確定要刪除該列表嗎？</p>
-                                        <div className="buttons">
-                                            <div className="no" onClick={ this.openConfirmWin }>取消</div>
-                                            <div className="yes" onClick={ this.deleteTheme }>確定</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div className="dragArea" onPointerDown={ this.drag }></div>
+                                <ThemeTitle themeIndex={ i } title={ item }/>
                                 <div className="comment"> { items[i] } </div>
                                 <AddComment index={ i }/>
                             </div>

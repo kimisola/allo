@@ -288,14 +288,18 @@ class LoginPage extends React.Component {
                                 <img src={ ContentImg1 }/>
                             </div>
                             <div className="text">
-                                <h2>文字以外的豐富度</h2>
-                                <p>除了文字的紀錄外，也可以分享圖片，甚至是貼上進度標籤提醒工作進度。</p>
+                                {/* <h2>文字以外的豐富度</h2>
+                                <p>除了文字的紀錄外，也可以分享圖片，甚至是貼上進度標籤提醒工作進度。</p> */}
+                                <h2>-Visualize your task list</h2>
+                                <p>Besides sharing picture, adding progress reminder for your schedule.</p>
                             </div>
                         </div>
                         <div className="section">
                             <div className="text">
-                                <h2>與任何團隊合作無間</h2>
-                                <p>不論是個人的工作內容，還是團隊間的專案，甚至是家人朋友間的旅遊，a-llo 都可以井然有序地幫你紀錄相關事務。</p>
+                                {/* <h2>與任何團隊合作無間</h2>
+                                <p>不論是個人的工作內容，還是團隊間的專案，甚至是家人朋友間的旅遊，a-llo 都可以井然有序地幫你紀錄相關事務。</p> */}
+                                <h2>-Cooperate with anyone.</h2>
+                                <p>Whether it is your personal jobs, team project or travel plan among friends and family. A-llo organizes and gets everything leap to the eye.</p>
                             </div>
                             <div className="picture">
                                 <img src={ ContentImg2 }/>
@@ -306,8 +310,10 @@ class LoginPage extends React.Component {
                                 <img src={ ContentImg3 }/>
                             </div>
                             <div className="text">
-                                <h2>動態的行程管理</h2>
-                                <p>支援列表和留言間的拖曳，讓你有更多的彈性來管理專案內容。</p>
+                                {/* <h2>動態的行程管理</h2>
+                                <p>支援列表和留言間的拖曳，讓你有更多的彈性來管理專案內容。</p> */}
+                                <h2>-Sectional schedule management</h2>
+                                <p>Drag and drop between list and comment offers you more flexibility.</p>
                             </div>
                         </div>
                         <div className="section">

@@ -151,11 +151,13 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section {
-    color: black;width: 270px;background-color: #ebecf0;border-radius: 3px;padding:4px;margin: 0 4px;display: inline-flex;max-height: 90%;flex-direction: column;
+    color: black;width: 270px;background-color: #ebecf0;border-radius: 3px;padding:4px;margin: 0 4px;display: inline-flex;max-height: 95%;flex-direction: column;
 }
-
+.view>.board>.sectionWrapper>.section>.dragArea {
+    min-height: 12px;cursor: pointer;
+}
 .view>.board>.sectionWrapper>.section>.head {
-    display: flex;justify-content: space-between;margin:3px 3px 6px 3px;align-items: center;background-color:#ebecf0;border-radius: 5px;color: #172b4d;font-weight: bold;cursor: pointer;
+    display: flex;justify-content: space-between;margin:0 3px 6px 3px;align-items: center;background-color:#ebecf0;border-radius: 5px;color: #172b4d;font-weight: bold;
 }
 
 .view>.board>.sectionWrapper>.section>.head>.titleRight {
@@ -165,13 +167,15 @@ img {
     max-width: 265px; word-break: break-all;
 }
 
-.view>.board>.sectionWrapper>.section>.head>.titleLeft Input {
-    max-width: 265px;height: 21px; border-radius: 4px; border-style: none; padding-left: 5px;
+.view>.board>.sectionWrapper>.section>.head>.titleLeftInput {
+    height: 21px; border-radius: 5px; border-style: none; padding-left: 5px;width: 100%; margin-right: 4px;
 }
 
-
 .view>.board>.sectionWrapper>.section>.comment>.item{
-    margin:3px 3px 6px 3px; background-color: #fff;border-radius: 5px;
+    margin:3px 3px 6px 3px; background-color: #fff;border-radius: 5px;box-shadow: 0 1px 0 rgba(9,30,66,.25);
+}
+.view>.board>.sectionWrapper>.section>.comment>.item:hover {
+    background-color: rgba(55,55,55,0.1);
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemPointer{
@@ -327,7 +331,7 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.itemFooter {
-    display: flex; justify-content: flex-end; margin: 10px 10px 0 0;
+    display: flex; margin: 10px 0 0 10px;
 }
 .view>.board>.sectionWrapper>.section>.itemFooter>.add {
     width: 16px;
