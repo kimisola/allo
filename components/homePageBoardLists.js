@@ -10,7 +10,6 @@ class BoardLists extends React.Component {
 
     
     render(){
-        console.log("111111111111111111",this.props.beInvitedData.backgroundURL)
         return(
             <React.Fragment>
                 <div className="boardLists">
@@ -28,7 +27,6 @@ class BoardLists extends React.Component {
                         <div className="category">可編輯看板</div>
                         <div className="items">
                         { this.props.beInvitedData.map((item, index) => item.confirm ?
-                        // console.log( item,item.backgroundURL,item.userName, "222222222222222222222222" )}
                             <BoardLink
                             boardBackground={ item.backgroundURL }
                             targetLink={ item.userFirebaseuid }

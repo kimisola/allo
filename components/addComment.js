@@ -39,11 +39,11 @@ class AddComment extends React.Component {
             let tagsState = [ "planning", "process", "risk", "achived" ] //reset tags value
             let newtags = prevState.newTags;
             newtags = [];
-            tagsState.forEach((tk)=>{
+            tagsState.forEach((item)=>{
                 this.setState( prevState => {
                     let commentTagsCopy =  prevState.commentTags
-                    if ( commentTagsCopy[tk] ){
-                        commentTagsCopy[tk] = false
+                    if ( commentTagsCopy[item] ){
+                        commentTagsCopy[item] = false
                     }   
                     return Object.assign({}, prevState, { 
                         commentTags: commentTagsCopy,

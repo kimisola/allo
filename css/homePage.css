@@ -108,10 +108,10 @@
     display: flex; margin-top: 50px;flex-direction: row;
 }
 .homepage>.mainContent>.menu {
-    display: flex; flex-direction: column; margin-left: 15px;
+    display: flex; flex-direction: column; margin-left: 15px; min-width: 160px;
 }
 .homepage>.mainContent>.menu>a {
-    text-decoration: none; 
+    text-decoration: none; color: black;
 }
 .homepage>.mainContent>.menu>a .readBoard,
 .homepage>.mainContent>.menu>a .readNotice,
@@ -142,7 +142,7 @@
 
 /* boardLists */
 .homepage>.mainContent>.boardLists {
-    margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;flex-grow: 4;
+    margin: 0 0 70px 100px; max-height: 700px; border:1px solid rgba(211, 211, 211, 0.6);width: 75%;flex-grow: 4;
     display: flex; flex-direction: column;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
 }
 
@@ -158,7 +158,7 @@
     margin-bottom: 10px;letter-spacing: 2px;
 }
 .homepage>.mainContent>.boardLists>.section>.items {
-    display: flex; flex-wrap: wrap;
+    display: flex; flex-wrap: wrap;max-height: 435px; overflow-y: auto;
 }
 .homepage>.mainContent>.boardLists>.section>.items>.board {
     border: 1px solid darkgray; background-color: rgba(211, 211, 211, 0.6); width: 150px; height: 90px; margin: 5px 20px 10px 0; text-align: center;line-height: 90px;border-radius: 12px;color: white;
@@ -167,7 +167,7 @@
 
 /* messages */
 .homepage>.mainContent>.notifications {
-    flex-grow: 4;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+    flex-grow: 4;margin: 0 0 70px 100px; max-height: 700px; border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
 }
 .homepage>.mainContent>.notifications>.section {
     margin: 20px;
@@ -176,7 +176,7 @@
     font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1);margin-bottom: 20px;padding-bottom: 5px;letter-spacing: 2px;
 }
 .homepage>.mainContent>.notifications>.section>.bars {
-    display: flex; flex-wrap: wrap;flex-direction: column;
+    display: flex; flex-direction: column;max-height: 620px; overflow-y: auto;
 }
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar {
     display: flex; flex-wrap: wrap;justify-content: space-between;align-items: center;
@@ -219,7 +219,7 @@
 
 /* editable */
 .homepage>.mainContent>.editors {
-    flex-grow: 4;margin-left: 100px;border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+    flex-grow: 4;margin: 0 0 70px 100px; max-height: 700px; border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
 }
 .homepage>.mainContent>.editors>.section {
     display: flex; flex-direction: column;flex-grow: 1;margin: 20px;
@@ -228,7 +228,7 @@
     font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1);margin-bottom: 20px;padding-bottom: 5px;letter-spacing: 2px;
 }
 .homepage>.mainContent>.editors>.section>.contents {
-    display: flex; flex-wrap: wrap; justify-content: space-between;
+    display: flex; flex-wrap: wrap; justify-content: space-between;max-height: 435px; overflow-y: auto;
 }
 .homepage>.mainContent>.editors>.section>.contents>.content {
     display: flex; width: 46%;justify-content: space-between; margin: 2px 7px;padding: 3px 8px; align-items: center; border-radius: 4px;
@@ -247,8 +247,14 @@
 }
 
 
+@media (max-width: 1430px) {
+    .homepage>.mainContent>.editors>.section>.contents>.content {
+        width: 43%;
+    }
+}
 
-@media (max-width: 900px){
+
+@media (max-width: 1230px){
 	.homepage>.mainContent {
         flex-direction: column;
     }
@@ -263,32 +269,72 @@
     .homepage>.mainContent>.editors {
         width: 100%; margin: 20px 0 0 0;
     }
+    .homepage>.mainContent>.editors>.section>.contents>.content {
+        width: 45%;
+    }
 }
 
-@media (min-width: 571px) and (max-width: 750px) {
+
+
+@media (min-width: 750px) and (max-width: 860px) {
     .homepage>.mainContent>.menu {
         justify-content: space-between; margin-left: 0; font-size: 14px;
     }
     .homepage>.mainContent>.menu>.item {
         margin-right: 8px;
     }
-    .homepage>.mainContent>.menu>.readBoard, 
-    .homepage>.mainContent>.menu>.readNotice, 
-    .homepage>.mainContent>.menu>.readEditor {
+    .homepage>.mainContent>.menu>a .readBoard, 
+    .homepage>.mainContent>.menu>a .readNotice, 
+    .homepage>.mainContent>.menu>a .readEditor {
         padding: 0 20px 0 20px;
+    }
+    .homepage>.mainContent>.editors>.section>.contents>.content {
+        width: 100%;
     }
 }
 
-@media (max-width: 570px) {
+@media (min-width: 751px) and (max-width: 860px) {
+    .homepage>.mainContent>.editors>.section>.contents>.content {
+        width: 100%;
+    }
+}
+
+@media (min-width: 651px) and (max-width: 750px) {
+    .homepage>.mainContent>.editors>.section>.contents>.content {
+        width: 100%;
+    }
+}
+
+@media  (min-width: 451px) and (max-width: 650px) {
+    .homepage {
+        width: 90%;
+    }
     .homepage>.mainContent>.menu {
         justify-content: space-between; margin-left: 0; font-size: 14px;
     }
     .homepage>.mainContent>.menu>.item {
         margin-right: 8px;
     }
-    .homepage>.mainContent>.menu>.readBoard, 
-    .homepage>.mainContent>.menu>.readNotice, 
-    .homepage>.mainContent>.menu>.readEditor {
+    .homepage>.mainContent>.menu>a .readBoard, 
+    .homepage>.mainContent>.menu>a .readNotice, 
+    .homepage>.mainContent>.menu>a .readEditor {
         padding: 0 20px 0 20px;
+    }
+    .homepage>.mainContent>.editors>.section>.contents>.content {
+        width: 100%;
+    }
+}
+
+@media (max-width: 450px) {
+    .homepage {
+        width: 90%;
+    }
+    .homepage>.mainContent>.menu>a .readBoard, 
+    .homepage>.mainContent>.menu>a .readNotice, 
+    .homepage>.mainContent>.menu>a .readEditor {
+        padding: 0 20px 0 20px;
+    }
+    .homepage>.mainContent>.editors>.section>.contents>.content {
+        width: 100%;
     }
 }

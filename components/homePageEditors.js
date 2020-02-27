@@ -22,7 +22,7 @@ class Editors extends React.Component {
         db.collection("Users/" + userFirebaseuid + "/beInvited").where("userFirebaseuid", "==", this.props.firebaseUid)
         .get().then((querySnapshot) => {
             let docId = querySnapshot.docs[0].id
-            let  ref = db.collection("Users/" + this.props.firebaseUid + "/beInvited").doc(docId)
+            let  ref = db.collection("Users/" + userFirebaseuid + "/beInvited").doc(docId)
             ref.update({ 
                 confirm: null,
             })

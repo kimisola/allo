@@ -231,18 +231,6 @@ class Board extends React.Component {
         }
     }
 
-    horizontalScroll = (e) => {
-        window.addEventListener("mousewheel", e => {
-            console.log("e.deltaX", e.deltaX, "e.deltaY", e.deltaY)
-            if (e.deltaX === 0) {
-                e.stopPropagation()
-                e.preventDefault()
-                // noinspection JSSuspiciousNameCombination
-                window.scrollBy(e.deltaY, 0)
-            }
-        })
-    }
-
     render(){
 
         const style = {
@@ -257,7 +245,7 @@ class Board extends React.Component {
         return(
             <React.Fragment>
 
-                <main style={ style.backgroundStyle} onWheel={(e) => this.horizontalScroll(e)}>
+                <main  style={ style.backgroundStyle} >
                     <div className="loading"  style={{display: this.props.isBoardLoaded ? 'none' : 'block' }} > 
                         <img src={ loadingGif } />
                     </div>

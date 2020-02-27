@@ -28,6 +28,7 @@ class SecondBar extends React.Component {
         console.log("run creatTheme")
         this.props.getTvalue("")  //reset input value
         this.props.addNewListOpen()
+        
     }
 
     getTitleValue = (event) => {  //use onChange to get value
@@ -36,7 +37,6 @@ class SecondBar extends React.Component {
     }
 
     creatTitle = (event) => {
-        console.log("12345689")
         const newText = this.props.text;
         const newListTitle =  this.props.listTitle;
         const titleValue =  this.props.titleValue;
@@ -236,7 +236,6 @@ class SecondBar extends React.Component {
     }
 
     render(){
-
         const style = {
             invitedStyle: {
                 display: this.state.isShowInvitation ? "flex" : "none",

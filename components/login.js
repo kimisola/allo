@@ -1,7 +1,7 @@
 import React from 'react';
 import "../css/loginPage.css";
 import GLogin from "../components/googleBar.js";
-import LoginImg from "../images/loginpage_main1.png";
+import LoginImg from "../images/loginpage_main2.png";
 import ContentImg1 from "../images/loginpage_content1.png";
 import ContentImg2 from "../images/loginpage_content2.png";
 import ContentImg3 from "../images/loginpage_content3.png";

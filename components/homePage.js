@@ -81,21 +81,19 @@ class HomePage extends React.Component {
                         ref2.get()
                         .then((querySnapshot) =>{
                             send.backgroundURL = querySnapshot.data().background
-                            
+                            data.push(send);
+                            this.setState( prevState => {
+                                return Object.assign({}, prevState, {
+                                    beInvitedData: data,
+                                })
+                            }); 
                         }).catch((error)=> {
                             console.log("Error writing document: ", error);
                         })
                     }).catch((error)=> {
                         console.log("Error writing document: ", error);
                     })
-                    data.push(send);
                 }
-
-                this.setState( prevState => {
-                    return Object.assign({}, prevState, {
-                        beInvitedData: data,
-                    })
-                }); 
 
                 db.collection("Users/" + firebaseUid + "/invitation").orderBy("index").get()
                 .then((querySnapshot) => {
@@ -112,9 +110,14 @@ class HomePage extends React.Component {
 
                                 let ref2 = db.collection("Boards").doc(send.userFirebaseuid)
                                 ref2.get()
-                                .then((querySnapshot) =>{
+                                .then(async(querySnapshot) =>{
                                     send.backgroundURL = querySnapshot.data().background
                                     data.push(send);
+                                    this.setState( prevState => {
+                                        return Object.assign({}, prevState, {
+                                            invitationData: data
+                                        })
+                                    }); 
                                 }).catch((error)=> {
                                     console.log("Error writing document: ", error);
                                 })
@@ -123,11 +126,6 @@ class HomePage extends React.Component {
                             })
                         }
                     }
-                    this.setState( prevState => {
-                        return Object.assign({}, prevState, {
-                            invitationData: data
-                        })
-                    }); 
                 }).catch((error) =>{
                     console.log(error.message);
                 })

@@ -405,6 +405,13 @@ class Section extends React.Component {
         document.addEventListener("pointerup", up);
     }
 
+    horizontalScroll = (e) => {
+        if (e.deltaY !== 0) {
+            e.stopPropagation()
+            e.preventDefault()
+            this.board.current.scrollLeft += e.deltaY
+        }
+    }
 
     render(){
 
@@ -534,7 +541,7 @@ class Section extends React.Component {
             }        
         return(
             <React.Fragment>
-                <div className="board" ref={this.board}>
+                <div className="board" ref={this.board} onWheel={(e) => this.horizontalScroll(e)}>
            		    { elements }
                 </div>
             </React.Fragment>
