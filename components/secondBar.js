@@ -37,11 +37,16 @@ class SecondBar extends React.Component {
     }
 
     creatTitle = (event) => {
-        const newText = this.props.text;
-        const newListTitle =  this.props.listTitle;
-        const titleValue =  this.props.titleValue;
-        const firebaseUid  = this.props.firebaseUid;
+        let newText = this.props.text;
+        let newListTitle =  this.props.listTitle;
+        let titleValue =  this.props.titleValue;
         let indexForTitle = this.props.indexForTitle;
+        let firebaseUid = "";
+        if ( this.props.currentBoard !== "" ) {
+            firebaseUid = this.props.currentBoard
+        } else {
+            firebaseUid = this.props.firebaseUid
+        }
 
         if (event.key === "Enter" ) {
             if ( titleValue.length > 14 ) {
@@ -70,11 +75,16 @@ class SecondBar extends React.Component {
     }
 
     creatTitleByButton = () => {
-        const newText = this.props.text;
-        const newListTitle =  this.props.listTitle;
-        const titleValue =  this.props.titleValue;
-        const firebaseUid  = this.props.firebaseUid;
+        let newText = this.props.text;
+        let newListTitle =  this.props.listTitle;
+        let titleValue =  this.props.titleValue;
         let indexForTitle = this.props.indexForTitle;
+        let firebaseUid = "";
+        if ( this.props.currentBoard !== "" ) {
+            firebaseUid = this.props.currentBoard
+        } else {
+            firebaseUid = this.props.firebaseUid
+        }
 
         console.log("enter creat title", titleValue)
         this.props.addNewListOpen();
@@ -300,6 +310,7 @@ const mapStateToProps = (state) => {
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
         firebaseUid: state.firebaseUid,
+        currentBoard: state.currentBoard,
     }
 }
 
