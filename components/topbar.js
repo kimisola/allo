@@ -2,7 +2,7 @@ import React from 'react';
 import { setCurrentUser, switchBoard } from"../components/actionCreators";
 import Notice from "../components/notice";
 import HomeImg from "../images/home.png";
-import Blackboard from "../images/blackboard.png";
+import Blackboard from "../images/blackboard1.png";
 import Bell from "../images/bell.png";
 import SignOutImg from "../images/logout1.png";
 import MyLogo from "../images/myLogo.png";
@@ -229,7 +229,7 @@ class Topbar extends React.Component {
                             </div></Link>
 
                             <div className="memberIcon">
-                                <img src={ this.props.userPhotoURL } />
+                                <Link to="/HomePage/boardLists"><img src={ this.props.userPhotoURL } /></Link>
                             </div>
                             <div className="signOutImg">
                                 <img src={ SignOutImg } onClick={ this.userSignOut }/>

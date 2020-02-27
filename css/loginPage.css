@@ -133,7 +133,7 @@
 .registerButton,
 .loginButton {
     width: 100px; height: 36px; color: white; background-color: rgba(255, 193, 77, 1);border-radius: 20px;font-weight: bold;font-size: 20px;padding: 5px;display: flex; justify-content: center; align-items: center;
-    box-shadow: 0 4px 5px rgba(204,133,0,0.7);
+    box-shadow: 0 4px 5px rgba(204,133,0,0.7);cursor: pointer;
 }
 
 /* .registerButton {

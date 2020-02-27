@@ -28,7 +28,7 @@
 #root>.topBar>.topRight>.signOutImg,
 #root>.topBar>.topRight>.boardList>.alert,
 #root>.topBar>.topLeft>.home {
-    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;
+    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;cursor: pointer;
 }
 
 #root>.topBar>.topRight>.boardList>.boardIcon img,
@@ -325,16 +325,43 @@
     }
 }
 
-@media (max-width: 450px) {
+@media (min-width: 391px) and (max-width: 450px) {
     .homepage {
-        width: 90%;
+        width: 90%; margin: -90px auto 0px auto;
+    }
+    #root>.topBar>.logoDiv {
+        position: unset;
+    }
+    .homepage>.profile>.details {
+        padding: 0 0 5px 20px;
     }
     .homepage>.mainContent>.menu>a .readBoard, 
     .homepage>.mainContent>.menu>a .readNotice, 
     .homepage>.mainContent>.menu>a .readEditor {
-        padding: 0 20px 0 20px;
+        padding: 0 10px 0 10px;
     }
     .homepage>.mainContent>.editors>.section>.contents>.content {
         width: 100%;
     }
+}
+
+@media (max-width: 390px) {
+    .homepage {
+        width: 90%; margin: -60px auto 0px auto;
+    }
+    #root>.topBar>.logoDiv {
+        position: unset;
+    }
+    .homepage>.profile>.details {
+        padding: 0 0 5px 20px;
+    }
+    .homepage>.mainContent>.menu>a .readBoard, 
+    .homepage>.mainContent>.menu>a .readNotice, 
+    .homepage>.mainContent>.menu>a .readEditor {
+        padding: 0 10px 0 10px;
+    }
+    .homepage>.mainContent>.editors>.section>.contents>.content {
+        width: 100%;
+    }
+
 }

@@ -413,7 +413,7 @@ class Section extends React.Component {
         }
     }
 
-    render(){
+    render() {
 
         let style = {
             mark: {

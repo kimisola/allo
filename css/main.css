@@ -63,7 +63,7 @@ img {
 .view>.topBar>.topRight>.signOutImg,
 .view>.topBar>.topRight>.boardList>.alert,
 .view>.topBar>.topLeft>.home {
-    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;
+    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;cursor: pointer;
 }
 
 .view>.topBar>.topRight>.boardList>.boardIcon img,
@@ -89,10 +89,10 @@ img {
 }
 
 .view>.topBar>.topRight>.memberIcon{
-    width: 32px;
+    width: 32px;cursor: pointer;
 }
 .view>.secondBar>.secondRight>.addBoard {
-    width: 18px; cursor: crosshair; background-color: hsla(0,0%,100%,.24); align-items: center; display: flex; border-radius: 3px; padding: 0 10px; height: 30px;
+    width: 18px; cursor: pointer; background-color: hsla(0,0%,100%,.24); align-items: center; display: flex; border-radius: 3px; padding: 0 10px; height: 30px;cursor: pointer;
 }
 
 .view>.topBar>.topRight>.memberIcon img,
@@ -110,7 +110,7 @@ img {
 }
 
 .view>.secondBar>.secondLeft>.inviteDiv {
-    color: white; background-color: hsla(0,0%,100%,.24);border-radius: 3px;padding: 0 10px;height: 30px; line-height: 30px;font-size: 14px;
+    color: white; background-color: hsla(0,0%,100%,.24);border-radius: 3px;padding: 0 10px;height: 30px; line-height: 30px;font-size: 14px;cursor: pointer;
 }
 
 .view>.secondBar>.secondLeft>.invite {
@@ -243,6 +243,7 @@ img {
 }
 .tag {
     margin: 5px 0 5px 5px;border-radius: 4px;font-size: 12px;padding: 1px 5px;font-weight: bold;color: white;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubun;
+    width: 57px; height: 15px; transition: width 0.5s, height 0.1s;
 }
 /*  comment menu tags */
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.tags>.tag:active {
@@ -388,7 +389,7 @@ footer>.footerBar {
 }
 
 .addThemeDiv>.addTheme>.buttons div {
-    background-color: rgb(182, 186, 200, 0.5); width: 50px; border-radius: 6px; padding: 3px 0 3px 0; cursor: crosshair;
+    background-color: rgb(182, 186, 200, 0.5); width: 50px; border-radius: 6px; padding: 3px 0 3px 0; cursor: pointer;
 }
 
 
@@ -817,7 +818,7 @@ menu */
 }
 
 /* memo */
-.Llogin input[type=button]{
+/* .Llogin input[type=button]{
 width: 260px; height: 40px;background: #fff; border: 1px solid #fff; cursor: crosshair; border-radius: 2px;color: #a18d6c; font-family: Lucida Console; font-size: 16px;padding: 5px;margin-top: 10px;
 }
 
@@ -827,4 +828,10 @@ opacity: 0.8;
 
 .Llogin input[type=button]:active{
 opacity: 0.6;
+} */
+
+@media (max-width: 450px) {
+    .view>.topBar>.logoDiv {
+        position: unset;
+    }
 }

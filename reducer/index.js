@@ -15,6 +15,9 @@ let initialState = {
     //delete confirm window
     deleteThemeConfirmOpen: false,
 
+    //change css of tags
+    tagsDisplayChanged: false,
+
     // index value for next new added title and comment item, default is 2
     indexForTitle: 2,
     indexForItem: 2,
@@ -209,6 +212,14 @@ function Reducer(state = initialState, action) {
                 text: text.slice(0),
             });
         }
+
+        case "change-tags-display": {
+            console.log("runnnnnnn")
+            return Object.assign({}, state, {
+                tagsDisplayChanged: !state.tagsDisplayChanged,
+            });
+        }
+
         default:
             return state;
     }

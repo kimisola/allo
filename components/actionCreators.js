@@ -70,3 +70,9 @@ export function loadingGifOn() {
         type: "loadingGifOn",
     }
 }
+
+export function changeTagsDisplay() {
+    return {
+        type: "change-tags-display",
+    }
+}
