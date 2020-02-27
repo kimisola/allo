@@ -5,7 +5,7 @@
 }
 
 .login-page>.login-topBar {
-    background-color: rgba(0, 146, 199, 1)
+    /* background-color: #0079bf */ position: absolute; top:0; left: 8px;
 }
 .login-page>.login-topBar,
 .login-page>.login-topBar>.topBar-Right,
@@ -38,18 +38,18 @@
     width: 100px; height: 46px; color: rgba(0, 146, 199, 1);background-color:white;border-radius: 10px;font-weight: bold;font-size: 20px;line-height: 46px;margin-right: 20px;
 }
 
-
+/* background-color: rgba(0, 146, 199, 1) */
 .login-page>.login-background {
-    background-color: rgba(0, 146, 199, 1);padding: 10px 0;
+    background: linear-gradient(135deg, #0079bf, #5067c5);padding: 30px 0;
 }
 .login-page>.login-background>.login-main {
     display: flex;position: relative;justify-content: space-around;z-index: 1;height: 100%;
 }
 .login-page>.login-background>.login-main>.login-content {
-    display: flex; flex-direction: column-reverse; margin: 0 0 3.5% 3%;
+    display: flex; flex-direction: column-reverse; margin: 3.5% 0 3% 3%;
 }
 .login-page>.login-background>.login-main>.login-img {
-    max-width: 52%;
+    max-width: 52%; display: flex; flex-direction: column-reverse;
 }
 
 .login-page>.login-background>.login-main>.login-content>.signinArea {
@@ -68,9 +68,11 @@
 .login-page>.login-content>.section>.text {
     width: 312px; font-size: 20px;margin: 20px 0 20px 0;
 }
-
+.login-page>.login-content>.section>.text h2 {
+    text-shadow: 3px 3px lightgrey;
+}
 .login-page>.login-footer {
-    background-color: rgba(0, 146, 199, 1); color: white; height: 60px;margin-top: 90px; text-align: center;line-height: 60px;
+    background-color: #0079bf; color: white; height: 60px;margin-top: 90px; text-align: center;line-height: 60px;
 }
 
 
@@ -102,10 +104,10 @@
 }
 
 .login-page>.login-background>.login-main>.login-content>.textContent {
-    max-width: 400px; display: flex;flex-direction: column-reverse;
+    max-width: 400px; display: flex;flex-direction: column-reverse; margin-bottom: 20px;
 }
 .login-page>.login-background>.login-main>.login-content>.textContent>.slogan p>.webName {
-    display: inline-block;font-size: 7vh;
+    display: inline-block;font-size: 10vh;
 }
 
 .login-page>.login-background>.login-main>.login-content>.textContent>.slogan p{
@@ -115,21 +117,23 @@
     max-width: 400px; text-align: left; 
 }
 .login-page>.login-background>.login-main>.login-content>.textContent>.details p{
-    color: white; font-weight: bolder;font-size: 15px;
+    color: white; font-weight: bolder;font-size: 18px; margin: 0;
 }
 
 .login-page>.login-background>.login-main>.login-content>.buttons {
-    display: flex; justify-content: space-between; max-width: 400px;margin-top: 15px;
+    display: flex; justify-content: space-between; max-width: 400px;
 }
 
 
-/* .login-page>.login-background>.login-main>.login-content>.signinArea>.signup input {
-	width: 180px; height: 40px;background: #fff; border: 1px solid #fff; border-radius: 2px;color: #a18d6c; font-family: Lucida Console; font-size: 16px;padding: 5px;margin: 30px 30px 0px 0 ;
-} */
+.registerButton:hover,
+.loginButton:hover {
+    transform: translateY(1.5px); box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+}
 
 .registerButton,
 .loginButton {
-    width: 100px; height: 36px; color: white; background-color: rgba(255, 193, 77, 1);border-radius: 20px;font-weight: bold;font-size: 20px;padding: 3px;display: flex; justify-content: center; align-items: center;
+    width: 100px; height: 36px; color: white; background-color: rgba(255, 193, 77, 1);border-radius: 20px;font-weight: bold;font-size: 20px;padding: 5px;display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 4px 5px rgba(204,133,0,0.7);
 }
 
 /* .registerButton {
@@ -164,6 +168,9 @@
     transform: translate(6px, -4px);
 } */
 
+@media (max-width: 1000px) {
+
+}
 
 @media (max-width: 900px){
 	.login-page>.login-background>.login-main>.login-img {
@@ -173,13 +180,15 @@
         width: 80%; 
     }
     .login-page>.login-content>.section>.text {
-        font-size: 18px;
+        font-size: 18px; width: 100%;
+    }
+    .login-page>.login-content>.section1,
+    .login-page>.login-content>.section3 {
+        flex-direction: column-reverse;
     }
 }
 
-@media (min-width: 500px) and (max-width: 800px) {
 
-}
 
 @media (max-width: 500px) {
     .login-page>.login-background>.login-main>.login-content {

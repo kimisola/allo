@@ -323,7 +323,6 @@ class App extends React.Component {
                     // No user is signed in.
                    // window.location = "/"
                 }
-
             }
         );
     }

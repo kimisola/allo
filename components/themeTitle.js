@@ -79,7 +79,13 @@ class ThemeTitle extends React.Component {
                 });
 
                 const db = fire.firestore();
-                const firebaseUid  = this.props.firebaseUid;
+                let firebaseUid = "";
+                if ( this.props.currentBoard !== "" ) {
+                    firebaseUid = this.props.currentBoard
+                } else {
+                    firebaseUid = this.props.firebaseUid
+                }
+                
                 db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((indexOfValue+1)*2)).get()
                 .then((querySnapshot) => {
                     let docId = querySnapshot.docs[0].id

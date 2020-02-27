@@ -3,8 +3,8 @@ import Plus from "../images/plus.png";
 import TestIcon from "../images/testIcon.jpg";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
-import Cancel from "../images/cross.png";
-import Mail from "../images/sendMail.png";
+import Cancel from "../images/letter-x.png";
+import Mail from "../images/email.png";
 import { creatTitle, addNewListOpen, getTitleValue, setIndexForTitle } from"./actionCreators"
 
 class SecondBar extends React.Component {
@@ -266,12 +266,12 @@ class SecondBar extends React.Component {
                                     <img src={ Cancel } />
                                 </div>
                             </div>
-                            {/* <p>邀請編輯看板：</p> */}
+                            <p>Please enter mailadress：</p>
                             <div className="inputDiv">
                                 <div className="mailDiv">
                                     <img src={ Mail } />
                                 </div>
-                                <input type="text" placeholder="請輸入電子郵件" value={ this.state.userMail } onChange={ this.getMailValue } onKeyPress={ this.invite }/>
+                                <input type="text" placeholder="example@example.com" value={ this.state.userMail } onChange={ this.getMailValue } onKeyPress={ this.invite }/>
                             </div>
                         </div>
                     </div>

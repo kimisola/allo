@@ -114,7 +114,9 @@ img {
 }
 
 .view>.secondBar>.secondLeft>.invite {
-    display: flex; flex-direction: column; text-align: center; background-color:  rgba(67, 67, 67, 0.9); padding: 10px 15px 10px 15px; border-radius: 3px; z-index: 3;
+    display: flex; flex-direction: column; text-align: center;background-color: #ebecf0;padding: 10px 30px 20px 30px; border-radius: 4px; z-index: 3;
+    box-shadow: 0 5px 3px rgba(9,30,66,.25); border: 9px solid rgb(182, 186, 200, 0.5)
+
 }
 .view>.secondBar>.secondLeft>.invite>.inputDiv {
     display: flex; margin-top: 5px;
@@ -126,16 +128,16 @@ img {
     width: 25px; margin-right: 10px; border-radius: unset;
 }
 .view>.secondBar>.secondLeft>.invite p {
-    margin: 0 0 16px 0; border-bottom: 1px solid grey; padding-bottom: 5px;color: white;
+    margin: 16px 0 16px 0; border-bottom: 1px solid grey; padding-bottom: 5px;color: rgb(23, 43, 77);font-weight: bold;
 }
 .view>.secondBar>.secondLeft>.invite input{
-    border-radius: 3px; padding-left: 10px; height: 18px;
+    border-radius: 6px; padding-left: 10px; height: 23px;
 }
 .view>.secondBar>.secondLeft>.invite>.cancel {
-    display: flex; flex-direction: row-reverse;
+    position: absolute; right: 7px;
 }
 .view>.secondBar>.secondLeft>.invite>.cancel>.cancelImg{
-    width: 20px; 
+    width: 16px; 
 }
 
 .view>.board {
@@ -368,15 +370,17 @@ footer>.footerBar {
 
 /* CSS for add theme & delete theme div */
 .addThemeDiv {
-    position: absolute; top: 30%; left: calc(50% - 120px); text-align: center; background-color: rgba(255,255,255,0.9);  padding: 20px 35px 20px 35px; border-radius: 10px; z-index: 3;
+    position: absolute; top: 30%; left: calc(50% - 120px); text-align: center; background-color: #ebecf0;  padding: 20px 35px 20px 35px; border-radius: 4px; z-index: 5;
+    box-shadow: 0 5px 3px rgba(9,30,66,.25); border: 9px solid rgb(182, 186, 200, 0.5)
 }
+
 
 .addThemeDiv>.addTheme p {
     margin: 0 0 16px 0;
 }
 
 .addThemeDiv>.addTheme input {
-    border-radius: 6px; padding-left: 10px; height: 22px;
+    border-radius: 6px; padding-left: 10px; height: 23px;
 }
 
 .addThemeDiv>.addTheme>.buttons {
@@ -384,7 +388,7 @@ footer>.footerBar {
 }
 
 .addThemeDiv>.addTheme>.buttons div {
-    background-color: rgba(120,125,123,0.4); width: 50px; border-radius: 6px; padding: 3px 0 3px 0; cursor: crosshair;
+    background-color: rgb(182, 186, 200, 0.5); width: 50px; border-radius: 6px; padding: 3px 0 3px 0; cursor: crosshair;
 }
 
 

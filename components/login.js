@@ -263,7 +263,7 @@ class LoginPage extends React.Component {
                                 </div>
                                 <div className="textContent">
                                     <div className="details">
-                                        <p>a-llo 的管理，讓你輕鬆享受生活與工作。</p>
+                                        <p>a-llo’s boards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
                                     </div>
                                     <div className="slogan">
                                         <p>Enhance your teamwork </p>
@@ -281,7 +281,7 @@ class LoginPage extends React.Component {
                     </div>
 
                     <div className="login-content">
-                        <div className="section">
+                        <div className="section section1">
                             <div className="picture">
                                 <img src={ ContentImg1 }/>
                             </div>
@@ -303,7 +303,7 @@ class LoginPage extends React.Component {
                                 <img src={ ContentImg2 }/>
                             </div>
                         </div>
-                        <div className="section">
+                        <div className="section section3">
                             <div className="picture">
                                 <img src={ ContentImg3 }/>
                             </div>
