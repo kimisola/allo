@@ -61,30 +61,30 @@ img {
 
 .view>.topBar>.topRight>.boardList>.boardIcon,
 .view>.topBar>.topRight>.signOutImg,
-.view>.topBar>.topRight>.boardList>a .alert,
+.view>.topBar>.topRight>.boardList>.alert,
 .view>.topBar>.topLeft>.home {
     width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;
 }
 
 .view>.topBar>.topRight>.boardList>.boardIcon img,
 .view>.topBar>.topRight>.signOutImg img,
-.view>.topBar>.topRight>.boardList>a .alert img,
+.view>.topBar>.topRight>.boardList>.alert img,
 .view>.topBar>.topLeft>.home img {
     width: 22px;
 }
-.view>.topBar>.topRight>.boardList>a .alert>.alertMsg {
+.view>.topBar>.topRight>.boardList>.alert>.alertMsg {
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 16px;height: 16px;position: absolute;right: 2px;top: 1px;text-align: center;color: white;line-height: 16px; padding: 1px;
 }
-.view>.topBar>.topRight>.alertMenu {
-    width: 150px;border-radius: 3px;
+.view>.topBar>.topRight>a .alertMenu {
+    width: 150px;border-radius: 3px;z-index: 50;
 }
-.view>.topBar>.topRight>.alertMenu>.showMenuBackground {
+.view>.topBar>.topRight>a .alertMenu>.showMenuBackground {
     position: fixed; top: 0; right: 0;left: 0;bottom: 0;z-index: 2;
 }
-.view>.topBar>.topRight>.alertMenu li{
+.view>.topBar>.topRight>a .alertMenu li{
     background-color: rgba(0,0,0,0.6);color: white; font-size: 13px; padding: 3px 8px 3px 8px;z-index: 5;list-style:none;z-index: 5;
 }
-.view>.topBar>.topRight>.alertMenu li:hover{
+.view>.topBar>.topRight>a .alertMenu li:hover{
     background-color: rgba(0,0,0,0.8);
 }
 

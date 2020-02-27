@@ -186,8 +186,8 @@ class Topbar extends React.Component {
             menuStyle: {
                 display: this.state.isShowedAlert ? 'block' : 'none',
                 position: "fixed",
-                top: (this.state.yCoordinate + 37),
-                // left: this.state.xCoordinate
+                top: (this.state.yCoordinate + 40),
+                left: (this.state.xCoordinate - 60)
             },
         }
 
@@ -212,13 +212,13 @@ class Topbar extends React.Component {
                                 </div>
                             </div>
                             <div className="boardList" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
-                                <Link to="/HomePage/notifications"><div className="alert">
+                                <div className="alert">
                                     <img src={ Bell } />
                                     { this.state.alertNum == 0 ? "" : <div className="alertMsg"> { this.state.alertNum } </div> }    
-                                </div></Link>
+                                </div>
                             </div>
 
-                            <div className="alertMenu" style={menuStyle.menuStyle}>
+                            <Link to="/HomePage/notifications"><div className="alertMenu" style={menuStyle.menuStyle}>
                             { alertMsg.map((item, i) => {
                                 return (
                                     <React.Fragment key={i}>
@@ -226,7 +226,7 @@ class Topbar extends React.Component {
                                     </React.Fragment>
                                 )
                             }) } 
-                            </div>
+                            </div></Link>
 
                             <div className="memberIcon">
                                 <img src={ this.props.userPhotoURL } />

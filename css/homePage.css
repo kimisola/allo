@@ -26,14 +26,14 @@
 
 #root>.topBar>.topRight>.boardList>.boardIcon,
 #root>.topBar>.topRight>.signOutImg,
-#root>.topBar>.topRight>.boardList>a .alert,
+#root>.topBar>.topRight>.boardList>.alert,
 #root>.topBar>.topLeft>.home {
     width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;
 }
 
 #root>.topBar>.topRight>.boardList>.boardIcon img,
 #root>.topBar>.topRight>.signOutImg img,
-#root>.topBar>.topRight>.boardList>a .alert img,
+#root>.topBar>.topRight>.boardList>.alert img,
 #root>.topBar>.topLeft>.home img {
     width: 22px;
 }
@@ -54,20 +54,20 @@
 #root>.topBar>.topRight>.boardList {
     position: relative;
 }
-#root>.topBar>.topRight>.boardList>a .alert>.alertMsg {
+#root>.topBar>.topRight>.boardList>.alert>.alertMsg {
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: 0px;top: 0px;text-align: center;color: white;padding-bottom: 3px;
 }
-#root>.topBar>.topRight>.alertMenu {
-    width: 150px;border-radius: 3px;background-color: rgba(0,0,0,0.6);
+#root>.topBar>.topRight>a .alertMenu {
+    width: 150px;border-radius: 3px;background-color: rgba(0,0,0,0.6);z-index: 50;
 }
-#root>.topBar>.topRight>.alertMenu>.showMenuBackground {
+#root>.topBar>.topRight>a .alertMenu>.showMenuBackground {
     position: fixed; top: 0; right: 0;left: 0;bottom: 0;
 }
 
-#root>.topBar>.topRight>.alertMenu li{
+#root>.topBar>.topRight>a .alertMenu li{
     background-color: rgba(0,0,0,0.6);color: white; font-size: 13px; list-style:none;padding: 3px 8px 3px 8px;z-index: 5;list-style:none;
 }
-#root>.topBar>.topRight>.alertMenu li:hover {
+#root>.topBar>.topRight>a .alertMenu li:hover {
     background-color: rgba(0,0,0,0.8);
 }
 
