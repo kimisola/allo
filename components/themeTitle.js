@@ -71,7 +71,7 @@ class ThemeTitle extends React.Component {
         console.log("updateValue",newValue, indexOfValue )
         if ( event.key === "Enter" ) {
             if ( newValue.length > 21 ) {
-                alert("標題太長囉、再短一點!")
+                alert("Beyond the word limit!")
             } else {
                 this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})
                 this.setState({
@@ -129,10 +129,10 @@ class ThemeTitle extends React.Component {
 
             <div className="addThemeDiv" style={{ display: this.props.deleteThemeConfirmOpen ? 'block' : 'none' }}>
                 <div className="addTheme">
-                    <p>確定要刪除該列表嗎？</p>
+                    <p>Are you sure to delete the list?</p>
                     <div className="buttons">
-                        <div className="no" onClick={ this.openConfirmWin }>取消</div>
-                        <div className="yes" onClick={ () => this.deleteTheme(this.props.themeIndex) }>確定</div>
+                        <div className="no" onClick={ this.openConfirmWin }>cancel</div>
+                        <div className="yes" onClick={ () => this.deleteTheme(this.props.themeIndex) }>confirm</div>
                     </div>
                 </div>
             </div>

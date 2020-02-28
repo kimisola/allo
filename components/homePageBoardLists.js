@@ -14,7 +14,7 @@ class BoardLists extends React.Component {
             <React.Fragment>
                 <div className="boardLists">
                     <div className="section">
-                        <div className="category">我的看板</div>
+                        <div className="category">My Board</div>
                         <div className="items">
                             <BoardLink 
                             boardBackground={ this.props.currentUserBackground }
@@ -24,7 +24,7 @@ class BoardLists extends React.Component {
                         </div>
                     </div>
                     <div className="section">
-                        <div className="category">可編輯看板</div>
+                        <div className="category">Team Boards</div>
                         <div className="items">
                         { this.props.beInvitedData.map((item, index) => item.confirm ?
                             <BoardLink

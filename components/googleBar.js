@@ -54,7 +54,6 @@ class GLogin extends React.Component {
               }).catch((error) => {
                   console.error("Error writing document: ", error);
               })
-
             } else {
                 // No user is signed in.
             }              

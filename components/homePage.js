@@ -218,7 +218,7 @@ class HomePage extends React.Component {
         const file = event.target.files[0]
         console.log(event.target.files[0])
         var reader = new FileReader(); 
-        const storageRef = fire.storage().ref("homepageCover");
+        const storageRef = fire.storage().ref("boardBackground");
         const imgRef = storageRef.child(file.name)
         const fileTypes = ["image/jpeg", "image/png","image/gif"]; 
         console.log("typetypetypetypetype",file.size)
@@ -229,7 +229,7 @@ class HomePage extends React.Component {
                 for (let i = 0; i < fileTypes.length; i++) {
                     if ( file.type == fileTypes[i] ) { 
                         flag = true
-                        if (file.size > 200000 ) {
+                        if (file.size > 190000 ) {
                         console.log("Uploaded a blob or file!");
                         imgRef.getDownloadURL().then( async (url) => {
                             console.log(url)
@@ -251,13 +251,13 @@ class HomePage extends React.Component {
                             })
                         })
                         } else { 
-                            alert("檔案解析度太低了喔~")
+                            alert("Oops! Low resolution image.")
                             break;
                         }
                     }  
                 }
                 if (!flag) {
-                    alert("不接受此類型檔案，請上傳jpeg/png/gif類型檔案喔~");
+                    alert("Only support jpeg/png/gif type files.");
                 }
             }).catch((error) => {
                 console.error("Error removing document: ", error);
@@ -307,8 +307,8 @@ class HomePage extends React.Component {
 
                     <div className="mainContent">
                         <div className="menu">
-                            <Link to="/HomePage/boardLists"><div className="readBoard item">看板列表</div></Link>
-                            <Link to="/HomePage/notifications"><div className="readNotice item">通知一覽</div></Link>
+                            <Link to="/HomePage/boardLists"><div className="readBoard item">Boards</div></Link>
+                            <Link to="/HomePage/notifications"><div className="readNotice item">Notifications</div></Link>
                             <Link to="/HomePage/editors"><div className="readEditor item">允許編輯</div></Link>
                         </div>
 

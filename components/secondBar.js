@@ -1,5 +1,5 @@
 import React from 'react';
-import Plus from "../images/plus.png";
+import Plus from "../images/plus1.png";
 import TestIcon from "../images/testIcon.jpg";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
@@ -146,7 +146,7 @@ class SecondBar extends React.Component {
                 const db = fire.firestore();
                 db.collection("Users/").where("email", "==", this.state.userMail).get()
                 .then((querySnapshot) => {
-                    if (querySnapshot.docs[0] != undefined) {
+                    if (querySnapshot.docs[0] != undefined && querySnapshot.docs[0].id != this.props.firebaseUid) {
                         let id = querySnapshot.docs[0].id
                         
                         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", id).get()
@@ -259,7 +259,7 @@ class SecondBar extends React.Component {
 
                 <div className="secondBar">
                     <div className="secondLeft">
-                        <div className="inviteDiv" onClick={ this.showInvitation } ref={ this.myRef }>邀請編輯</div>
+                        <div className="inviteDiv" onClick={ this.showInvitation } ref={ this.myRef }>Invite</div>
                         <div className="invite" style={style.invitedStyle}>
                             <div className="cancel" onClick={ this.showInvitation }>
                                 <div className="cancelImg">
@@ -271,7 +271,7 @@ class SecondBar extends React.Component {
                                 <div className="mailDiv">
                                     <img src={ Mail } />
                                 </div>
-                                <input type="text" placeholder="example@example.com" value={ this.state.userMail } onChange={ this.getMailValue } onKeyPress={ this.invite }/>
+                                <input type="text" value={ this.state.userMail } onChange={ this.getMailValue } onKeyPress={ this.invite }/>
                             </div>
                         </div>
                     </div>
@@ -283,11 +283,11 @@ class SecondBar extends React.Component {
                 </div>
                 <div className="addThemeDiv" style={{display: this.props.addNewListOpened ? 'block' : 'none' }}>
                     <div className="addTheme">
-                        <p>請輸入列表標題：</p>
+                        <p>Add new list：</p>
                         <input type="text" value={this.props.titleValue} onChange={this.getTitleValue} onKeyPress={this.creatTitle}/>
                         <div className="buttons">
-                            <div className="no" onClick={this.addNewListOpen}>取消</div>
-                            <div className="yes" onClick={this.creatTitleByButton}>確定</div>
+                            <div className="no" onClick={this.addNewListOpen}>cancel</div>
+                            <div className="yes" onClick={this.creatTitleByButton}>confirm</div>
                         </div>
                     </div>
                 </div>

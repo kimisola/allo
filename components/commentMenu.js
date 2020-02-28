@@ -10,6 +10,7 @@ class CommentMenu extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            tagImgDivShowed: false,
             menuShowed: false,
             defaultImg: "",
             defaultText: "",
@@ -24,6 +25,13 @@ class CommentMenu extends React.Component {
             ownerShowed: false,
             editorShowed: false
         }
+    }
+
+    showImgDiv = () => {
+        this.setState( prevState => {
+            const tagImgDivShowed = !prevState.tagImgDivShowed
+            return { tagImgDivShowed: tagImgDivShowed }
+        });
     }
 
     showMenu = () => {
@@ -218,12 +226,16 @@ class CommentMenu extends React.Component {
                 top: this.state.yCoordinate,
                 left: this.state.xCoordinate
             },
+            tagImgDiv: { 
+                display: this.state.tagImgDivShowed ? 'block' : 'none',
+
+            }
         };
 
         return (
             <React.Fragment>
-                <div className="tagDiv">
-                <div className="tagImgDiv" onClick={ () => this.setDefault() } > <img src={ menuImg } /> </div>
+                <div className="tagDiv" onMouseEnter={ this.showImgDiv } onMouseLeave={ this.showImgDiv }>
+                <div className="tagImgDiv" style={ style.tagImgDiv } onClick={ () => this.setDefault() } ><img src={ menuImg } /></div>
                     <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
                     <div className="commentMenu"  style={style.menuStyle} >
                         <div className="tags" >
@@ -236,34 +248,34 @@ class CommentMenu extends React.Component {
                         <div className="menuBody">
                             <div className="menuLeft">
                                 <textarea  type="text" defaultValue={ this.state.defaultText } ref="theTextInput"/>
-                                <div onClick={ () => this.sendEdited() }>儲存</div>
+                                <div onClick={ () => this.sendEdited() }>Save</div>
                             </div>
                             <div className="menuRight">
                                 <div className="menuList" onMouseEnter={ this.showOwner } onMouseLeave={ this.showOwner }>
                                     <div className="editTag">
                                         <img src={ this.props.text[this.props.listId][this.props.comId].ownerImg } />
                                     </div>
-                                    <div style={{display: this.state.ownerShowed ? 'none' : 'block' }}>擁有者</div>
+                                    <div style={{display: this.state.ownerShowed ? 'none' : 'block' }}>Owner</div>
                                     <div style={{display: this.state.ownerShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].owner }</div>
                                 </div>
                                 <div className="menuList" onMouseEnter={ this.showEditor } onMouseLeave={ this.showEditor }>
                                     <div className="editText">
                                         <img src={ this.props.text[this.props.listId][this.props.comId].editorImg } />
                                     </div>
-                                    <div style={{display: this.state.editorShowed ? 'none' : 'block' }}>更新者</div>
+                                    <div style={{display: this.state.editorShowed ? 'none' : 'block' }}>Editor</div>
                                     <div style={{display: this.state.editorShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>
                                 </div>
                                 <div className="menuList" >
                                     <div className="setTime">
                                         <img src={ clock } />
                                     </div>
-                                    <div>到期設定</div>
+                                    <div>Due Data</div>
                                 </div>                        
                                 <div className="menuList">
                                     <div className="deleteText">
                                         <img src={ bin } />
                                     </div>
-                                    <div onClick={ () => this.deleteComment() }>刪除留言</div>
+                                    <div onClick={ () => this.deleteComment() }>delete</div>
                                 </div>
                             </div>
                         </div>

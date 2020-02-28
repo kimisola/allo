@@ -13,24 +13,8 @@ class Notifications extends React.Component {
             <React.Fragment>
                 <div className="notifications">
                     <div className="section">
-                        <div className="category">通知一覽</div>
+                        <div className="category">Notifications</div>
                         <div className="bars">
-
-                        {this.props.beInvitedData.map((item, index)=>
-                            <React.Fragment key={index}> 
-                            <div className="sanckbar">
-                                <div className="msg">
-                                    <div className="imgDiv">
-                                        <img src={item.userPhoto} />
-                                    </div>
-                                    <p>{item.userName}　邀請您的共同編輯他的看板</p>
-                                </div>
-                                <div className="buts">
-                                <ReplyButtons confirm={ item.confirm } index={ index } userFirebaseuid={ item.userFirebaseuid }/> 
-                                </div>
-                            </div>
-                            </React.Fragment>
-                        )}
 
                         {this.props.invitationData.map((item, index)=>
                             <React.Fragment key={index}> 
@@ -39,7 +23,23 @@ class Notifications extends React.Component {
                                     <div className="imgDiv">
                                         <img src={item.userPhoto} />
                                     </div>
-                                    <p>{item.userName}　同意了您的共同編輯邀請</p>
+                                    <p>{item.userName}　agreed to your co-editing invitation.</p>
+                                </div>
+                            </div>
+                            </React.Fragment>
+                        )}
+                        
+                        {this.props.beInvitedData.map((item, index)=>
+                            <React.Fragment key={index}> 
+                            <div className="sanckbar">
+                                <div className="msg">
+                                    <div className="imgDiv">
+                                        <img src={item.userPhoto} />
+                                    </div>
+                                    <p>{item.userName}　invited you to be a co-editor to his board.</p>
+                                </div>
+                                <div className="buts">
+                                <ReplyButtons confirm={ item.confirm } index={ index } userFirebaseuid={ item.userFirebaseuid }/> 
                                 </div>
                             </div>
                             </React.Fragment>

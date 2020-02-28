@@ -90,8 +90,8 @@ class ReplyButtons extends React.Component {
     
         return(
             <React.Fragment>
-                <div className="accept" style={ style.accept }  onClick={ () => this.accept(this.props.index) }>{this.state.confirm ? "已接受" : "接受"}</div>
-                <div className="deny" style={ style.deny } onClick={ () => this.deny(this.props.index) }>{this.state.confirm == null ? "已拒絕" : "拒絕"}</div>
+                <div className="accept" style={ style.accept }  onClick={ () => this.accept(this.props.index) }>{this.state.confirm ? "accepted" : "accept"}</div>
+                <div className="deny" style={ style.deny } onClick={ () => this.deny(this.props.index) }>{this.state.confirm == null ? "denied" : "deny"}</div>
             </React.Fragment>
         )
     }

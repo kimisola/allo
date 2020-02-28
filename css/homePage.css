@@ -31,6 +31,13 @@
     width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;cursor: pointer;
 }
 
+#root>.topBar>.topRight>.boardList>.boardIcon:hover ,
+#root>.topBar>.topRight>.signOutImg:hover ,
+#root>.topBar>.topRight>.boardList>.alert:hover ,
+#root>.topBar>.topLeft>.home:hover {
+    background-color:hsla(0,0%,100%,.6)
+}
+
 #root>.topBar>.topRight>.boardList>.boardIcon img,
 #root>.topBar>.topRight>.signOutImg img,
 #root>.topBar>.topRight>.boardList>.alert img,
@@ -108,7 +115,7 @@
     display: flex; margin-top: 50px;flex-direction: row;
 }
 .homepage>.mainContent>.menu {
-    display: flex; flex-direction: column; margin-left: 15px; min-width: 160px;
+    display: flex; flex-direction: column; margin-left: 15px; min-width: 160px;font-weight: bold;
 }
 .homepage>.mainContent>.menu>a {
     text-decoration: none; color: black;
@@ -116,7 +123,7 @@
 .homepage>.mainContent>.menu>a .readBoard,
 .homepage>.mainContent>.menu>a .readNotice,
 .homepage>.mainContent>.menu>a .readEditor {
-    letter-spacing: 5px; height: 40px; border:1px solid rgba(211, 211, 211, 0.6);display: flex; background-color: white;margin-bottom: 10px;padding: 0 35px 0 35px;align-items: center;
+    letter-spacing: 1px; height: 40px; border:1px solid rgba(211, 211, 211, 0.6);display: flex; background-color: white;margin-bottom: 10px;padding: 0 35px 0 35px;align-items: center;
 }
 .homepage>.mainContent>.menu>a .readBoard:hover,
 .homepage>.mainContent>.menu>a .readNotice:hover,
@@ -176,7 +183,7 @@
     font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1);margin-bottom: 20px;padding-bottom: 5px;letter-spacing: 2px;
 }
 .homepage>.mainContent>.notifications>.section>.bars {
-    display: flex; flex-direction: column;max-height: 620px; overflow-y: auto;
+    display: flex; flex-direction: column-reverse;max-height: 620px; overflow-y: auto;
 }
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar {
     display: flex; flex-wrap: wrap;justify-content: space-between;align-items: center;
@@ -209,12 +216,12 @@
 
 
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.accept {
-    margin-right: 15px;background-color: rgba(102,163,255,0.7);width: 50px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
+    margin-right: 15px;background-color: rgba(102,163,255,0.7);width: 75px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
 
 }
 
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.deny {
-    margin-right: 15px;background-color: rgba(255,77,77,0.7);width: 50px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
+    margin-right: 15px;background-color: rgba(255,77,77,0.7);width: 55px;border-radius: 5px;box-shadow:0 1px 2px 0;padding: 2px;display: flex; align-items: center; justify-content: center;
 }
 
 /* editable */

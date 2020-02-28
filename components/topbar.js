@@ -1,10 +1,10 @@
 import React from 'react';
 import { setCurrentUser, switchBoard } from"../components/actionCreators";
 import Notice from "../components/notice";
-import HomeImg from "../images/home.png";
+import HomeImg from "../images/home2.png";
 import Blackboard from "../images/blackboard1.png";
-import Bell from "../images/bell.png";
-import SignOutImg from "../images/logout1.png";
+import Bell from "../images/bell2.png";
+import SignOutImg from "../images/logout12.png";
 import MyLogo from "../images/myLogo.png";
 import firebase from 'firebase';
 import fire from "../src/fire";
@@ -47,7 +47,7 @@ class Topbar extends React.Component {
                 .then((querySnapshot) => {
 
                     let doc = querySnapshot.data();
-                    let newMsg = ` ${doc.userName} 同意了您的共同編輯邀請`;
+                    let newMsg = ` ${doc.userName} agreed to your co-editing invitation.`;
                     let push = true;
 
                     if(msg !== undefined){
@@ -87,7 +87,7 @@ class Topbar extends React.Component {
                 db.collection("Users/" + this.props.firebaseUid + "/beInvited").doc(docs[i].id).get()
                 .then((querySnapshot) => {
                     let doc = querySnapshot.data();
-                    let newMsg = ` ${doc.userName} 邀請您的共同編輯他的看板`;
+                    let newMsg = ` ${doc.userName} invited you to be a co-editor to his board.`;
                     let push = true;
                     if (msg !== undefined) {
                         for (let j = 0; j < msg.length ; j++){
@@ -97,7 +97,6 @@ class Topbar extends React.Component {
                         }
                     }
                     if(push) {
-                        console.log("xxxxxxxxte",push)
                         this.setState( prevState => {
                             let alertMsg = prevState.alertMsg
                             alertMsg.push(newMsg)
@@ -125,7 +124,7 @@ class Topbar extends React.Component {
             xCoordinate = data.x
             let yCoordinate = prevState.yCoordinate
             yCoordinate = data.y
-            const showedAlert = !prevState.isShowedAlert
+            let showedAlert = !prevState.isShowedAlert
             return {
                 xCoordinate: xCoordinate,
                 yCoordinate: yCoordinate,
@@ -156,6 +155,15 @@ class Topbar extends React.Component {
                 })
             }
         })       
+    }
+
+    closeAlertMsg = () => {
+        this.setState( prevState => {
+            let showedAlert = !prevState.isShowedAlert
+            return {
+                isShowedAlert: showedAlert,
+            }           
+        });
     }
 
     switchBoard = (targetLink) => {
@@ -218,7 +226,7 @@ class Topbar extends React.Component {
                                 </div>
                             </div>
 
-                            <Link to="/HomePage/notifications"><div className="alertMenu" style={menuStyle.menuStyle}>
+                            <Link to="/HomePage/notifications"><div className="alertMenu" style={menuStyle.menuStyle} onClick={ this.closeAlertMsg }>
                             { alertMsg.map((item, i) => {
                                 return (
                                     <React.Fragment key={i}>

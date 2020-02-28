@@ -6,13 +6,14 @@ import Topbar from "../components/topbar";
 import SecondBar from "../components/secondBar";
 import Section from "../components/section";
 import loadingGif from "../images/loadingImg.gif";
+import Gear from "../images/gear.png";
 
 
 class Board extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            boardURL: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+            boardURL: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f",
         }
     }
 
@@ -60,6 +61,42 @@ class Board extends React.Component {
                 ref.update({
                     background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
                 }).then(() => {
+                    
+                        // 新增初始範例↓
+                        let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample")
+                        ref.set({
+                            title: "Example",
+                            index: 2
+                        }).then(() => {
+                            console.log("Document successfully written!");
+                            let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
+                            ref.set({
+                                edited: "Example",
+                                editorImg: 2,
+                                img:"" ,
+                                index:2,
+                                owner: "",
+                                ownerImg: "",
+                                tags:["process"],
+                                text: "hello"
+                            }).then(() => {
+                                props.renderComments(["Example"], [{
+                                    edited: "Example",
+                                    editorImg: 2,
+                                    img:"" ,
+                                    index:2,
+                                    owner: "",
+                                    ownerImg: "",
+                                    tags:["process"],
+                                    text: "hello"
+                                }]);
+                                console.log("getTitles(firebaseUid);");
+                            }).catch((error) => {
+                                console.error("Error removing document: ", error);
+                            })
+                        }).catch((error) => {
+                            console.error("Error removing document: ", error);
+                        })
                     console.log("Document successfully written!");
                 }).catch((error) => {
                     console.error("Error removing document: ", error);
@@ -162,13 +199,47 @@ class Board extends React.Component {
                     ref.set({
                         background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
                     }).then(() => {
+                        // 新增初始範例 ↓
+                        let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample")
+                        ref.set({
+                            title: "Example",
+                            index: 2
+                        }).then(() => {
+                            console.log("Document successfully written!");
+                            let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
+                            ref.set({
+                                edited: "Example",
+                                editorImg: 2,
+                                img:"" ,
+                                index:2,
+                                owner: "",
+                                ownerImg: "",
+                                tags:["process"],
+                                text: "hello"
+                            }).then(() => {
+                                props.renderComments(["Example"], [[{
+                                    edited: "Example",
+                                    editorImg: 2,
+                                    img:"" ,
+                                    index:2,
+                                    owner: "",
+                                    ownerImg: "",
+                                    tags:["process"],
+                                    text: "hello"
+                                }]]);
+
+                            }).catch((error) => {
+                                console.error("Error removing document: ", error);
+                            })
+                        }).catch((error) => {
+                            console.error("Error removing document: ", error);
+                        })                      
                         console.log("Document successfully written!");
                     }).catch((error) => {
                         console.error("Error removing document: ", error);
                     })
                 }
             })
-
            
             let myDataTitle = [];
             let myDataText = [];
@@ -187,9 +258,12 @@ class Board extends React.Component {
                     for ( let i = 0; i < doc.length; i++ ) {       
                         listsId.push(doc[i].id)
                         let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
+                        console.log("getTitles(firebaseUid);",firebaseUid);
+
                         ref.update({
                             index: (((i+1)*2)),  // 前後留空格讓之後移動可以有空間塞
                         })
+
                         myDataTitle.push(doc[i].data().title)
                         Data1.push(myDataTitle[i]);
     
@@ -215,6 +289,7 @@ class Board extends React.Component {
                                 myDataText.push(doc2[j].data())
                             }
                             Data2.push(myDataText);
+                            console.log(Data2,"doc2[j].data()doc2[j].data()doc2[j].data()")
                             myDataText = []; //reset comments under certain title
                         })
                     } combineData();
@@ -229,6 +304,56 @@ class Board extends React.Component {
                 props.renderComments(Data1, Data2);
             };
         }
+    }
+
+    fileUpload = (event) => {
+        const file = event.target.files[0]
+        console.log(event.target.files[0])
+        var reader = new FileReader(); 
+        const storageRef = fire.storage().ref("homepageCover");
+        const imgRef = storageRef.child(file.name)
+        const fileTypes = ["image/jpeg", "image/png","image/gif"]; 
+        console.log("typetypetypetypetype",file.size)
+        let flag = false;
+        
+            imgRef.put(file)
+            .then((snapshot) => {
+                for (let i = 0; i < fileTypes.length; i++) {
+                    if ( file.type == fileTypes[i] ) { 
+                        flag = true
+                        if (file.size > 190000 ) {
+                        console.log("Uploaded a blob or file!");
+                        imgRef.getDownloadURL().then( async (url) => {
+                            console.log(url)
+                            this.setState( prevState => {
+                                let boardURL = url
+                                return Object.assign({}, prevState, {
+                                    boardURL: boardURL,
+                                })
+                            });
+                            const db = fire.firestore();
+                            let firebaseUid = this.props.firebaseUid
+                            db.collection("Boards").doc(firebaseUid)
+                            .update({
+                                background: this.state.boardURL
+                            }).then(() => {
+                                console.log("Document successfully written!")
+                            }).catch((error)=> {
+                                console.log("Error writing document: ", error);
+                            })
+                        })
+                        } else { 
+                            alert("Oops! Low resolution image.")
+                            break;
+                        }
+                    }  
+                }
+                if (!flag) {
+                    alert("Only support jpeg/png/gif type files.");
+                }
+            }).catch((error) => {
+                console.error("Error removing document: ", error);
+        })      
     }
 
     render(){
@@ -254,6 +379,10 @@ class Board extends React.Component {
                         <SecondBar />
                         <Section />
                     </div>
+                    <label action="/somewhere/to/upload" encType="multipart/form-data" className="uploadBackground">
+                        <img src={ Gear } />
+                        <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUpload } style={{display:'none' }} />
+                    </label>
                 </main>             
  
             </React.Fragment>
