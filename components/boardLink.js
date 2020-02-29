@@ -13,12 +13,10 @@ class BoardLink extends React.Component {
 
     switchBoard = () => {
         let targetLink = this.props.targetLink
-        console.log("targetLinktargetLinktargetLink", this.props.targetLink)
         this.props.switchBoard(targetLink)
     }
 
     render(){
-console.log(this.props.boardBackground)
         let boardStyle = {
             board: {
                 backgroundImage: `url(${this.props.boardBackground}) `,
@@ -48,7 +46,6 @@ console.log(this.props.boardBackground)
 }
 
 const mapStateToProps = (state, ownprops) => {
-    console.log("1010101",ownprops.boardBackground, ownprops.boardName)
     return {
         firebaseUid: state.firebaseUid,
         userEmail: state.userEmail,

@@ -76,3 +76,16 @@ export function changeTagsDisplay() {
         type: "change-tags-display",
     }
 }
+
+export function addBeInvitedData(data) {
+    return{
+        type: "addBeInvitedData", 
+        data
+    }
+}
+export function changebeInvitedData(index) {
+    return{
+        type: "changebeInvitedData", 
+        index
+    }
+}

@@ -482,7 +482,7 @@ class Section extends React.Component {
                 }
 
                 if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i > dragInfoItem.theme && j > dragInfoItem.row ) {
-                    console.log("33333333333333",dragInfoItem.markTheme, dragInfoItem.markRow, dragInfoItem.theme, dragInfoItem.row )
+                    console.log("bottom",dragInfoItem.markTheme, dragInfoItem.markRow, dragInfoItem.theme, dragInfoItem.row )
                     items[i].push (
                         <div className="item" key={i+300} >
                             <div key="mark" className="mark" style={style.markItem} />

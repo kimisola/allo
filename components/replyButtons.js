@@ -1,4 +1,5 @@
 import React from 'react';
+import { changebeInvitedData } from "./actionCreators";
 import { connect } from 'react-redux';
 import { render } from 'react-dom';
 import fire from "../src/fire";
@@ -14,7 +15,6 @@ class ReplyButtons extends React.Component {
 
     accept = (index) =>{
         console.log(index)
-
         this.setState(prevState => {
             return Object.assign({}, prevState, {
                 confirm: true
@@ -46,11 +46,14 @@ class ReplyButtons extends React.Component {
                 })
             })
         })
+        this.props.changebeInvitedData(index);
+
     }
 
 
     deny = (index) => {
-        
+        this.props.changebeInvitedData(index);
+
         this.setState(prevState => {
             return Object.assign({}, prevState, {
                 confirm: null
@@ -69,9 +72,6 @@ class ReplyButtons extends React.Component {
             })
         })
     }
-
-    
-
 
     render(){
 
@@ -98,7 +98,11 @@ class ReplyButtons extends React.Component {
 }
 
 
-
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        changebeInvitedData: (index) => { dispatch(changebeInvitedData(index)) },
+    }
+}
 
 const mapStateToProps = (state, ownprops) => {
     return {
@@ -109,4 +113,4 @@ const mapStateToProps = (state, ownprops) => {
     }
 }  
 
-export default connect(mapStateToProps)(ReplyButtons);
+export default connect(mapStateToProps,mapDispatchToProps)(ReplyButtons);

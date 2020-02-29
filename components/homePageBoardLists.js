@@ -48,7 +48,7 @@ const mapStateToProps = (state, ownprops) => {
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
-        beInvitedData: ownprops.beInvitedData,
+        beInvitedData: state.beInvitedData,
         currentUserBackground: ownprops.currentUserBackground
     }
 }

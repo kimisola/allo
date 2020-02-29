@@ -27,8 +27,7 @@ class CommentItem extends React.Component {
                 width: this.props.tagsDisplayChanged ? "30px" : "",
                 height: this.props.tagsDisplayChanged ? "6.5px" :  "",
                 textIndent: this.props.tagsDisplayChanged ? "-999px" : "",
-                // transition: this.props.tagsDisplayChanged ? "3s" : "",
-                // transition: this.props.tagsDisplayChanged ? "height 3s" : "",
+                transition: this.props.tagsDisplayChanged ? "width 0.3s  cubic-bezier(1,.31,.39,0), height 0.1s":"width 0.1s, height 0.3s cubic-bezier(1,.31,.39,0)" ,
             }
         }
 

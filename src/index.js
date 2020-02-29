@@ -43,7 +43,7 @@ class App extends React.Component {
                     if ( userDisplayName === null && userPhotoURL === null ) {
                         let makeName = userEmail.split("@")
                         userDisplayName = makeName[0]
-                        userPhotoURL = "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.jpg?alt=media&token=f4d41750-b802-4904-b1a6-1a648731185d"
+                        userPhotoURL = "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2"
                     }
 
                     this.props.setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)

@@ -70,7 +70,7 @@ class ThemeTitle extends React.Component {
         let indexOfValue = this.props.themeIndex
         console.log("updateValue",newValue, indexOfValue )
         if ( event.key === "Enter" ) {
-            if ( newValue.length > 21 ) {
+            if ( newValue.length > 41 ) {
                 alert("Beyond the word limit!")
             } else {
                 this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})

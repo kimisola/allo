@@ -1,6 +1,7 @@
 import React from 'react';
 import "../css/homePage.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { addBeInvitedData } from "./actionCreators";
 import { connect } from 'react-redux';
 import Topbar from "../components/topbar";
 import BoardLink from "../components/boardLink";
@@ -19,7 +20,6 @@ class HomePage extends React.Component {
             isBackgroundEdited: false,
             backgroundURL: "",
             isIconTurn: false, 
-            beInvitedData:[],
             invitationData:[],
             currentUserBackground: "",
         }
@@ -35,8 +35,8 @@ class HomePage extends React.Component {
         }
     }
 
-    componentDidUpdate (){
-        if ( this.state.beInvitedData == [] || this.state.beInvitedData[0] == undefined ) {
+    componentDidUpdate(){
+        if ( this.props.beInvitedData == [] || this.props.beInvitedData[0] == undefined ) {
             const db = fire.firestore();
             let firebaseUid = this.props.firebaseUid  
             console.log("homepage firebaseUid", firebaseUid)
@@ -70,10 +70,10 @@ class HomePage extends React.Component {
                 let data = [];
                 for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
                     let send = querySnapshot.docs[i].data()
+                    console.log(send,"sendsend")
                     let ref = db.collection("Users").doc(send.userFirebaseuid)
                     ref.get()
                     .then((querySnapshot) =>{
-                        console.log("signupsignupsignup", querySnapshot.data())
                         send.userName = querySnapshot.data().name;
                         send.userPhoto =  querySnapshot.data().photo;
 
@@ -82,11 +82,8 @@ class HomePage extends React.Component {
                         .then((querySnapshot) =>{
                             send.backgroundURL = querySnapshot.data().background
                             data.push(send);
-                            this.setState( prevState => {
-                                return Object.assign({}, prevState, {
-                                    beInvitedData: data,
-                                })
-                            }); 
+                            this.props.addBeInvitedData(data)
+
                         }).catch((error)=> {
                             console.log("Error writing document: ", error);
                         })
@@ -136,65 +133,7 @@ class HomePage extends React.Component {
         }
     }
 
-    // accept = (index) =>{
-    //     console.log(index)
-
-    //     // this.setState(prevState => {
-    //     //     return Object.assign({}, prevState, {
-    //     //         accepted: true
-    //     //     })
-    //     // })
-
-    //     const db = fire.firestore();
-    //     let firebaseUid = this.props.firebaseUid
-        
-    //     //用自己的 userFirebaseuid 反推去找對方 invitation 裡面的文件、將 confirm → true
-    //     db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
-    //     .then((querySnapshot) => {
-    //         console.log(querySnapshot.docs[index].data().userFirebaseuid)    // 用 index 找到邀請我的人的 uid
-    //         let docId = querySnapshot.docs[index].id    // 用 uid 找到文件編號
-    //         let ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
-    //         ref.update({ 
-    //             confirm: true,
-    //             read: false,
-    //         })
-
-    //         let oppFiredaseUid = querySnapshot.docs[index].data().userFirebaseuid   //去對方的集合找自己的 firebaseUid
-    //         db.collection("Users/" + oppFiredaseUid + "/invitation").where("userFirebaseuid", "==", firebaseUid)
-    //         .get().then((querySnapshot) => {      // querySnapshot.docs[0].id 為固定寫法、where 抓 firebaseUid 常理只會有一筆
-    //             let docId = querySnapshot.docs[0].id
-    //             let  ref = db.collection("Users/" + oppFiredaseUid + "/invitation").doc(docId)
-    //             ref.update({ 
-    //                 confirm: true,
-    //                 read: false,
-    //             })
-    //         })
-    //     })
-    // }
-
-
-    // deny = (index) => {
-        
-    //     // this.setState(prevState => {
-    //     //     return Object.assign({}, prevState, {
-    //     //         denied: true
-    //     //     })
-    //     // })
-
-    //     const db = fire.firestore();
-    //     let firebaseUid = this.props.firebaseUid
-    //     db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
-    //     .then((querySnapshot) => {
-    //         console.log(querySnapshot.docs[index].data().userFirebaseuid)
-    //         let docId = querySnapshot.docs[index].id
-    //         let ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
-    //         ref.update({
-    //             confirm: null,
-    //         })
-    //     })
-    // }
-
-    backgroundEditedOn = () => {
+     backgroundEditedOn = () => {
         this.setState( prevState => {
             let isBackgroundEdited = prevState.isBackgroundEdited
             isBackgroundEdited = true
@@ -265,7 +204,6 @@ class HomePage extends React.Component {
     }
 
     render(){
-        console.log("this.propsthis.propsthis.props", this.state.invitationData)
 
         const style = {
             cover: {
@@ -309,15 +247,15 @@ class HomePage extends React.Component {
                         <div className="menu">
                             <Link to="/HomePage/boardLists"><div className="readBoard item">Boards</div></Link>
                             <Link to="/HomePage/notifications"><div className="readNotice item">Notifications</div></Link>
-                            <Link to="/HomePage/editors"><div className="readEditor item">允許編輯</div></Link>
+                            <Link to="/HomePage/editors"><div className="readEditor item">Access List</div></Link>
                         </div>
 
                         <Switch>
                             <Route path="/HomePage/boardLists">
-                                <BoardLists beInvitedData={ this.state.beInvitedData } currentUserBackground={ this.state.currentUserBackground }/>
+                                <BoardLists currentUserBackground={ this.state.currentUserBackground }/>
                             </Route>
                             <Route path="/HomePage/notifications">
-                                <Notifications beInvitedData={ this.state.beInvitedData } invitationData={ this.state.invitationData }/>
+                                <Notifications invitationData={ this.state.invitationData }/>
                             </Route>
                             <Route path="/HomePage/editors">
                                 <Editors invitationData={ this.state.invitationData }/>
@@ -332,14 +270,19 @@ class HomePage extends React.Component {
     }
 }
 
-
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        addBeInvitedData: (data) => { dispatch(addBeInvitedData(data)) },
+    }
+}
 const mapStateToProps = (state, ownprops) => {
     return {
         firebaseUid: state.firebaseUid,
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
+        beInvitedData: state.beInvitedData,
     }
 }
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps,mapDispatchToProps)(HomePage);

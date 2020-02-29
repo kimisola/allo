@@ -23,7 +23,7 @@ class Notifications extends React.Component {
                                     <div className="imgDiv">
                                         <img src={item.userPhoto} />
                                     </div>
-                                    <p>{item.userName}　agreed to your co-editing invitation.</p>
+                                    <p>{item.userName}　accepted your co-editing invitation.</p>
                                 </div>
                             </div>
                             </React.Fragment>
@@ -36,7 +36,7 @@ class Notifications extends React.Component {
                                     <div className="imgDiv">
                                         <img src={item.userPhoto} />
                                     </div>
-                                    <p>{item.userName}　invited you to be a co-editor to his board.</p>
+                                    <p>{item.userName}　invited you to edit his board.</p>
                                 </div>
                                 <div className="buts">
                                 <ReplyButtons confirm={ item.confirm } index={ index } userFirebaseuid={ item.userFirebaseuid }/> 
@@ -60,7 +60,7 @@ const mapStateToProps = (state, ownprops) => {
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
-        beInvitedData: ownprops.beInvitedData,
+        beInvitedData: state.beInvitedData,
         invitationData: ownprops.invitationData,
     }
 }

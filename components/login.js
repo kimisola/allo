@@ -57,7 +57,7 @@ class LoginPage extends React.Component {
             })
         } else {
             this.setState(prevState => { 
-                return Object.assign({}, prevState, { message: "email 格式不符合規定哦" }) 
+                return Object.assign({}, prevState, { message: "The email address is badly formatted." }) 
             })
         }
     }
@@ -170,16 +170,42 @@ class LoginPage extends React.Component {
             },
             signup: {
                 opacity: this.state.isRegisted ? '1' : '0' ,
-                width: this.state.isRegisted ? '50vh' : '0px' ,
-                height: this.state.isRegisted ? '33vh' : '0px', 
+                height: this.state.isRegisted ? '250px' : '0px', 
             },
             login: {
                 opacity: this.state.isLoginin ? '1' : '0' ,
-                width: this.state.isLoginin ? '50vh' : '0px' ,
-                height: this.state.isLoginin ? '33vh' : '0px',
+                height: this.state.isLoginin ? '250px' : '0px', 
             }
         }
-
+        let textContent = [ 
+                <div className="textContent">
+                    <div className="details"style = {{textAlign: "left"}}>
+                        <p>a-llo’s boards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
+                    </div>
+                    <div className="slogan">
+                        <p>Enhance your teamwork </p>
+                        <p>with <div className="webName">a-llo</div> !</p>
+                    </div>
+                </div>
+                ];
+        let Sign = [ 
+            <div className="textContent">
+                <div className="SignDetails" style = {{textAlign: "center", fontSize:"19px"}}>
+                    <p>Sign up for your account</p>
+                </div>
+                <div className="slogan">
+                </div>
+            </div>
+            ];
+        let Log = [ 
+            <div className="textContent">
+                <div className="details" style = {{textAlign: "center", fontSize:"19px"}}>
+                    <p>Log in to a-llo</p>
+                </div>
+                <div className="slogan">
+                </div>
+            </div>
+            ];
         return(
 
             <React.Fragment>
@@ -218,59 +244,35 @@ class LoginPage extends React.Component {
 
                                     {/* 註冊滑出的 div */}
                                     <div className="signup" style={ style.signup }>
-                                        <InviteFriend   id="standard-textarea-a"
-                                        label="Enter email"
-                                        multiline
-                                        onChange={ this.getEmail }
-                                        /><br />
-                                        <InviteFriend
-                                        id="standard-textarea-b"
-                                        label="Password"
-                                        type="password"
-                                      
-                                        onChange={ this.getPassword  }
-                                        />
-                                        <p className="errmsg"> {this.state.message} </p>
+                                        
                                         <div className="rigister-div">
-                                            <div className="rigister-img">
-                                                <img src={ Right } onClick={ this.registerWithFire }/>
-                                            </div>
+                                            <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
+                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword  }/>
+                                            <button onClick={ this.registerWithFire }>Register</button>
                                         </div>
+                                        
+                                        <p className="errmsg"> {this.state.message} </p>
+                                        
+                                        
                                     </div>
 
                                     {/* 登入滑出的 div */}
                                     <div className="login" style={style.login}>
-                                        <InviteFriend   id="standard-textarea-c"
-                                        label="Email"
-                                        multiline
-                                        onChange={ this.loginEmail }
-                                        /><br />
-                                        <InviteFriend
-                                        id="standard-textarea-d"
-                                        label="Password"
-                                        type="password"
-                                        onChange={ this.Loginpassword  }
-                                        />
-                                        
-                                        <p className="errmsg"> {this.state.message} </p>
                                         <div className="login-div">
-                                        <GLogin />
-                                            <div className="login-img">
-                                                <img src={ Right } onClick={ this.loginWithFire }/>
-                                            </div>
-                                        </div>                              
+                                            <input type="email" placeholder="Email *" onChange={ this.loginEmail }/>
+                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.Loginpassword  }/>
+                                            <button onClick={ this.loginWithFire }>Log in</button>
+                                        </div>
+                                        <p className="errmsg"> {this.state.message} </p>
+
+                                        <div className="googleBar">
+                                            <div className="or"><div></div>OR<div></div></div>
+                                            <GLogin />
+                                        </div>
                                     </div>
+                                </div>              
+                                { this.state.isSigninArea ? this.state.isLoginin ? Log : Sign   : textContent }                 
                                 </div>
-                                <div className="textContent">
-                                    <div className="details">
-                                        <p>a-llo’s boards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
-                                    </div>
-                                    <div className="slogan">
-                                        <p>Enhance your teamwork </p>
-                                        <p>with <div className="webName">a-llo</div> !</p>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div className="login-img">
                                 <img src={ LoginImg }/>

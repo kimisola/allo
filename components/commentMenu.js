@@ -270,8 +270,8 @@ class CommentMenu extends React.Component {
                                         <img src={ clock } />
                                     </div>
                                     <div>Due Data</div>
-                                </div>                        
-                                <div className="menuList">
+                                </div>
+                                <div className="menuList deleteDiv">
                                     <div className="deleteText">
                                         <img src={ bin } />
                                     </div>

@@ -34,7 +34,7 @@ class Editors extends React.Component {
             <React.Fragment>
                 <div className="editors">
                     <div className="section">
-                        <div className="category">允許編輯</div>
+                        <div className="category">Access List</div>
                         <div className="contents">
                             { this.props.invitationData.map((item, index) =>
                                 <div className="content" key={index}>

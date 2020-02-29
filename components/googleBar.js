@@ -3,7 +3,7 @@ import { connect, Provider } from "react-redux";
 import { Redirect } from "react-router-dom";
 import firebase from 'firebase';
 import fire from "../src/fire";
-//install react-firebaseui
+import Right from "../images/right.png";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import {setCurrentUser } from"../components/actionCreators"
 
@@ -72,6 +72,7 @@ class GLogin extends React.Component {
             <React.Fragment>
             
               <div className="firebaseui-auth-container">
+                {/* <img src={ Right } uiConfig={ this.uiConfig } firebaseAuth={ firebase.auth() }/> */}
                 <StyledFirebaseAuth uiConfig={ this.uiConfig } firebaseAuth={ firebase.auth() }/>
               </div>
             

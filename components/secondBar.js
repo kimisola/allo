@@ -140,6 +140,119 @@ class SecondBar extends React.Component {
         });
     }
 
+    writeInvitationToDb = (id,states) => {
+        console.log("147777777777777777777777")
+        const db = fire.firestore();
+        db.collection("Users/").doc(id).get()
+        .then((querySnapshot) => {
+            let data = querySnapshot.data()
+            this.setState( prevState => {
+                let usermail =  data.email
+                let username =  data.name
+                let userphoto =  data.photo
+                let userfirebaseuid =  data.firebaseuid 
+                return Object.assign({}, prevState, { 
+                    userMail: usermail,
+                    userName: username,
+                    userPhoto: userphoto,
+                    userFirebaseuid: userfirebaseuid
+                });
+            })
+            console.log(this.state)
+        })
+        .then(() => {
+            // 將自己資訊寫入被邀請人 db
+            let route = db.collection("Users/" + this.state.userFirebaseuid + "/beInvited")
+            route.get().then((querySnapshot) => {     
+                //如果是全新的執行set
+                if(states === "new"){
+                    route.doc().set({
+                        userMail: this.props.userEmail,
+                        userName: this.props.userDisplayName,
+                        userPhoto: this.props.userPhotoURL,
+                        userFirebaseuid: this.props.firebaseUid,
+                        confirm: false,
+                        index: querySnapshot.docs.length,
+                        read: false,  // 被邀請通知來要亮燈提醒
+                    }).then(() => {
+                        console.log("Document successfully written!")
+                    }).catch((error)=> {
+                        console.log("Error writing document: ", error);
+                    })
+                    // 否則找到對方的doc更新資料
+                }else {
+                    route.where("userFirebaseuid", "==", this.props.firebaseUid).get()
+                    .then((querySnapshot) => {
+                        let docid = querySnapshot.docs[0].id;
+                        route.doc(docid).update({
+                            userMail: this.props.userEmail,
+                            userName: this.props.userDisplayName,
+                            userPhoto: this.props.userPhotoURL,
+                            userFirebaseuid: this.props.firebaseUid,
+                            confirm: false,
+                            index: querySnapshot.docs.length,
+                            read: false,  // 被邀請通知來要亮燈提醒
+                        }).then(() => {
+                            console.log("Document successfully written!")
+                        }).catch((error)=> {
+                            console.log("Error writing document: ", error);
+                        })
+                    })
+                }
+            })
+        })
+        .then(() => {
+            // 寫入對方資訊至自己 db
+
+            // get 對方 board 的背景圖 url
+            db.collection("Boards").doc(this.state.userFirebaseuid).get()
+            .then((querySnapshot) =>{
+                let backgroundURL = querySnapshot.data().background
+
+                let route = db.collection("Users/" + this.props.firebaseUid + "/invitation")
+                route.get().then((querySnapshot)=>{
+                    if(states === "new"){
+                        route.doc().set({
+                            userMail: this.state.userMail,
+                            userName: this.state.userName,
+                            userPhoto: this.state.userPhoto,
+                            userFirebaseuid: this.state.userFirebaseuid,
+                            confirm: false,
+                            index: querySnapshot.docs.length,
+                            backgroundURL: backgroundURL,
+                            read: null,  // 當對方確認後改成 false 亮燈提醒
+                        }).then(() => {
+                            console.log("Document successfully written!")
+                        }).catch((error)=> {
+                            console.log("Error writing document: ", error);
+                        })
+                    }else {
+                        route.where("userFirebaseuid", "==", this.state.userFirebaseuid).get()
+                        .then((querySnapshot) => {
+                            let docid = querySnapshot.docs[0].id;
+                            route.doc(docid).update({
+                            userMail: this.state.userMail,
+                            userName: this.state.userName,
+                            userPhoto: this.state.userPhoto,
+                            userFirebaseuid: this.state.userFirebaseuid,
+                            confirm: false,
+                            index: querySnapshot.docs.length,
+                            backgroundURL: backgroundURL,
+                            read: null,  // 當對方確認後改成 false 亮燈提醒
+                        }).then(() => {
+                            console.log("Document successfully written!")
+                        }).catch((error)=> {
+                            console.log("Error writing document: ", error);
+                        })
+                    })
+                    }
+                })
+                alert(`已送出邀請 ${this.state.userMail} 來編輯你的看板`)
+                this.showInvitation();
+            })
+        })
+    }
+
     invite = (event) => {
         if ( event.key === "Enter" ) {
             if ( this.state.userMail !== "" ) {
@@ -151,73 +264,8 @@ class SecondBar extends React.Component {
                         
                         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", id).get()
                         .then((querySnapshot) => {
-                            // console.log("33333333333333333333", querySnapshot.docs.length, querySnapshot.docs[0], querySnapshot.docs[0].id)
-                            if(querySnapshot.docs.length == 0) {
-                                db.collection("Users/").doc(id).get()
-                                .then((querySnapshot) => {
-                                    let data = querySnapshot.data()
-                                    this.setState( prevState => {
-                                        let usermail =  data.email
-                                        let username =  data.name
-                                        let userphoto =  data.photo
-                                        let userfirebaseuid =  data.firebaseuid 
-                                        return Object.assign({}, prevState, { 
-                                            userMail: usermail,
-                                            userName: username,
-                                            userPhoto: userphoto,
-                                            userFirebaseuid: userfirebaseuid
-                                        });
-                                    })
-                                    console.log(this.state)
-                                })
-                                .then(() => {
-                                    // 將自己資訊寫入被邀請人 db
-                                    let route = db.collection("Users/" + this.state.userFirebaseuid + "/beInvited")
-                                    route.get().then((querySnapshot) => {                               
-                                        route.doc().set({
-                                            userMail: this.props.userEmail,
-                                            userName: this.props.userDisplayName,
-                                            userPhoto: this.props.userPhotoURL,
-                                            userFirebaseuid: this.props.firebaseUid,
-                                            confirm: false,
-                                            index: querySnapshot.docs.length,
-                                            read: false,  // 被邀請通知來要亮燈提醒
-                                        }).then(() => {
-                                            console.log("Document successfully written!")
-                                        }).catch((error)=> {
-                                            console.log("Error writing document: ", error);
-                                        })
-                                    })
-                                })
-                                .then(() => {
-                                    // 寫入對方資訊至自己 db
-    
-                                    // get 對方 board 的背景圖 url
-                                    db.collection("Boards").doc(this.state.userFirebaseuid).get()
-                                    .then((querySnapshot) =>{
-                                        let backgroundURL = querySnapshot.data().background
-    
-                                        let route = db.collection("Users/" + this.props.firebaseUid + "/invitation")
-                                        route.get().then((querySnapshot)=>{
-                                            route.doc().set({
-                                                userMail: this.state.userMail,
-                                                userName: this.state.userName,
-                                                userPhoto: this.state.userPhoto,
-                                                userFirebaseuid: this.state.userFirebaseuid,
-                                                confirm: false,
-                                                index: querySnapshot.docs.length,
-                                                backgroundURL: backgroundURL,
-                                                read: null,  // 當對方確認後改成 false 亮燈提醒
-                                            }).then(() => {
-                                                console.log("Document successfully written!")
-                                            }).catch((error)=> {
-                                                console.log("Error writing document: ", error);
-                                            })
-                                        })
-                                        alert(`已送出邀請 ${this.state.userMail} 來編輯你的看板`)
-                                        this.showInvitation();
-                                    })
-                                })
+                            if(querySnapshot.docs.length == 0  ) {
+                                this.writeInvitationToDb(id,"new")                               
                             } else {
                                 let docId = querySnapshot.docs[0].id
                                 db.collection("Users/" + this.props.firebaseUid + "/invitation/").doc(docId).get()
@@ -229,8 +277,7 @@ class SecondBar extends React.Component {
                                         alert(`正在等待 ${this.state.userMail} 回覆你的邀請 ` )
                                         this.showInvitation();
                                     } else if ( querySnapshot.data().confirm == null ) {
-                                        alert(`已送出邀請 ${this.state.userMail} 來編輯你的看板`)
-                                        this.showInvitation();
+                                        this.writeInvitationToDb(id,"update");
                                     }
                                 })
                             }
@@ -240,7 +287,7 @@ class SecondBar extends React.Component {
                     }
                 })
             } else if ( this.state.userMail == "" ) {
-                alert("請輸入 email")
+                alert("Please enter email.")
             }
         }
     }

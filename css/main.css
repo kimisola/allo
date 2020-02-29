@@ -189,7 +189,7 @@ img {
     margin:3px 3px 6px 3px; background-color: #fff;border-radius: 5px;box-shadow: 0 1px 0 rgba(9,30,66,.25);
 }
 .view>.board>.sectionWrapper>.section>.comment>.item:hover {
-    background-color: rgba(55,55,55,0.05);
+    background-color: rgba(242,240,240);
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemPointer{
@@ -249,7 +249,8 @@ img {
     width:16px; height: 16px; margin-right: 10px;
 }
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.menuList>.deleteText {
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.menuBody>.menuRight>.deleteDiv,
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.tags>.tag {
     cursor: pointer;
 }
 
@@ -259,7 +260,7 @@ img {
 }
 .tag {
     margin: 5px 0 5px 5px;border-radius: 4px;font-size: 12px;padding: 1px 5px;font-weight: bold;color: white;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubun;
-    width: 57px; height: 15px; transition: width 0.5s, height 0.1s; overflow: hidden;
+    width: 57px; height: 15px; transition: width 0.5s, height 0.1s; overflow: hidden;line-height: 15px;
 }
 /*  comment menu tags */
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.tags>.tag:active {

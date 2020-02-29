@@ -59,9 +59,8 @@ class Board extends React.Component {
             } else {
                 let ref = db.collection("Boards").doc(firebaseUid)
                 ref.update({
-                    background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                    background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
                 }).then(() => {
-                    
                         // 新增初始範例↓
                         let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample")
                         ref.set({
@@ -197,36 +196,81 @@ class Board extends React.Component {
                 } else {
                     let ref = db.collection("Boards").doc(firebaseUid)
                     ref.set({
-                        background: "https://images.unsplash.com/photo-1578241561880-0a1d5db3cb8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                        background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
                     }).then(() => {
                         // 新增初始範例 ↓
                         let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample")
                         ref.set({
-                            title: "Example",
+                            title: "Welcome to a-llo guide !",
                             index: 2
                         }).then(() => {
                             console.log("Document successfully written!");
                             let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
                             ref.set({
-                                edited: "Example",
-                                editorImg: 2,
+                                edited:"offical",
+                                editorImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
                                 img:"" ,
                                 index:2,
-                                owner: "",
-                                ownerImg: "",
-                                tags:["process"],
-                                text: "hello"
+                                owner:"official",
+                                ownerImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
+                                tags:[],
+                                text:`You can add new list by the PLUS in the upper right corner.
+
+                                And add cards at the bottom of 
+                                the list which can be included 
+                                tags, text and image just like the 
+                                card below.
+                                
+                                To improve your management of schedule, try dragging-dropping
+                                between list and card.
+                                
+                                If you want to edit or delete your cards, try moving your mouse to the the upper right of the card.`
+                            })
+                            let ref2 = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
+                            ref2.set({
+                                edited:"offical",
+                                editorImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
+                                img:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2" ,
+                                index:4,
+                                owner:"official",
+                                ownerImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
+                                tags:["planning", "process"],
+                                text:`Now enjoy your experience with 
+                                a-llo!`
                             }).then(() => {
-                                props.renderComments(["Example"], [[{
-                                    edited: "Example",
-                                    editorImg: 2,
+                                props.renderComments(["Welcome to a-llo guide !"], [[
+                                    {
+                                    edited:"offical",
+                                    editorImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
                                     img:"" ,
-                                    index:2,
-                                    owner: "",
-                                    ownerImg: "",
-                                    tags:["process"],
-                                    text: "hello"
-                                }]]);
+                                    index:0,
+                                    owner:"offical",
+                                    ownerImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
+                                    tags:[],
+                                    text:`You can add new list by the PLUS in the upper right corner.
+
+                                    And add cards at the bottom of 
+                                    the list which can be included 
+                                    tags, text and image just like the 
+                                    card below.
+                                    
+                                    To improve your management of schedule, try dragging-dropping
+                                    between list and card.
+                                    
+                                    If you want to edit or delete your cards, try moving your mouse to the the upper right of the card.`
+                                    },
+                                    {
+                                    edited:"offical",
+                                    editorImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
+                                    img:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2" ,
+                                    index:1,
+                                    owner:"offical",
+                                    ownerImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
+                                    tags:["planning", "process"],
+                                    text:`Now enjoy your experience with 
+                                    a-llo!`  
+                                    }
+                                ]]);
 
                             }).catch((error) => {
                                 console.error("Error removing document: ", error);

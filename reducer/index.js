@@ -9,7 +9,10 @@ let initialState = {
     textValue: "",
     titleValue: "",
     isBoardLoaded: false,
-    
+
+    // for homepage notifications
+    beInvitedData:[],
+
     //add new list window
     addNewListOpened: false,
     //delete confirm window
@@ -218,6 +221,22 @@ function Reducer(state = initialState, action) {
             return Object.assign({}, state, {
                 tagsDisplayChanged: !state.tagsDisplayChanged,
             });
+        }
+
+        case "addBeInvitedData": {
+            return  Object.assign({}, state, {
+                    beInvitedData: action.data.slice(0),
+            })
+        }
+
+        case "changebeInvitedData": {
+            let index = action.index;
+            let beInvitedData = state.beInvitedData.slice(0)
+            console.log(beInvitedData[index].confirm)
+            beInvitedData[index].confirm = true
+            return  Object.assign({}, state, {
+                    beInvitedData: beInvitedData,
+            })
         }
 
         default:
