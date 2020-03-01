@@ -10,8 +10,9 @@ let initialState = {
     titleValue: "",
     isBoardLoaded: false,
 
-    // for homepage notifications
-    beInvitedData:[],
+    // for homepage notifications and editors
+    beInvitedData: [],
+    invitationData: [],
 
     //add new list window
     addNewListOpened: false,
@@ -217,7 +218,6 @@ function Reducer(state = initialState, action) {
         }
 
         case "change-tags-display": {
-            console.log("runnnnnnn")
             return Object.assign({}, state, {
                 tagsDisplayChanged: !state.tagsDisplayChanged,
             });
@@ -225,7 +225,7 @@ function Reducer(state = initialState, action) {
 
         case "addBeInvitedData": {
             return  Object.assign({}, state, {
-                    beInvitedData: action.data.slice(0),
+                beInvitedData: action.data.slice(0),
             })
         }
 
@@ -236,6 +236,21 @@ function Reducer(state = initialState, action) {
             beInvitedData[index].confirm = true
             return  Object.assign({}, state, {
                     beInvitedData: beInvitedData,
+            })
+        }
+
+        case "addInvitationData": {
+            return  Object.assign({}, state, {
+                invitationData: action.data.slice(0),
+            })
+        }
+
+        case "unfriend": {
+            console.log("unfriend", action.userFirebaseuid, action.index)
+            let invitationData = state.invitationData.slice(0)
+            invitationData.splice(action.index, 1)
+            return  Object.assign({}, state, {
+                invitationData: invitationData,
             })
         }
 

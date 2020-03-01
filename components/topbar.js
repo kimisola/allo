@@ -253,11 +253,7 @@ class Topbar extends React.Component {
                                 </div>
                             </div>
                         
-                            {/* 11 */}
                             { this.state.alertNum == 0 ? withoutAlertMsg : withAlertMsg }  
-                            
-
-                            {/* 11 */}
 
                             <div className="memberIcon">
                                 <Link to="/HomePage/boardLists"><img src={ this.props.userPhotoURL } /></Link>

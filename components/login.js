@@ -250,11 +250,10 @@ class LoginPage extends React.Component {
                                         <div className="rigister-div">
                                             <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
                                             <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword  }/>
-                                            <button onClick={ this.registerWithFire }>Register</button>
+                                            <button onClick={ this.registerWithFire } style={{ display:  this.state.isSigninArea ? this.state.isLoginin ?  "none" : "block" :"none"}}>Register</button>
                                         </div>
                                         
                                         <p className="errmsg"> {this.state.message} </p>
-                                        
                                         
                                     </div>
 
@@ -263,11 +262,11 @@ class LoginPage extends React.Component {
                                         <div className="login-div">
                                             <input type="email" placeholder="Email *" onChange={ this.loginEmail }/>
                                             <input label="Password" placeholder="Password *" type="password" onChange={ this.Loginpassword  }/>
-                                            <button onClick={ this.loginWithFire }>Log in</button>
+                                            <button onClick={ this.loginWithFire } style={{ display: this.state.isLoginin ? 'block' : 'none' }}>Log in</button>
                                         </div>
                                         <p className="errmsg"> {this.state.message} </p>
 
-                                        <div className="googleBar">
+                                        <div className="googleBar" style={{ display: this.state.isLoginin ? 'block' : 'none' }}>
                                             <div className="or"><div></div>OR<div></div></div>
                                             <GLogin />
                                         </div>

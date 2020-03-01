@@ -83,9 +83,25 @@ export function addBeInvitedData(data) {
         data
     }
 }
+
 export function changebeInvitedData(index) {
     return{
         type: "changebeInvitedData", 
+        index
+    }
+}
+
+export function addInvitationData(data) {
+    return{
+        type: "addInvitationData", 
+        data
+    }
+}
+
+export function unfriend(userFirebaseuid, index) {
+    return{
+        type: "unfriend", 
+        userFirebaseuid,
         index
     }
 }

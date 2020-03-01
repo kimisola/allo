@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { unfriend } from "./actionCreators";
 import Cancel from "../images/cancel.png";
 import fire from "../src/fire";
 
@@ -8,7 +9,10 @@ class Editors extends React.Component {
         super(props);
     }
 
-    unfriend = (userFirebaseuid) => {
+    unfriend = (userFirebaseuid, index) => {
+
+        this.props.unfriend(userFirebaseuid, index)
+
         const db = fire.firestore();
         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", userFirebaseuid)
         .get().then((querySnapshot) => {
@@ -30,6 +34,7 @@ class Editors extends React.Component {
     }
 
     render(){
+
         return(
             <React.Fragment>
                 <div className="editors">
@@ -45,7 +50,7 @@ class Editors extends React.Component {
                                         <div className="name">{ item.userName }</div>
                                     </div>
                                     <div className="delete">
-                                        <img src={ Cancel } onClick={ () => this.unfriend(item.userFirebaseuid) }/>
+                                        <img src={ Cancel } onClick={ () => this.unfriend(item.userFirebaseuid, index) }/>
                                     </div>
                                 </div>
                             )}
@@ -64,8 +69,14 @@ const mapStateToProps = (state, ownprops) => {
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
-        invitationData: ownprops.invitationData,
+        invitationData: state.invitationData,
     }
 }
 
-export default connect(mapStateToProps)(Editors);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        unfriend: (userFirebaseuid, index) => { dispatch(unfriend(userFirebaseuid, index)) },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Editors);

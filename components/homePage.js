@@ -1,7 +1,7 @@
 import React from 'react';
 import "../css/homePage.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { addBeInvitedData } from "./actionCreators";
+import { addBeInvitedData, addInvitationData } from "./actionCreators";
 import { connect } from 'react-redux';
 import Topbar from "../components/topbar";
 import BoardLink from "../components/boardLink";
@@ -20,7 +20,6 @@ class HomePage extends React.Component {
             isBackgroundEdited: false,
             backgroundURL: "",
             isIconTurn: false, 
-            invitationData:[],
             currentUserBackground: "",
         }
     } 
@@ -110,11 +109,13 @@ class HomePage extends React.Component {
                                 .then(async(querySnapshot) =>{
                                     send.backgroundURL = querySnapshot.data().background
                                     data.push(send);
-                                    this.setState( prevState => {
-                                        return Object.assign({}, prevState, {
-                                            invitationData: data
-                                        })
-                                    }); 
+                                    this.props.addInvitationData(data)
+                                    // this.setState( prevState => {
+                                    //     return Object.assign({}, prevState, {
+                                    //         invitationData: data
+                                    //     })
+                                    // });
+
                                 }).catch((error)=> {
                                     console.log("Error writing document: ", error);
                                 })
@@ -255,10 +256,10 @@ class HomePage extends React.Component {
                                 <BoardLists currentUserBackground={ this.state.currentUserBackground }/>
                             </Route>
                             <Route path="/HomePage/notifications">
-                                <Notifications invitationData={ this.state.invitationData }/>
+                                <Notifications invitationData={ this.props.invitationData }/>
                             </Route>
                             <Route path="/HomePage/editors">
-                                <Editors invitationData={ this.state.invitationData }/>
+                                <Editors invitationData={ this.props.invitationData }/>
                             </Route>
                         </Switch>
 
@@ -273,8 +274,10 @@ class HomePage extends React.Component {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         addBeInvitedData: (data) => { dispatch(addBeInvitedData(data)) },
+        addInvitationData: (data) => { dispatch(addInvitationData(data)) },
     }
 }
+
 const mapStateToProps = (state, ownprops) => {
     return {
         firebaseUid: state.firebaseUid,
@@ -282,6 +285,7 @@ const mapStateToProps = (state, ownprops) => {
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
         beInvitedData: state.beInvitedData,
+        invitationData: state.invitationData,
     }
 }
 

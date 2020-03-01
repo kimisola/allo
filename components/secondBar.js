@@ -307,7 +307,7 @@ class SecondBar extends React.Component {
                 <div className="secondBar">
                     <div className="secondLeft">
                         <div className="inviteDiv" onClick={ this.showInvitation } ref={ this.myRef }>Invite</div>
-                        <div className="invite" style={style.invitedStyle}>
+                        <div className="invite" style={ style.invitedStyle }>
                             <div className="cancel" onClick={ this.showInvitation }>
                                 <div className="cancelImg">
                                     <img src={ Cancel } />
@@ -331,10 +331,10 @@ class SecondBar extends React.Component {
                 <div className="addThemeDiv" style={{display: this.props.addNewListOpened ? 'block' : 'none' }}>
                     <div className="addTheme">
                         <p>Add new list：</p>
-                        <input type="text" value={this.props.titleValue} onChange={this.getTitleValue} onKeyPress={this.creatTitle}/>
+                        <input type="text" value={ this.props.titleValue } onChange={ this.getTitleValue } onKeyPress={ this.creatTitle }/>
                         <div className="buttons">
-                            <div className="no" onClick={this.addNewListOpen}>cancel</div>
-                            <div className="yes" onClick={this.creatTitleByButton}>confirm</div>
+                            <div className="no" onClick={ this.addNewListOpen }>cancel</div>
+                            <div className="yes" onClick={ this.creatTitleByButton }>confirm</div>
                         </div>
                     </div>
                 </div>

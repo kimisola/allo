@@ -41,7 +41,7 @@ class Board extends React.Component {
         } 
         else {
             firebaseUid = this.props.match.params.id 
-            console.log("0000000000000000", this.props.match.params.id)
+            console.log("this.props.match.params.id", this.props.match.params.id)
             this.props.switchBoard(this.props.match.params.id)
             getTitles(firebaseUid);
         }
@@ -63,48 +63,12 @@ class Board extends React.Component {
                 ref.update({
                     background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
                 }).then(() => {
-                        // 新增初始範例↓
-                        let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample")
-                        ref.set({
-                            title: "Example",
-                            index: 2
-                        }).then(() => {
-                            console.log("Document successfully written!");
-                            let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
-                            ref.set({
-                                edited: "Example",
-                                editorImg: 2,
-                                img:"" ,
-                                index:2,
-                                owner: "",
-                                ownerImg: "",
-                                tags:["process"],
-                                text: "hello"
-                            }).then(() => {
-                                props.renderComments(["Example"], [{
-                                    edited: "Example",
-                                    editorImg: 2,
-                                    img:"" ,
-                                    index:2,
-                                    owner: "",
-                                    ownerImg: "",
-                                    tags:["process"],
-                                    text: "hello"
-                                }]);
-                                console.log("getTitles(firebaseUid);");
-                            }).catch((error) => {
-                                console.error("Error removing document: ", error);
-                            })
-                        }).catch((error) => {
-                            console.error("Error removing document: ", error);
-                        })
                     console.log("Document successfully written!");
                 }).catch((error) => {
                     console.error("Error removing document: ", error);
                 })
             }
         })
-
 
         let userEmail = this.props.userEmail
         async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
@@ -120,6 +84,7 @@ class Board extends React.Component {
                     })
                 }
             })
+
             db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
             .then(async (querySnapshot) => {
                 let doc = querySnapshot.docs;
@@ -199,11 +164,11 @@ class Board extends React.Component {
                     }).then(() => {
                         props.renderComments(["Welcome to a-llo guide !","List"], [
                             [{
-                            edited:"offical",
+                            edited:"a-llo",
                             editorImg: this.state.exampleAuthor,
                             img:"" ,
                             index:0,
-                            owner:"offical",
+                            owner:"a-llo",
                             ownerImg:this.state.exampleAuthor,
                             tags:[],
                             text:`To add your new list, press the
@@ -223,31 +188,31 @@ class Board extends React.Component {
                             Now enjoy it !`
                             }],
                             [{
-                            edited:"offical",
+                            edited:"a-llo",
                             editorImg:this.state.exampleAuthor,
                             img: this.state.exampleImg,
                             index:2,
-                            owner:"official",
+                            owner:"a-llo",
                             ownerImg:this.state.exampleAuthor,
                             tags:["planning"],
                             text:"",
                             },
                             {
-                            edited:"offical",
+                            edited:"a-llo",
                             editorImg:this.state.exampleAuthor,
                             img:"" ,
                             index:4,
-                            owner:"official",
+                            owner:"a-llo",
                             ownerImg:this.state.exampleAuthor,
                             tags:["process","risk"],
                             text:`card.` 
                             },
                             {
-                            edited:"offical",
+                            edited:"a-llo",
                             editorImg:this.state.exampleAuthor,
                             img:"" ,
                             index:6,
-                            owner:"official",
+                            owner:"a-llo",
                             ownerImg:this.state.exampleAuthor,
                             tags:["process","risk","achived"],
                             text:`card.`
@@ -262,11 +227,11 @@ class Board extends React.Component {
                             console.log("Document successfully written!");
                             let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
                             ref.set({
-                                edited:"offical",
+                                edited:"a-llo",
                                 editorImg:this.state.exampleAuthor,
                                 img:"" ,
                                 index:2,
-                                owner:"official",
+                                owner:"a-llo",
                                 ownerImg:this.state.exampleAuthor,
                                 tags:[],
                                 text:`To add your new list, press the
@@ -301,33 +266,33 @@ class Board extends React.Component {
                         }).then(() => {
                             let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
                             ref.set({
-                                edited:"offical",
+                                edited:"a-llo",
                                 editorImg:this.state.exampleAuthor,
                                 img:this.state.exampleImg,
                                 index:2,
-                                owner:"official",
+                                owner:"a-llo",
                                 ownerImg:this.state.exampleAuthor,
                                 tags:["planning"],
                                 text:"",
                             })
                             let ref2 = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
                             ref2.set({
-                                edited:"offical",
+                                edited:"a-llo",
                                 editorImg:this.state.exampleAuthor,
                                 img:"" ,
                                 index:4,
-                                owner:"official",
+                                owner:"a-llo",
                                 ownerImg:this.state.exampleAuthor,
                                 tags:["process","risk"],
                                 text:`card`
                             })
                             let ref3= db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
                             ref3.set({
-                                edited:"offical",
+                                edited:"a-llo",
                                 editorImg:this.state.exampleAuthor,
                                 img:"" ,
                                 index:6,
-                                owner:"official",
+                                owner:"a-llo",
                                 ownerImg:this.state.exampleAuthor,
                                 tags:["process","risk","achived"],
                                 text:`card`
