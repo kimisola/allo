@@ -108,7 +108,7 @@
 
 .login-page>.login-background>.login-main>.login-content>.signinArea>.signup>.errmsg ,
 .login-page>.login-background>.login-main>.login-content>.signinArea>.login>.errmsg {
-    height: 0px;color: rgba(255, 71, 26);font-weight: bold;text-align: center;margin-bottom: 20px;
+    height: 0px;color: rgba(255, 71, 26);font-weight: bold;text-align: center; font-size: 12px; line-height: 12px; margin: 10px auto 30px auto;
 }
 
 .login-page>.login-background>.login-main>.login-content>.signinArea>.signup>.rigister-div{

@@ -28,6 +28,93 @@ class Topbar extends React.Component {
     }
 
     //監聽自己的資料夾
+    componentDidMount(prevProps){
+        if ( !this.props.firebaseUid ) {
+            return;
+        }
+        // if ( this.state.alertNum !== "" ) {
+        //     return;
+        // }
+
+        const db = fire.firestore();
+        // listen for invitation ( new message )
+        db.collection("Users/" + this.props.firebaseUid + "/invitation").where("read", "==", false)
+        .onSnapshot(async(doc) => {
+            let docs = doc.docs;
+            let msg  = this.state.alertMsg;
+            
+            for ( let i = 0; i < docs.length; i++ ) {
+                db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docs[i].id).get()
+                .then((querySnapshot) => {
+
+                    let doc = querySnapshot.data();
+                    let newMsg = ` ${doc.userName} agreed to your co-editing invitation.`;
+                    let push = true;
+
+                    if(msg !== undefined){
+                        for (let j = 0; j < msg.length ; j++) {
+                            if(newMsg == msg[j]){
+                                push = false;
+                            }
+                        }
+                    }
+                    if(push) {
+                        this.setState( prevState => {
+                            let alertMsg = prevState.alertMsg
+                            alertMsg.push(newMsg)
+                            return Object.assign({}, prevState, {
+                                alertMsg: alertMsg,
+                                alertNum: prevState.alertNum+1,
+                            });
+                        })
+                        push = false;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                })
+            }            
+        })
+        
+
+        // listen for beInvited
+        db.collection("Users/" + this.props.firebaseUid + "/beInvited").where("read", "==", false)
+        .onSnapshot(async(doc) => {
+            let docs = doc.docs;
+            let msg  = this.state.alertMsg;
+
+            for ( let i = 0; i < docs.length; i++ ) {
+                db.collection("Users/" + this.props.firebaseUid + "/beInvited").doc(docs[i].id).get()
+                .then((querySnapshot) => {
+                    let doc = querySnapshot.data();
+                    let newMsg = ` ${doc.userName} invited you to be a co-editor to his board.`;
+                    let push = true;
+                    if (msg !== undefined) {
+                        for (let j = 0; j < msg.length ; j++){
+                            if (newMsg == msg[j]) {
+                                push = false;
+                            }
+                        }
+                    }
+                    if(push) {
+                        this.setState( prevState => {
+                            let alertMsg = prevState.alertMsg
+                            alertMsg.push(newMsg)
+                            return Object.assign({}, prevState, {
+                                alertMsg: alertMsg,
+                                alertNum: prevState.alertNum+1,
+                            });
+                        })
+                        push = false;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                })
+            }
+        })       
+    }
+
     componentDidUpdate(prevProps){
         if ( !this.props.firebaseUid ) {
             return;

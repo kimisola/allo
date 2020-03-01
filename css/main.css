@@ -41,9 +41,7 @@ img {
 .view>.topBar>.logoDiv img{
     margin-top: -10px;
 }
-.view>.topBar>.topRight {
-    position: relative;
-}
+
 .view>.topBar>.topLeft,
 .view>.topBar>.topRight,
 .view>.secondBar>.secondLeft,
@@ -87,11 +85,16 @@ img {
 .view>.topBar>.topLeft>.home img {
     width: 22px;
 }
+.view>.topBar>.topRight>.memberIcon a,
+.view>.topBar>.topRight>.boardList>.boardIcon a,
+.view>.topBar>.topLeft>.home a{
+    display: flex;
+}
 .alert>.alertMsg {
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 16px;height: 16px;position: absolute;right: -2px;top: -1px;text-align: center;color: white;line-height: 16px; padding: 1px;
 }
 .view>.topBar>.topRight>.alertDiv>a .alertMenu {
-    width: 150px;border-radius: 3px;
+    width: 150px;border-radius: 3px;background-color: rgba(0,0,0,0.6);z-index: 50;
 }
 
 .view>.topBar>.topRight>a .alertMenu li{
@@ -266,7 +269,7 @@ img {
 }
 .tag {
     margin: 5px 0 5px 5px;border-radius: 4px;font-size: 12px;padding: 1px 5px;font-weight: bold;color: white;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubun;
-    width: 57px; height: 15px; transition: width 0.5s, height 0.1s; overflow: hidden;line-height: 15px;
+    width: 57px; height: 15px; transition: width 0.5s, height 0.1s; overflow: hidden;line-height: 15px;cursor: pointer;
 }
 /*  comment menu tags */
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead>.tagDiv>.commentMenu>.tags>.tag:active {
