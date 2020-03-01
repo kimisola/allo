@@ -36,7 +36,7 @@ class HomePage extends React.Component {
     }
 
     componentDidUpdate(){
-        if ( this.props.beInvitedData == [] || this.props.beInvitedData[0] == undefined ) {
+        if ( this.state.currentUserBackground == "" ) {
             const db = fire.firestore();
             let firebaseUid = this.props.firebaseUid  
             console.log("homepage firebaseUid", firebaseUid)

@@ -171,10 +171,12 @@ class LoginPage extends React.Component {
             signup: {
                 opacity: this.state.isRegisted ? '1' : '0' ,
                 height: this.state.isRegisted ? '250px' : '0px', 
+                zIndex: this.state.isRegisted ? "10" : "",
             },
             login: {
                 opacity: this.state.isLoginin ? '1' : '0' ,
-                height: this.state.isLoginin ? '250px' : '0px', 
+                height: this.state.isLoginin ? '250px' : '0px',
+                zIndex: this.state.isLoginin ? "10" : "",
             }
         }
         let textContent = [ 
@@ -289,9 +291,9 @@ class LoginPage extends React.Component {
                             </div>
                             <div className="text">
                                 {/* <h2>文字以外的豐富度</h2>
-                                <p>除了文字的紀錄外，也可以分享圖片，甚至是貼上進度標籤提醒工作進度。</p> */}
+                                <p>除了文字的紀錄外，也可以分享圖片，甚至是貼上標籤提醒工作進度。</p> */}
                                 <h2>-Visualize your task list</h2>
-                                <p>Besides sharing picture, adding progress reminder for your schedule.</p>
+                                <p>Besides sharing picture, adding category tags for your schedule.</p>
                             </div>
                         </div>
                         <div className="section">
@@ -299,7 +301,7 @@ class LoginPage extends React.Component {
                                 {/* <h2>與任何團隊合作無間</h2>
                                 <p>不論是個人的工作內容，還是團隊間的專案，甚至是家人朋友間的旅遊，a-llo 都可以井然有序地幫你紀錄相關事務。</p> */}
                                 <h2>-Cooperate with anyone.</h2>
-                                <p>Whether it is your personal jobs, team project or travel plan among friends and family. A-llo organizes and gets everything leap to the eye.</p>
+                                <p>Whether it is your personal jobs, team project or travel plan among friends and family. a-llo organizes and gets everything leap to the eye.</p>
                             </div>
                             <div className="picture">
                                 <img src={ ContentImg2 }/>

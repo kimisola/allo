@@ -204,18 +204,31 @@ class CommentMenu extends React.Component {
     }
 
     getCoordinate = () => {
-        console.log(this.props.coordinate.current.getBoundingClientRect());
+        console.log(this.props.coordinate.current.getBoundingClientRect(), window.innerHeight);
         let data = this.props.coordinate.current.getBoundingClientRect()
-        this.setState( prevState => {  
-            let xCoordinate = prevState.xCoordinate
-            xCoordinate = data.x
-            let yCoordinate = prevState.yCoordinate
-            yCoordinate = data.y
-            return { 
-                xCoordinate: xCoordinate,
-                yCoordinate: yCoordinate
-             }
-        });
+        if ( data.y + 240 >  window.innerHeight) {
+            this.setState( prevState => {  
+                let xCoordinate = prevState.xCoordinate
+                xCoordinate = data.x
+                let yCoordinate = prevState.yCoordinate
+                yCoordinate = (window.innerHeight - 250)
+                return { 
+                    xCoordinate: xCoordinate,
+                    yCoordinate: yCoordinate
+                }
+            });
+        } else {
+            this.setState( prevState => {  
+                let xCoordinate = prevState.xCoordinate
+                xCoordinate = data.x
+                let yCoordinate = prevState.yCoordinate
+                yCoordinate = data.y
+                return { 
+                    xCoordinate: xCoordinate,
+                    yCoordinate: yCoordinate
+                 }
+            });
+        }
     }
 
     render() {
@@ -265,12 +278,12 @@ class CommentMenu extends React.Component {
                                     <div style={{display: this.state.editorShowed ? 'none' : 'block' }}>Editor</div>
                                     <div style={{display: this.state.editorShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>
                                 </div>
-                                <div className="menuList" >
+                                {/* <div className="menuList" >
                                     <div className="setTime">
                                         <img src={ clock } />
                                     </div>
-                                    <div>Due Data</div>
-                                </div>
+                                    <div>Due Date</div>
+                                </div> */}
                                 <div className="menuList deleteDiv">
                                     <div className="deleteText">
                                         <img src={ bin } />

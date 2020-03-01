@@ -199,7 +199,40 @@ class Topbar extends React.Component {
             },
         }
 
-        let targetURL = `/Board/${ this.props.firebaseUid }`
+        let targetURL = `/Board/${ this.props.firebaseUid }`;
+
+        let withAlertMsg = [
+            <React.Fragment>
+                <div className="boardList alertDiv" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
+                    <div className="alert">
+                        <img src={ Bell } />
+                        <div className="alertMsg"> { this.state.alertNum } </div>   
+                    </div>
+                </div>
+
+                <Link to="/HomePage/notifications"><div className="alertMenu" style={menuStyle.menuStyle} onClick={ this.closeAlertMsg }>
+                { alertMsg.map((item, i) => {
+                    return (
+                        <React.Fragment key={i}>
+                            <Notice message={item} index={i} />
+                        </React.Fragment>
+                    )
+                }) } 
+                </div></Link>
+            </React.Fragment>
+        ]
+
+        let withoutAlertMsg = [
+            <React.Fragment>
+                <Link to="/HomePage/notifications"><div className="boardList alertDiv" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
+                    <div className="alert">
+                        <img src={ Bell } />
+                    </div>
+                </div></Link>
+            </React.Fragment>            
+        ]
+
+
 
         return(
             <React.Fragment>
@@ -219,22 +252,12 @@ class Topbar extends React.Component {
                                     <Link to={ targetURL }> <img src={ Blackboard } /> </Link>
                                 </div>
                             </div>
-                            <div className="boardList" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
-                                <div className="alert">
-                                    <img src={ Bell } />
-                                    { this.state.alertNum == 0 ? "" : <div className="alertMsg"> { this.state.alertNum } </div> }    
-                                </div>
-                            </div>
+                        
+                            {/* 11 */}
+                            { this.state.alertNum == 0 ? withoutAlertMsg : withAlertMsg }  
+                            
 
-                            <Link to="/HomePage/notifications"><div className="alertMenu" style={menuStyle.menuStyle} onClick={ this.closeAlertMsg }>
-                            { alertMsg.map((item, i) => {
-                                return (
-                                    <React.Fragment key={i}>
-                                        <Notice message={item} index={i} />
-                                    </React.Fragment>
-                                )
-                            }) } 
-                            </div></Link>
+                            {/* 11 */}
 
                             <div className="memberIcon">
                                 <Link to="/HomePage/boardLists"><img src={ this.props.userPhotoURL } /></Link>

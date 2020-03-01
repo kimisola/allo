@@ -14,6 +14,8 @@ class Board extends React.Component {
         super(props);
         this.state = {
             boardURL: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f",
+            exampleImg: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2Fwelcome.png?alt=media&token=7a5e1d96-87c0-4a51-8dfc-e7c98b67579c",
+            exampleAuthor: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=264bf4c3-e1ed-42bd-8291-4928859932f7",
         }
     }
 
@@ -170,11 +172,8 @@ class Board extends React.Component {
         };
     }
 
-
     componentDidUpdate(prevProps){
-
         let props = this.props;
-
         let currentBoard = this.props.currentBoard
         if ( currentBoard !==  prevProps.currentBoard) {
             props.loadingGifOn();
@@ -198,6 +197,62 @@ class Board extends React.Component {
                     ref.set({
                         background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
                     }).then(() => {
+                        props.renderComments(["Welcome to a-llo guide !","List"], [
+                            [{
+                            edited:"offical",
+                            editorImg: this.state.exampleAuthor,
+                            img:"" ,
+                            index:0,
+                            owner:"offical",
+                            ownerImg:this.state.exampleAuthor,
+                            tags:[],
+                            text:`To add your new list, press the
+                            plus(+) button in the upper right corner of the page.
+                            
+                            At the bottom of the list, use the plus button to create cards which can include texts, images, and
+                            tags.
+                            
+                            Need to edit or delete 
+                            your cards? 
+                            Click the upper right of the card.
+                            
+                            Small tips here, 
+                            try dragging-dropping your lists or cards to manage schedule 
+                            even more quickly.
+                            
+                            Now enjoy it !`
+                            }],
+                            [{
+                            edited:"offical",
+                            editorImg:this.state.exampleAuthor,
+                            img: this.state.exampleImg,
+                            index:2,
+                            owner:"official",
+                            ownerImg:this.state.exampleAuthor,
+                            tags:["planning"],
+                            text:"",
+                            },
+                            {
+                            edited:"offical",
+                            editorImg:this.state.exampleAuthor,
+                            img:"" ,
+                            index:4,
+                            owner:"official",
+                            ownerImg:this.state.exampleAuthor,
+                            tags:["process","risk"],
+                            text:`card.` 
+                            },
+                            {
+                            edited:"offical",
+                            editorImg:this.state.exampleAuthor,
+                            img:"" ,
+                            index:6,
+                            owner:"official",
+                            ownerImg:this.state.exampleAuthor,
+                            tags:["process","risk","achived"],
+                            text:`card.`
+                            }]
+                        ]);
                         // 新增初始範例 ↓
                         let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample")
                         ref.set({
@@ -208,70 +263,29 @@ class Board extends React.Component {
                             let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
                             ref.set({
                                 edited:"offical",
-                                editorImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
+                                editorImg:this.state.exampleAuthor,
                                 img:"" ,
                                 index:2,
                                 owner:"official",
-                                ownerImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
+                                ownerImg:this.state.exampleAuthor,
                                 tags:[],
-                                text:`You can add new list by the PLUS in the upper right corner.
-
-                                And add cards at the bottom of 
-                                the list which can be included 
-                                tags, text and image just like the 
-                                card below.
+                                text:`To add your new list, press the
+                                plus(+) button in the upper right corner of the page.
                                 
-                                To improve your management of schedule, try dragging-dropping
-                                between list and card.
+                                At the bottom of the list, use the plus button to create cards which can include texts, images, and
+                                tags.
                                 
-                                If you want to edit or delete your cards, try moving your mouse to the the upper right of the card.`
-                            })
-                            let ref2 = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
-                            ref2.set({
-                                edited:"offical",
-                                editorImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
-                                img:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2" ,
-                                index:4,
-                                owner:"official",
-                                ownerImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
-                                tags:["planning", "process"],
-                                text:`Now enjoy your experience with 
-                                a-llo!`
-                            }).then(() => {
-                                props.renderComments(["Welcome to a-llo guide !"], [[
-                                    {
-                                    edited:"offical",
-                                    editorImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
-                                    img:"" ,
-                                    index:0,
-                                    owner:"offical",
-                                    ownerImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
-                                    tags:[],
-                                    text:`You can add new list by the PLUS in the upper right corner.
-
-                                    And add cards at the bottom of 
-                                    the list which can be included 
-                                    tags, text and image just like the 
-                                    card below.
-                                    
-                                    To improve your management of schedule, try dragging-dropping
-                                    between list and card.
-                                    
-                                    If you want to edit or delete your cards, try moving your mouse to the the upper right of the card.`
-                                    },
-                                    {
-                                    edited:"offical",
-                                    editorImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
-                                    img:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2" ,
-                                    index:1,
-                                    owner:"offical",
-                                    ownerImg:"https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=beddf24c-489d-4f33-af81-ccabdfb417d2",
-                                    tags:["planning", "process"],
-                                    text:`Now enjoy your experience with 
-                                    a-llo!`  
-                                    }
-                                ]]);
-
+                                Need to edit or delete 
+                                your cards? 
+                                Click the upper right of the card.
+                                
+                                Small tips here, 
+                                try dragging-dropping your lists or cards to manage schedule 
+                                even more quickly.
+                                
+                                Now enjoy it !`
+                            }).then(()=>{
+                                console.log("Document successfully written!");
                             }).catch((error) => {
                                 console.error("Error removing document: ", error);
                             })
@@ -279,7 +293,48 @@ class Board extends React.Component {
                             console.error("Error removing document: ", error);
                         })                      
                         console.log("Document successfully written!");
-                    }).catch((error) => {
+                    }).then(()=>{
+                        let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample2")
+                        ref.set({
+                            title: "List",
+                            index: 4
+                        }).then(() => {
+                            let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
+                            ref.set({
+                                edited:"offical",
+                                editorImg:this.state.exampleAuthor,
+                                img:this.state.exampleImg,
+                                index:2,
+                                owner:"official",
+                                ownerImg:this.state.exampleAuthor,
+                                tags:["planning"],
+                                text:"",
+                            })
+                            let ref2 = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
+                            ref2.set({
+                                edited:"offical",
+                                editorImg:this.state.exampleAuthor,
+                                img:"" ,
+                                index:4,
+                                owner:"official",
+                                ownerImg:this.state.exampleAuthor,
+                                tags:["process","risk"],
+                                text:`card`
+                            })
+                            let ref3= db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
+                            ref3.set({
+                                edited:"offical",
+                                editorImg:this.state.exampleAuthor,
+                                img:"" ,
+                                index:6,
+                                owner:"official",
+                                ownerImg:this.state.exampleAuthor,
+                                tags:["process","risk","achived"],
+                                text:`card`
+                            })
+                        })
+                    })
+                    .catch((error) => {
                         console.error("Error removing document: ", error);
                     })
                 }

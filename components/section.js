@@ -151,7 +151,6 @@ class Section extends React.Component {
     }
 
     stopEvent = (e) => {
-        console.log("run stopEvent")
         e.preventDefault();
         e.stopPropagation();
     }
@@ -514,7 +513,7 @@ class Section extends React.Component {
                             <div className="section">
                                 <div className="dragArea" onPointerDown={ this.drag }></div>
                                 <ThemeTitle themeIndex={ i } title={ item }/>
-                                <div className="comment"> { items[i] } </div>
+                                <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
                                 <AddComment index={ i }/>
                             </div>
                         </div>
@@ -525,7 +524,7 @@ class Section extends React.Component {
                             <div className="section">
                                 <div className="dragArea" onPointerDown={ this.drag }></div>
                                 <ThemeTitle themeIndex={ i } title={ item }/>
-                                <div className="comment"> { items[i] } </div>
+                                <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
                                 <AddComment index={ i }/>
                             </div>
                         </div>

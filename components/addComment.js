@@ -91,6 +91,9 @@ class AddComment extends React.Component {
         const file = event.target.files[0]
         const storageRef = fire.storage().ref("image");
         const imgRef = storageRef.child(file.name)
+        const fileTypes = ["image/jpeg", "image/png","image/gif"];
+        let flag = false;
+
         this.setState( prevState => {
             let newfileName = prevState.fileName
             newfileName =  file.name
@@ -108,18 +111,26 @@ class AddComment extends React.Component {
 
         imgRef.put(file)
         .then(async (snapshot) => {
-            console.log(snapshot)
-            console.log('Uploaded a blob or file!');
-            imgRef.getDownloadURL().then(async(url) => {
-                console.log(url)
-                this.setState( prevState => {
-                    let newImgUrl = prevState.newImg
-                    newImgUrl = url
-                    return { 
-                        newImg: newImgUrl,
-                    }
-                });
-            })
+            for (let i = 0; i < fileTypes.length; i++) {
+                if ( file.type == fileTypes[i] ) {
+                    flag = true
+                    console.log(snapshot)
+                    console.log('Uploaded a blob or file!');
+                    imgRef.getDownloadURL().then(async(url) => {
+                        console.log(url)
+                        this.setState( prevState => {
+                            let newImgUrl = prevState.newImg
+                            newImgUrl = url
+                            return { 
+                                newImg: newImgUrl,
+                            }
+                        });
+                    })
+                }
+            }
+            if (!flag) {
+                alert("Only support jpeg/png/gif type files.");
+            }
         }).catch((error) => {
             console.error("Error removing document: ", error);
         })      
