@@ -138,18 +138,25 @@ class AddComment extends React.Component {
 
     sendComment = () => {
         console.log("run send")
-        const index = this.props.index;
-        const newText = this.state.newText;
-        const newImg = this.state.newImg;
-        const newTags = this.state.newTags;
+        let index = this.props.index;
+        let newText = this.state.newText;
+        let newImg = this.state.newImg;
+        let newTags = this.state.newTags;
+        let fileName = this.state.fileName;
         let indexForItem = this.props.indexForItem;
-        let docId = ""
+        let docId = "";
 
-        if ( newText === "" &&  newImg === "" && newTags.length === 0) {
+        if ( newText === "" &&  fileName === "" && newTags.length === 0) {
             alert("沒有輸入任何內容哦!")
         } else {
             this.props.dispatch({ type: "sendComment", index, newText, newImg, newTags})
             this.openCommentWin();
+
+            this.setState( prevState => {
+                return Object.assign({}, prevState, {
+                    fileName: ""
+                }) 
+            });
          
             const db = fire.firestore();
             let firebaseUid = "";

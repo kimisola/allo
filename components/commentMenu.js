@@ -204,14 +204,37 @@ class CommentMenu extends React.Component {
     }
 
     getCoordinate = () => {
-        console.log(this.props.coordinate.current.getBoundingClientRect(), window.innerHeight);
+        console.log(this.props.coordinate.current.getBoundingClientRect(), window.innerWidth);
         let data = this.props.coordinate.current.getBoundingClientRect()
-        if ( data.y + 240 >  window.innerHeight) {
+        console.log(data.x);
+        if ( data.y + 240 >  window.innerHeight && data.x + 420 > window.innerWidth) {
+            this.setState( prevState => {  
+                let xCoordinate = prevState.xCoordinate
+                xCoordinate = (window.innerWidth - 430)
+                let yCoordinate = prevState.yCoordinate
+                yCoordinate = (window.innerHeight - 250)
+                return { 
+                    xCoordinate: xCoordinate,
+                    yCoordinate: yCoordinate
+                }
+            });
+        } else if ( data.y + 240 >  window.innerHeight ) {
             this.setState( prevState => {  
                 let xCoordinate = prevState.xCoordinate
                 xCoordinate = data.x
                 let yCoordinate = prevState.yCoordinate
                 yCoordinate = (window.innerHeight - 250)
+                return { 
+                    xCoordinate: xCoordinate,
+                    yCoordinate: yCoordinate
+                }
+            });
+        } else if ( data.x + 420 > window.innerWidth ) {
+            this.setState( prevState => {  
+                let xCoordinate = prevState.xCoordinate
+                xCoordinate = (window.innerWidth - 430)
+                let yCoordinate = prevState.yCoordinate
+                yCoordinate = data.y
                 return { 
                     xCoordinate: xCoordinate,
                     yCoordinate: yCoordinate

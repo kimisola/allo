@@ -11,6 +11,7 @@ import fire from "../src/fire";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { withRouter}  from "react-router";
 import { connect } from 'react-redux';
+import zIndex from '@material-ui/core/styles/zIndex';
 
 
 class Topbar extends React.Component {
@@ -52,7 +53,6 @@ class Topbar extends React.Component {
 
                     if(msg !== undefined){
                         for (let j = 0; j < msg.length ; j++) {
-                            console.log()
                             if(newMsg == msg[j]){
                                 push = false;
                             }
@@ -129,14 +129,13 @@ class Topbar extends React.Component {
                 xCoordinate: xCoordinate,
                 yCoordinate: yCoordinate,
                 isShowedAlert: showedAlert,
-                alertNum: 0,
             }           
         });
 
         // reset alert number
         const db = fire.firestore();
         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("read", "==", false)
-        .onSnapshot(async(doc) => {
+        .onSnapshot((doc) => {
             let docs = doc.docs;
             for ( let i = 0; i < docs.length; i++ ) {
                let ref = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docs[i].id)
@@ -146,7 +145,7 @@ class Topbar extends React.Component {
             }
         })
         db.collection("Users/" + this.props.firebaseUid + "/beInvited").where("read", "==", false)
-        .onSnapshot(async(doc) => {
+        .onSnapshot((doc) => {
             let docs = doc.docs;
             for ( let i = 0; i < docs.length; i++ ) {
                let ref = db.collection("Users/" + this.props.firebaseUid + "/beInvited").doc(docs[i].id)
@@ -162,7 +161,8 @@ class Topbar extends React.Component {
             let showedAlert = !prevState.isShowedAlert
             return {
                 isShowedAlert: showedAlert,
-            }           
+                alertNum: 0,
+            }  
         });
     }
 
@@ -193,29 +193,29 @@ class Topbar extends React.Component {
         const menuStyle = {
             menuStyle: {
                 display: this.state.isShowedAlert ? 'block' : 'none',
-                position: "fixed",
+                position: "absolute",
                 top: (this.state.yCoordinate + 40),
-                left: (this.state.xCoordinate - 60)
+                left: (this.state.xCoordinate - 60),
+                zIndex: 10,
+                width: "150px",
             },
         }
 
         let targetURL = `/Board/${ this.props.firebaseUid }`;
 
         let withAlertMsg = [
-            <React.Fragment>
+            <React.Fragment key={100}>
                 <div className="boardList alertDiv" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
                     <div className="alert">
                         <img src={ Bell } />
-                        <div className="alertMsg"> { this.state.alertNum } </div>   
+                        <div className="alertMsg"> { this.state.alertNum } </div>
                     </div>
                 </div>
 
                 <Link to="/HomePage/notifications"><div className="alertMenu" style={menuStyle.menuStyle} onClick={ this.closeAlertMsg }>
                 { alertMsg.map((item, i) => {
                     return (
-                        <React.Fragment key={i}>
-                            <Notice message={item} index={i} />
-                        </React.Fragment>
+                        <Notice message={item} index={i} key={i}/>
                     )
                 }) } 
                 </div></Link>
@@ -223,7 +223,7 @@ class Topbar extends React.Component {
         ]
 
         let withoutAlertMsg = [
-            <React.Fragment>
+            <React.Fragment key={200}>
                 <Link to="/HomePage/notifications"><div className="boardList alertDiv" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
                     <div className="alert">
                         <img src={ Bell } />
@@ -231,7 +231,6 @@ class Topbar extends React.Component {
                 </div></Link>
             </React.Fragment>            
         ]
-
 
 
         return(
@@ -255,7 +254,7 @@ class Topbar extends React.Component {
                         
                             { this.state.alertNum == 0 ? withoutAlertMsg : withAlertMsg }  
 
-                            <div className="memberIcon">
+                            <div className="memberIcon" style={{ marginLeft: this.state.alertNum == 0 ? "8px" : "" }}>
                                 <Link to="/HomePage/boardLists"><img src={ this.props.userPhotoURL } /></Link>
                             </div>
                             <div className="signOutImg">

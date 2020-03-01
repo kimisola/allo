@@ -1,5 +1,5 @@
 import React from 'react';
-import { changebeInvitedData } from "./actionCreators";
+import { updateInvitedData } from "./actionCreators";
 import { connect } from 'react-redux';
 import { render } from 'react-dom';
 import fire from "../src/fire";
@@ -20,7 +20,8 @@ class ReplyButtons extends React.Component {
                 confirm: true
             })
         })
-
+        this.props.updateInvitedData(index, true);
+        
         const db = fire.firestore();
         let firebaseUid = this.props.firebaseUid
         
@@ -46,13 +47,11 @@ class ReplyButtons extends React.Component {
                 })
             })
         })
-        this.props.changebeInvitedData(index);
-
     }
 
 
     deny = (index) => {
-        this.props.changebeInvitedData(index);
+        this.props.updateInvitedData(index, null);
 
         this.setState(prevState => {
             return Object.assign({}, prevState, {
@@ -100,7 +99,7 @@ class ReplyButtons extends React.Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        changebeInvitedData: (index) => { dispatch(changebeInvitedData(index)) },
+        updateInvitedData: (index, confirm) => { dispatch(updateInvitedData(index, confirm)) },
     }
 }
 

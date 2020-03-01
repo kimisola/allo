@@ -84,10 +84,11 @@ export function addBeInvitedData(data) {
     }
 }
 
-export function changebeInvitedData(index) {
+export function updateInvitedData(index,confirm) {
     return{
-        type: "changebeInvitedData", 
-        index
+        type: "updateInvitedData", 
+        index,
+        confirm
     }
 }
 

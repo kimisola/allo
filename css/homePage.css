@@ -62,9 +62,9 @@
     position: relative;
 }
 #root>.topBar>.topRight>.boardList>.alert>.alertMsg {
-    border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: 0px;top: 0px;text-align: center;color: white;padding-bottom: 3px;
+    border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: -2px;top: -1px;text-align: center;color: white;padding-bottom: 3px;
 }
-#root>.topBar>.topRight>a .alertMenu {
+#root>.topBar>.topRight>.alertDiv>a .alertMenu {
     width: 150px;border-radius: 3px;background-color: rgba(0,0,0,0.6);z-index: 50;
 }
 #root>.topBar>.topRight>a .alertMenu>.showMenuBackground {

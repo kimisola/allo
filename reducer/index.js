@@ -80,14 +80,12 @@ function Reducer(state = initialState, action) {
         }
 
         case "setIndexForTitle": {
-            console.log("setIndexForTitle",  action.storeTitleIndex)
             return Object.assign({}, state, {
                 indexForTitle: action.storeTitleIndex
             });
         }
 
         case "setIndexForItem": {
-            console.log("setIndexForItem",  action.indexForItem)
             return Object.assign({}, state, {
                 indexForItem: action.indexForItem
             });
@@ -113,8 +111,6 @@ function Reducer(state = initialState, action) {
         }
 
         case "getEditedTitleValue": {
-            console.log(action.newValue)
-            console.log(action.indexOfValue)
             state.listTitle.splice(action.indexOfValue, 1, action.newValue)
             return Object.assign({}, state, {
                 listTitle: state.listTitle.slice(0),
@@ -122,7 +118,6 @@ function Reducer(state = initialState, action) {
         }
 
         case "deleteTheme": {
-            console.log(action.t)
             state.listTitle.splice(action.t, 1)
             state.text.splice(action.t, 1)
             return Object.assign({}, state, {
@@ -139,7 +134,6 @@ function Reducer(state = initialState, action) {
         }
  
         case "sendComment": {
-            console.log(state.userDisplayName)
             let i = action.index;
             let newText = state.text
             console.log( newText[i])
@@ -158,8 +152,7 @@ function Reducer(state = initialState, action) {
         }
 
         case "deleteComment": {
-            console.log(action.listId)
-            console.log(action.comId)
+            console.log("action.listId", "action.comId", action.listId, action.comId)
             state.text[action.listId].splice(action.comId, 1)
             return Object.assign({}, state, {
                 text: state.text.slice(0),
@@ -229,15 +222,15 @@ function Reducer(state = initialState, action) {
             })
         }
 
-        case "changebeInvitedData": {
-            let index = action.index;
+        case "updateInvitedData": {
             let beInvitedData = state.beInvitedData.slice(0)
-            console.log(beInvitedData[index].confirm)
-            beInvitedData[index].confirm = true
+            console.log("11111111111111", beInvitedData[action.index].confirm)
+            beInvitedData[action.index].confirm = action.confirm
             return  Object.assign({}, state, {
-                    beInvitedData: beInvitedData,
+                beInvitedData: beInvitedData,
             })
         }
+
 
         case "addInvitationData": {
             return  Object.assign({}, state, {
@@ -246,7 +239,6 @@ function Reducer(state = initialState, action) {
         }
 
         case "unfriend": {
-            console.log("unfriend", action.userFirebaseuid, action.index)
             let invitationData = state.invitationData.slice(0)
             invitationData.splice(action.index, 1)
             return  Object.assign({}, state, {

@@ -313,7 +313,7 @@ class SecondBar extends React.Component {
                                     <img src={ Cancel } />
                                 </div>
                             </div>
-                            <p>Please enter mailadress：</p>
+                            <p>Please enter mail adress：</p>
                             <div className="inputDiv">
                                 <div className="mailDiv">
                                     <img src={ Mail } />

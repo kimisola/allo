@@ -180,18 +180,18 @@ class LoginPage extends React.Component {
             }
         }
         let textContent = [ 
-                <div className="textContent">
+                <div className="textContent" key={150}>
                     <div className="details"style = {{textAlign: "left"}}>
                         <p>a-llo’s boards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
                     </div>
                     <div className="slogan">
                         <p>Enhance your teamwork </p>
-                        <p>with <div className="webName">a-llo</div> !</p>
+                        <p>with <span className="webName">a-llo</span> !</p>
                     </div>
                 </div>
                 ];
         let Sign = [ 
-            <div className="textContent">
+            <div className="textContent" key={250}>
                 <div className="SignDetails" style = {{textAlign: "center", fontSize:"19px"}}>
                     <p>Sign up for your account</p>
                 </div>
@@ -200,7 +200,7 @@ class LoginPage extends React.Component {
             </div>
             ];
         let Log = [ 
-            <div className="textContent">
+            <div className="textContent" key={350}>
                 <div className="details" style = {{textAlign: "center", fontSize:"19px"}}>
                     <p>Log in to a-llo</p>
                 </div>
