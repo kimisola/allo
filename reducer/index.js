@@ -14,8 +14,6 @@ let initialState = {
     beInvitedData: [],
     invitationData: [],
 
-    //add new list window
-    addNewListOpened: false,
     //delete confirm window
     deleteThemeConfirmOpen: false,
 
@@ -88,12 +86,6 @@ function Reducer(state = initialState, action) {
         case "setIndexForItem": {
             return Object.assign({}, state, {
                 indexForItem: action.indexForItem
-            });
-        }
-
-        case "addNewListOpen": {
-            return Object.assign({}, state, {
-                addNewListOpened: !state.addNewListOpened,
             });
         }
 

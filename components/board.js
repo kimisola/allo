@@ -205,7 +205,7 @@ class Board extends React.Component {
                             owner:"a-llo",
                             ownerImg:this.state.exampleAuthor,
                             tags:["process","risk"],
-                            text:`card.` 
+                            text:`card` 
                             },
                             {
                             edited:"a-llo",
@@ -215,7 +215,7 @@ class Board extends React.Component {
                             owner:"a-llo",
                             ownerImg:this.state.exampleAuthor,
                             tags:["process","risk","achived"],
-                            text:`card.`
+                            text:`card`
                             }]
                         ]);
                         // 新增初始範例 ↓

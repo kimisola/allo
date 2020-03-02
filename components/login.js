@@ -249,7 +249,7 @@ class LoginPage extends React.Component {
                                         
                                         <div className="rigister-div">
                                             <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
-                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword  }/>
+                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword } onKeyPress={ this.registerWithFire }/>
                                             <button onClick={ this.registerWithFire } style={{ display:  this.state.isSigninArea ? this.state.isLoginin ?  "none" : "block" :"none"}}>Register</button>
                                         </div>
                                         
@@ -261,7 +261,7 @@ class LoginPage extends React.Component {
                                     <div className="login" style={style.login}>
                                         <div className="login-div">
                                             <input type="email" placeholder="Email *" onChange={ this.loginEmail }/>
-                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.Loginpassword  }/>
+                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.Loginpassword } onKeyPress={ this.loginWithFire }/>
                                             <button onClick={ this.loginWithFire } style={{ display: this.state.isLoginin ? 'block' : 'none' }}>Log in</button>
                                         </div>
                                         <p className="errmsg"> {this.state.message} </p>

@@ -8,13 +8,19 @@ class ThemeTitle extends React.Component {
         super(props);
         this.state = {
             isInEditMode: false,
+            isDeleteConfirmWinOpen: false,
         }
     }
 
     openConfirmWin = (i) => {
         console.log("run openConfirmWin")
         console.log(i)
-        this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
+        //this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
+        this.setState( prevState => {
+            return Object.assign({}, prevState, { 
+                isAddNewListOpened: !prevState.isAddNewListOpened
+            })
+        });
     }
 
     deleteTheme = () => {

@@ -1,6 +1,5 @@
 import React from 'react';
 import Plus from "../images/plus1.png";
-import TestIcon from "../images/testIcon.jpg";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
 import Cancel from "../images/letter-x.png";
@@ -11,8 +10,10 @@ class SecondBar extends React.Component {
     constructor(props){
         super(props);
         this.myRef = React.createRef();
+        this.textInput = React.createRef();
         this.state = {
             isShowInvitation: false,
+            isAddNewListOpened: false,
             userMail:"",
             userName:"",
             userPhoto:"",
@@ -24,10 +25,21 @@ class SecondBar extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        if ( this.props.addNewListOpened ) {
+            this.textInput.current.focus();
+        }
+    }
+
     addNewListOpen = () => {
         console.log("run creatTheme")
         this.props.getTvalue("")  //reset input value
-        this.props.addNewListOpen()
+        //this.props.addNewListOpen()
+        this.setState( prevState => {
+            return Object.assign({}, prevState, { 
+                isAddNewListOpened: !prevState.isAddNewListOpened
+            })
+        });
         
     }
 
@@ -54,7 +66,7 @@ class SecondBar extends React.Component {
                 alert("標題太長囉、再短一點!")
             } else {
                 console.log("enter creat title", titleValue)
-                this.props.addNewListOpen();
+                this.addNewListOpen();
                 newListTitle.push(titleValue);
                 newText.push([]);
                 this.props.creatTitle(newListTitle, newText)
@@ -87,7 +99,7 @@ class SecondBar extends React.Component {
         }
 
         console.log("enter creat title", titleValue)
-        this.props.addNewListOpen();
+        this.addNewListOpen();
         newListTitle.push(titleValue);
         newText.push([]);
         this.props.creatTitle(newListTitle, newText)
@@ -123,7 +135,6 @@ class SecondBar extends React.Component {
     showInvitation = () => {
         this.setState( prevState => {
             const showInvitationa = !prevState.isShowInvitation
-             //let emailValue = prevState.emailValue  // reset input text value
             return Object.assign({}, prevState, { 
                 isShowInvitation: showInvitationa,
                 userMail: "",
@@ -141,7 +152,6 @@ class SecondBar extends React.Component {
     }
 
     writeInvitationToDb = (id,states) => {
-        console.log("147777777777777777777777")
         const db = fire.firestore();
         db.collection("Users/").doc(id).get()
         .then((querySnapshot) => {
@@ -313,7 +323,7 @@ class SecondBar extends React.Component {
                                     <img src={ Cancel } />
                                 </div>
                             </div>
-                            <p>Please enter mail adress：</p>
+                            <p>Please enter mail address：</p>
                             <div className="inputDiv">
                                 <div className="mailDiv">
                                     <img src={ Mail } />
@@ -328,10 +338,10 @@ class SecondBar extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="addThemeDiv" style={{display: this.props.addNewListOpened ? 'block' : 'none' }}>
+                <div className="addThemeDiv" style={{display: this.state.isAddNewListOpened ? 'block' : 'none' }}>
                     <div className="addTheme">
                         <p>Add new list：</p>
-                        <input type="text" value={ this.props.titleValue } onChange={ this.getTitleValue } onKeyPress={ this.creatTitle }/>
+                        <input type="text" value={ this.props.titleValue } onChange={ this.getTitleValue } onKeyPress={ this.creatTitle } ref={this.textInput}/>
                         <div className="buttons">
                             <div className="no" onClick={ this.addNewListOpen }>cancel</div>
                             <div className="yes" onClick={ this.creatTitleByButton }>confirm</div>

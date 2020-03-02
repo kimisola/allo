@@ -38,16 +38,16 @@ class CommentItem extends React.Component {
                 { this.props.item.tags.map((tag, i) => {
                     switch (tag) {
                         case "planning":
-                            return <div className="tag planning" key={i} onClick={ this.change } style={ style.tag }>Planning</div>
+                            return <div className="tag planning tagBrightness" key={i} onClick={ this.change } style={ style.tag }>Planning</div>
 
                         case "process":
-                            return <div className="tag process"  key={i} onClick={ this.change } style={ style.tag }>In Process</div>
+                            return <div className="tag process tagBrightness"  key={i} onClick={ this.change } style={ style.tag }>In Process</div>
                     
                         case "risk":
-                            return <div className="tag risk" key={i} onClick={ this.change } style={ style.tag }>At Risk</div>
+                            return <div className="tag risk tagBrightness" key={i} onClick={ this.change } style={ style.tag }>At Risk</div>
                     
                         case "achived":
-                            return <div className="tag achived" key={i} onClick={ this.change } style={ style.tag }>Achieved</div>
+                            return <div className="tag achived tagBrightness" key={i} onClick={ this.change } style={ style.tag }>Achieved</div>
 
                             default:
                         break;
