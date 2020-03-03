@@ -57,10 +57,8 @@ class App extends React.Component {
                             uid: useruid,
                             firebaseuid: firebaseUid,
                             homepageCover: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fhomepagecover1.jpg?alt=media&token=6793a59f-eaac-4d76-83fb-db421ea2a0b4",
-                        }).then(() => {
-                            console.log("Document successfully written!")
                         }).catch((error) => {
-                            console.error("Error writing document: ", error);
+                            console.error("Error writing document: ", error.message);
                         })
                     } else {
                         ref.update({
@@ -69,48 +67,12 @@ class App extends React.Component {
                             email: userEmail,
                             uid: useruid,
                             firebaseuid: firebaseUid,
-                        }).then(() => {
-                            console.log("Document successfully written!")
                         }).catch((error) => {
-                            console.error("Error writing document: ", error);
+                            console.error("Error writing document: ", error.message);
                         })
                     }
-                    
-                    // ref.get().then((querySnapshot) => {
-                    //     // console.log("querySnapshot.data().homepageCover", querySnapshot.docs[0])
-                    //     // console.log(querySnapshot.data().homepageCover == "")
-                    //     // console.log(querySnapshot.data().homepageCover === "")
-                    //     if ( querySnapshot.data().homepageCover == "" ) {
-                    //         ref.set({
-                    //             name: userDisplayName,
-                    //             photo: userPhotoURL,
-                    //             email: userEmail,
-                    //             uid: useruid,
-                    //             firebaseuid: firebaseUid,
-                    //             homepageCover: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fhomepagecover1.jpg?alt=media&token=6793a59f-eaac-4d76-83fb-db421ea2a0b4",
-                    //         }).then(() => {
-                    //             console.log("Document successfully written!")
-                    //         }).catch((error) => {
-                    //             console.error("Error writing document: ", error);
-                    //         })
-                    //     } else {
-                    //         ref.update({
-                    //             name: userDisplayName,
-                    //             photo: userPhotoURL,
-                    //             email: userEmail,
-                    //             uid: useruid,
-                    //             firebaseuid: firebaseUid,
-                    //         }).then(() => {
-                    //             console.log("Document successfully written!")
-                    //         }).catch((error) => {
-                    //             console.error("Error writing document: ", error);
-                    //         })
-                    //     }
-                    // })
                 } else {
                     this.props.setCurrentUser(null, null, null, null, null)
-                    // No user is signed in.
-                   // window.location = "/"
                 }
             }
         );
@@ -148,7 +110,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         setCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) => { dispatch(setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)) },
     }
