@@ -15,13 +15,11 @@ class ItemFooter extends React.Component {
     render(){
         return(
             <React.Fragment>
-                
                 <div className="itemFooter">
                     <div className="add">
                         <img src={ Plus } onClick={ () => creatComment()}/>
                     </div>
                 </div>
-
             </React.Fragment>
         )
     }
@@ -34,5 +32,4 @@ const mapStateToProps = (state) => {
         addNewCommentOpen:state.addNewCommentOpen
     }
 }
-
 export default connect(mapStateToProps)(ItemFooter);

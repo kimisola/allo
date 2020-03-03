@@ -6,8 +6,6 @@ import Cancel from "../images/cancel.png";
 import Plus from "../images/plusG.png";
 import Upload from "../images/upload.png";
 
-
-
 class AddComment extends React.Component {
     constructor(props){
         super(props);
@@ -21,7 +19,7 @@ class AddComment extends React.Component {
         }
     }
 
-    openCommentWin = () => {
+    openCommentWindow = () => {
         this.resetToDefault();
         this.setState( prevState => {
             let showCommentWin = !prevState.isCommentWinShowed
@@ -29,14 +27,13 @@ class AddComment extends React.Component {
         });
     }
 
-    
-    resetToDefault = () => {  // no effect ;(
+    resetToDefault = () => {
         this.setState( prevState => {
-            let newtext = prevState.newText  // reset input text value
+            let newtext = prevState.newText
             newtext = "";
-            let newimg = prevState.newImg  //reset url value
+            let newimg = prevState.newImg
             newimg = "";
-            let tagsState = [ "planning", "process", "risk", "achived" ] //reset tags value
+            let tagsState = [ "planning", "process", "risk", "achived" ]
             let newtags = prevState.newTags;
             newtags = [];
             tagsState.forEach((item)=>{
@@ -56,7 +53,6 @@ class AddComment extends React.Component {
         });
     }
     
-
     getTextValue = (event) => {
         const textValue = event.target.value
         console.log(textValue)
@@ -70,12 +66,12 @@ class AddComment extends React.Component {
     selectTags = (selected) => {
         console.log(selected)
         let tags = this.state.commentTags
-        tags[selected] = !tags[selected]  // the key called [selected]
+        tags[selected] = !tags[selected]
 
         let tagsState = [ "planning", "process", "risk", "achived" ]
         let textTag = []
         tagsState.forEach((element) => {
-            if ( tags[element] ) {  // if the key element === true
+            if ( tags[element] ) {
                 textTag.push(element)
             }
         });
@@ -85,7 +81,6 @@ class AddComment extends React.Component {
             return  { newTags: tags }
         })
     }
-
 
     fileUpload = (event) => {
         const file = event.target.files[0]
@@ -137,7 +132,6 @@ class AddComment extends React.Component {
     }
 
     sendComment = () => {
-        console.log("run send")
         let index = this.props.index;
         let newText = this.state.newText;
         let newImg = this.state.newImg;
@@ -147,12 +141,12 @@ class AddComment extends React.Component {
         let docId = "";
 
         if ( newText === "" &&  fileName === "" && newTags.length === 0) {
-            alert("沒有輸入任何內容哦!")
+            alert("You didn't enter anything!")
         } else {
             this.props.dispatch({ type: "sendComment", index, newText, newImg, newTags})
-            this.openCommentWin();
+            this.openCommentWindow();
 
-            this.setState( prevState => {
+            this.setState( prevState => { //清除上傳圖片名稱
                 return Object.assign({}, prevState, {
                     fileName: ""
                 }) 
@@ -180,11 +174,7 @@ class AddComment extends React.Component {
                     if ( newImg === undefined ) {
                         newImg = "";
                     }
-    
-                    console.log("Hi~~~~",newText)
-                    console.log("Hi~~~~",newTags)
-                    console.log("Hi~~~~",this.props.userDisplayName)
-                
+               
                     route.set({
                         img: newImg,
                         tags: newTags,
@@ -205,12 +195,10 @@ class AddComment extends React.Component {
             })
         }         
     }
-    
 
     render(){
         return(
             <React.Fragment>
-
                 <div className="addItem" style={{display: this.state.isCommentWinShowed ? 'block' : 'none' }}>               
                     <div className="tags">
                         <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "#ff9f1a" : "grey" }} onClick={ () => this.selectTags("planning") }>Planning</div>
@@ -228,7 +216,6 @@ class AddComment extends React.Component {
                                     <div className="imgUpload">
                                         <img src={ Upload } />
                                     </div>
-                                    
                                     <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUpload } style={{display:'none' }} />    
                                 </label>
                                 <div className="fileNameDiv"> {this.state.fileName} </div>
@@ -238,20 +225,17 @@ class AddComment extends React.Component {
                                     <img src={ Tick3 } />
                                 </div>
                                 <div className="cancel">
-                                    <img src={ Cancel } onClick={ this.openCommentWin }/>
+                                    <img src={ Cancel } onClick={ this.openCommentWindow }/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div className="itemFooter">
                     <div className="add">
-                        <img src={ Plus } onClick={ this.openCommentWin }/>
+                        <img src={ Plus } onClick={ this.openCommentWindow }/>
                     </div>
                 </div>
-                
-
             </React.Fragment>
         )
     }
@@ -267,12 +251,11 @@ const mapStateToProps = (state , ownprops) => {
         commentTags: state.commentTags,
         whichTheme: state.whichTheme,
         addNewCommentOpen: state.addNewCommentOpen,
-        commentWindow: state.commentWindow,
+        //commentWindow: state.commentWindow,
         userDisplayName: state.userDisplayName,
         userPhotoURL: state.userPhotoURL,
         firebaseUid: state.firebaseUid,
         currentBoard: state.currentBoard,
     }
 }
-
 export default connect(mapStateToProps)(AddComment);

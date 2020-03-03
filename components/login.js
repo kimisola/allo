@@ -5,31 +5,28 @@ import LoginImg from "../images/loginpage_main2.png";
 import ContentImg1 from "../images/loginpage_content1.png";
 import ContentImg2 from "../images/loginpage_content2.png";
 import ContentImg3 from "../images/loginpage_content3.png";
-import Right from "../images/right.png";
 import Mylogo from "../images/myLogo.png";
 import Postit from "../images/post-it-w.png"
 import firebase from 'firebase';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+// import { withStyles } from '@material-ui/core/styles';    移除安裝
+// import TextField from '@material-ui/core/TextField';
 
-const InviteFriend = withStyles({
-    root: {
-      '& label.Mui-focused': {
-        color: "#ffffff",
-      },
-      '& .MuiInput-underline:after': {
-        borderBottomColor: "#ffffff",
-      },
-      '& .MuiInput-formControl': {
-        marginTop: "2vh",
-      },
-    '& .MuiInput-root': {
-        height: "4.5vh",
-      },
-    },
-})(TextField);
-
+// const InviteFriend = withStyles({
+//     root: {
+//       '& label.Mui-focused': {
+//         color: "#ffffff",
+//       },
+//       '& .MuiInput-underline:after': {
+//         borderBottomColor: "#ffffff",
+//       },
+//       '& .MuiInput-formControl': {
+//         marginTop: "2vh",
+//       },
+//     '& .MuiInput-root': {
+//         height: "4.5vh",
+//       },
+//     },
+// })(TextField);
 
 class LoginPage extends React.Component {
     constructor(props){
@@ -87,22 +84,17 @@ class LoginPage extends React.Component {
             return Object.assign({}, prevState, { password: passwordValue }) 
         })
     }
-
     
     registerWithFire = () => {
-
         if ( this.state.email === "" ) {
             this.setState(prevState => { 
                 return Object.assign({}, prevState, { message: "error" }) 
             })
         }
-        // 透過 auth().createUserWithEmailAndPassword 建立使用者
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
             var user = firebase.auth().currentUser;
             console.log(user);
-            // writeInUser(user)
-            
         }).catch((error) => {
             this.setState(prevState => { 
                 return Object.assign({}, prevState, { message: error.message }) 
@@ -110,6 +102,12 @@ class LoginPage extends React.Component {
         });
     }
 
+    registerWithFireByEnter = (event) => {
+        if ( event.key === "Enter" ) {
+            this.registerWithFire();
+        }
+    }
+    
     loginWithFire = () => {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
@@ -121,12 +119,17 @@ class LoginPage extends React.Component {
         } else {
             // No user is signed in.
         }
-        })
-        .catch((error) => {
+        }).catch((error) => {
             this.setState(prevState => { 
                 return Object.assign({}, prevState, { message: error.message }) 
             })
         });
+    }
+
+    loginWithFireByEnter = (event) => {
+        if ( event.key === "Enter" ) {
+            this.loginWithFire();
+        }
     }
 
     switchToRegister = () => {
@@ -161,25 +164,24 @@ class LoginPage extends React.Component {
         }); 
     }
 
-
     render(){
 
         const style = {
             signinArea: {
-                opacity: this.state.isSigninArea ? '1' : '0' ,
+                opacity: this.state.isSigninArea ? "1" : "0" ,
             },
             signup: {
-                opacity: this.state.isRegisted ? '1' : '0' ,
-                height: this.state.isRegisted ? '250px' : '0px', 
+                opacity: this.state.isRegisted ? "1" : "0" ,
+                height: this.state.isRegisted ? "250px" : "0px", 
                 zIndex: this.state.isRegisted ? "10" : "",
             },
             login: {
-                opacity: this.state.isLoginin ? '1' : '0' ,
-                height: this.state.isLoginin ? '250px' : '0px',
+                opacity: this.state.isLoginin ? "1" : "0" ,
+                height: this.state.isLoginin ? "250px" : "0px",
                 zIndex: this.state.isLoginin ? "10" : "",
             }
         }
-        let textContent = [ 
+        const textContent = [ 
                 <div className="textContent" key={150}>
                     <div className="details"style = {{textAlign: "left"}}>
                         <p>a-llo’s boards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
@@ -190,7 +192,7 @@ class LoginPage extends React.Component {
                     </div>
                 </div>
                 ];
-        let Sign = [ 
+                const Sign = [ 
             <div className="textContent" key={250}>
                 <div className="SignDetails" style = {{textAlign: "center", fontSize:"19px"}}>
                     <p>Sign up for your account</p>
@@ -199,7 +201,7 @@ class LoginPage extends React.Component {
                 </div>
             </div>
             ];
-        let Log = [ 
+        const Log = [ 
             <div className="textContent" key={350}>
                 <div className="details" style = {{textAlign: "center", fontSize:"19px"}}>
                     <p>Log in to a-llo</p>
@@ -208,11 +210,11 @@ class LoginPage extends React.Component {
                 </div>
             </div>
             ];
+
         return(
 
             <React.Fragment>
                 <div className="login-page">
-
                     <div className="login-topBar">
                         <div className="topBar-Left">
                             <div className="logoDiv">
@@ -229,10 +231,8 @@ class LoginPage extends React.Component {
                         </div>
                     </div>
                     <div className="login-background">
-
                         <div className="login-main">
                             <div className="login-content">
-                                                
                                 <div className="buttons">
                                     <div className="registerButton" onClick={ this.switchToRegister }>
                                         <label className="b-button switch-register"  value="Register" >Register</label>
@@ -241,7 +241,6 @@ class LoginPage extends React.Component {
                                         <label className="b-button switch-login" type="button" value="Login" >Login</label>
                                     </div>
                                 </div>
-
                                 <div className="signinArea" style={ style.signinArea }>
 
                                     {/* 註冊滑出的 div */}
@@ -249,7 +248,7 @@ class LoginPage extends React.Component {
                                         
                                         <div className="rigister-div">
                                             <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
-                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword } onKeyPress={ this.registerWithFire }/>
+                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword } onKeyPress={ this.registerWithFireByEnter }/>
                                             <button onClick={ this.registerWithFire } style={{ display:  this.state.isSigninArea ? this.state.isLoginin ?  "none" : "block" :"none"}}>Register</button>
                                         </div>
                                         
@@ -261,7 +260,7 @@ class LoginPage extends React.Component {
                                     <div className="login" style={style.login}>
                                         <div className="login-div">
                                             <input type="email" placeholder="Email *" onChange={ this.loginEmail }/>
-                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.Loginpassword } onKeyPress={ this.loginWithFire }/>
+                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.Loginpassword } onKeyPress={ this.loginWithFireByEnter }/>
                                             <button onClick={ this.loginWithFire } style={{ display: this.state.isLoginin ? 'block' : 'none' }}>Log in</button>
                                         </div>
                                         <p className="errmsg"> {this.state.message} </p>
@@ -271,6 +270,7 @@ class LoginPage extends React.Component {
                                             <GLogin />
                                         </div>
                                     </div>
+
                                 </div>              
                                 { this.state.isSigninArea ? this.state.isLoginin ? Log : Sign   : textContent }                 
                                 </div>
@@ -278,9 +278,7 @@ class LoginPage extends React.Component {
                             <div className="login-img">
                                 <img src={ LoginImg }/>
                             </div>
-                            
                         </div>
-
                     </div>
 
                     <div className="login-content">

@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import fire from "../src/fire";
-import clock from "../images/clock.png";
 import bin from"../images/bin.png";
 import menuImg from "../images/more.png"
-
 
 class CommentMenu extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            tagImgDivShowed: false,
-            menuShowed: false,
+            isTagImgDivShowed: false,
+            isMenuShowed: false,
+            isOwnerShowed: false,
+            isEditorShowed: false,
             defaultImg: "",
             defaultText: "",
             defaultTags: [],
@@ -22,36 +22,35 @@ class CommentMenu extends React.Component {
             defaultOwnerImg: "",
             xCoordinate: "",
             yCoordinate: "",
-            ownerShowed: false,
-            editorShowed: false
+
         }
     }
 
     showImgDiv = () => {
         this.setState( prevState => {
-            const tagImgDivShowed = !prevState.tagImgDivShowed
-            return { tagImgDivShowed: tagImgDivShowed }
+            const isTagImgDivShowed = !prevState.isTagImgDivShowed
+            return { isTagImgDivShowed: isTagImgDivShowed }
         });
     }
 
     showMenu = () => {
         this.setState( prevState => {
-            const showMenu = !prevState.menuShowed
-            return { menuShowed: showMenu }
+            const showMenu = !prevState.isMenuShowed
+            return { isMenuShowed: showMenu }
         });
     }
 
     showOwner = () => {
         this.setState( prevState => {
-            const showOwner = !prevState.ownerShowed
-            return { ownerShowed: showOwner }
+            const showOwner = !prevState.isOwnerShowed
+            return { isOwnerShowed: showOwner }
         });
     }
 
     showEditor = () => {
         this.setState( prevState => {
-            const showEditor = !prevState.editorShowed
-            return { editorShowed: showEditor }
+            const showEditor = !prevState.isEditorShowed
+            return { isEditorShowed: showEditor }
         });
     }
 
@@ -60,7 +59,7 @@ class CommentMenu extends React.Component {
         const tagsState = [ "planning", "process", "risk", "achived" ]
         tagsState.forEach((element) => {
             if ( tags[element] ) { 
-                tags[element] = ! tags[element]
+                tags[element] = !tags[element]
             }
         });
         
@@ -111,27 +110,26 @@ class CommentMenu extends React.Component {
         } 
 
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
-        .then( async (querySnapshot) => {
+        .then(async(querySnapshot) => {
 
-            this.props.dispatch({ type: "deleteComment", listId, comId }) //delete state comment
+            this.props.dispatch({ type: "deleteComment", listId, comId })
             this.showMenu();    
 
-            let docId =  querySnapshot.docs[0].id;
-            // let coll = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items")
+            const docId =  querySnapshot.docs[0].id;
             db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
             .then( async(querySnapshot) => {
-                let docId2 = querySnapshot.docs[0].id
+                const docId2 = querySnapshot.docs[0].id
                 //避免誤刪 code 維持 get 改成 delete 就可以刪除了
                 db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2).delete()
                 .then(() => {   
                     console.log("Document successfully deleted!");
                     db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").orderBy("index").get()
                     .then((querySnapshot2) => {
-                    let doc2 = querySnapshot2.docs;
+                        const doc2 = querySnapshot2.docs;
                         for ( let j = 0; j < doc2.length; j++ ) {
                             let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(doc2[j].id)
                             ref.update({
-                                index: (((j+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                                index: (((j+1)*2))
                             })   
                         }
                     })
@@ -161,7 +159,7 @@ class CommentMenu extends React.Component {
         const tagsStatus = [ "planning", "process", "risk", "achived" ]
         const newTextTag = [];
         tagsStatus.forEach((element) => {
-            if ( tags[element])  {  // if the key element === true
+            if ( tags[element] ) {
                 newTextTag.push(element)
             }
         });
@@ -179,10 +177,10 @@ class CommentMenu extends React.Component {
 
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
         .then((querySnapshot) => {
-            let docId =  querySnapshot.docs[0].id;
+            const docId =  querySnapshot.docs[0].id;
             db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
             .then((querySnapshot) => {
-                let docId2 = querySnapshot.docs[0].id                
+                const docId2 = querySnapshot.docs[0].id                
                 db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2)
                 .update({
                     img: this.state.defaultImg,
@@ -199,9 +197,9 @@ class CommentMenu extends React.Component {
         })
     }
 
-    sendEdited = () => {
-        this.updateContent();
-    }
+    // sendEdited = () => {
+    //     this.updateContent();
+    // }
 
     getCoordinate = () => {
         console.log(this.props.coordinate.current.getBoundingClientRect(), window.innerWidth);
@@ -257,22 +255,21 @@ class CommentMenu extends React.Component {
     render() {
         const style = {
             menuStyle: {
-                display: this.state.menuShowed ? 'flex' : 'none',
+                display: this.state.isMenuShowed ? "flex" : "none",
                 position: "fixed",
                 top: this.state.yCoordinate,
                 left: this.state.xCoordinate
             },
             tagImgDiv: { 
-                display: this.state.tagImgDivShowed ? 'flex' : 'none',
-
+                display: this.state.isTagImgDivShowed ? "flex" : "none",
             }
         };
 
         return (
             <React.Fragment>
                 <div className="tagDiv" onMouseEnter={ this.showImgDiv } onMouseLeave={ this.showImgDiv }>
-                <div className="tagImgDiv" style={ style.tagImgDiv } onClick={ () => this.setDefault() } ><img src={ menuImg } /></div>
-                    <div className="showMenuBackground" style={{display: this.state.menuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
+                <div className="tagImgDiv" style={ style.tagImgDiv } onClick={ () => this.setDefault() }><img src={ menuImg } /></div>
+                    <div className="showMenuBackground" style={{display: this.state.isMenuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
                     <div className="commentMenu"  style={style.menuStyle} >
                         <div className="tags" >
                             <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "#ff9f1a" : "grey" }} onClick={ () => this.selectTags("planning") }>Planning</div>
@@ -280,26 +277,25 @@ class CommentMenu extends React.Component {
                             <div className="tag risk" style={{backgroundColor: this.state.commentTags.risk ? "#eb5a46" : "grey" }} onClick={ () => this.selectTags("risk") }>At Risk</div>
                             <div className="tag achived" style={{backgroundColor: this.state.commentTags.achived ? "#4bbf6b" : "grey" }} onClick={ () => this.selectTags("achived") }>Achieved</div>
                         </div>
-
                         <div className="menuBody">
                             <div className="menuLeft">
                                 <textarea  type="text" defaultValue={ this.state.defaultText } ref="theTextInput"/>
-                                <div onClick={ () => this.sendEdited() }>Save</div>
+                                <div onClick={ () => this.updateContent() }>Save</div>
                             </div>
                             <div className="menuRight">
                                 <div className="menuList" onMouseEnter={ this.showOwner } onMouseLeave={ this.showOwner }>
                                     <div className="editTag">
                                         <img src={ this.props.text[this.props.listId][this.props.comId].ownerImg } />
                                     </div>
-                                    <div style={{display: this.state.ownerShowed ? 'none' : 'block' }}>Owner</div>
-                                    <div style={{display: this.state.ownerShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].owner }</div>
+                                    <div style={{display: this.state.isOwnerShowed ? 'none' : 'block' }}>Owner</div>
+                                    <div style={{display: this.state.isOwnerShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].owner }</div>
                                 </div>
                                 <div className="menuList" onMouseEnter={ this.showEditor } onMouseLeave={ this.showEditor }>
                                     <div className="editText">
                                         <img src={ this.props.text[this.props.listId][this.props.comId].editorImg } />
                                     </div>
-                                    <div style={{display: this.state.editorShowed ? 'none' : 'block' }}>Editor</div>
-                                    <div style={{display: this.state.editorShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>
+                                    <div style={{display: this.state.isEditorShowed ? 'none' : 'block' }}>Editor</div>
+                                    <div style={{display: this.state.isEditorShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>
                                 </div>
                                 {/* <div className="menuList" >
                                     <div className="setTime">
@@ -335,5 +331,4 @@ const mapStateToProps = (state ,ownprops) => {
         currentBoard: state.currentBoard,
     }
 }
-
 export default connect(mapStateToProps)(CommentMenu)

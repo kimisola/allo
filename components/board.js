@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, Provider } from "react-redux";
+import { connect } from "react-redux";
 import fire from "../src/fire";
 import { setUpComWin, renderComments, setIndexForTitle, loadingGifOn, switchBoard } from"../components/actionCreators"
 import Topbar from "../components/topbar";
@@ -20,12 +20,9 @@ class Board extends React.Component {
     }
 
     componentDidMount() {
-        
-        console.log("run componentDidMount")
-        let props = this.props;
-        props.loadingGifOn();
-        //read db
         const db = fire.firestore();
+        const props = this.props;
+        props.loadingGifOn();
         
         let myDataTitle = [];
         let myDataText = [];
@@ -33,9 +30,7 @@ class Board extends React.Component {
         let Data = [];  // combine titles and texts
         let Data1 = [];  // store title
         let Data2 = [];  // store comment text
-
         let firebaseUid = "";
-      
         if (firebaseUid == null) {  // 未登入
             window.location = "/";
         } 
@@ -46,8 +41,6 @@ class Board extends React.Component {
             getTitles(firebaseUid);
         }
 
-
-        // set up or get background image
         db.collection("Boards").doc(firebaseUid).get()
         .then((querySnapshot) => {
             if( querySnapshot.data() !== undefined ){
@@ -59,7 +52,7 @@ class Board extends React.Component {
                     }
                 }); 
             } else {
-                let ref = db.collection("Boards").doc(firebaseUid)
+                const ref = db.collection("Boards").doc(firebaseUid)
                 ref.update({
                     background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
                 }).then(() => {
@@ -70,11 +63,11 @@ class Board extends React.Component {
             }
         })
 
-        let userEmail = this.props.userEmail
-        async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
+        const userEmail = this.props.userEmail
+        async function getTitles(firebaseUid) {  //每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
             db.collection("Boards/").doc(firebaseUid).get().then((querySnapshot)=>{
                 if (querySnapshot.data() === undefined ) {
-                    let ref = db.collection("Boards").doc(firebaseUid)
+                    const ref = db.collection("Boards").doc(firebaseUid)
                     ref.update({
                         owner : userEmail
                     }).then(() => {
@@ -87,18 +80,17 @@ class Board extends React.Component {
 
             db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
             .then(async (querySnapshot) => {
-                let doc = querySnapshot.docs;
+                const doc = querySnapshot.docs;
 
                 for ( let i = 0; i < doc.length; i++ ) {       
                     listsId.push(doc[i].id)
                     let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
                     ref.update({
-                        index: (((i+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                        index: (((i+1)*2))  //前後留空格讓之後移動可以有空間塞
                     })
                     myDataTitle.push(doc[i].data().title)
                     Data1.push(myDataTitle[i]);
 
-                    // set an index value for next new added title
                     if ( i === doc.length - 1 ) {
                         let storeTitleIndex = ((doc.length+1)*2)
                         props.setIndexForTitle(storeTitleIndex)
@@ -108,21 +100,19 @@ class Board extends React.Component {
             });
 
             async function getCommentText(){
-                for(let i = 0; i < listsId.length; i++ ) {  //讀取每一個 list 底下的 items
+                for(let i = 0; i < listsId.length; i++ ) {
                     await db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
                     .then((querySnapshot2) => {
                         let doc2 = querySnapshot2.docs;
                         for ( let j = 0; j < doc2.length; j++ ) {
                             let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
                             ref.update({
-                                index: (((j+1)*2)), // 前後留空格讓之後移動可以有空間塞
-                                // edited: "",
-                                // owner: ""
+                                index: (((j+1)*2)),
                             })           
                             myDataText.push(doc2[j].data())
                         }
                         Data2.push(myDataText);
-                        myDataText = []; //reset comments under certain title
+                        myDataText = [];  //重置陣列為空陣列
                     })
                 } combineData();
             }
@@ -142,11 +132,9 @@ class Board extends React.Component {
         let currentBoard = this.props.currentBoard
         if ( currentBoard !==  prevProps.currentBoard) {
             props.loadingGifOn();
-            //read db
             const db = fire.firestore();
             let firebaseUid = currentBoard;
 
-            // set up or get background image
             db.collection("Boards").doc(firebaseUid).get()
             .then((querySnapshot) => {
                 if( querySnapshot.data() !== undefined ){
@@ -162,6 +150,7 @@ class Board extends React.Component {
                     ref.set({
                         background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
                     }).then(() => {
+                        //新增初始範例
                         props.renderComments(["Welcome to a-llo guide !","List"], [
                             [{
                             edited:"a-llo",
@@ -218,7 +207,6 @@ class Board extends React.Component {
                             text:`card`
                             }]
                         ]);
-                        // 新增初始範例 ↓
                         let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample")
                         ref.set({
                             title: "Welcome to a-llo guide !",
@@ -308,12 +296,12 @@ class Board extends React.Component {
             let myDataTitle = [];
             let myDataText = [];
             let listsId = [];
-            let Data = [];  // combine titles and texts
-            let Data1 = [];  // store title
-            let Data2 = [];  // store comment text
+            let Data = [];
+            let Data1 = [];
+            let Data2 = [];
  
             getTitles(firebaseUid);
-            async function getTitles(firebaseUid) {  // 每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
+            async function getTitles(firebaseUid) {
 
                 db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
                 .then(async (querySnapshot) => {
@@ -325,13 +313,12 @@ class Board extends React.Component {
                         console.log("getTitles(firebaseUid);",firebaseUid);
 
                         ref.update({
-                            index: (((i+1)*2)),  // 前後留空格讓之後移動可以有空間塞
+                            index: (((i+1)*2)),
                         })
 
                         myDataTitle.push(doc[i].data().title)
                         Data1.push(myDataTitle[i]);
     
-                        // set an index value for next new added title
                         if ( i === doc.length - 1 ) {
                             let storeTitleIndex = ((doc.length+1)*2)
                             props.setIndexForTitle(storeTitleIndex)
@@ -348,12 +335,12 @@ class Board extends React.Component {
                             for ( let j = 0; j < doc2.length; j++ ) {
                                 let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
                                 ref.update({
-                                    index: (((j+1)*2)),  // 前後留空格讓之後移動可以有空間塞
+                                    index: (((j+1)*2)),
                                 })           
                                 myDataText.push(doc2[j].data())
                             }
                             Data2.push(myDataText);
-                            myDataText = []; //reset comments under certain title
+                            myDataText = [];
                         })
                     } combineData();
                 }
@@ -430,7 +417,6 @@ class Board extends React.Component {
 
         return(
             <React.Fragment>
-
                 <main  style={ style.backgroundStyle} >
                     <div className="loading"  style={{display: this.props.isBoardLoaded ? 'none' : 'block' }} > 
                         <img src={ loadingGif } />
@@ -445,7 +431,6 @@ class Board extends React.Component {
                         <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUpload } style={{display:'none' }} />
                     </label>
                 </main>             
- 
             </React.Fragment>
         )
     }
@@ -478,5 +463,4 @@ const mapDispatchToProps = (dispatch) => {
         switchBoard: (targetLink) => { dispatch(switchBoard(targetLink)) },
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Board)

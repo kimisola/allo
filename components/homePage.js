@@ -1,14 +1,11 @@
 import React from 'react';
-import "../css/homePage.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { addBeInvitedData, addInvitationData } from "./actionCreators";
 import { connect } from 'react-redux';
 import Topbar from "../components/topbar";
-import BoardLink from "../components/boardLink";
 import BoardLists from "../components/homePageBoardLists";
 import Notifications from "../components/homePageNotifications";
 import Editors from "../components/homePageEditors";
-import ReplyButtons from "../components/replyButtons";
 import fire from "../src/fire";
 import Gear from "../images/gear.png";
 import "../css/homePage.css";
@@ -26,7 +23,7 @@ class HomePage extends React.Component {
 
     componentDidMount() {
         let firebaseUid = this.props.firebaseUid
-        if (firebaseUid == "") {  // 確認中
+        if (firebaseUid == "") {  //確認中
 
         } else if (firebaseUid == null) {  //未登入
             window.location = "/";
@@ -38,9 +35,7 @@ class HomePage extends React.Component {
         if ( this.state.currentUserBackground == "" && this.props.firebaseUid !== "") {
             const db = fire.firestore();
             let firebaseUid = this.props.firebaseUid  
-            console.log("homepage firebaseUid", firebaseUid)
             
-            //  get current user's board background image
             db.collection("Boards").doc(firebaseUid).get()
             .then((querySnapshot) => {
                 this.setState(prevState => {
@@ -51,10 +46,8 @@ class HomePage extends React.Component {
                 }) 
             })
 
-            // get current user's homepage cover
             db.collection("Users").doc(firebaseUid).get()
             .then((querySnapshot) => {
-                console.log("querySnapshot", firebaseUid, querySnapshot.doc)
                 this.setState(prevState => {
                     let homepageCover = querySnapshot.data().homepageCover
                     return Object.assign({}, prevState, {
@@ -63,31 +56,28 @@ class HomePage extends React.Component {
                 }) 
             })
             
-            //  找到資料庫裡邀請是　false　的　doc
             db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
             .then((querySnapshot) => {
                 let data = [];
                 for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
                     let send = querySnapshot.docs[i].data()
-                    console.log(send,"sendsend")
-                    let ref = db.collection("Users").doc(send.userFirebaseuid)
+                    const ref = db.collection("Users").doc(send.userFirebaseuid)
                     ref.get()
                     .then((querySnapshot) =>{
                         send.userName = querySnapshot.data().name;
                         send.userPhoto =  querySnapshot.data().photo;
 
-                        let ref2 = db.collection("Boards").doc(send.userFirebaseuid)
+                        const ref2 = db.collection("Boards").doc(send.userFirebaseuid)
                         ref2.get()
                         .then((querySnapshot) =>{
                             send.backgroundURL = querySnapshot.data().background
                             data.push(send);
                             this.props.addBeInvitedData(data)
-
                         }).catch((error)=> {
-                            console.log("Error writing document: ", error);
+                            console.log("Error writing document: ", error.message);
                         })
                     }).catch((error)=> {
-                        console.log("Error writing document: ", error);
+                        console.log("Error writing document: ", error.message);
                     })
                 }
 
@@ -96,11 +86,10 @@ class HomePage extends React.Component {
                     let data = [];
                     for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
                         let send = querySnapshot.docs[i].data()
-                        if(send.confirm){  // 找到 confirm true 的人更新自己 db 邀請函裡的資訊再渲染
-                            let ref = db.collection("Users").doc(send.userFirebaseuid)
+                        if ( send.confirm ) {  //找到 confirm true 的人更新自己 db 邀請函裡的資訊再渲染
+                            const ref = db.collection("Users").doc(send.userFirebaseuid)
                             ref.get()
                             .then((querySnapshot) =>{
-                                console.log("signupsignupsignup", querySnapshot.data())
                                 send.userName = querySnapshot.data().name;
                                 send.userPhoto =  querySnapshot.data().photo;
 
@@ -110,31 +99,24 @@ class HomePage extends React.Component {
                                     send.backgroundURL = querySnapshot.data().background
                                     data.push(send);
                                     this.props.addInvitationData(data)
-                                    // this.setState( prevState => {
-                                    //     return Object.assign({}, prevState, {
-                                    //         invitationData: data
-                                    //     })
-                                    // });
-
                                 }).catch((error)=> {
-                                    console.log("Error writing document: ", error);
+                                    console.log("Error writing document: ", error.message);
                                 })
                             }).catch((error)=> {
-                                console.log("Error writing document: ", error);
+                                console.log("Error writing document: ", error.message);
                             })
                         }
                     }
                 }).catch((error) =>{
                     console.log(error.message);
                 })
-
             }).catch((error) =>{
                 console.log(error.message);
             })
         }
     }
 
-     backgroundEditedOn = () => {
+    backgroundEditedOn = () => {
         this.setState( prevState => {
             let isBackgroundEdited = prevState.isBackgroundEdited
             isBackgroundEdited = true
@@ -157,11 +139,10 @@ class HomePage extends React.Component {
     fileUpload = (event) => {
         const file = event.target.files[0]
         console.log(event.target.files[0])
-        var reader = new FileReader(); 
+        // var reader = new FileReader();
         const storageRef = fire.storage().ref("boardBackground");
         const imgRef = storageRef.child(file.name)
         const fileTypes = ["image/jpeg", "image/png","image/gif"]; 
-        console.log("typetypetypetypetype",file.size)
         let flag = false;
         
             imgRef.put(file)
@@ -170,9 +151,9 @@ class HomePage extends React.Component {
                     if ( file.type == fileTypes[i] ) { 
                         flag = true
                         if (file.size > 190000 ) {
-                        console.log("Uploaded a blob or file!");
+                        // console.log("Uploaded a blob or file!");
                         imgRef.getDownloadURL().then( async (url) => {
-                            console.log(url)
+                            // console.log(url)
                             this.setState( prevState => {
                                 let homepageCover = url
                                 return Object.assign({}, prevState, {
@@ -184,10 +165,8 @@ class HomePage extends React.Component {
                             db.collection("Users").doc(firebaseUid)
                             .update({
                                 homepageCover: this.state.homepageCover
-                            }).then(() => {
-                                console.log("Document successfully written!")
                             }).catch((error)=> {
-                                console.log("Error writing document: ", error);
+                                console.log("Error writing document: ", error.message);
                             })
                         })
                         } else { 
@@ -200,7 +179,7 @@ class HomePage extends React.Component {
                     alert("Only support jpeg/png/gif type files.");
                 }
             }).catch((error) => {
-                console.error("Error removing document: ", error);
+                console.error("Error removing document: ", error.message);
         })      
     }
 
@@ -217,10 +196,9 @@ class HomePage extends React.Component {
 
         return(
             <React.Fragment>
-
                 <Topbar />
                 <div className="homebackground"  style={ style.cover } onMouseEnter={ this.backgroundEditedOn }  onMouseLeave={ this.backgroundEditedOff }>
-                    <div className="imgUpload" style={{ display: this.state.isBackgroundEdited ? 'block' : 'none' }}>                      
+                    <div className="imgUpload" style={{ display: this.state.isBackgroundEdited ? "block" : "none" }}>                      
                         <label action="/somewhere/to/upload" encType="multipart/form-data">
                             <img src={ Gear }/>             
                             <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUpload } style={{display:'none' }} />    
@@ -228,7 +206,6 @@ class HomePage extends React.Component {
                     </div>
                 </div>
                 <div className="homepage"> 
-
                     <div className="profile">
                         <div className="myImg">
                             <img src={ this.props.userPhotoURL } />
@@ -243,7 +220,6 @@ class HomePage extends React.Component {
                             </div>
                         </div>
                     </div>
-
                     <div className="mainContent">
                         <div className="menu">
                             <Link to="/HomePage/boardLists"><div className="readBoard item">Boards</div></Link>
@@ -265,16 +241,8 @@ class HomePage extends React.Component {
 
                     </div>  
                 </div>
-                
             </React.Fragment>
         )
-    }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        addBeInvitedData: (data) => { dispatch(addBeInvitedData(data)) },
-        addInvitationData: (data) => { dispatch(addInvitationData(data)) },
     }
 }
 
@@ -289,4 +257,10 @@ const mapStateToProps = (state, ownprops) => {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addBeInvitedData: (data) => { dispatch(addBeInvitedData(data)) },
+        addInvitationData: (data) => { dispatch(addInvitationData(data)) },
+    }
+}
 export default connect(mapStateToProps,mapDispatchToProps)(HomePage);

@@ -1,4 +1,4 @@
-import React from 'react';import firebase from 'firebase';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -7,14 +7,13 @@ class Notice extends React.Component {
         super(props);
     }
 
-render(){
-    return (
-        <React.Fragment key={this.props.index}>
-            <Link to="/HomePage/notifications"> <li> {this.props.message} </li> </Link>
-        </React.Fragment>
-    )
-}
-    
+    render() {
+        return (
+            <React.Fragment key={this.props.index}>
+                <Link to="/HomePage/notifications"> <li> {this.props.message} </li> </Link>
+            </React.Fragment>
+        )
+    }
 }
 
 const mapStateToProps = (state, ownprops) => {
@@ -26,5 +25,4 @@ const mapStateToProps = (state, ownprops) => {
         index: ownprops.index,
     }
 }
-
 export default connect(mapStateToProps)(Notice);

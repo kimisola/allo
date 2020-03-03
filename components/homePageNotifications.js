@@ -53,7 +53,6 @@ class Notifications extends React.Component {
     }
 }
 
-
 const mapStateToProps = (state, ownprops) => {
     return {
         firebaseUid: state.firebaseUid,
@@ -64,5 +63,4 @@ const mapStateToProps = (state, ownprops) => {
         invitationData: ownprops.invitationData,
     }
 }
-
 export default connect(mapStateToProps)(Notifications);

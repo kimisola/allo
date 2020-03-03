@@ -37,20 +37,18 @@ class SecondBar extends React.Component {
     }
 
     addNewListOpen = () => {
-        console.log("run creatTheme")
-        this.props.getTvalue("")  //reset input value
+        this.props.getTitleValue("")
         //this.props.addNewListOpen()
         this.setState( prevState => {
             return Object.assign({}, prevState, { 
                 isAddNewListOpened: !prevState.isAddNewListOpened
             })
         });
-        
     }
 
-    getTitleValue = (event) => {  //use onChange to get value
+    getTitleValue = (event) => {
         const value = event.target.value
-        this.props.getTvalue(value);      
+        this.props.getTitleValue(value);      
     }
 
     creatTitle = (event) => {
@@ -66,11 +64,9 @@ class SecondBar extends React.Component {
         }
 
         if (event.key === "Enter" ) {
-            if ( titleValue.length > 14 ) {
-                console.log(titleValue.length)
-                alert("標題太長囉、再短一點!")
+            if ( titleValue.length > 41 ) {
+                alert("The text is too long!")
             } else {
-                console.log("enter creat title", titleValue)
                 this.addNewListOpen();
                 newListTitle.push(titleValue);
                 newText.push([]);
@@ -82,10 +78,9 @@ class SecondBar extends React.Component {
                     title: titleValue,
                     index: indexForTitle
                 }).then(() => {
-                    this.props.setIndexForTitle(indexForTitle+2)  // update index for title
-                    console.log("Document successfully written!");
+                    this.props.setIndexForTitle(indexForTitle + 2)  //更新預備用的 title index
                 }).catch(() => {
-                    console.error("Error writing document: ", error);
+                    console.error("Error writing document: ", error.message);
                 })
             }
         }
@@ -103,7 +98,6 @@ class SecondBar extends React.Component {
             firebaseUid = this.props.firebaseUid
         }
 
-        console.log("enter creat title", titleValue)
         this.addNewListOpen();
         newListTitle.push(titleValue);
         newText.push([]);
@@ -115,16 +109,14 @@ class SecondBar extends React.Component {
             title: titleValue,
             index: indexForTitle
         }).then(() => {
-            this.props.setIndexForTitle( indexForTitle + 2 )  // update index for next new title
-            console.log("Document successfully written!");
+            this.props.setIndexForTitle(indexForTitle + 2)
         }).catch(() => {
             console.error("Error writing document: ", error);
         })
     }
 
     getCoordinate = () => {
-        console.log(this.myRef.current.getBoundingClientRect());
-        let data = this.myRef.current.getBoundingClientRect()
+        const data = this.myRef.current.getBoundingClientRect()
         this.setState( prevState => {  
             let xCoordinate = prevState.xCoordinate
             xCoordinate = data.x
@@ -149,14 +141,13 @@ class SecondBar extends React.Component {
     }
         
     getMailValue = (event) => {  
-
         let mailValue = event.target.value
         this.setState( prevState => {
             return  Object.assign({}, prevState, { userMail: mailValue })
         });
     }
 
-    writeInvitationToDb = (id,states) => {
+    writeInvitationToDb = (id, states) => {
         const db = fire.firestore();
         db.collection("Users/").doc(id).get()
         .then((querySnapshot) => {
@@ -180,7 +171,7 @@ class SecondBar extends React.Component {
             let route = db.collection("Users/" + this.state.userFirebaseuid + "/beInvited")
             route.get().then((querySnapshot) => {     
                 //如果是全新的執行set
-                if(states === "new"){
+                if ( states === "new" ) {
                     route.doc().set({
                         userMail: this.props.userEmail,
                         userName: this.props.userDisplayName,
@@ -188,14 +179,12 @@ class SecondBar extends React.Component {
                         userFirebaseuid: this.props.firebaseUid,
                         confirm: false,
                         index: querySnapshot.docs.length,
-                        read: false,  // 被邀請通知來要亮燈提醒
-                    }).then(() => {
-                        console.log("Document successfully written!")
+                        read: false,  //被邀請通知來要亮燈提醒
                     }).catch((error)=> {
-                        console.log("Error writing document: ", error);
+                        console.log("Error writing document: ", error.message);
                     })
-                    // 否則找到對方的doc更新資料
-                }else {
+                    //否則找到對方的doc更新資料
+                } else {
                     route.where("userFirebaseuid", "==", this.props.firebaseUid).get()
                     .then((querySnapshot) => {
                         let docid = querySnapshot.docs[0].id;
@@ -206,27 +195,22 @@ class SecondBar extends React.Component {
                             userFirebaseuid: this.props.firebaseUid,
                             confirm: false,
                             index: querySnapshot.docs.length,
-                            read: false,  // 被邀請通知來要亮燈提醒
-                        }).then(() => {
-                            console.log("Document successfully written!")
+                            read: false,  //被邀請通知來要亮燈提醒
                         }).catch((error)=> {
-                            console.log("Error writing document: ", error);
+                            console.log("Error writing document: ", error.message);
                         })
                     })
                 }
             })
-        })
-        .then(() => {
-            // 寫入對方資訊至自己 db
-
-            // get 對方 board 的背景圖 url
+        }).then(() => {
+            // 寫入對方資訊至自己 db 且 get 對方 board 的背景圖 url
             db.collection("Boards").doc(this.state.userFirebaseuid).get()
             .then((querySnapshot) =>{
-                let backgroundURL = querySnapshot.data().background
+                const backgroundURL = querySnapshot.data().background
 
-                let route = db.collection("Users/" + this.props.firebaseUid + "/invitation")
-                route.get().then((querySnapshot)=>{
-                    if(states === "new"){
+                const route = db.collection("Users/" + this.props.firebaseUid + "/invitation")
+                route.get().then((querySnapshot) => {
+                    if ( states === "new" ) {
                         route.doc().set({
                             userMail: this.state.userMail,
                             userName: this.state.userName,
@@ -235,13 +219,11 @@ class SecondBar extends React.Component {
                             confirm: false,
                             index: querySnapshot.docs.length,
                             backgroundURL: backgroundURL,
-                            read: null,  // 當對方確認後改成 false 亮燈提醒
-                        }).then(() => {
-                            console.log("Document successfully written!")
+                            read: null,
                         }).catch((error)=> {
-                            console.log("Error writing document: ", error);
+                            console.log("Error writing document: ", error.message);
                         })
-                    }else {
+                    } else {
                         route.where("userFirebaseuid", "==", this.state.userFirebaseuid).get()
                         .then((querySnapshot) => {
                             let docid = querySnapshot.docs[0].id;
@@ -253,16 +235,14 @@ class SecondBar extends React.Component {
                             confirm: false,
                             index: querySnapshot.docs.length,
                             backgroundURL: backgroundURL,
-                            read: null,  // 當對方確認後改成 false 亮燈提醒
-                        }).then(() => {
-                            console.log("Document successfully written!")
+                            read: null,
                         }).catch((error)=> {
                             console.log("Error writing document: ", error);
                         })
                     })
                     }
                 })
-                alert(`已送出邀請 ${this.state.userMail} 來編輯你的看板`)
+                alert(`You have sent ${this.state.userMail} an invitation.`)
                 this.showInvitation();
             })
         })
@@ -279,17 +259,17 @@ class SecondBar extends React.Component {
                         
                         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", id).get()
                         .then((querySnapshot) => {
-                            if(querySnapshot.docs.length == 0  ) {
+                            if ( querySnapshot.docs.length == 0  ) {
                                 this.writeInvitationToDb(id,"new")                               
                             } else {
                                 let docId = querySnapshot.docs[0].id
                                 db.collection("Users/" + this.props.firebaseUid + "/invitation/").doc(docId).get()
                                 .then((querySnapshot) => {
                                     if (querySnapshot.data().confirm) {
-                                        alert(`${this.state.userMail} 已經可以編輯您的看板囉` )
+                                        alert(`${this.state.userMail} is already on your access list.` )
                                         this.showInvitation();
                                     } else if ( querySnapshot.data().confirm == false ) {
-                                        alert(`正在等待 ${this.state.userMail} 回覆你的邀請 ` )
+                                        alert(`Now is waiting for ${this.state.userMail} 's reply.' ` )
                                         this.showInvitation();
                                     } else if ( querySnapshot.data().confirm == null ) {
                                         this.writeInvitationToDb(id,"update");
@@ -298,11 +278,11 @@ class SecondBar extends React.Component {
                             }
                         })
                     } else {
-                        alert("請輸入正確的 email")
+                        alert("Please enter the current email address.")
                     }
                 })
             } else if ( this.state.userMail == "" ) {
-                alert("Please enter email.")
+                alert("Please enter email address.")
             }
         }
     }
@@ -318,7 +298,6 @@ class SecondBar extends React.Component {
         }
         return(
             <React.Fragment>
-
                 <div className="secondBar">
                     <div className="secondLeft">
                         <div className="inviteDiv" onClick={ this.showInvitation } ref={ this.myRef }>Invite</div>
@@ -343,7 +322,7 @@ class SecondBar extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="addThemeDiv" style={{display: this.state.isAddNewListOpened ? 'block' : 'none' }}>
+                <div className="addThemeDiv" style={{display: this.state.isAddNewListOpened ? "block" : "none" }}>
                     <div className="addTheme">
                         <p>Add new list：</p>
                         <input type="text" value={ this.props.titleValue } onChange={ this.getTitleValue } onKeyPress={ this.creatTitle } ref={ this.titleInput }/>
@@ -353,14 +332,12 @@ class SecondBar extends React.Component {
                         </div>
                     </div>
                 </div>
-
             </React.Fragment>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    
     return {
         indexForTitle: state.indexForTitle,
         text: state.text,
@@ -376,13 +353,12 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         addNewListOpen: () => { dispatch(addNewListOpen()) },
-        getTvalue: (value) => { dispatch(getTitleValue(value)) },
+        getTitleValue: (value) => { dispatch(getTitleValue(value)) },
         creatTitle: (newListTitle, newText) => { dispatch(creatTitle(newListTitle, newText)) },
-        setIndexForTitle: (storeTitleIndex) => { dispatch(setIndexForTitle(storeTitleIndex))},
+        setIndexForTitle: (storeTitleIndex) => { dispatch(setIndexForTitle(storeTitleIndex)) },
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(SecondBar);

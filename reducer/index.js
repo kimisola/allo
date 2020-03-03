@@ -4,7 +4,7 @@ let initialState = {
     //render board data
     text: [],
     listTitle: [],
-    commentWindow: [], //array of comment pop-up window
+    //commentWindow: [], //array of comment pop-up window
     textTag: [],
     textValue: "",
     titleValue: "",
@@ -15,7 +15,7 @@ let initialState = {
     invitationData: [],
 
     //delete confirm window
-    deleteThemeConfirmOpen: false,
+    //deleteThemeConfirmOpen: false,
 
     //change css of tags
     tagsDisplayChanged: false,

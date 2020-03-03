@@ -14,8 +14,6 @@ class ThemeTitle extends React.Component {
     }
 
     openConfirmWin = (i) => {
-        console.log("run openConfirmWin")
-        console.log(i)
         //this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
         this.setState( prevState => {
             let targetIndex = i
@@ -24,7 +22,6 @@ class ThemeTitle extends React.Component {
                 targetIndex: targetIndex
             })
         });
-        console.log(this.state)
     }
 
     deleteTheme = () => {
@@ -62,7 +59,7 @@ class ThemeTitle extends React.Component {
                     for ( let i = 0; i < doc.length; i++ ) {       
                         let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
                         ref.update({
-                            index: (((i+1)*2))  // 重新塞一次 index 給它
+                            index: (((i+1)*2))  //重新塞一次 index 給它
                         })
                     }
                 })
@@ -110,7 +107,7 @@ class ThemeTitle extends React.Component {
                     }).then(() => {
                         console.log("Document successfully written!");
                     }).catch((error) => {
-                        console.error("Error removing document: ", error);
+                        console.error("Error removing document: ", error.message);
                     })
                 }) 
             }
@@ -174,5 +171,4 @@ const mapStateToProps = (state ,ownprops) => {
         themeIndex: ownprops.themeIndex,
     }
 }
-
 export default connect(mapStateToProps)(ThemeTitle)

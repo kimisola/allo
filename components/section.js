@@ -3,9 +3,6 @@ import CommentItem from "../components/commentItem";
 import AddComment from "../components/addComment";
 import ThemeTitle from "../components/themeTitle";
 import { connect } from 'react-redux';
-import Cross from "../images/letter-x.png";
-import Tick2 from "../images/tick2.png";
-import Letter from "../images/letter-x.png";
 import fire from "../src/fire";
 
 
@@ -14,8 +11,8 @@ class Section extends React.Component {
         super(props);
         this.board = React.createRef();
         this.state = {
-            editedMode: [],
-            isInEditMode: false,
+            //editedMode: [],
+            //isInEditMode: false,
             themeHeight: "",
             itemHeight: "",
             dragInfo: {
@@ -33,118 +30,116 @@ class Section extends React.Component {
                 markRow: -1,
             }
         }
-        this.drag = this.drag.bind(this);
+        this.dragList = this.dragList.bind(this);
         this.dragItem = this.dragItem.bind(this);
     }
 
-    openConfirmWin = (i) => {
-        console.log("run openConfirmWin", i)
-        this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
-    }
+    // openConfirmWin = (i) => {
+    //     console.log("run openConfirmWin", i)
+    //     this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
+    // }
 
-    deleteTheme = () => {
-        let t = this.props.whichWindowOpen
-        console.log("run delete theme", t)
+    // deleteTheme = () => {
+    //     let t = this.props.whichWindowOpen
+    //     console.log("run delete theme", t)
 
-        const db = fire.firestore();
-        let firebaseUid = "";
-        if ( this.props.currentBoard.length > 0) {
-            firebaseUid = this.props.currentBoard
-            console.log("2222222", firebaseUid)
-        } else {
-            firebaseUid = this.props.firebaseUid
-            console.log("000000", firebaseUid)
-        } 
+    //     const db = fire.firestore();
+    //     let firebaseUid = "";
+    //     if ( this.props.currentBoard.length > 0) {
+    //         firebaseUid = this.props.currentBoard
+    //     } else {
+    //         firebaseUid = this.props.firebaseUid
+    //     } 
 
-        db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((t+1)*2)).get()
-        .then((querySnapshot) => {
-            let docId = querySnapshot.docs[0].id
+    //     db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((t+1)*2)).get()
+    //     .then((querySnapshot) => {
+    //         let docId = querySnapshot.docs[0].id
 
-            //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).delete()
-            .then(() => {
-                console.log("Document successfully deleted!", t);
-                this.props.dispatch({ type: "deleteTheme", t })
-                this.props.dispatch({ type: "deleteThemeConfirmOpen" })
-                db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
-                .then(async (querySnapshot) => {
-                    let doc = querySnapshot.docs;
-                    for ( let i = 0; i < doc.length; i++ ) {       
-                        let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
-                        ref.update({
-                            index: (((i+1)*2))  // 重新塞一次 index 給它
-                        })
-                    }
-                })
-            }).catch((error) => {
-                console.error("Error removing document: ", error);
-            })
-        })
-    }
+    //         //避免誤刪 code 維持 get 改成 delete 就可以刪除了
+    //         db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).delete()
+    //         .then(() => {
+    //             console.log("Document successfully deleted!", t);
+    //             this.props.dispatch({ type: "deleteTheme", t })
+    //             this.props.dispatch({ type: "deleteThemeConfirmOpen" })
+    //             db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
+    //             .then(async (querySnapshot) => {
+    //                 let doc = querySnapshot.docs;
+    //                 for ( let i = 0; i < doc.length; i++ ) {       
+    //                     let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
+    //                     ref.update({
+    //                         index: (((i+1)*2))  // 重新塞一次 index 給它
+    //                     })
+    //                 }
+    //             })
+    //         }).catch((error) => {
+    //             console.error("Error removing document: ", error);
+    //         })
+    //     })
+    // }
 
-    changeEditMode = () => {
-        console.log("run changeEditMode")
+    // changeEditMode = () => {
+    //     console.log("run changeEditMode")
         
-        this.setState( prevState => {
-            let isInEditMode = true
-            return { isInEditMode: isInEditMode }
-        });
-        console.log("should go to changeEditMode", this.state.isInEditMode)
-    }
+    //     this.setState( prevState => {
+    //         let isInEditMode = true
+    //         return { isInEditMode: isInEditMode }
+    //     });
+    //     console.log("should go to changeEditMode", this.state.isInEditMode)
+    // }
 
-    updateValue = () => {
-        let newValue = this.refs.theTextInput.value
-        let indexOfValue = this.props.indexWin
+    // updateValue = () => {
+    //     let newValue = this.refs.theTextInput.value
+    //     let indexOfValue = this.props.indexWin
 
-        if ( newValue.length > 14 ) {
-            alert("標題太長囉、再短一點!")
-        } else {
-            this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})
-            this.setState({
-                isInEditMode: false
-            });
+    //     if ( newValue.length > 14 ) {
+    //         alert("標題太長囉、再短一點!")
+    //     } else {
+    //         this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})
+    //         this.setState({
+    //             isInEditMode: false
+    //         });
 
-            const db = fire.firestore();
-            let firebaseUid = "";
-            if ( this.props.currentBoard.length > 0) {
-                firebaseUid = this.props.currentBoard
-                console.log("2222222", firebaseUid)
-            } else {
-                firebaseUid = this.props.firebaseUid
-                console.log("000000", firebaseUid)
-            } 
-            db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((indexOfValue+1)*2)).get()
-            .then((querySnapshot) => {
-                let docId = querySnapshot.docs[0].id
+    //         const db = fire.firestore();
+    //         let firebaseUid = "";
+    //         if ( this.props.currentBoard.length > 0) {
+    //             firebaseUid = this.props.currentBoard
+    //             console.log("2222222", firebaseUid)
+    //         } else {
+    //             firebaseUid = this.props.firebaseUid
+    //             console.log("000000", firebaseUid)
+    //         } 
+    //         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((indexOfValue+1)*2)).get()
+    //         .then((querySnapshot) => {
+    //             let docId = querySnapshot.docs[0].id
     
-                db.collection("Boards/" + firebaseUid + "/Lists").doc(docId)
-                .update({
-                    title: newValue,
-                    index: ((indexOfValue+1)*2)
-                }).then(() => {
-                    console.log("Document successfully written!");
-                }).catch((error) => {
-                    console.error("Error removing document: ", error);
-                })
-            }) 
-        }
-    }
+    //             db.collection("Boards/" + firebaseUid + "/Lists").doc(docId)
+    //             .update({
+    //                 title: newValue,
+    //                 index: ((indexOfValue+1)*2)
+    //             }).then(() => {
+    //                 console.log("Document successfully written!");
+    //             }).catch((error) => {
+    //                 console.error("Error removing document: ", error);
+    //             })
+    //         }) 
+    //     }
+    // }
 
-    renderEditView = () => {
-        return (
-            <React.Fragment>
-            <div className="head" onDoubleClick={ () => this.changeEditMode() }>
-                <input className="titleLeftInput" type="text" defaultValue={ this.props.title } ref="theTextInput" />
-                <div className="titleRight" onClick={ () => this.changeEditMode() }>
-                    <img src={ Letter } />
-                </div>
-                <div className="titleRight" onClick={ () => this.updateValue() }>
-                    <img src={ Tick2 } />
-                </div>
-            </div>
-            </React.Fragment>
-        )
-    }
+    // renderEditView = () => {
+    //     return (
+    //         <React.Fragment>
+    //         <div className="head" onDoubleClick={ () => this.changeEditMode() }>
+    //             <input className="titleLeftInput" type="text" defaultValue={ this.props.title } ref="theTextInput" />
+    //             <div className="titleRight" onClick={ () => this.changeEditMode() }>
+    //                 <img src={ Letter } />
+    //             </div>
+    //             <div className="titleRight" onClick={ () => this.updateValue() }>
+    //                 <img src={ Tick2 } />
+    //             </div>
+    //         </div>
+    //         </React.Fragment>
+    //     )
+    // }
 
     addComment = (i) => {
         this.props.dispatch({ type: "addComment", i })
@@ -155,19 +150,19 @@ class Section extends React.Component {
         e.stopPropagation();
     }
 
-    drag(e) {　　// 滑鼠按下去的想做的事情
+    dragList(e) {　　//滑鼠按下去的想做的事情
         e.preventDefault();
         e.stopPropagation();
-        let theme = e.currentTarget.parentElement.parentElement;
-        let index=parseInt(theme.getAttribute("index"));
-        let rect = theme.getBoundingClientRect();
-        let themeRect = e.currentTarget.parentElement.getBoundingClientRect();
-        let themeHeight = themeRect.height
-        let offset = {  // 滑鼠所在位置到該 div 最左上的座標的距離  → rect.x y 所指 div 最左上角的座標
+        const theme = e.currentTarget.parentElement.parentElement;
+        const index = parseInt(theme.getAttribute("index"));
+        const rect = theme.getBoundingClientRect();
+        const themeRect = e.currentTarget.parentElement.getBoundingClientRect();
+        const themeHeight = themeRect.height
+        let offset = {  //滑鼠所在位置到該 div 最左上的座標的距離  → rect.x y 所指 div 最左上角的座標
                 x:e.clientX - rect.x,
                 y:e.clientY - rect.y
             };
-        let x = e.clientX - offset.x;  // 這裡的 x y 是取得 div 最左上角為起點的座標數字 
+        let x = e.clientX - offset.x;  //這裡的 x y 是取得 div 最左上角為起點的座標數字 
         let y = e.clientY - offset.y;
         console.log("index", index)
         console.log("offset", offset)
@@ -179,12 +174,12 @@ class Section extends React.Component {
                 themeHeight: themeHeight
         });
 
-        const move = (e) => {  // 滑鼠移動想做的事情
+        const move = (e) => {  //滑鼠移動想做的事情
             e.preventDefault();
             e.stopPropagation();
             let x = e.clientX - offset.x;
             let y = e.clientY - offset.y;
-            let themeWidth = 278;
+            const themeWidth = 278;
             let markIndex = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);
             console.log(markIndex)
             if ( markIndex <= 0 ) {
@@ -199,13 +194,13 @@ class Section extends React.Component {
             });
         };
 
-        let up = (e) => {  // 滑鼠放開的時候想做的事情，最後把監聽事件移除
+        const up = (e) => {  //滑鼠放開的時候想做的事情，最後把監聽事件移除
             e.preventDefault();
             e.stopPropagation();
 
             let sourceIndex = index;
             let destinationIndex = this.state.dragInfo.markIndex;
-            console.log(sourceIndex , destinationIndex,"123")
+            console.log("sourceIndex , destinationIndex", sourceIndex , destinationIndex)
             this.props.dispatch({ type: "drag-dropTheme", sourceIndex, destinationIndex  })
             this.setState((preState)=>{
                 return {
@@ -215,20 +210,15 @@ class Section extends React.Component {
             document.removeEventListener("pointermove", move);
             document.removeEventListener("pointerup", up);
 
-            // write in db
             const db = fire.firestore();
             let firebaseUid = "";
             if ( this.props.currentBoard.length > 0) {
                 firebaseUid = this.props.currentBoard
-                console.log("2222222", firebaseUid)
             } else {
                 firebaseUid = this.props.firebaseUid
-                console.log("000000", firebaseUid)
             } 
-            console.log(sourceIndex, destinationIndex )
             db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((sourceIndex+1)*2)).get()
             .then((querySnapshot) => {
-                console.log(querySnapshot)
                 let docId = querySnapshot.docs[0].id
                 let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(docId)
                 let beforeIndex = (sourceIndex+1)*2;
@@ -246,21 +236,19 @@ class Section extends React.Component {
                 ref.update({
                     index: finalIndex
                 })
-            })
-            .then(() => {
+            }).then(() => {
                 db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
                 .then(async (querySnapshot) => {
                 let doc = querySnapshot.docs;
-                console.log(doc)
                 for ( let i = 0; i < doc.length; i++ ) {       
                     let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
                     ref.update({
-                        index: (((i+1)*2))  // 前後留空格讓之後移動可以有空間塞
+                        index: (((i+1)*2))
                         })
                     }
                 })
             }).catch((error)=> {
-                console.log("Error writing document: ", error);
+                console.log("Error writing document: ", error.message);
             })
         };
         document.addEventListener("pointermove", move);
@@ -280,11 +268,11 @@ class Section extends React.Component {
         let theme = parseInt(index.split("-")[0])
         let row = parseInt(index.split("-")[1])
         console.log(index,theme, row)
-        let offset = {  // 滑鼠所在位置到該 div 最左上的座標的距離  → rect.x y 所指 div 最左上角的座標
+        let offset = {  //滑鼠所在位置到該 div 最左上的座標的距離  → rect.x y 所指 div 最左上角的座標
             x:e.clientX - rect.x,
             y:e.clientY - rect.y
         };
-        let x = e.clientX - offset.x;  // 這裡的 x y 是取得 div 最左上角為起點的座標數字 
+        let x = e.clientX - offset.x;  //這裡的 x y 是取得 div 最左上角為起點的座標數字 
         let y = e.clientY - offset.y;
         console.log("offset", offset)
         console.log("rect", rect)
@@ -302,9 +290,9 @@ class Section extends React.Component {
             let x = e.clientX - offset.x;
             let y = e.clientY - offset.y;
             let themeWidth = 278;
-            let rowHeight = 200;  // 如果遇到高度特別高的留言就會不精準
-            let markTheme = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);  // 代表同主題寬度 x 軸
-            let markRow = Math.floor(( y + rect.height/3 ) / rowHeight);  // 代表主題內留言高度 y 軸
+            let rowHeight = 200;
+            let markTheme = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);  //代表同主題寬度 x 軸
+            let markRow = Math.floor(( y + rect.height/3 ) / rowHeight);  //代表主題內留言高度 y 軸
             console.log("markTheme, markRow", markTheme, markRow)
             if ( markTheme <= 0 ) {
                 markTheme = 0;
@@ -511,7 +499,7 @@ class Section extends React.Component {
                     elements.push(
                         <div className="sectionWrapper" key={i} index={i} style={{ left:dragInfo.left, top:dragInfo.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }}>
                             <div className="section">
-                                <div className="dragArea" onPointerDown={ this.drag }></div>
+                                <div className="dragArea" onPointerDown={ this.dragList }></div>
                                 <ThemeTitle themeIndex={ i } title={ item }/>
                                 <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
                                 <AddComment index={ i }/>
@@ -522,7 +510,7 @@ class Section extends React.Component {
                     elements.push(
                         <div className="sectionWrapper" key={i} index={i}>
                             <div className="section">
-                                <div className="dragArea" onPointerDown={ this.drag }></div>
+                                <div className="dragArea" onPointerDown={ this.dragList }></div>
                                 <ThemeTitle themeIndex={ i } title={ item }/>
                                 <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
                                 <AddComment index={ i }/>
@@ -548,7 +536,6 @@ class Section extends React.Component {
     }
 }
 
-
 const mapStateToProps = (state) => {
     return {
         text: state.text,
@@ -561,5 +548,4 @@ const mapStateToProps = (state) => {
         currentBoard: state.currentBoard,
     }
 }
-
 export default connect(mapStateToProps)(Section);

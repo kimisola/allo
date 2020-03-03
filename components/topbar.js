@@ -11,54 +11,43 @@ import fire from "../src/fire";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { withRouter}  from "react-router";
 import { connect } from 'react-redux';
-import zIndex from '@material-ui/core/styles/zIndex';
-
 
 class Topbar extends React.Component {
     constructor(props){
         super(props);
         this.myRef = React.createRef();
         this.state = {
-            alertMsg:[],  // 顯示的通知內容
-            alertNum: 0,  // 幾則新訊息
+            alertMsg:[],  //顯示的通知內容
+            alertNum: 0,  //幾則新訊息
             isShowedAlert: false,
             xCoordinate: "",
             yCoordinate: "",
         }
     }
 
-    //監聽自己的資料夾
-    componentDidMount(prevProps){
-        if ( !this.props.firebaseUid ) {
-            return;
-        }
-        // if ( this.state.alertNum !== "" ) {
-        //     return;
-        // }
-
+    listenForNewMsg = () => {
         const db = fire.firestore();
-        // listen for invitation ( new message )
+        // listen for invitation
         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("read", "==", false)
         .onSnapshot(async(doc) => {
-            let docs = doc.docs;
+            const docs = doc.docs;
             let msg  = this.state.alertMsg;
             
             for ( let i = 0; i < docs.length; i++ ) {
                 db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docs[i].id).get()
                 .then((querySnapshot) => {
-
-                    let doc = querySnapshot.data();
+                    const doc = querySnapshot.data();
                     let newMsg = ` ${doc.userName} agreed to your co-editing invitation.`;
                     let push = true;
 
-                    if(msg !== undefined){
+                    if ( msg !== undefined ) {
                         for (let j = 0; j < msg.length ; j++) {
-                            if(newMsg == msg[j]){
+                            if ( newMsg == msg[j] ) {
                                 push = false;
                             }
                         }
                     }
-                    if(push) {
+                    if (push) {
                         this.setState( prevState => {
                             let alertMsg = prevState.alertMsg
                             alertMsg.push(newMsg)
@@ -69,18 +58,16 @@ class Topbar extends React.Component {
                         })
                         push = false;
                     }
-                })
-                .catch((error) => {
+                }).catch((error) => {
                     console.log(error.message)
                 })
             }            
         })
-        
 
         // listen for beInvited
         db.collection("Users/" + this.props.firebaseUid + "/beInvited").where("read", "==", false)
         .onSnapshot(async(doc) => {
-            let docs = doc.docs;
+            const docs = doc.docs;
             let msg  = this.state.alertMsg;
 
             for ( let i = 0; i < docs.length; i++ ) {
@@ -89,14 +76,14 @@ class Topbar extends React.Component {
                     let doc = querySnapshot.data();
                     let newMsg = ` ${doc.userName} invited you to be a co-editor to his board.`;
                     let push = true;
-                    if (msg !== undefined) {
+                    if ( msg !== undefined ) {
                         for (let j = 0; j < msg.length ; j++){
                             if (newMsg == msg[j]) {
                                 push = false;
                             }
                         }
                     }
-                    if(push) {
+                    if (push) {
                         this.setState( prevState => {
                             let alertMsg = prevState.alertMsg
                             alertMsg.push(newMsg)
@@ -107,103 +94,28 @@ class Topbar extends React.Component {
                         })
                         push = false;
                     }
-                })
-                .catch((error) => {
+                }).catch((error) => {
                     console.log(error.message)
                 })
             }
-        })       
+        })  
+    }
+
+    componentDidMount(prevProps){
+        if ( !this.props.firebaseUid ) {
+            return;
+        }
+        this.listenForNewMsg();
     }
 
     componentDidUpdate(prevProps){
         if ( !this.props.firebaseUid ) {
             return;
         }
-        // if ( this.state.alertNum !== "" ) {
-        //     return;
-        // }
-
-        const db = fire.firestore();
-        // listen for invitation ( new message )
-        db.collection("Users/" + this.props.firebaseUid + "/invitation").where("read", "==", false)
-        .onSnapshot(async(doc) => {
-            let docs = doc.docs;
-            let msg  = this.state.alertMsg;
-            
-            for ( let i = 0; i < docs.length; i++ ) {
-                db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docs[i].id).get()
-                .then((querySnapshot) => {
-
-                    let doc = querySnapshot.data();
-                    let newMsg = ` ${doc.userName} agreed to your co-editing invitation.`;
-                    let push = true;
-
-                    if(msg !== undefined){
-                        for (let j = 0; j < msg.length ; j++) {
-                            if(newMsg == msg[j]){
-                                push = false;
-                            }
-                        }
-                    }
-                    if(push) {
-                        this.setState( prevState => {
-                            let alertMsg = prevState.alertMsg
-                            alertMsg.push(newMsg)
-                            return Object.assign({}, prevState, {
-                                alertMsg: alertMsg,
-                                alertNum: prevState.alertNum+1,
-                            });
-                        })
-                        push = false;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error.message)
-                })
-            }            
-        })
-        
-
-        // listen for beInvited
-        db.collection("Users/" + this.props.firebaseUid + "/beInvited").where("read", "==", false)
-        .onSnapshot(async(doc) => {
-            let docs = doc.docs;
-            let msg  = this.state.alertMsg;
-
-            for ( let i = 0; i < docs.length; i++ ) {
-                db.collection("Users/" + this.props.firebaseUid + "/beInvited").doc(docs[i].id).get()
-                .then((querySnapshot) => {
-                    let doc = querySnapshot.data();
-                    let newMsg = ` ${doc.userName} invited you to be a co-editor to his board.`;
-                    let push = true;
-                    if (msg !== undefined) {
-                        for (let j = 0; j < msg.length ; j++){
-                            if (newMsg == msg[j]) {
-                                push = false;
-                            }
-                        }
-                    }
-                    if(push) {
-                        this.setState( prevState => {
-                            let alertMsg = prevState.alertMsg
-                            alertMsg.push(newMsg)
-                            return Object.assign({}, prevState, {
-                                alertMsg: alertMsg,
-                                alertNum: prevState.alertNum+1,
-                            });
-                        })
-                        push = false;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error.message)
-                })
-            }
-        })       
+        this.listenForNewMsg();
     }
 
     showAlert = () => {
-        console.log("座標來", this.myRef.current.getBoundingClientRect())
         let data = this.myRef.current.getBoundingClientRect()
         this.setState( prevState => {
             
@@ -260,22 +172,20 @@ class Topbar extends React.Component {
     userSignOut = () => {
         firebase.auth().signOut().then(() => {
             location.href = "/";
-
             let firebaseUid = "";
             let userDisplayName = "";
             let userPhotoURL = "";
             let userEmail = "";  
             let useruid = "";       
             props.setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
-
         }).catch((error) => {
-            console.log(error)
+            console.log(error.message)
         });
     }
     
     render(){
 
-        let alertMsg = this.state.alertMsg==null?[]:this.state.alertMsg;
+        let alertMsg = this.state.alertMsg == null ? [] : this.state.alertMsg;
 
         const menuStyle = {
             menuStyle: {
@@ -290,7 +200,7 @@ class Topbar extends React.Component {
 
         let targetURL = `/Board/${ this.props.firebaseUid }`;
 
-        let withAlertMsg = [
+        const withAlertMsg = [
             <React.Fragment key={100}>
                 <div className="boardList alertDiv" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
                     <div className="alert">
@@ -309,7 +219,7 @@ class Topbar extends React.Component {
             </React.Fragment>
         ]
 
-        let withoutAlertMsg = [
+        const withoutAlertMsg = [
             <React.Fragment key={200}>
                 <Link to="/HomePage/notifications"><div className="boardList alertDiv" onClick={ ()=>this.showAlert()} ref={ this.myRef }>
                     <div className="alert">
@@ -322,7 +232,6 @@ class Topbar extends React.Component {
 
         return(
             <React.Fragment>
-                       
                     <div className="topBar">
                         <div className="topLeft">
                             <div className="home">
@@ -349,7 +258,6 @@ class Topbar extends React.Component {
                             </div>
                         </div>
                     </div>  
-
             </React.Fragment>
         )
     }
@@ -363,12 +271,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         setCurrentUser: (userDisplayName, userPhotoURL, userEmail, firebaseUid) => { dispatch(setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid)) },
         switchBoard: (targetLink) => { dispatch(switchBoard(targetLink)) },
     }
 }
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Topbar));

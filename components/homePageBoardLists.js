@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import BoardLink from "./boardLink";
-import fire from "../src/fire";
 
 class BoardLists extends React.Component {
     constructor(props){
         super(props);
     }
-
     
     render(){
         return(

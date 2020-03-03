@@ -3,18 +3,12 @@ import { connect } from 'react-redux';
 import CommentMenu from "../components/commentMenu";
 import { changeTagsDisplay } from "./actionCreators";
 
-
-
 class CommentItem extends React.Component {
         constructor(props){
             super(props);
             this.myRef = React.createRef();
 
         }
-    
-    // top = () => {
-    //     console.log("座標來", this.myRef.current.getBoundingClientRect())
-    // }
 
         change = () => {
             this.props.changeTagsDisplay();
@@ -33,7 +27,6 @@ class CommentItem extends React.Component {
 
         return(
             <React.Fragment>
-                
                 <div className="tags" ref={ this.myRef }>
                 { this.props.item.tags.map((tag, i) => {
                     switch (tag) {
@@ -56,12 +49,10 @@ class CommentItem extends React.Component {
                 }
                 </div>
                 <CommentMenu  listId={ this.props.listIndex } comId={ this.props.j } coordinate={ this.myRef }  />
-
             </React.Fragment>
         )
     }
 }
-
 
 const mapStateToProps = (state ,ownprops) => {
     return {
@@ -73,9 +64,9 @@ const mapStateToProps = (state ,ownprops) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        changeTagsDisplay: (userDisplayName, userPhotoURL, userEmail, firebaseUid) => { dispatch(changeTagsDisplay(userDisplayName, userPhotoURL, userEmail, firebaseUid)) },
+        changeTagsDisplay: () => { dispatch(changeTagsDisplay()) },
     }
 }
 

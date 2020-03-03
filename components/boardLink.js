@@ -2,14 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { connect } from 'react-redux';
 import { switchBoard } from"./actionCreators"
-import fire from "../src/fire";
-import Background from "../images/mainBackground.jpg";
 
 class BoardLink extends React.Component {
     constructor(props){
         super(props);
     }
-
 
     switchBoard = () => {
         let targetLink = this.props.targetLink
@@ -35,11 +32,9 @@ class BoardLink extends React.Component {
 
         return(
             <React.Fragment>
-                
                 <div className="board" style={ boardStyle.board } onClick={ this.switchBoard } > 
                     <Link to={ targetURL } style={ boardStyle.link }>  { this.props.boardName } </Link>
                 </div>
-
             </React.Fragment>
         )
     }
@@ -57,10 +52,9 @@ const mapStateToProps = (state, ownprops) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownprops) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         switchBoard: (targetLink) => { dispatch(switchBoard(targetLink)) },
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(BoardLink);

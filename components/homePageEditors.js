@@ -16,8 +16,8 @@ class Editors extends React.Component {
         const db = fire.firestore();
         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", userFirebaseuid)
         .get().then((querySnapshot) => {
-            let docId = querySnapshot.docs[0].id
-            let  ref = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docId)
+            const docId = querySnapshot.docs[0].id
+            const ref = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docId)
             ref.update({ 
                 confirm: null,
             })
@@ -25,8 +25,8 @@ class Editors extends React.Component {
 
         db.collection("Users/" + userFirebaseuid + "/beInvited").where("userFirebaseuid", "==", this.props.firebaseUid)
         .get().then((querySnapshot) => {
-            let docId = querySnapshot.docs[0].id
-            let  ref = db.collection("Users/" + userFirebaseuid + "/beInvited").doc(docId)
+            const docId = querySnapshot.docs[0].id
+            const ref = db.collection("Users/" + userFirebaseuid + "/beInvited").doc(docId)
             ref.update({ 
                 confirm: null,
             })
@@ -62,7 +62,6 @@ class Editors extends React.Component {
     }
 }
 
-
 const mapStateToProps = (state, ownprops) => {
     return {
         firebaseUid: state.firebaseUid,
@@ -73,10 +72,9 @@ const mapStateToProps = (state, ownprops) => {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         unfriend: (userFirebaseuid, index) => { dispatch(unfriend(userFirebaseuid, index)) },
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Editors);
