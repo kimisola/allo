@@ -9,6 +9,7 @@ class ThemeTitle extends React.Component {
         this.state = {
             isInEditMode: false,
             isDeleteConfirmWinOpen: false,
+            targetIndex: "",
         }
     }
 
@@ -17,14 +18,17 @@ class ThemeTitle extends React.Component {
         console.log(i)
         //this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
         this.setState( prevState => {
+            let targetIndex = i
             return Object.assign({}, prevState, { 
-                isAddNewListOpened: !prevState.isAddNewListOpened
+                isDeleteConfirmWinOpen: !prevState.isDeleteConfirmWinOpen,
+                targetIndex: targetIndex
             })
         });
+        console.log(this.state)
     }
 
     deleteTheme = () => {
-        let t = this.props.whichWindowOpen
+        let t = this.state.targetIndex
         console.log("run delete theme", t)
 
         const db = fire.firestore();
@@ -45,7 +49,13 @@ class ThemeTitle extends React.Component {
             .then(() => {
                 console.log("Document successfully deleted!", t);
                 this.props.dispatch({ type: "deleteTheme", t })
-                this.props.dispatch({ type: "deleteThemeConfirmOpen" })
+                this.setState( prevState => {
+                    let targetIndex = ""
+                    return Object.assign({}, prevState, { 
+                        isDeleteConfirmWinOpen: !prevState.isDeleteConfirmWinOpen,
+                        targetIndex: targetIndex
+                    })
+                });
                 db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
                 .then(async (querySnapshot) => {
                     let doc = querySnapshot.docs;
@@ -63,12 +73,9 @@ class ThemeTitle extends React.Component {
     }
 
     changeEditMode = () => {
-        console.log("run changeEditMode")
-        
         this.setState( prevState => {
             return { isInEditMode: !prevState.isInEditMode }
         });
-        console.log("should go to changeEditMode", this.state.isInEditMode)
     }
 
     updateValue = (event) => {
@@ -133,12 +140,12 @@ class ThemeTitle extends React.Component {
                 </div>
             </div>
 
-            <div className="addThemeDiv" style={{ display: this.props.deleteThemeConfirmOpen ? 'block' : 'none' }}>
+            <div className="addThemeDiv" style={{ display: this.state.isDeleteConfirmWinOpen ? 'block' : 'none' }}>
                 <div className="addTheme">
                     <p>Are you sure to delete the list?</p>
                     <div className="buttons">
                         <div className="no" onClick={ this.openConfirmWin }>cancel</div>
-                        <div className="yes" onClick={ () => this.deleteTheme(this.props.themeIndex) }>confirm</div>
+                        <div className="yes" onClick={ this.deleteTheme }>confirm</div>
                     </div>
                 </div>
             </div>
@@ -159,9 +166,9 @@ const mapStateToProps = (state ,ownprops) => {
         listTitle: state.listTitle,
         title: ownprops.title,
         firebaseUid: state.firebaseUid,
-        indexWin: ownprops.indexWin,
-        deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
-        whichWindowOpen: state.whichWindowOpen,
+        // indexWin: ownprops.indexWin,
+        // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
+        // whichWindowOpen: state.whichWindowOpen,
         firebaseUid: state.firebaseUid,
         currentBoard: state.currentBoard,
         themeIndex: ownprops.themeIndex,

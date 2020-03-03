@@ -10,7 +10,8 @@ class SecondBar extends React.Component {
     constructor(props){
         super(props);
         this.myRef = React.createRef();
-        this.textInput = React.createRef();
+        this.titleInput = React.createRef();
+        this.mailInput = React.createRef();
         this.state = {
             isShowInvitation: false,
             isAddNewListOpened: false,
@@ -26,8 +27,12 @@ class SecondBar extends React.Component {
     }
 
     componentDidUpdate() {
-        if ( this.props.addNewListOpened ) {
-            this.textInput.current.focus();
+        if ( this.state.isAddNewListOpened ) {
+            this.titleInput.current.focus();
+        }
+
+        if ( this.state.isShowInvitation ) {
+            this.mailInput.current.focus();
         }
     }
 
@@ -328,7 +333,7 @@ class SecondBar extends React.Component {
                                 <div className="mailDiv">
                                     <img src={ Mail } />
                                 </div>
-                                <input type="text" value={ this.state.userMail } onChange={ this.getMailValue } onKeyPress={ this.invite }/>
+                                <input type="text" value={ this.state.userMail } onChange={ this.getMailValue } onKeyPress={ this.invite } ref={ this.mailInput }/>
                             </div>
                         </div>
                     </div>
@@ -341,7 +346,7 @@ class SecondBar extends React.Component {
                 <div className="addThemeDiv" style={{display: this.state.isAddNewListOpened ? 'block' : 'none' }}>
                     <div className="addTheme">
                         <p>Add new list：</p>
-                        <input type="text" value={ this.props.titleValue } onChange={ this.getTitleValue } onKeyPress={ this.creatTitle } ref={this.textInput}/>
+                        <input type="text" value={ this.props.titleValue } onChange={ this.getTitleValue } onKeyPress={ this.creatTitle } ref={ this.titleInput }/>
                         <div className="buttons">
                             <div className="no" onClick={ this.addNewListOpen }>cancel</div>
                             <div className="yes" onClick={ this.creatTitleByButton }>confirm</div>

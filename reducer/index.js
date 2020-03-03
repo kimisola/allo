@@ -118,12 +118,12 @@ function Reducer(state = initialState, action) {
             }); 
         }
        
-        case "deleteThemeConfirmOpen": {
-            return Object.assign({}, state, {
-                deleteThemeConfirmOpen: !state.deleteThemeConfirmOpen,
-                whichWindowOpen: action.i
-            }); 
-        }
+        // case "deleteThemeConfirmOpen": {
+        //     return Object.assign({}, state, {
+        //         deleteThemeConfirmOpen: !state.deleteThemeConfirmOpen,
+        //         whichWindowOpen: action.i
+        //     }); 
+        // }
  
         case "sendComment": {
             let i = action.index;

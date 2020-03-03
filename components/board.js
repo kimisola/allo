@@ -353,7 +353,6 @@ class Board extends React.Component {
                                 myDataText.push(doc2[j].data())
                             }
                             Data2.push(myDataText);
-                            console.log(Data2,"doc2[j].data()doc2[j].data()doc2[j].data()")
                             myDataText = []; //reset comments under certain title
                         })
                     } combineData();
@@ -372,12 +371,10 @@ class Board extends React.Component {
 
     fileUpload = (event) => {
         const file = event.target.files[0]
-        console.log(event.target.files[0])
         var reader = new FileReader(); 
         const storageRef = fire.storage().ref("homepageCover");
         const imgRef = storageRef.child(file.name)
         const fileTypes = ["image/jpeg", "image/png","image/gif"]; 
-        console.log("typetypetypetypetype",file.size)
         let flag = false;
         
             imgRef.put(file)
@@ -416,7 +413,7 @@ class Board extends React.Component {
                     alert("Only support jpeg/png/gif type files.");
                 }
             }).catch((error) => {
-                console.error("Error removing document: ", error);
+                console.log("Error removing document: ", error);
         })      
     }
 
@@ -455,7 +452,6 @@ class Board extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("map state", state.firebaseUid);
     return {
         isBoardLoaded: state.isBoardLoaded,
         text: state.text,
