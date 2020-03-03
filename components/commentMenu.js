@@ -287,15 +287,15 @@ class CommentMenu extends React.Component {
                                     <div className="editTag">
                                         <img src={ this.props.text[this.props.listId][this.props.comId].ownerImg } />
                                     </div>
-                                    <div style={{display: this.state.isOwnerShowed ? 'none' : 'block' }}>Owner</div>
-                                    <div style={{display: this.state.isOwnerShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].owner }</div>
+                                    <div style={{display: this.state.isOwnerShowed ? "none" : "block" }}>Owner</div>
+                                    <div style={{display: this.state.isOwnerShowed ? "block" : "none" }}>{ this.props.text[this.props.listId][this.props.comId].owner }</div>
                                 </div>
                                 <div className="menuList" onMouseEnter={ this.showEditor } onMouseLeave={ this.showEditor }>
                                     <div className="editText">
                                         <img src={ this.props.text[this.props.listId][this.props.comId].editorImg } />
                                     </div>
-                                    <div style={{display: this.state.isEditorShowed ? 'none' : 'block' }}>Editor</div>
-                                    <div style={{display: this.state.isEditorShowed ? 'block' : 'none' }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>
+                                    <div style={{display: this.state.isEditorShowed ? "none" : "block" }}>Editor</div>
+                                    <div style={{display: this.state.isEditorShowed ? "block" : "none" }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>
                                 </div>
                                 {/* <div className="menuList" >
                                     <div className="setTime">

@@ -111,21 +111,19 @@ class SecondBar extends React.Component {
         }).then(() => {
             this.props.setIndexForTitle(indexForTitle + 2)
         }).catch(() => {
-            console.error("Error writing document: ", error);
+            console.error("Error writing document: ", error.message);
         })
     }
 
     getCoordinate = () => {
         const data = this.myRef.current.getBoundingClientRect()
         this.setState( prevState => {  
-            let xCoordinate = prevState.xCoordinate
-            xCoordinate = data.x
-            let yCoordinate = prevState.yCoordinate
-            yCoordinate = data.y
-            return { 
+            const xCoordinate = data.x
+            const yCoordinate = data.y
+            return Object.assign({}, prevState, {
                 xCoordinate: xCoordinate,
                 yCoordinate: yCoordinate
-             }
+            })     
         });
     }
 
@@ -237,7 +235,7 @@ class SecondBar extends React.Component {
                             backgroundURL: backgroundURL,
                             read: null,
                         }).catch((error)=> {
-                            console.log("Error writing document: ", error);
+                            console.log("Error writing document: ", error.message);
                         })
                     })
                     }

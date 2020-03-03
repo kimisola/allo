@@ -1,7 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { addBeInvitedData, addInvitationData } from "./actionCreators";
-import { connect } from 'react-redux';
+import { lib_fileUpload } from "../library/lib";
 import Topbar from "../components/topbar";
 import BoardLists from "../components/homePageBoardLists";
 import Notifications from "../components/homePageNotifications";
@@ -19,6 +20,7 @@ class HomePage extends React.Component {
             isIconTurn: false, 
             currentUserBackground: "",
         }
+        this.lib_fileUpload = lib_fileUpload.bind(this)
     } 
 
     componentDidMount() {
@@ -49,6 +51,7 @@ class HomePage extends React.Component {
             db.collection("Users").doc(firebaseUid).get()
             .then((querySnapshot) => {
                 this.setState(prevState => {
+                    // console.log("背景圖片網址", querySnapshot.data().homepageCover)
                     let homepageCover = querySnapshot.data().homepageCover
                     return Object.assign({}, prevState, {
                         homepageCover: homepageCover
@@ -140,47 +143,48 @@ class HomePage extends React.Component {
         const file = event.target.files[0]
         console.log(event.target.files[0])
         // var reader = new FileReader();
-        const storageRef = fire.storage().ref("boardBackground");
-        const imgRef = storageRef.child(file.name)
-        const fileTypes = ["image/jpeg", "image/png","image/gif"]; 
-        let flag = false;
+        this.lib_fileUpload("homepageCover", file)
+        // const storageRef = fire.storage().ref("boardBackground");
+        // const imgRef = storageRef.child(file.name)
+        // const fileTypes = ["image/jpeg", "image/png","image/gif"]; 
+        // let flag = false;
         
-            imgRef.put(file)
-            .then((snapshot) => {
-                for (let i = 0; i < fileTypes.length; i++) {
-                    if ( file.type == fileTypes[i] ) { 
-                        flag = true
-                        if (file.size > 190000 ) {
-                        // console.log("Uploaded a blob or file!");
-                        imgRef.getDownloadURL().then( async (url) => {
-                            // console.log(url)
-                            this.setState( prevState => {
-                                let homepageCover = url
-                                return Object.assign({}, prevState, {
-                                    homepageCover: homepageCover,
-                                })
-                            });
-                            const db = fire.firestore();
-                            let firebaseUid = this.props.firebaseUid
-                            db.collection("Users").doc(firebaseUid)
-                            .update({
-                                homepageCover: this.state.homepageCover
-                            }).catch((error)=> {
-                                console.log("Error writing document: ", error.message);
-                            })
-                        })
-                        } else { 
-                            alert("Oops! Low resolution image.")
-                            break;
-                        }
-                    }  
-                }
-                if (!flag) {
-                    alert("Only support jpeg/png/gif type files.");
-                }
-            }).catch((error) => {
-                console.error("Error removing document: ", error.message);
-        })      
+        //     imgRef.put(file)
+        //     .then((snapshot) => {
+        //         for (let i = 0; i < fileTypes.length; i++) {
+        //             if ( file.type == fileTypes[i] ) { 
+        //                 flag = true
+        //                 if (file.size > 190000 ) {
+        //                 // console.log("Uploaded a blob or file!");
+        //                 imgRef.getDownloadURL().then( async (url) => {
+        //                     // console.log(url)
+        //                     this.setState( prevState => {
+        //                         let homepageCover = url
+        //                         return Object.assign({}, prevState, {
+        //                             homepageCover: homepageCover,
+        //                         })
+        //                     });
+        //                     const db = fire.firestore();
+        //                     let firebaseUid = this.props.firebaseUid
+        //                     db.collection("Users").doc(firebaseUid)
+        //                     .update({
+        //                         homepageCover: this.state.homepageCover
+        //                     }).catch((error)=> {
+        //                         console.log("Error writing document: ", error.message);
+        //                     })
+        //                 })
+        //                 } else { 
+        //                     alert("Oops! Low resolution image.")
+        //                     break;
+        //                 }
+        //             }  
+        //         }
+        //         if (!flag) {
+        //             alert("Only support jpeg/png/gif type files.");
+        //         }
+        //     }).catch((error) => {
+        //         console.error("Error removing document: ", error.message);
+        // })      
     }
 
     render(){

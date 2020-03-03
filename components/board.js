@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import fire from "../src/fire";
 import { setUpComWin, renderComments, setIndexForTitle, loadingGifOn, switchBoard } from"../components/actionCreators"
+import { lib_fileUpload } from "../library/lib";
 import Topbar from "../components/topbar";
 import SecondBar from "../components/secondBar";
 import Section from "../components/section";
@@ -17,6 +18,7 @@ class Board extends React.Component {
             exampleImg: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2Fwelcome.png?alt=media&token=7a5e1d96-87c0-4a51-8dfc-e7c98b67579c",
             exampleAuthor: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=264bf4c3-e1ed-42bd-8291-4928859932f7",
         }
+        this.lib_fileUpload = lib_fileUpload.bind(this)
     }
 
     componentDidMount() {
@@ -27,11 +29,11 @@ class Board extends React.Component {
         let myDataTitle = [];
         let myDataText = [];
         let listsId = [];
-        let Data = [];  // combine titles and texts
-        let Data1 = [];  // store title
-        let Data2 = [];  // store comment text
+        let Data = [];  //主題留言 combine 在一起
+        let Data1 = [];  //儲存主題
+        let Data2 = [];  //儲存留言
         let firebaseUid = "";
-        if (firebaseUid == null) {  // 未登入
+        if (firebaseUid == null) {  //未登入
             window.location = "/";
         } 
         else {
@@ -358,50 +360,7 @@ class Board extends React.Component {
 
     fileUpload = (event) => {
         const file = event.target.files[0]
-        var reader = new FileReader(); 
-        const storageRef = fire.storage().ref("homepageCover");
-        const imgRef = storageRef.child(file.name)
-        const fileTypes = ["image/jpeg", "image/png","image/gif"]; 
-        let flag = false;
-        
-            imgRef.put(file)
-            .then((snapshot) => {
-                for (let i = 0; i < fileTypes.length; i++) {
-                    if ( file.type == fileTypes[i] ) { 
-                        flag = true
-                        if (file.size > 190000 ) {
-                        console.log("Uploaded a blob or file!");
-                        imgRef.getDownloadURL().then( async (url) => {
-                            console.log(url)
-                            this.setState( prevState => {
-                                let boardURL = url
-                                return Object.assign({}, prevState, {
-                                    boardURL: boardURL,
-                                })
-                            });
-                            const db = fire.firestore();
-                            let firebaseUid = this.props.firebaseUid
-                            db.collection("Boards").doc(firebaseUid)
-                            .update({
-                                background: this.state.boardURL
-                            }).then(() => {
-                                console.log("Document successfully written!")
-                            }).catch((error)=> {
-                                console.log("Error writing document: ", error);
-                            })
-                        })
-                        } else { 
-                            alert("Oops! Low resolution image.")
-                            break;
-                        }
-                    }  
-                }
-                if (!flag) {
-                    alert("Only support jpeg/png/gif type files.");
-                }
-            }).catch((error) => {
-                console.log("Error removing document: ", error);
-        })      
+        this.lib_fileUpload("boardBackground", file)
     }
 
     render(){

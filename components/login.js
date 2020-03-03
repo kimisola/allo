@@ -36,7 +36,7 @@ class LoginPage extends React.Component {
             password: "",
             message: "",
             isRegisted: false,
-            isLoginin: false,
+            isLoggedin: false,
             isSigninArea: false,
         }
     }
@@ -67,23 +67,23 @@ class LoginPage extends React.Component {
         })
     }
 
-    loginEmail = (event) => {
-        let emailValue = event.target.value
-        this.setState(prevState => { 
-            return Object.assign({}, prevState, { 
-                email: emailValue ,
-                message: "",
-            }) 
-        })
-    }
+    // getEmail = (event) => {
+    //     let emailValue = event.target.value
+    //     this.setState(prevState => { 
+    //         return Object.assign({}, prevState, { 
+    //             email: emailValue ,
+    //             message: "",
+    //         }) 
+    //     })
+    // }
 
-    Loginpassword = (event) => {
-        let passwordValue = event.target.value
-        console.log(passwordValue)
-        this.setState(prevState => { 
-            return Object.assign({}, prevState, { password: passwordValue }) 
-        })
-    }
+    // getPassword = (event) => {
+    //     let passwordValue = event.target.value
+    //     console.log(passwordValue)
+    //     this.setState(prevState => { 
+    //         return Object.assign({}, prevState, { password: passwordValue }) 
+    //     })
+    // }
     
     registerWithFire = () => {
         if ( this.state.email === "" ) {
@@ -107,18 +107,16 @@ class LoginPage extends React.Component {
             this.registerWithFire();
         }
     }
-    
+
     loginWithFire = () => {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
         .then((user) => {
             var user = firebase.auth().currentUser;
             console.log(user);
-        if (user) {
-            // User is signed in.
-            console.log("Login successfully")
-        } else {
-            // No user is signed in.
-        }
+        // if (user) {
+        //     console.log("Login successfully")
+        // } else {
+        // }
         }).catch((error) => {
             this.setState(prevState => { 
                 return Object.assign({}, prevState, { message: error.message }) 
@@ -132,37 +130,47 @@ class LoginPage extends React.Component {
         }
     }
 
-    switchToRegister = () => {
-        this.setState( prevState => {
-            let isRegisted = prevState.isRegisted
-            isRegisted = true
-            let isLoginin = prevState.isLoginin
-            isLoginin = false
-            let isSigninArea = prevState.isSigninArea
-            isSigninArea = true
-            return { 
+    switchSigninArea = (isRegisted, isLoggedin, isSigninArea) => {
+        this.setState(prevState => { 
+            return Object.assign({}, prevState, { 
                 isRegisted: isRegisted,
-                isLoginin: isLoginin,
-                isSigninArea: isSigninArea
-            }
-        }); 
+                isLoggedin: isLoggedin,
+                isSigninArea: isSigninArea 
+            }) 
+        })
     }
 
-    switchToLogin = () => {
-        this.setState( prevState => {
-            let isRegisted = prevState.isRegisted
-            isRegisted = false
-            let isLoginin = prevState.isLoginin
-            isLoginin = true
-            let isSigninArea = prevState.isSigninArea
-            isSigninArea = true
-            return { 
-                isRegisted: isRegisted,
-                isLoginin: isLoginin,
-                isSigninArea: isSigninArea
-            }
-        }); 
-    }
+    // switchToRegister = () => {
+    //     this.setState( prevState => {
+    //         let isRegisted = prevState.isRegisted
+    //         isRegisted = true
+    //         let isLoggedin = prevState.isLoggedin
+    //         isLoggedin = false
+    //         let isSigninArea = prevState.isSigninArea
+    //         isSigninArea = true
+    //         return { 
+    //             isRegisted: isRegisted,
+    //             isLoggedin: isLoggedin,
+    //             isSigninArea: isSigninArea
+    //         }
+    //     }); 
+    // }
+
+    // switchToLogin = () => {
+    //     this.setState( prevState => {
+    //         let isRegisted = prevState.isRegisted
+    //         isRegisted = false
+    //         let isLoggedin = prevState.isLoggedin
+    //         isLoggedin = true
+    //         let isSigninArea = prevState.isSigninArea
+    //         isSigninArea = true
+    //         return { 
+    //             isRegisted: isRegisted,
+    //             isLoggedin: isLoggedin,
+    //             isSigninArea: isSigninArea
+    //         }
+    //     }); 
+    // }
 
     render(){
 
@@ -176,13 +184,13 @@ class LoginPage extends React.Component {
                 zIndex: this.state.isRegisted ? "10" : "",
             },
             login: {
-                opacity: this.state.isLoginin ? "1" : "0" ,
-                height: this.state.isLoginin ? "250px" : "0px",
-                zIndex: this.state.isLoginin ? "10" : "",
+                opacity: this.state.isLoggedin ? "1" : "0" ,
+                height: this.state.isLoggedin ? "250px" : "0px",
+                zIndex: this.state.isLoggedin ? "10" : "",
             }
         }
         const textContent = [ 
-                <div className="textContent" key={150}>
+                <div className="textContent">
                     <div className="details"style = {{textAlign: "left"}}>
                         <p>a-llo’s boards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
                     </div>
@@ -192,8 +200,8 @@ class LoginPage extends React.Component {
                     </div>
                 </div>
                 ];
-                const Sign = [ 
-            <div className="textContent" key={250}>
+        const Sign = [ 
+            <div className="textContent">
                 <div className="SignDetails" style = {{textAlign: "center", fontSize:"19px"}}>
                     <p>Sign up for your account</p>
                 </div>
@@ -202,7 +210,7 @@ class LoginPage extends React.Component {
             </div>
             ];
         const Log = [ 
-            <div className="textContent" key={350}>
+            <div className="textContent">
                 <div className="details" style = {{textAlign: "center", fontSize:"19px"}}>
                     <p>Log in to a-llo</p>
                 </div>
@@ -234,10 +242,10 @@ class LoginPage extends React.Component {
                         <div className="login-main">
                             <div className="login-content">
                                 <div className="buttons">
-                                    <div className="registerButton" onClick={ this.switchToRegister }>
+                                    <div className="registerButton" onClick={ () => this.switchSigninArea(true, false, true) }>
                                         <label className="b-button switch-register"  value="Register" >Register</label>
                                     </div>
-                                    <div className="loginButton" onClick={ this.switchToLogin }>
+                                    <div className="loginButton" onClick={ () => this.switchSigninArea(false, true, true) }>
                                         <label className="b-button switch-login" type="button" value="Login" >Login</label>
                                     </div>
                                 </div>
@@ -249,7 +257,7 @@ class LoginPage extends React.Component {
                                         <div className="rigister-div">
                                             <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
                                             <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword } onKeyPress={ this.registerWithFireByEnter }/>
-                                            <button onClick={ this.registerWithFire } style={{ display:  this.state.isSigninArea ? this.state.isLoginin ?  "none" : "block" :"none"}}>Register</button>
+                                            <button onClick={ this.registerWithFire } style={{ display:  this.state.isSigninArea ? this.state.isLoggedin ?  "none" : "block" :"none"}}>Register</button>
                                         </div>
                                         
                                         <p className="errmsg"> {this.state.message} </p>
@@ -259,20 +267,20 @@ class LoginPage extends React.Component {
                                     {/* 登入滑出的 div */}
                                     <div className="login" style={style.login}>
                                         <div className="login-div">
-                                            <input type="email" placeholder="Email *" onChange={ this.loginEmail }/>
-                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.Loginpassword } onKeyPress={ this.loginWithFireByEnter }/>
-                                            <button onClick={ this.loginWithFire } style={{ display: this.state.isLoginin ? 'block' : 'none' }}>Log in</button>
+                                            <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
+                                            <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword } onKeyPress={ this.loginWithFireByEnter }/>
+                                            <button onClick={ this.loginWithFire } style={{ display: this.state.isLoggedin ? 'block' : 'none' }}>Log in</button>
                                         </div>
                                         <p className="errmsg"> {this.state.message} </p>
 
-                                        <div className="googleBar" style={{ display: this.state.isLoginin ? 'block' : 'none' }}>
+                                        <div className="googleBar" style={{ display: this.state.isLoggedin ? 'block' : 'none' }}>
                                             <div className="or"><div></div>OR<div></div></div>
                                             <GLogin />
                                         </div>
                                     </div>
 
                                 </div>              
-                                { this.state.isSigninArea ? this.state.isLoginin ? Log : Sign   : textContent }                 
+                                { this.state.isSigninArea ? this.state.isLoggedin ? Log : Sign   : textContent }                 
                                 </div>
 
                             <div className="login-img">
@@ -287,16 +295,12 @@ class LoginPage extends React.Component {
                                 <img src={ ContentImg1 }/>
                             </div>
                             <div className="text">
-                                {/* <h2>文字以外的豐富度</h2>
-                                <p>除了文字的紀錄外，也可以分享圖片，甚至是貼上標籤提醒工作進度。</p> */}
                                 <h2>-Visualize your task list</h2>
                                 <p>Besides sharing picture, adding category tags for your schedule.</p>
                             </div>
                         </div>
                         <div className="section">
                             <div className="text">
-                                {/* <h2>與任何團隊合作無間</h2>
-                                <p>不論是個人的工作內容，還是團隊間的專案，甚至是家人朋友間的旅遊，a-llo 都可以井然有序地幫你紀錄相關事務。</p> */}
                                 <h2>-Cooperate with anyone.</h2>
                                 <p>Whether it is your personal jobs, team project or travel plan among friends and family. a-llo organizes and gets everything leap to the eye.</p>
                             </div>
@@ -309,21 +313,10 @@ class LoginPage extends React.Component {
                                 <img src={ ContentImg3 }/>
                             </div>
                             <div className="text">
-                                {/* <h2>動態的行程管理</h2>
-                                <p>支援列表和留言間的拖曳，讓你有更多的彈性來管理專案內容。</p> */}
                                 <h2>-Sectional schedule management</h2>
                                 <p>Drag and drop between list and comment offers you more flexibility.</p>
                             </div>
                         </div>
-                        {/* <div className="section">
-                            <div className="text">
-                                <h2>簡單快速上手的操作</h2>
-                                <p>這裡預計放網站的使用教學 →</p>
-                            </div>
-                            <div className="picture">
-                                <img src={ ContentImg2 }/>
-                            </div>
-                        </div> */}
                     </div>
 
                     <div className="login-footer">
