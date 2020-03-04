@@ -165,12 +165,12 @@ class AddComment extends React.Component {
                 .then( async (querySnapshot2) => {
                     let doc2 = querySnapshot2.docs;
                     indexForItem = ((doc2.length+1)*2)
-                    this.props.dispatch({ type: "setIndexForItem", indexForItem})
+                    // this.props.dispatch({ type: "setIndexForItem", indexForItem})
 
                     if ( newImg === undefined ) {
                         newImg = "";
                     }
-               
+                
                     route.set({
                         img: newImg,
                         tags: newTags,

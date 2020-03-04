@@ -1,10 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { lib_AccessOrderByMethod } from "../library/getDbData";
 import CommentItem from "./CommentItem";
 import AddComment from "./AddComment";
 import ThemeTitle from "./ThemeTitle";
-import { connect } from 'react-redux';
 import fire from "../src/fire";
-
 
 class Section extends React.Component {
     constructor(props){
@@ -32,6 +32,7 @@ class Section extends React.Component {
         }
         this.dragList = this.dragList.bind(this);
         this.dragItem = this.dragItem.bind(this);
+        this.lib_AccessOrderByMethod = lib_AccessOrderByMethod.bind(this);
     }
 
     // openConfirmWin = (i) => {
@@ -237,16 +238,18 @@ class Section extends React.Component {
                     index: finalIndex
                 })
             }).then(() => {
-                db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
-                .then(async (querySnapshot) => {
-                let doc = querySnapshot.docs;
-                for ( let i = 0; i < doc.length; i++ ) {       
-                    let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
-                    ref.update({
-                        index: (((i+1)*2))
-                        })
-                    }
-                })
+
+                this.lib_AccessOrderByMethod(`Boards/${firebaseUid}/Lists`)
+                // db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
+                // .then(async (querySnapshot) => {
+                // const doc = querySnapshot.docs;
+                // for ( let i = 0; i < doc.length; i++ ) {       
+                //     let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
+                //     ref.update({
+                //         index: (((i+1)*2))
+                //         })
+                //     }
+                // })
             }).catch((error)=> {
                 console.log("Error writing document: ", error.message);
             })
@@ -369,17 +372,20 @@ class Section extends React.Component {
                                     for ( let i = 0; i < doc.length; i++ ) { 
                                         listsId.push(doc[i].id)
                                     }
-                                    for (let i = 0; i < listsId.length; i++ ) {  //讀取每一個 list 底下的 items
-                                        db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
-                                        .then((querySnapshot2) => {
-                                            let doc2 = querySnapshot2.docs;
-                                            for ( let j = 0; j < doc2.length; j++ ) {
-                                            let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
-                                            ref.update({
-                                                index: (((j+1)*2)), // 前後留空格讓之後移動可以有空間塞
-                                                })      
-                                            }
-                                        })
+                                    for ( let i = 0; i < listsId.length; i++ ) {  //讀取每一個 list 底下的 items
+
+                                        this.lib_AccessOrderByMethod(`Boards/${firebaseUid}/Lists/${listsId[i]}/Items`)
+
+                                        // db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
+                                        // .then((querySnapshot2) => {
+                                        //     let doc2 = querySnapshot2.docs;
+                                        //     for ( let j = 0; j < doc2.length; j++ ) {
+                                        //     let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
+                                        //     ref.update({
+                                        //         index: (((j+1)*2)), // 前後留空格讓之後移動可以有空間塞
+                                        //         })      
+                                        //     }
+                                        // })
                                     }
                                 })
                             })

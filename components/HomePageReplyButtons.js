@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { render } from 'react-dom';
 import { updateInvitedData } from "./ActionCreators";
-import { lib_AccessWhereMethod } from "../library/searchDbData";
+import { lib_AccessWhereMethod } from "../library/getDbData";
 import fire from "../src/fire";
 
 class ReplyButtons extends React.Component {
@@ -24,7 +24,7 @@ class ReplyButtons extends React.Component {
         this.props.updateInvitedData(index, true);
         
         const db = fire.firestore();
-        let firebaseUid = this.props.firebaseUid
+        const firebaseUid = this.props.firebaseUid
         
         //用自己的 userFirebaseuid 反推去找對方 invitation 裡面的文件、將 confirm → true
         db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()

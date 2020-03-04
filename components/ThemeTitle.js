@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { lib_AccessDeleteMethod } from "../library/getDbData";
 import Letter from "../images/letter-x.png";
 import fire from "../src/fire";
 
@@ -11,6 +12,7 @@ class ThemeTitle extends React.Component {
             isDeleteConfirmWinOpen: false,
             targetIndex: "",
         }
+        this.lib_AccessDeleteMethod = lib_AccessDeleteMethod.bind(this);
     }
 
     openConfirmWin = (i) => {
@@ -42,31 +44,37 @@ class ThemeTitle extends React.Component {
             let docId = querySnapshot.docs[0].id
 
             //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).delete()
-            .then(() => {
-                console.log("Document successfully deleted!", t);
-                this.props.dispatch({ type: "deleteTheme", t })
-                this.setState( prevState => {
-                    let targetIndex = ""
-                    return Object.assign({}, prevState, { 
-                        isDeleteConfirmWinOpen: !prevState.isDeleteConfirmWinOpen,
-                        targetIndex: targetIndex
-                    })
-                });
-                db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
-                .then(async (querySnapshot) => {
-                    let doc = querySnapshot.docs;
-                    for ( let i = 0; i < doc.length; i++ ) {       
-                        let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
-                        ref.update({
-                            index: (((i+1)*2))  //重新塞一次 index 給它
-                        })
-                    }
+            this.props.dispatch({ type: "deleteTheme", t })
+            this.setState( prevState => {
+                let targetIndex = ""
+                return Object.assign({}, prevState, { 
+                    isDeleteConfirmWinOpen: !prevState.isDeleteConfirmWinOpen,
+                    targetIndex: targetIndex
                 })
-            }).catch((error) => {
-                console.error("Error removing document: ", error);
-            })
+            });
+            this.lib_AccessDeleteMethod(`Boards/${firebaseUid}/Lists`, docId)
+
+            // db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).delete()
+            // .then(() => {
+            //     console.log("Document successfully deleted!", t);
+                
+                
+
+            //     db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
+            //     .then(async (querySnapshot) => {
+            //         let doc = querySnapshot.docs;
+            //         for ( let i = 0; i < doc.length; i++ ) {       
+            //             let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
+            //             ref.update({
+            //                 index: (((i+1)*2))  //重新塞一次 index 給它
+            //             })
+            //         }
+            //     })
+            // })
         })
+
+
+
     }
 
     changeEditMode = () => {

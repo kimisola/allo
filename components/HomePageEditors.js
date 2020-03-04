@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { unfriend } from "./ActionCreators";
-import { lib_AccessWhereMethod } from "../library/searchDbData";
+import { lib_AccessWhereMethod } from "../library/getDbData";
 import Cancel from "../images/cancel.png";
 
 class Editors extends React.Component {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import fire from "../src/fire";
 import bin from"../images/bin.png";
 import menuImg from "../images/more.png"
-import { lib_AccessWhereMethod } from "../library/searchDbData";
+import { lib_AccessWhereMethod } from "../library/getDbData";
 
 class CommentMenu extends React.Component {
     constructor(props){

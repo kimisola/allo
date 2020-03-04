@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import fire from "../src/fire";
-import { setUpComWin, setCommentData, setIndexForTitle, turnOnLoadingGif, switchBoard } from"./ActionCreators"
+import { setCommentData, setIndexForTitle, turnOnLoadingGif, switchBoard } from"./ActionCreators"
 import { lib_fileUpload } from "../library/lib";
 import Topbar from "./TopBar";
 import SecondBar from "./SecondBar";

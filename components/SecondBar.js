@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { creatTitle, addNewListOpen, getTitleValue, setIndexForTitle } from"./ActionCreators"
-import { lib_AccessWhereMethod } from "../library/searchDbData";
+import { creatTitle, getTitleValue, setIndexForTitle } from"./ActionCreators"
+import { lib_AccessWhereMethod } from "../library/getDbData";
 import fire from "../src/fire";
 import Cancel from "../images/letter-x.png";
 import Mail from "../images/email.png";
