@@ -26,10 +26,11 @@ class HomePage extends React.Component {
     componentDidMount() {
         const firebaseUid = this.props.firebaseUid
         if (firebaseUid == "") {  //確認中
-
+            return
         } else if (firebaseUid == null) {  //未登入
             window.location = "/";
         } else  {
+            return
         }
     }
 
@@ -51,7 +52,6 @@ class HomePage extends React.Component {
             db.collection("Users").doc(firebaseUid).get()
             .then((querySnapshot) => {
                 this.setState(prevState => {
-                    // console.log("背景圖片網址", querySnapshot.data().homepageCover)
                     let homepageCover = querySnapshot.data().homepageCover
                     return Object.assign({}, prevState, {
                         homepageCover: homepageCover
@@ -101,7 +101,6 @@ class HomePage extends React.Component {
                             .then((querySnapshot) =>{
                                 send.userName = querySnapshot.data().name;
                                 send.userPhoto =  querySnapshot.data().photo;
-
                                 let ref2 = db.collection("Boards").doc(send.userFirebaseuid)
                                 ref2.get()
                                 .then(async(querySnapshot) =>{

@@ -60,7 +60,6 @@ const mapStateToProps = (state ,ownprops) => {
         j :ownprops.j,
         listIndex:ownprops.listIndex,
         tagsDisplayChanged: state.tagsDisplayChanged,
-
     }
 }
 
@@ -69,5 +68,4 @@ const mapDispatchToProps = (dispatch) => {
         changeTagsDisplay: () => { dispatch(changeTagsDisplay()) },
     }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(CommentItem);

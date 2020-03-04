@@ -31,7 +31,6 @@ class App extends React.Component {
                     let userPhotoURL;
                     let userEmail;
                     let useruid;
-                    console.log(firebaseUid)
                     
                     user.providerData.forEach((profile) => {
                         userDisplayName = profile.displayName;
@@ -50,7 +49,6 @@ class App extends React.Component {
 
                     const ref = db.collection("Users").doc(firebaseUid)
                     ref.get().then((querySnapshot) => {
-                        console.log(querySnapshot.data(),"11111111111111111111111111111111155")
                         if ( querySnapshot.data() !== undefined ) {
                             const ref = db.collection("Users").doc(firebaseUid)
                             console.log("querySnapshotquerySnapshot")
@@ -104,9 +102,9 @@ const mapStateToProps = (state) => {
         isBoardLoaded: state.isBoardLoaded,
         text: state.text,
         listTitle: state.listTitle,
-        deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
-        whichWindowOpen: state.whichWindowOpen,
-        commentWindow: state.commentWindow,
+        // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
+        // whichWindowOpen: state.whichWindowOpen,
+        // commentWindow: state.commentWindow,
         isLoggedIn: state.isLoggedIn,
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,

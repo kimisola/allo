@@ -38,7 +38,6 @@ class Board extends React.Component {
         } 
         else {
             firebaseUid = this.props.match.params.id 
-            console.log("this.props.match.params.id", this.props.match.params.id)
             this.props.switchBoard(this.props.match.params.id)
             getTitles(firebaseUid);
         }
@@ -57,8 +56,6 @@ class Board extends React.Component {
                 const ref = db.collection("Boards").doc(firebaseUid)
                 ref.update({
                     background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
-                }).then(() => {
-                    console.log("Document successfully written!");
                 }).catch((error) => {
                     console.error("Error removing document: ", error);
                 })
@@ -72,8 +69,6 @@ class Board extends React.Component {
                     const ref = db.collection("Boards").doc(firebaseUid)
                     ref.update({
                         owner : userEmail
-                    }).then(() => {
-                        console.log("Document successfully written!");
                     }).catch((error) => {
                         console.error("Error removing document: ", error.message);
                     })
@@ -214,7 +209,6 @@ class Board extends React.Component {
                             title: "Welcome to a-llo guide !",
                             index: 2
                         }).then(() => {
-                            console.log("Document successfully written!");
                             let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
                             ref.set({
                                 edited:"a-llo",
@@ -242,12 +236,11 @@ class Board extends React.Component {
                             }).then(()=>{
                                 console.log("Document successfully written!");
                             }).catch((error) => {
-                                console.error("Error removing document: ", error);
+                                console.error("Error removing document: ", error.message);
                             })
                         }).catch((error) => {
-                            console.error("Error removing document: ", error);
+                            console.error("Error removing document: ", error.message);
                         })                      
-                        console.log("Document successfully written!");
                     }).then(()=>{
                         let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample2")
                         ref.set({
@@ -290,7 +283,7 @@ class Board extends React.Component {
                         })
                     })
                     .catch((error) => {
-                        console.error("Error removing document: ", error);
+                        console.error("Error removing document: ", error.message);
                     })
                 }
             })
@@ -312,15 +305,11 @@ class Board extends React.Component {
                     for ( let i = 0; i < doc.length; i++ ) {       
                         listsId.push(doc[i].id)
                         let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
-                        console.log("getTitles(firebaseUid);",firebaseUid);
-
                         ref.update({
                             index: (((i+1)*2)),
                         })
-
                         myDataTitle.push(doc[i].data().title)
                         Data1.push(myDataTitle[i]);
-    
                         if ( i === doc.length - 1 ) {
                             let storeTitleIndex = ((doc.length+1)*2)
                             props.setIndexForTitle(storeTitleIndex)

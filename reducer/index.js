@@ -68,7 +68,6 @@ function Reducer(state = initialState, action) {
             });
         }
 
-
         case "renderComments": {
             return Object.assign({}, state, {  // copy now state and update using items
                 text: action.Data2,

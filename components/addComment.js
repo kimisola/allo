@@ -64,7 +64,6 @@ class AddComment extends React.Component {
     }
 
     selectTags = (selected) => {
-        console.log(selected)
         let tags = this.state.commentTags
         tags[selected] = !tags[selected]
 
@@ -109,10 +108,7 @@ class AddComment extends React.Component {
             for (let i = 0; i < fileTypes.length; i++) {
                 if ( file.type == fileTypes[i] ) {
                     flag = true
-                    console.log(snapshot)
-                    console.log('Uploaded a blob or file!');
                     imgRef.getDownloadURL().then(async(url) => {
-                        console.log(url)
                         this.setState( prevState => {
                             let newImgUrl = prevState.newImg
                             newImgUrl = url
@@ -127,7 +123,7 @@ class AddComment extends React.Component {
                 alert("Only support jpeg/png/gif type files.");
             }
         }).catch((error) => {
-            console.error("Error removing document: ", error);
+            console.error("Error removing document: ", error.message);
         })      
     }
 
@@ -184,13 +180,11 @@ class AddComment extends React.Component {
                         edited: this.props.userDisplayName,
                         ownerImg: this.props.userPhotoURL,
                         editorImg: this.props.userPhotoURL,
-                    }).then(() => {
-                        console.log("Document successfully written!")
                     }).catch((error)=> {
-                        console.log("Error writing document: ", error);
+                        console.log("Error writing document: ", error.message);
                     })
                 }).catch((error) => {
-                    console.log("Error writing document: ", error);
+                    console.log("Error writing document: ", error.message);
                 })
             })
         }         
