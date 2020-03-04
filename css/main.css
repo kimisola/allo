@@ -1,15 +1,11 @@
-@import url(https://fonts.googleapis.com/css?family=Exo:100,200,400);
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
-
-body, html{
+body, html {
     margin:0px; height: 100%; font-family: Microsoft JhengHei;
 }
 
-main {  /*   原本是 body */
+main {
     position: absolute;top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto; 
     background-size: 100% auto; opacity: 1;
 }
-/*  */
 
 main>.loading {
     position: absolute;top: 0px; left: 0px; right: 0px; bottom: 0px; width: auto; height: auto;background-color: white;z-index: 10;
@@ -28,25 +24,22 @@ img {
 }
 
 .topBar {
-    display: flex; background-color: rgba(0,0,0,.32);justify-content: space-between;flex-wrap: wrap;padding: 5px 5px 0px 5px;
+    display: flex; background-color: rgba(0,0,0,.32); justify-content: space-between;  flex-wrap: wrap; padding: 5px 5px 0px 5px;
 }
-/* max-height: 43px;  */
-.view>.secondBar {
-    display: flex; justify-content: space-between;flex-wrap: wrap;padding: 0 5px 0px 5px;background: rgba(0,0,0,.24);
-}
+
 
 .view>.topBar>.logoDiv {
     width: 90px; height: 32px; position: absolute; left: calc(50% - 45px);
 }
 .view>.topBar>.logoDiv img{
-    margin-top: -10px;
+    margin-top: -8px;
 }
 
 .view>.topBar>.topLeft,
 .view>.topBar>.topRight,
 .view>.secondBar>.secondLeft,
 .view>.secondBar>.secondRight {
-    display: flex;margin: 3px;flex-wrap: wrap;align-items: center;
+    display: flex; margin: 3px; flex-wrap: wrap; align-items: center;
 }
 
 .view>.topBar>.topLeft>.searchBar input {
@@ -74,6 +67,7 @@ img {
     width: 22px;
 }
 
+/* CSS for top bar */
 .view>.topBar>.topRight>.boardList>.boardIcon:hover ,
 .view>.topBar>.topRight>.signOutImg:hover ,
 .view>.topBar>.topLeft>.home:hover {
@@ -107,9 +101,11 @@ img {
 .view>.topBar>.topRight>.memberIcon{
     width: 32px;cursor: pointer;
 }
+
 .view>.secondBar>.secondRight>.addBoard {
     width: 18px; cursor: pointer; background-color: hsla(0,0%,100%,.24); align-items: center; display: flex; border-radius: 3px; padding: 0 10px; height: 30px;cursor: pointer;
 }
+
 .view>.secondBar>.secondRight>.addBoard:hover {
     background-color: hsla(0,0%,100%,.6)
 }
@@ -128,6 +124,12 @@ img {
      margin-right: 8px;
 }
 
+
+/* CSS for second bar */
+.view>.secondBar {
+    display: flex; justify-content: space-between; flex-wrap: wrap; padding: 0 5px; background: rgba(0,0,0,.24);
+}
+
 .view>.secondBar>.secondLeft>.inviteDiv {
     color: white; background-color: hsla(0,0%,100%,.24);border-radius: 3px;padding: 0 10px;height: 30px; line-height: 30px;font-size: 14px;font-weight: bold; cursor: pointer;
 }
@@ -137,40 +139,42 @@ img {
 .view>.secondBar>.secondLeft>.invite {
     display: flex; flex-direction: column; text-align: center;background-color: rgb(235, 236, 240, 0.97);padding: 10px 30px 20px 30px; border-radius: 4px; z-index: 3;
     box-shadow: 0 5px 3px rgba(9,30,66,.25); border: 9px solid rgb(182, 186, 200, 0.5)
-
 }
+
 .view>.secondBar>.secondLeft>.invite>.inputDiv {
     display: flex; margin-top: 5px;
 }
+
 .view>.secondBar>.secondLeft>.invite>.inputDiv>.mailDiv {
     width: 25px; margin-right: 10px;
 }
 .view>.secondBar>.secondLeft>.invite>.inputDiv>.mailDiv img{
     width: 25px; margin-right: 10px; border-radius: unset;
 }
+
 .view>.secondBar>.secondLeft>.invite p {
     margin: 16px 0 16px 0; border-bottom: 1px solid grey; padding-bottom: 5px;color: rgb(23, 43, 77);font-weight: bold;
 }
+
 .view>.secondBar>.secondLeft>.invite input{
     border-radius: 6px; padding-left: 10px; height: 23px;border: 1px solid rgb(235, 236, 240, 0.97);
 }
+
 .view>.secondBar>.secondLeft>.invite>.cancel {
     position: absolute; right: 7px;
 }
+
 .view>.secondBar>.secondLeft>.invite>.cancel>.cancelImg{
     width: 16px; cursor: pointer;
 }
 
+/* CSS for board */
 .view>.board {
-    box-sizing: border-box; display: flex;overflow: scroll;overflow-y:auto;height: calc(100vh - 84px);flex-grow:1;opacity: 0.95;
+    box-sizing: border-box; display: flex;overflow: scroll;overflow-y:auto;height: calc(100vh - 84px); flex-grow:1; opacity: 0.95;
 }
 
 .view>.board>.sectionWrapper{
     scroll-snap-align: center;box-sizing: border-box;
-}
-
-.view>.board>.sectionWrapper>.mark {
-    width: 275px;
 }
 
 .view>.board>.sectionWrapper>.section {
@@ -201,8 +205,8 @@ img {
     background-color: rgba(242,240,240);
 }
 
-.view>.board>.sectionWrapper>.section>.comment>.item>.itemPointer{
-    min-height: 13px;cursor: pointer;
+.view>.board>.sectionWrapper>.section>.comment>.item>.itemDragArea{
+    min-height: 13px; cursor: pointer;
 }
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemHead {
     display: flex; margin: 0 2px; position: relative; 
@@ -286,19 +290,15 @@ img {
 }
 
 .planning {
-    /* background-color: rgba(204 ,94, 28, 0.8); */
     background-color: #ff9f1a;
 }
 .process {
-    /* background-color: rgba(46 ,169, 223, 0.8); */
     background-color: #00c2e0;
 }
 .risk {
-    /* background-color: rgba(215 ,84, 85, 0.8); */
     background-color: #eb5a46;
 }
 .achived {
-    /* background-color: rgba(123 ,162, 63, 0.8); */
     background-color: #4bbf6b;
 }
 .view>.board>.sectionWrapper>.section>.comment {
@@ -306,7 +306,7 @@ img {
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody {
-    display: flex;margin:3px 5px;
+    display: flex; margin:3px 5px;
 }
 
 .view>.board>.sectionWrapper>.section>.comment>.item>.itemBody>.message>.msgText {
@@ -401,17 +401,12 @@ footer>.footerBar {
 .comment::-webkit-scrollbar-thumb:hover {
     background: rgba(120,125,123,0.3); 
 }
-/* ::-webkit-scrollbar-thumb:window-inactive {
-	background: rgba(255,0,0,0.4); 
-} */
 
-
-/* CSS for add theme & delete theme div */
+/* CSS for add theme & delete theme pop-up window */
 .addThemeDiv {
     position: absolute; top: 30%; left: calc(50% - 120px); text-align: center; background-color: rgb(235, 236, 240, 0.97);  padding: 20px 35px 20px 35px; border-radius: 4px; z-index: 5;
     box-shadow: 0 5px 3px rgba(9,30,66,.25); border: 9px solid rgb(182, 186, 200, 0.5);
 }
-
 
 .addThemeDiv>.addTheme p {
     margin: 0 0 16px 0; font-weight: bold;
@@ -433,7 +428,7 @@ footer>.footerBar {
     background-color: white;
 }
 
-
+/* CSS for board page background image upload */
 .uploadBackground {
     position: absolute; bottom: 10px; right: 10px; width: 18px;cursor: pointer;padding: 5px;
 }
@@ -442,25 +437,23 @@ footer>.footerBar {
 }
 
 /* set CSS by ID */
-#standard-textarea {
+/* #standard-textarea {
     max-height: 15px; margin-bottom: 3px;width: 150px;font-size: 14px;
-}
-
-/* memo */
-/* .Llogin input[type=button]{
-width: 260px; height: 40px;background: #fff; border: 1px solid #fff; cursor: crosshair; border-radius: 2px;color: #a18d6c; font-family: Lucida Console; font-size: 16px;padding: 5px;margin-top: 10px;
-}
-
-.Llogin input[type=button]:hover{
-opacity: 0.8;
-}
-
-.Llogin input[type=button]:active{
-opacity: 0.6;
 } */
-
-@media (max-width: 450px) {
+@media (min-width: 451px) and (max-width:700px) {
+    main>.loading img{
+        width: 400px;  position: absolute;top: calc(50% - 150px); left: calc(50% - 200px);
+    }
     .view>.topBar>.logoDiv {
         position: unset;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 450px) {
+    .view>.topBar>.logoDiv {
+        position: unset;
+    }
+    main>.loading img{
+        width: 320px;  position: absolute;top: calc(50% - 120px); left: calc(50% - 160px);
     }
 }

@@ -48,29 +48,35 @@ class App extends React.Component {
 
                     this.props.setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
-                    if ( db.collection("Users").where("firebaseuid", "==", firebaseUid) ) {
-                        let ref = db.collection("Users").doc(firebaseUid)
-                        ref.set({
-                            name: userDisplayName,
-                            photo: userPhotoURL,
-                            email: userEmail,
-                            uid: useruid,
-                            firebaseuid: firebaseUid,
-                            homepageCover: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fhomepagecover1.jpg?alt=media&token=6793a59f-eaac-4d76-83fb-db421ea2a0b4",
-                        }).catch((error) => {
-                            console.error("Error writing document: ", error.message);
-                        })
-                    } else {
-                        ref.update({
-                            name: userDisplayName,
-                            photo: userPhotoURL,
-                            email: userEmail,
-                            uid: useruid,
-                            firebaseuid: firebaseUid,
-                        }).catch((error) => {
-                            console.error("Error writing document: ", error.message);
-                        })
-                    }
+                    const ref = db.collection("Users").doc(firebaseUid)
+                    ref.get().then((querySnapshot) => {
+                        console.log(querySnapshot.data(),"11111111111111111111111111111111155")
+                        if ( querySnapshot.data() !== undefined ) {
+                            const ref = db.collection("Users").doc(firebaseUid)
+                            console.log("querySnapshotquerySnapshot")
+                            ref.update({
+                                name: userDisplayName,
+                                photo: userPhotoURL,
+                                email: userEmail,
+                                uid: useruid,
+                                firebaseuid: firebaseUid,
+                            }).catch((error) => {
+                                console.error("Error writing document: ", error.message);
+                            })
+                        } else {
+                            const ref = db.collection("Users").doc(firebaseUid)
+                            ref.set({
+                                name: userDisplayName,
+                                photo: userPhotoURL,
+                                email: userEmail,
+                                uid: useruid,
+                                firebaseuid: firebaseUid,
+                                homepageCover: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fhomepagecover1.jpg?alt=media&token=6793a59f-eaac-4d76-83fb-db421ea2a0b4",
+                            }).catch((error) => {
+                                console.error("Error writing document: ", error.message);
+                            })
+                        }
+                    })
                 } else {
                     this.props.setCurrentUser(null, null, null, null, null)
                 }

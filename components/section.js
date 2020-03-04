@@ -402,7 +402,7 @@ class Section extends React.Component {
 
     render() {
 
-        let style = {
+        const style = {
             mark: {
                 backgroundColor: "rgba(235,236,240,0.4)",
                 borderRadius: "4px",
@@ -418,9 +418,9 @@ class Section extends React.Component {
         }
 
 // drag-drop of comments
-        let texts = this.props.text
-        let items =[]
-        let dragInfoItem=this.state.dragInfoItem;
+        const texts = this.props.text;
+        let items = [];
+        const dragInfoItem = this.state.dragInfoItem;
 
         for ( let i = 0; i < texts.length; i++ ) {
             items.push([]);
@@ -437,7 +437,7 @@ class Section extends React.Component {
                 if ( i === dragInfoItem.theme && j === dragInfoItem.row ) {
                     items[i].push (
                         <div className="item" index={ `${i}-${j}` } style={{ left:dragInfoItem.left, top:dragInfoItem.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }} key={j}>
-                            <div className="itemPointer" onPointerDown={ this.dragItem }></div>
+                            <div className="itemDragArea" onPointerDown={ this.dragItem }></div>
                             <div className="itemHead">
                                 <CommentItem item={ texts[i][j] } listIndex={ i } j={ j }/>
                             </div>                              
@@ -453,7 +453,7 @@ class Section extends React.Component {
                 } else {
                     items[i].push (
                         <div className="item" index={ `${i}-${j}` } key={j}>
-                            <div className="itemPointer" onPointerDown={ this.dragItem }></div>
+                            <div className="itemDragArea" onPointerDown={ this.dragItem }></div>
                             <div className="itemHead">
                                 <CommentItem item={ texts[i][j] } listIndex={ i } j={ j }/>
                             </div>                              
@@ -481,51 +481,51 @@ class Section extends React.Component {
 
 
 // drag-drop of themes
-        let dragInfo=this.state.dragInfo;
-        let elements=[];
+        const dragInfo = this.state.dragInfo;
+        let elements = [];
 
-            for (let i = 0; i < this.props.listTitle.length; i++) {
-                let item = this.props.listTitle[i];
-            
-                if (i === dragInfo.markIndex && i <= dragInfo.index) {
-                    elements.push(
-                        <div className="sectionWrapper" index={i} key={i+200}>
-                            <div key="mark" className="mark" style={ style.mark } />
-                        </div>
-                    )
-                }
+        for (let i = 0; i < this.props.listTitle.length; i++) {
+            let item = this.props.listTitle[i];
+        
+            if (i === dragInfo.markIndex && i <= dragInfo.index) {
+                elements.push(
+                    <div className="sectionWrapper" index={i} key={i+200}>
+                        <div key="mark" className="mark" style={ style.mark } />
+                    </div>
+                )
+            }
 
-                if (i === dragInfo.index) {
-                    elements.push(
-                        <div className="sectionWrapper" key={i} index={i} style={{ left:dragInfo.left, top:dragInfo.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }}>
-                            <div className="section">
-                                <div className="dragArea" onPointerDown={ this.dragList }></div>
-                                <ThemeTitle themeIndex={ i } title={ item }/>
-                                <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
-                                <AddComment index={ i }/>
-                            </div>
+            if (i === dragInfo.index) {
+                elements.push(
+                    <div className="sectionWrapper" key={i} index={i} style={{ left:dragInfo.left, top:dragInfo.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }}>
+                        <div className="section">
+                            <div className="dragArea" onPointerDown={ this.dragList }></div>
+                            <ThemeTitle themeIndex={ i } title={ item }/>
+                            <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
+                            <AddComment index={ i }/>
                         </div>
-                    )
-                } else {
-                    elements.push(
-                        <div className="sectionWrapper" key={i} index={i}>
-                            <div className="section">
-                                <div className="dragArea" onPointerDown={ this.dragList }></div>
-                                <ThemeTitle themeIndex={ i } title={ item }/>
-                                <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
-                                <AddComment index={ i }/>
-                            </div>
+                    </div>
+                )
+            } else {
+                elements.push(
+                    <div className="sectionWrapper" key={i} index={i}>
+                        <div className="section">
+                            <div className="dragArea" onPointerDown={ this.dragList }></div>
+                            <ThemeTitle themeIndex={ i } title={ item }/>
+                            <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
+                            <AddComment index={ i }/>
                         </div>
-                    )
-                }         
-                if (i === dragInfo.markIndex && i > dragInfo.index) {
-                    elements.push(
-                        <div className="sectionWrapper" index={i} key={i+300}>
-                            <div key="mark" className="mark" style={style.mark}  />
-                        </div>
-                    )
-                }
-            }        
+                    </div>
+                )
+            }         
+            if (i === dragInfo.markIndex && i > dragInfo.index) {
+                elements.push(
+                    <div className="sectionWrapper" index={i} key={i+300}>
+                        <div key="mark" className="mark" style={style.mark}  />
+                    </div>
+                )
+            }
+        }        
         return(
             <React.Fragment>
                 <div className="board" ref={this.board} onWheel={(e) => this.horizontalScroll(e)}>

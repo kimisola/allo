@@ -11,13 +11,15 @@
     display: flex; align-items: center;
 }
 
+
+/* top bar */
 #root>.topBar {
-    display: flex; background-color: #026aa7;justify-content: space-between;flex-wrap: wrap;padding: 0px 5px;
+    display: flex; background-color: #026aa7; justify-content: space-between; flex-wrap: wrap; padding: 0px 5px;
 }
 
 #root>.topBar>.topLeft,
 #root>.topBar>.topRight {
-    display: flex;margin: 5px;flex-wrap: wrap;align-items: center;
+    display: flex; margin: 5px;flex-wrap: wrap; align-items: center;
 }
 
 #root>.topBar>.topLeft>.searchBar input {
@@ -34,7 +36,7 @@
 
 #root>.topBar>.topRight>.memberIcon a,
 #root>.topBar>.topRight>.boardList>.boardIcon a,
-#root>.topBar>.topLeft>.home a{
+#root>.topBar>.topLeft>.home a {
     display: flex;
 }
 #root>.topBar>.topRight>.boardList>.boardIcon:hover ,
@@ -51,11 +53,11 @@
     width: 22px;
 }
 
-#root>.topBar>.topRight>.memberIcon{
+#root>.topBar>.topRight>.memberIcon {
     width: 32px;
 }
 
-#root>.topBar>.topRight>.memberIcon img{
+#root>.topBar>.topRight>.memberIcon img {
     border-radius: 100%;
 }
 #root>.topBar>.topLeft>.home,
@@ -71,14 +73,14 @@
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: -2px;top: -1px;text-align: center;color: white;padding-bottom: 3px;
 }
 #root>.topBar>.topRight>.alertDiv>a .alertMenu {
-    width: 150px;border-radius: 3px;background-color: rgba(0,0,0,0.6);z-index: 50;
+    width: 150px;border-radius: 3px; background-color: rgba(0,0,0,0.6); z-index: 50;
 }
 #root>.topBar>.topRight>a .alertMenu>.showMenuBackground {
     position: fixed; top: 0; right: 0;left: 0;bottom: 0;
 }
 
-#root>.topBar>.topRight>a .alertMenu li{
-    background-color: rgba(0,0,0,0.6);color: white; font-size: 13px; list-style:none;padding: 3px 8px 3px 8px;z-index: 5;list-style:none;
+#root>.topBar>.topRight>a .alertMenu li {
+    background-color: rgba(0,0,0,0.6); color: white; font-size: 13px; list-style:none; padding: 3px 8px 3px 8px; z-index: 5; list-style:none;
 }
 #root>.topBar>.topRight>a .alertMenu li:hover {
     background-color: rgba(0,0,0,0.8);
@@ -88,8 +90,8 @@
     width: 90px; height: 32px; position: absolute; left: calc(50% - 45px);
 }
 
-#root>.topBar>.logoDiv img{
-    margin-top: -10px;
+#root>.topBar>.logoDiv img {
+    margin-top: -6px;
 }
 
 
@@ -105,14 +107,14 @@
 .homepage>.profile>.myImg {
     width: 180px;
 }
-.homepage>.profile>.myImg img{
+.homepage>.profile>.myImg img {
     border-radius: 100%;
 }
 .homepage>.profile>.details {
-    display: flex;flex-direction: column-reverse;padding: 0 0 5px 30px;
+    display: flex; flex-direction: column-reverse; padding: 0 0 5px 30px;
 }
 .homepage>.profile>.details>.list>.name {
-    font-weight: bolder;font-size: 22px;margin-bottom: 10px;
+    font-weight: bolder; font-size: 22px; margin-bottom: 10px;
 }
 
 
@@ -138,7 +140,7 @@
 }
 
 
-.homepage>.mainContent>.menu>.list>.listTitle {
+/* .homepage>.mainContent>.menu>.list>.listTitle {
     position: relative;
 }
 .homepage>.mainContent>.menu>.list>.listContent>.content {
@@ -150,17 +152,16 @@
 }
 .homepage>.mainContent>.menu>.list>.listContent>.content>.delete {
     width: 16px;
-}
+} */
 
 
 /* boardLists */
 .homepage>.mainContent>.boardLists {
-    margin: 0 0 70px 100px; max-height: 700px; border:1px solid rgba(211, 211, 211, 0.6);width: 75%;flex-grow: 4;
-    display: flex; flex-direction: column;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+    margin: 0 0 70px 100px; max-height: 700px; border:1px solid rgba(211, 211, 211, 0.6);width: 75%;flex-grow: 4; display: flex; flex-direction: column;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
 }
 
 .homepage>.mainContent>.boardLists>.section>.category {
-    font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1);margin-bottom: 20px;padding-bottom: 5px;
+    font-weight: bolder; font-size: 20px; border-bottom: 2px solid rgba(211, 211, 211, 1); margin-bottom: 20px; padding-bottom: 5px;
 }
 
 .homepage>.mainContent>.boardLists>.section {
@@ -180,7 +181,7 @@
 
 /* messages */
 .homepage>.mainContent>.notifications {
-    flex-grow: 4;margin: 0 0 70px 100px; max-height: 700px; border:1px solid rgba(211, 211, 211, 0.6);width: 75%;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
+    margin: 0 0 70px 100px; max-height: 700px; border:1px solid rgba(211, 211, 211, 0.6);width: 75%;flex-grow: 4;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
 }
 .homepage>.mainContent>.notifications>.section {
     margin: 20px;
@@ -266,7 +267,6 @@
     }
 }
 
-
 @media (max-width: 1230px){
 	.homepage>.mainContent {
         flex-direction: column;
@@ -286,8 +286,6 @@
         width: 45%;
     }
 }
-
-
 
 @media (min-width: 750px) and (max-width: 860px) {
     .homepage>.mainContent>.menu {
@@ -376,5 +374,4 @@
     .homepage>.mainContent>.editors>.section>.contents>.content {
         width: 100%;
     }
-
 }
