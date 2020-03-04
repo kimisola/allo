@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { unfriend } from "./actionCreators";
+import { unfriend } from "./ActionCreators";
 import Cancel from "../images/cancel.png";
 import fire from "../src/fire";
 

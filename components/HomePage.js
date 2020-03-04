@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { addBeInvitedData, addInvitationData } from "./actionCreators";
+import { addBeInvitedData, addInvitationData } from "./ActionCreators";
 import { lib_fileUpload } from "../library/lib";
-import Topbar from "../components/topbar";
-import BoardLists from "../components/homePageBoardLists";
-import Notifications from "../components/homePageNotifications";
-import Editors from "../components/homePageEditors";
+import Topbar from "./TopBar";
+import BoardLists from "./HomePageBoardLists";
+import Notifications from "./HomePageNotifications";
+import Editors from "./HomePageEditors";
 import fire from "../src/fire";
 import Gear from "../images/gear.png";
 import "../css/homePage.css";

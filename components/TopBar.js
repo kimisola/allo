@@ -1,6 +1,6 @@
 import React from 'react';
-import { setCurrentUser, switchBoard } from"../components/actionCreators";
-import Notice from "../components/notice";
+import { setCurrentUser, switchBoard } from"./ActionCreators";
+import Notice from "./SecondBarNotice";
 import HomeImg from "../images/home2.png";
 import Blackboard from "../images/blackboard1.png";
 import Bell from "../images/bell2.png";

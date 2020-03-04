@@ -1,5 +1,5 @@
 import React from 'react';
-import { updateInvitedData } from "./actionCreators";
+import { updateInvitedData } from "./ActionCreators";
 import { connect } from 'react-redux';
 import { render } from 'react-dom';
 import fire from "../src/fire";

@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import firebase from 'firebase';
 import fire from "../src/fire";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import {setCurrentUser } from"../components/actionCreators"
+import {setCurrentUser } from"./actionCreators"
 
 
 class GLogin extends React.Component {

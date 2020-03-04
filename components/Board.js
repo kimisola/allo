@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import fire from "../src/fire";
-import { setUpComWin, renderComments, setIndexForTitle, loadingGifOn, switchBoard } from"../components/actionCreators"
+import { setUpComWin, renderComments, setIndexForTitle, loadingGifOn, switchBoard } from"./ActionCreators"
 import { lib_fileUpload } from "../library/lib";
-import Topbar from "../components/topbar";
-import SecondBar from "../components/secondBar";
-import Section from "../components/section";
+import Topbar from "./TopBar";
+import SecondBar from "./SecondBar";
+import Section from "./Section";
 import loadingGif from "../images/loadingImg.gif";
 import Gear from "../images/gear.png";
 

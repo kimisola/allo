@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import BoardLink from "./boardLink";
+import BoardLink from "./BoardLink";
 
 class BoardLists extends React.Component {
     constructor(props){

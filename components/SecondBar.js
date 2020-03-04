@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import fire from "../src/fire";
 import Cancel from "../images/letter-x.png";
 import Mail from "../images/email.png";
-import { creatTitle, addNewListOpen, getTitleValue, setIndexForTitle } from"./actionCreators"
+import { creatTitle, addNewListOpen, getTitleValue, setIndexForTitle } from"./ActionCreators"
 
 class SecondBar extends React.Component {
     constructor(props){

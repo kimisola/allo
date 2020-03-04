@@ -1,7 +1,7 @@
 import React from 'react';
-import CommentItem from "../components/commentItem";
-import AddComment from "../components/addComment";
-import ThemeTitle from "../components/themeTitle";
+import CommentItem from "./CommentItem";
+import AddComment from "./AddComment";
+import ThemeTitle from "./ThemeTitle";
 import { connect } from 'react-redux';
 import fire from "../src/fire";
 

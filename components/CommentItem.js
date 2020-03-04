@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import CommentMenu from "../components/commentMenu";
-import { changeTagsDisplay } from "./actionCreators";
+import CommentMenu from "./CommentMenu";
+import { changeTagsDisplay } from "./ActionCreators";
 
 class CommentItem extends React.Component {
         constructor(props){
