@@ -77,7 +77,7 @@ class Topbar extends React.Component {
                     let newMsg = ` ${doc.userName} invited you to be a co-editor to his board.`;
                     let push = true;
                     if ( msg !== undefined ) {
-                        for (let j = 0; j < msg.length ; j++){
+                        for (let j = 0; j < msg.length ; j++) {
                             if (newMsg == msg[j]) {
                                 push = false;
                             }
@@ -244,7 +244,7 @@ class Topbar extends React.Component {
                         <div className="topRight">
                             <div className="boardList">
                                 <div className="boardIcon" onClick={ () => this.switchBoard(this.props.firebaseUid) }>
-                                    <Link to={ targetURL }> <img src={ Blackboard } /> </Link>
+                                    <Link to={ targetURL }><img src={ Blackboard } /></Link>
                                 </div>
                             </div>
                         

@@ -24,7 +24,7 @@ class HomePage extends React.Component {
     } 
 
     componentDidMount() {
-        let firebaseUid = this.props.firebaseUid
+        const firebaseUid = this.props.firebaseUid
         if (firebaseUid == "") {  //確認中
 
         } else if (firebaseUid == null) {  //未登入
@@ -36,7 +36,7 @@ class HomePage extends React.Component {
     componentDidUpdate(){
         if ( this.state.currentUserBackground == "" && this.props.firebaseUid !== "") {
             const db = fire.firestore();
-            let firebaseUid = this.props.firebaseUid  
+            const firebaseUid = this.props.firebaseUid  
             
             db.collection("Boards").doc(firebaseUid).get()
             .then((querySnapshot) => {
@@ -62,6 +62,7 @@ class HomePage extends React.Component {
             db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
             .then((querySnapshot) => {
                 let data = [];
+                const theLastNum = querySnapshot.docs.length-1
                 for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
                     let send = querySnapshot.docs[i].data()
                     const ref = db.collection("Users").doc(send.userFirebaseuid)
@@ -75,7 +76,11 @@ class HomePage extends React.Component {
                         .then((querySnapshot) =>{
                             send.backgroundURL = querySnapshot.data().background
                             data.push(send);
-                            this.props.addBeInvitedData(data)
+
+                            if ( i === theLastNum ) {
+                                console.log("i == querySnapshot.docs.length-1")
+                                this.props.addBeInvitedData(data)
+                            }
                         }).catch((error)=> {
                             console.log("Error writing document: ", error.message);
                         })
@@ -87,6 +92,7 @@ class HomePage extends React.Component {
                 db.collection("Users/" + firebaseUid + "/invitation").orderBy("index").get()
                 .then((querySnapshot) => {
                     let data = [];
+                    const theLastNum = querySnapshot.docs.length-1
                     for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
                         let send = querySnapshot.docs[i].data()
                         if ( send.confirm ) {  //找到 confirm true 的人更新自己 db 邀請函裡的資訊再渲染
@@ -101,7 +107,9 @@ class HomePage extends React.Component {
                                 .then(async(querySnapshot) =>{
                                     send.backgroundURL = querySnapshot.data().background
                                     data.push(send);
-                                    this.props.addInvitationData(data)
+                                    if ( i === theLastNum ) {
+                                        this.props.addInvitationData(data)
+                                    }
                                 }).catch((error)=> {
                                     console.log("Error writing document: ", error.message);
                                 })

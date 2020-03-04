@@ -30,7 +30,7 @@
 #root>.topBar>.topRight>.signOutImg,
 #root>.topBar>.topRight>.boardList>.alert,
 #root>.topBar>.topLeft>.home {
-    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;cursor: pointer;
+    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;
 }
 
 
@@ -50,7 +50,7 @@
 #root>.topBar>.topRight>.signOutImg img,
 #root>.topBar>.topRight>.boardList>.alert img,
 #root>.topBar>.topLeft>.home img {
-    width: 22px;
+    width: 22px; cursor: pointer;
 }
 
 #root>.topBar>.topRight>.memberIcon {

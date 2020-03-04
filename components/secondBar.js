@@ -315,8 +315,8 @@ class SecondBar extends React.Component {
                         </div>
                     </div>
                     <div className="secondRight">
-                        <div className="addBoard">
-                            <img src={ Plus }  onClick= { this.addNewListOpen } />
+                        <div className="addBoard" onClick= { this.addNewListOpen }>
+                            <img src={ Plus } />
                         </div>
                     </div>
                 </div>

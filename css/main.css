@@ -54,11 +54,11 @@ img {
 .view>.topBar>.topRight>.signOutImg,
 /* .view>.topBar>.topRight>.boardList>.alert, */
 .view>.topBar>.topLeft>.home {
-    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;cursor: pointer;
+    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;
 }
 
 .alert {
-    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px;cursor: pointer;position: relative;
+    width: 18px; background-color:hsla(0,0%,100%,.3); display: flex;align-items: center;justify-content: center; border-radius: 3px; padding: 0 10px; height: 32px; position: relative;
 }
 .alert:hover {
     background-color:hsla(0,0%,100%,.6);
@@ -77,7 +77,7 @@ img {
 .view>.topBar>.topRight>.boardList>.boardIcon img,
 .view>.topBar>.topRight>.signOutImg img,
 .view>.topBar>.topLeft>.home img {
-    width: 22px;
+    width: 22px;cursor: pointer;
 }
 .view>.topBar>.topRight>.memberIcon a,
 .view>.topBar>.topRight>.boardList>.boardIcon a,
