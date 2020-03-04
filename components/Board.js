@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import fire from "../src/fire";
-import { setUpComWin, renderComments, setIndexForTitle, loadingGifOn, switchBoard } from"./ActionCreators"
+import { setUpComWin, setCommentData, setIndexForTitle, turnOnLoadingGif, switchBoard } from"./ActionCreators"
 import { lib_fileUpload } from "../library/lib";
 import Topbar from "./TopBar";
 import SecondBar from "./SecondBar";
@@ -24,7 +24,7 @@ class Board extends React.Component {
     componentDidMount() {
         const db = fire.firestore();
         const props = this.props;
-        props.loadingGifOn();
+        props.turnOnLoadingGif();
         
         let myDataTitle = [];
         let myDataText = [];
@@ -120,7 +120,7 @@ class Board extends React.Component {
                 Data.push(Data1[k]);
                 Data.push(Data2[k]);
             }
-            props.renderComments(Data1, Data2);
+            props.setCommentData(Data1, Data2);
         };
     }
 
@@ -128,7 +128,7 @@ class Board extends React.Component {
         let props = this.props;
         let currentBoard = this.props.currentBoard
         if ( currentBoard !==  prevProps.currentBoard) {
-            props.loadingGifOn();
+            props.turnOnLoadingGif();
             const db = fire.firestore();
             let firebaseUid = currentBoard;
 
@@ -148,7 +148,7 @@ class Board extends React.Component {
                         background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
                     }).then(() => {
                         //新增初始範例
-                        props.renderComments(["Welcome to a-llo guide !","List"], [
+                        props.setCommentData(["Welcome to a-llo guide !","List"], [
                             [{
                             edited:"a-llo",
                             editorImg: this.state.exampleAuthor,
@@ -342,7 +342,7 @@ class Board extends React.Component {
                     Data.push(Data1[k]);
                     Data.push(Data2[k]);
                 }
-                props.renderComments(Data1, Data2);
+                props.setCommentData(Data1, Data2);
             };
         }
     }
@@ -405,9 +405,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setUpComWin: (myComWin) => { dispatch(setUpComWin(myComWin)) },
-        renderComments: (Data1, Data2) => { dispatch(renderComments(Data1, Data2)) },
+        setCommentData: (Data1, Data2) => { dispatch(setCommentData(Data1, Data2)) },
         setIndexForTitle: (storeTitleIndex) => { dispatch(setIndexForTitle(storeTitleIndex))},
-        loadingGifOn: () => { dispatch(loadingGifOn()) },
+        turnOnLoadingGif: () => { dispatch(turnOnLoadingGif()) },
         switchBoard: (targetLink) => { dispatch(switchBoard(targetLink)) },
     }
 }

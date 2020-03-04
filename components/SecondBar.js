@@ -1,10 +1,11 @@
 import React from 'react';
-import Plus from "../images/plus1.png";
 import { connect } from 'react-redux';
+import { creatTitle, addNewListOpen, getTitleValue, setIndexForTitle } from"./ActionCreators"
+import { lib_AccessWhereMethod } from "../library/searchDbData";
 import fire from "../src/fire";
 import Cancel from "../images/letter-x.png";
 import Mail from "../images/email.png";
-import { creatTitle, addNewListOpen, getTitleValue, setIndexForTitle } from"./ActionCreators"
+import Plus from "../images/plus1.png";
 
 class SecondBar extends React.Component {
     constructor(props){
@@ -24,6 +25,7 @@ class SecondBar extends React.Component {
             xCoordinate: "",
             yCoordinate: "",
         }
+        this.lib_AccessWhereMethod = lib_AccessWhereMethod.bind(this)
     }
 
     componentDidUpdate() {
@@ -183,21 +185,32 @@ class SecondBar extends React.Component {
                     })
                     //否則找到對方的doc更新資料
                 } else {
-                    route.where("userFirebaseuid", "==", this.props.firebaseUid).get()
-                    .then((querySnapshot) => {
-                        let docid = querySnapshot.docs[0].id;
-                        route.doc(docid).update({
-                            userMail: this.props.userEmail,
-                            userName: this.props.userDisplayName,
-                            userPhoto: this.props.userPhotoURL,
-                            userFirebaseuid: this.props.firebaseUid,
-                            confirm: false,
-                            index: querySnapshot.docs.length,
-                            read: false,  //被邀請通知來要亮燈提醒
-                        }).catch((error)=> {
-                            console.log("Error writing document: ", error.message);
-                        })
-                    })
+                    const targetData = {
+                        userMail: this.props.userEmail,
+                        userName: this.props.userDisplayName,
+                        userPhoto: this.props.userPhotoURL,
+                        userFirebaseuid: this.props.firebaseUid,
+                        confirm: false,
+                        index: querySnapshot.docs.length,
+                        read: false
+                    }
+                    this.lib_AccessWhereMethod(`Users/${this.state.userFirebaseuid}/beInvited`, "userFirebaseuid", this.props.firebaseUid, targetData)
+
+                    // route.where("userFirebaseuid", "==", this.props.firebaseUid).get()
+                    // .then((querySnapshot) => {
+                    //     let docid = querySnapshot.docs[0].id;
+                    //     route.doc(docid).update({
+                    //         userMail: this.props.userEmail,
+                    //         userName: this.props.userDisplayName,
+                    //         userPhoto: this.props.userPhotoURL,
+                    //         userFirebaseuid: this.props.firebaseUid,
+                    //         confirm: false,
+                    //         index: querySnapshot.docs.length,
+                    //         read: false,  //被邀請通知來要亮燈提醒
+                    //     }).catch((error)=> {
+                    //         console.log("Error writing document: ", error.message);
+                    //     })
+                    // })
                 }
             })
         }).then(() => {
@@ -222,10 +235,7 @@ class SecondBar extends React.Component {
                             console.log("Error writing document: ", error.message);
                         })
                     } else {
-                        route.where("userFirebaseuid", "==", this.state.userFirebaseuid).get()
-                        .then((querySnapshot) => {
-                            let docid = querySnapshot.docs[0].id;
-                            route.doc(docid).update({
+                        const targetData = {
                             userMail: this.state.userMail,
                             userName: this.state.userName,
                             userPhoto: this.state.userPhoto,
@@ -234,10 +244,25 @@ class SecondBar extends React.Component {
                             index: querySnapshot.docs.length,
                             backgroundURL: backgroundURL,
                             read: null,
-                        }).catch((error)=> {
-                            console.log("Error writing document: ", error.message);
-                        })
-                    })
+                        }
+                        this.lib_AccessWhereMethod(`Users/${this.props.firebaseUid}/beInvited`, "userFirebaseuid", this.state.userFirebaseuid, targetData)
+
+                        // route.where("userFirebaseuid", "==", this.state.userFirebaseuid).get()
+                        // .then((querySnapshot) => {
+                        //     let docid = querySnapshot.docs[0].id;
+                        //     route.doc(docid).update({
+                        //     userMail: this.state.userMail,
+                        //     userName: this.state.userName,
+                        //     userPhoto: this.state.userPhoto,
+                        //     userFirebaseuid: this.state.userFirebaseuid,
+                        //     confirm: false,
+                        //     index: querySnapshot.docs.length,
+                        //     backgroundURL: backgroundURL,
+                        //     read: null,
+                        // }).catch((error)=> {
+                        //     console.log("Error writing document: ", error.message);
+                        // })
+                    // })
                     }
                 })
                 alert(`You have sent ${this.state.userMail} an invitation.`)
@@ -267,7 +292,7 @@ class SecondBar extends React.Component {
                                         alert(`${this.state.userMail} is already on your access list.` )
                                         this.showInvitation();
                                     } else if ( querySnapshot.data().confirm == false ) {
-                                        alert(`Now is waiting for ${this.state.userMail} 's reply.' ` )
+                                        alert(`Now is waiting for ${this.state.userMail} 's reply. ` )
                                         this.showInvitation();
                                     } else if ( querySnapshot.data().confirm == null ) {
                                         this.writeInvitationToDb(id,"update");

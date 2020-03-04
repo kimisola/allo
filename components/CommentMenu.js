@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import fire from "../src/fire";
 import bin from"../images/bin.png";
 import menuImg from "../images/more.png"
+import { lib_AccessWhereMethod } from "../library/searchDbData";
 
 class CommentMenu extends React.Component {
     constructor(props){
@@ -24,6 +25,7 @@ class CommentMenu extends React.Component {
             yCoordinate: "",
 
         }
+        this.lib_AccessWhereMethod = lib_AccessWhereMethod.bind(this)
     }
 
     showImgDiv = () => {
@@ -178,22 +180,33 @@ class CommentMenu extends React.Component {
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
         .then((querySnapshot) => {
             const docId =  querySnapshot.docs[0].id;
-            db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
-            .then((querySnapshot) => {
-                const docId2 = querySnapshot.docs[0].id                
-                db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2)
-                .update({
-                    img: this.state.defaultImg,
-                    text: newTextValue,
-                    tags: newTextTag,
-                    edited: this.props.userDisplayName,
-                    editorImg: this.props.userPhotoURL,
-                }).then(() => {
-                    console.log("Document successfully written!");
-                }).catch((error) => {
-                    console.error("Error removing document: ", error);
-                })
-            })
+
+            const targetData = {
+                img: this.state.defaultImg,
+                text: newTextValue,
+                tags: newTextTag,
+                edited: this.props.userDisplayName,
+                editorImg: this.props.userPhotoURL,
+            }
+            this.lib_AccessWhereMethod(`Boards/${firebaseUid}/Lists/${docId}/Items`, "index", ((comId+1)*2), targetData)
+
+
+            // db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
+            // .then((querySnapshot) => {
+            //     const docId2 = querySnapshot.docs[0].id                
+            //     db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2)
+            //     .update({
+            //         img: this.state.defaultImg,
+            //         text: newTextValue,
+            //         tags: newTextTag,
+            //         edited: this.props.userDisplayName,
+            //         editorImg: this.props.userPhotoURL,
+            //     }).then(() => {
+            //         console.log("Document successfully written!");
+            //     }).catch((error) => {
+            //         console.error("Error removing document: ", error);
+            //     })
+            // })
         })
     }
 

@@ -1,7 +1,8 @@
 import React from 'react';
-import { updateInvitedData } from "./ActionCreators";
 import { connect } from 'react-redux';
 import { render } from 'react-dom';
+import { updateInvitedData } from "./ActionCreators";
+import { lib_AccessWhereMethod } from "../library/searchDbData";
 import fire from "../src/fire";
 
 class ReplyButtons extends React.Component {
@@ -10,6 +11,7 @@ class ReplyButtons extends React.Component {
         this.state = {
             confirm: this.props.confirm,
         }
+        this.lib_AccessWhereMethod = lib_AccessWhereMethod.bind(this)
     }
 
     accept = (index) =>{
@@ -33,17 +35,18 @@ class ReplyButtons extends React.Component {
                 confirm: true,
                 read: false,
             })
-
             const oppFiredaseUid = querySnapshot.docs[index].data().userFirebaseuid
-            db.collection("Users/" + oppFiredaseUid + "/invitation").where("userFirebaseuid", "==", firebaseUid)
-            .get().then((querySnapshot) => {
-                const docId = querySnapshot.docs[0].id
-                const ref = db.collection("Users/" + oppFiredaseUid + "/invitation").doc(docId)
-                ref.update({ 
-                    confirm: true,
-                    read: false,
-                })
-            })
+            this.lib_AccessWhereMethod(`Users/${oppFiredaseUid}/invitation`, "userFirebaseuid", firebaseUid, { confirm: true, read: false })
+
+            // db.collection("Users/" + oppFiredaseUid + "/invitation").where("userFirebaseuid", "==", firebaseUid)
+            // .get().then((querySnapshot) => {
+            //     const docId = querySnapshot.docs[0].id
+            //     const ref = db.collection("Users/" + oppFiredaseUid + "/invitation").doc(docId)
+            //     ref.update({ 
+            //         confirm: true,
+            //         read: false,
+            //     })
+            // })
         })
     }
 

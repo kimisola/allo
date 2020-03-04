@@ -43,7 +43,7 @@ function Reducer(state = initialState, action) {
     console.log(initialState)
     console.log(state)
     switch(action.type) {
-        case "setCurrentUser": {
+        case "SET_CURRENT_USER": {
             return Object.assign({}, state, {
                 isLoggedIn: ! state.isLoggedIn,
                 userEmail: action.userEmail,
@@ -54,29 +54,29 @@ function Reducer(state = initialState, action) {
             });
         }
 
-        case "loadingGifOff": {
-            let isBoardLoaded = true
-            return Object.assign({}, state, {
-                isBoardLoaded: isBoardLoaded
-            });
-        }
+        // case "TURN_OFF_LOADING_GIF": {
+        //     let isBoardLoaded = true
+        //     return Object.assign({}, state, {
+        //         isBoardLoaded: isBoardLoaded
+        //     });
+        // }
 
-        case "loadingGifOn": {
+        case "TURN_ON_LOADING_GIF": {
             let isBoardLoaded = false
             return Object.assign({}, state, {
                 isBoardLoaded: isBoardLoaded
             });
         }
 
-        case "renderComments": {
-            return Object.assign({}, state, {  // copy now state and update using items
+        case "SET_COMMENT_DATA": {
+            return Object.assign({}, state, {
                 text: action.Data2,
                 listTitle: action.Data1,
                 isBoardLoaded: true
             });
         }
 
-        case "setIndexForTitle": {
+        case "SET_INDEX_FOR_TITLE": {
             return Object.assign({}, state, {
                 indexForTitle: action.storeTitleIndex
             });
@@ -88,14 +88,14 @@ function Reducer(state = initialState, action) {
             });
         }
 
-        case "addTheme": {
+        case "ADD_THEME": {
             return Object.assign({}, state, {
                 text: action.newText.slice(0),
                 listTitle: action.newListTitle.slice(0),
             });
         }
 
-        case "getNewTitleValue": {
+        case "GET_NEW_TITLE_VALUE": {
             return Object.assign({}, state, {
                 titleValue: action.value
             });
@@ -221,7 +221,6 @@ function Reducer(state = initialState, action) {
                 beInvitedData: beInvitedData,
             })
         }
-
 
         case "addInvitationData": {
             return  Object.assign({}, state, {

@@ -1,34 +1,34 @@
-export function addNewListOpen() {
-    return{
-        type: "addNewListOpen"
-    }
-}
+// export function addNewListOpen() {
+//     return{
+//         type: "addNewListOpen"
+//     }
+// }
 
 export function getTitleValue(value) {
     return{
-        type: "getNewTitleValue", 
+        type: "GET_NEW_TITLE_VALUE", 
         value
     }
 }
 
 export function creatTitle(newListTitle, newText) {
     return{
-        type: "addTheme", 
+        type: "ADD_THEME", 
         newListTitle,
         newText
     }
 }
 
-export function setUpComWin(myComWin) {
-    return {
-        type: "setUpComWin",
-        myComWin
-    }
-}
+// export function setUpComWin(myComWin) {
+//     return {
+//         type: "setUpComWin",
+//         myComWin
+//     }
+// }
 
-export function renderComments(Data1, Data2) {
+export function setCommentData(Data1, Data2) {
     return {
-        type: "renderComments",
+        type: "SET_COMMENT_DATA",
         Data1,
         Data2
     }
@@ -36,7 +36,7 @@ export function renderComments(Data1, Data2) {
 
 export function setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) {
     return {
-        type: "setCurrentUser",
+        type: "SET_CURRENT_USER",
         userDisplayName, 
         userPhotoURL, 
         userEmail, 
@@ -47,7 +47,7 @@ export function setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebas
 
 export function setIndexForTitle(storeTitleIndex) {
     return {
-        type: "setIndexForTitle",
+        type: "SET_INDEX_FOR_TITLE",
         storeTitleIndex
     }
 }
@@ -59,15 +59,15 @@ export function switchBoard(targetLink) {
     }
 }
 
-export function loadingGifOff() {
-    return {
-        type: "loadingGifOff",
-    }
-}
+// export function loadingGifOff() {
+//     return {
+//         type: "TURN_OFF_LOADING_GIF",
+//     }
+// }
 
-export function loadingGifOn() {
+export function turnOnLoadingGif() {
     return {
-        type: "loadingGifOn",
+        type: "TURN_ON_LOADING_GIF",
     }
 }
 

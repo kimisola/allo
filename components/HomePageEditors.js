@@ -1,40 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { unfriend } from "./ActionCreators";
+import { lib_AccessWhereMethod } from "../library/searchDbData";
 import Cancel from "../images/cancel.png";
-import fire from "../src/fire";
 
 class Editors extends React.Component {
     constructor(props){
         super(props);
+        this.lib_AccessWhereMethod = lib_AccessWhereMethod.bind(this)
     }
 
     unfriend = (userFirebaseuid, index) => {
 
         this.props.unfriend(userFirebaseuid, index)
 
-        const db = fire.firestore();
-        db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", userFirebaseuid)
-        .get().then((querySnapshot) => {
-            const docId = querySnapshot.docs[0].id
-            const ref = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docId)
-            ref.update({ 
-                confirm: null,
-            })
-        })
+        this.lib_AccessWhereMethod(`Users/${this.props.firebaseUid}/invitation`, "userFirebaseuid", userFirebaseuid, { confirm: null })
+        // const db = fire.firestore();
+        // db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", userFirebaseuid)
+        // .get().then((querySnapshot) => {
+        //     const docId = querySnapshot.docs[0].id
+        //     const ref = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docId)
+        //     ref.update({ 
+        //         confirm: null,
+        //     })
+        // })
 
-        db.collection("Users/" + userFirebaseuid + "/beInvited").where("userFirebaseuid", "==", this.props.firebaseUid)
-        .get().then((querySnapshot) => {
-            const docId = querySnapshot.docs[0].id
-            const ref = db.collection("Users/" + userFirebaseuid + "/beInvited").doc(docId)
-            ref.update({ 
-                confirm: null,
-            })
-        })
+        this.lib_AccessWhereMethod(`Users/${userFirebaseuid}/beInvited`, "userFirebaseuid", this.props.firebaseUid, { confirm: null })
+
+        // db.collection("Users/" + userFirebaseuid + "/beInvited").where("userFirebaseuid", "==", this.props.firebaseUid)
+        // .get().then((querySnapshot) => {
+        //     const docId = querySnapshot.docs[0].id
+        //     const ref = db.collection("Users/" + userFirebaseuid + "/beInvited").doc(docId)
+        //     ref.update({ 
+        //         confirm: null,
+        //     })
+        // })
     }
 
     render(){
-
         return(
             <React.Fragment>
                 <div className="editors">
