@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { addBeInvitedData, addInvitationData } from "./ActionCreators";
 import { lib_fileUpload } from "../library/lib";
@@ -8,6 +8,7 @@ import BoardLists from "./HomePageBoardLists";
 import Notifications from "./HomePageNotifications";
 import Editors from "./HomePageEditors";
 import fire from "../src/fire";
+import { db } from "../src/fire";
 import Gear from "../images/gear.png";
 import "../css/homePage.css";
 
@@ -25,9 +26,9 @@ class HomePage extends React.Component {
 
     componentDidMount() {
         const firebaseUid = this.props.firebaseUid
-        if (firebaseUid == "") {  //確認中
+        if (firebaseUid === "") {  //確認中
             return
-        } else if (firebaseUid == null) {  //未登入
+        } else if (firebaseUid === null) {  //未登入
             window.location = "/";
         } else  {
             return
@@ -35,28 +36,22 @@ class HomePage extends React.Component {
     }
 
     componentDidUpdate(){
-        if ( this.state.currentUserBackground == "" && this.props.firebaseUid !== "") {
-            const db = fire.firestore();
+        if ( this.state.currentUserBackground === "" && this.props.firebaseUid !== "") {
+            // const db = fire.firestore();
             const firebaseUid = this.props.firebaseUid  
             
             db.collection("Boards").doc(firebaseUid).get()
             .then((querySnapshot) => {
-                this.setState(prevState => {
-                    let currentUserBackground = querySnapshot.data().background
-                    return Object.assign({}, prevState, {
-                        currentUserBackground: currentUserBackground
-                    })
-                }) 
+                this.setState(() => {
+                    return ({ currentUserBackground: querySnapshot.data().background })
+                })
             })
 
             db.collection("Users").doc(firebaseUid).get()
             .then((querySnapshot) => {
-                this.setState(prevState => {
-                    let homepageCover = querySnapshot.data().homepageCover
-                    return Object.assign({}, prevState, {
-                        homepageCover: homepageCover
-                    })
-                }) 
+                this.setState(() => {
+                    return ({ homepageCover: querySnapshot.data().homepageCover })
+                })
             })
             
             db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
@@ -91,7 +86,7 @@ class HomePage extends React.Component {
                 .then((querySnapshot) => {
                     let data = [];
                     
-                    for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
+                    for (let i = 0; i < querySnapshot.docs.length; i ++ ) {
                         let send = querySnapshot.docs[i].data()
                         if ( send.confirm ) {  //找到 confirm true 的人更新自己 db 邀請函裡的資訊再渲染
                             const ref = db.collection("Users").doc(send.userFirebaseuid)
@@ -99,7 +94,7 @@ class HomePage extends React.Component {
                             .then((querySnapshot) =>{
                                 send.userName = querySnapshot.data().name;
                                 send.userPhoto =  querySnapshot.data().photo;
-                                let ref2 = db.collection("Boards").doc(send.userFirebaseuid)
+                                const ref2 = db.collection("Boards").doc(send.userFirebaseuid)
                                 ref2.get()
                                 .then(async(querySnapshot) =>{
                                     send.backgroundURL = querySnapshot.data().background
@@ -122,72 +117,17 @@ class HomePage extends React.Component {
         }
     }
 
-    backgroundEditedOn = () => {
-        this.setState( prevState => {
-            let isBackgroundEdited = prevState.isBackgroundEdited
-            isBackgroundEdited = true
-            return { 
-                isBackgroundEdited: isBackgroundEdited,
-            }
-        }); 
+    TurnOnEditedMode = () => {
+        this.setState({ isBackgroundEdited: true }); 
     }
 
-    backgroundEditedOff = () => {
-        this.setState( prevState => {
-            let isBackgroundEdited = prevState.isBackgroundEdited
-            isBackgroundEdited = false
-            return { 
-                isBackgroundEdited: isBackgroundEdited,
-            }
-        }); 
+    TurnOffEditedMode = () => {
+        this.setState({ isBackgroundEdited: false }); 
     }
 
     fileUpload = (event) => {
         const file = event.target.files[0]
-        console.log(event.target.files[0])
-        // var reader = new FileReader();
         this.lib_fileUpload("homepageCover", file)
-        // const storageRef = fire.storage().ref("boardBackground");
-        // const imgRef = storageRef.child(file.name)
-        // const fileTypes = ["image/jpeg", "image/png","image/gif"]; 
-        // let flag = false;
-        
-        //     imgRef.put(file)
-        //     .then((snapshot) => {
-        //         for (let i = 0; i < fileTypes.length; i++) {
-        //             if ( file.type == fileTypes[i] ) { 
-        //                 flag = true
-        //                 if (file.size > 190000 ) {
-        //                 // console.log("Uploaded a blob or file!");
-        //                 imgRef.getDownloadURL().then( async (url) => {
-        //                     // console.log(url)
-        //                     this.setState( prevState => {
-        //                         let homepageCover = url
-        //                         return Object.assign({}, prevState, {
-        //                             homepageCover: homepageCover,
-        //                         })
-        //                     });
-        //                     const db = fire.firestore();
-        //                     let firebaseUid = this.props.firebaseUid
-        //                     db.collection("Users").doc(firebaseUid)
-        //                     .update({
-        //                         homepageCover: this.state.homepageCover
-        //                     }).catch((error)=> {
-        //                         console.log("Error writing document: ", error.message);
-        //                     })
-        //                 })
-        //                 } else { 
-        //                     alert("Oops! Low resolution image.")
-        //                     break;
-        //                 }
-        //             }  
-        //         }
-        //         if (!flag) {
-        //             alert("Only support jpeg/png/gif type files.");
-        //         }
-        //     }).catch((error) => {
-        //         console.error("Error removing document: ", error.message);
-        // })      
     }
 
     render(){
@@ -204,7 +144,7 @@ class HomePage extends React.Component {
         return(
             <React.Fragment>
                 <Topbar />
-                <div className="homebackground"  style={ style.cover } onMouseEnter={ this.backgroundEditedOn }  onMouseLeave={ this.backgroundEditedOff }>
+                <div className="homebackground"  style={ style.cover } onMouseEnter={ this.TurnOnEditedMode }  onMouseLeave={ this.TurnOffEditedMode }>
                     <div className="imgUpload" style={{ display: this.state.isBackgroundEdited ? "block" : "none" }}>                      
                         <label action="/somewhere/to/upload" encType="multipart/form-data">
                             <img src={ Gear }/>             

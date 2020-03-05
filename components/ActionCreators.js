@@ -1,8 +1,21 @@
+// import { func } from "prop-types"
+
 // export function addNewListOpen() {
 //     return{
 //         type: "addNewListOpen"
 //     }
 // }
+
+export function setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) {
+    return {
+        type: "SET_CURRENT_USER",
+        userDisplayName, 
+        userPhotoURL, 
+        userEmail, 
+        firebaseUid,
+        useruid
+    }
+}
 
 export function getTitleValue(value) {
     return{
@@ -19,6 +32,20 @@ export function creatTitle(newListTitle, newText) {
     }
 }
 
+export function deleteTheme(t) {
+    return {
+        type: "DELETE_THEME",
+        t
+    }
+}
+
+export function getEditedTitleValue(newValue, indexOfValue) {
+    return {
+        type: "GET_EDITED_TITLE_VALUE",
+        newValue,
+        indexOfValue
+    }
+}
 // export function setUpComWin(myComWin) {
 //     return {
 //         type: "setUpComWin",
@@ -34,14 +61,33 @@ export function setCommentData(Data1, Data2) {
     }
 }
 
-export function setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid) {
+export function sendComment(index, newText, newImg, newTags) {
     return {
-        type: "SET_CURRENT_USER",
-        userDisplayName, 
-        userPhotoURL, 
-        userEmail, 
-        firebaseUid,
-        useruid
+        type: "SEND_COMMENT",
+        index,
+        newText,
+        newImg,
+        newTags
+    }
+}
+
+export function getEditedValue(newTextValue, newTextTag, listId, comId, edited, editorImg) {
+    return {
+        type: "GET_EDITED_VALUE",
+        newTextValue, 
+        newTextTag,
+        listId,
+        comId,
+        edited,
+        editorImg
+    }
+}
+
+export function deleteComment(listId, comId) {
+    return {
+        type: "DELETE_COMMENT",
+        listId,
+        comId
     }
 }
 
@@ -54,7 +100,7 @@ export function setIndexForTitle(storeTitleIndex) {
 
 export function switchBoard(targetLink) {
     return {
-        type: "switchBoard",
+        type: "SWITCHBOARD",
         targetLink
     }
 }
@@ -73,20 +119,20 @@ export function turnOnLoadingGif() {
 
 export function changeTagsDisplay() {
     return {
-        type: "change-tags-display",
+        type: "CHANGE_TAGS_DISPLAY",
     }
 }
 
 export function addBeInvitedData(data) {
     return{
-        type: "addBeInvitedData", 
+        type: "ADD_BEINVITED_DATA", 
         data
     }
 }
 
-export function updateInvitedData(index,confirm) {
+export function updateBeInvitedData(index,confirm) {
     return{
-        type: "updateInvitedData", 
+        type: "UPDATE_BEINVITED_DATA", 
         index,
         confirm
     }
@@ -94,14 +140,14 @@ export function updateInvitedData(index,confirm) {
 
 export function addInvitationData(data) {
     return{
-        type: "addInvitationData", 
+        type: "ADD_INVITATION_DATA", 
         data
     }
 }
 
 export function unfriend(userFirebaseuid, index) {
     return{
-        type: "unfriend", 
+        type: "UNFRIEND", 
         userFirebaseuid,
         index
     }

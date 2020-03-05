@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import "../css/loginPage.css";
 import GLogin from "./googleBar.js";
 import LoginImg from "../images/loginpage_main2.png";
@@ -7,7 +7,7 @@ import ContentImg2 from "../images/loginpage_content2.png";
 import ContentImg3 from "../images/loginpage_content3.png";
 import Mylogo from "../images/myLogo.png";
 import Postit from "../images/post-it-w.png"
-import firebase from 'firebase';
+import firebase from "firebase";
 // import { withStyles } from '@material-ui/core/styles';    移除安裝
 // import TextField from '@material-ui/core/TextField';
 
@@ -45,7 +45,6 @@ class LoginPage extends React.Component {
         let emailValue = event.target.value
         const pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         if ( pattern.test(emailValue) ||  emailValue.length === 0) {
-            console.log(emailValue)
             this.setState(prevState => { 
                 return Object.assign({}, prevState, { 
                     email: emailValue ,

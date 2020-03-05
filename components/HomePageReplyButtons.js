@@ -1,9 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { render } from 'react-dom';
-import { updateInvitedData } from "./ActionCreators";
+import React from "react";
+import { connect } from "react-redux";
+import { render } from "react-dom";
+import { updateBeInvitedData } from "./ActionCreators";
 import { lib_AccessWhereMethod } from "../library/getDbData";
 import fire from "../src/fire";
+import { db } from "../src/fire";
 
 class ReplyButtons extends React.Component {
     constructor(props){
@@ -21,9 +22,9 @@ class ReplyButtons extends React.Component {
                 confirm: true
             })
         })
-        this.props.updateInvitedData(index, true);
+        this.props.updateBeInvitedData(index, true);
         
-        const db = fire.firestore();
+        // const db = fire.firestore();
         const firebaseUid = this.props.firebaseUid
         
         //用自己的 userFirebaseuid 反推去找對方 invitation 裡面的文件、將 confirm → true
@@ -51,14 +52,14 @@ class ReplyButtons extends React.Component {
     }
 
     deny = (index) => {
-        this.props.updateInvitedData(index, null);
+        this.props.updateBeInvitedData(index, null);
         this.setState(prevState => {
             return Object.assign({}, prevState, {
                 confirm: null
             })
         })
 
-        const db = fire.firestore();
+        // const db = fire.firestore();
         let firebaseUid = this.props.firebaseUid
         db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
         .then((querySnapshot) => {
@@ -106,7 +107,7 @@ const mapStateToProps = (state, ownprops) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateInvitedData: (index, confirm) => { dispatch(updateInvitedData(index, confirm)) },
+        updateBeInvitedData: (index, confirm) => { dispatch(updateBeInvitedData(index, confirm)) },
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ReplyButtons);

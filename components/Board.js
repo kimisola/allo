@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import fire from "../src/fire";
-import { setCommentData, setIndexForTitle, turnOnLoadingGif, switchBoard } from"./ActionCreators"
+import { db } from "../src/fire";
+import { setCommentData, setIndexForTitle, turnOnLoadingGif, switchBoard } from "./ActionCreators"
 import { lib_fileUpload } from "../library/lib";
 import Topbar from "./TopBar";
 import SecondBar from "./SecondBar";
@@ -22,7 +23,7 @@ class Board extends React.Component {
     }
 
     componentDidMount() {
-        const db = fire.firestore();
+        // const db = fire.firestore();
         const props = this.props;
         props.turnOnLoadingGif();
         
@@ -45,9 +46,8 @@ class Board extends React.Component {
         db.collection("Boards").doc(firebaseUid).get()
         .then((querySnapshot) => {
             if( querySnapshot.data() !== undefined ){
-                this.setState( prevState => {
-                    let boardURL = prevState.boardURL
-                    boardURL = querySnapshot.data().background
+                this.setState(() => {
+                    const boardURL = querySnapshot.data().background
                     return { 
                         boardURL: boardURL,
                     }
@@ -78,7 +78,6 @@ class Board extends React.Component {
             db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
             .then(async (querySnapshot) => {
                 const doc = querySnapshot.docs;
-
                 for ( let i = 0; i < doc.length; i++ ) {       
                     listsId.push(doc[i].id)
                     let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
@@ -129,21 +128,20 @@ class Board extends React.Component {
         let currentBoard = this.props.currentBoard
         if ( currentBoard !==  prevProps.currentBoard) {
             props.turnOnLoadingGif();
-            const db = fire.firestore();
+            // const db = fire.firestore();
             let firebaseUid = currentBoard;
 
             db.collection("Boards").doc(firebaseUid).get()
             .then((querySnapshot) => {
                 if( querySnapshot.data() !== undefined ){
-                    this.setState( prevState => {
-                        let boardURL = prevState.boardURL
-                        boardURL = querySnapshot.data().background
+                    this.setState(() => {
+                        const boardURL = querySnapshot.data().background
                         return { 
                             boardURL: boardURL,
                         }
                     }); 
                 } else {
-                    let ref = db.collection("Boards").doc(firebaseUid)
+                    const ref = db.collection("Boards").doc(firebaseUid)
                     ref.set({
                         background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
                     }).then(() => {
@@ -204,12 +202,12 @@ class Board extends React.Component {
                             text:`card`
                             }]
                         ]);
-                        let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample")
+                        const ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample")
                         ref.set({
                             title: "Welcome to a-llo guide !",
                             index: 2
                         }).then(() => {
-                            let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
+                            const ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample/Items").doc()
                             ref.set({
                                 edited:"a-llo",
                                 editorImg:this.state.exampleAuthor,
@@ -242,12 +240,12 @@ class Board extends React.Component {
                             console.error("Error removing document: ", error.message);
                         })                      
                     }).then(()=>{
-                        let ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample2")
+                        const ref = db.collection("Boards/"+ firebaseUid + "/Lists").doc("alloExample2")
                         ref.set({
                             title: "List",
                             index: 4
                         }).then(() => {
-                            let ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
+                            const ref = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
                             ref.set({
                                 edited:"a-llo",
                                 editorImg:this.state.exampleAuthor,
@@ -258,7 +256,7 @@ class Board extends React.Component {
                                 tags:["planning"],
                                 text:"",
                             })
-                            let ref2 = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
+                            const ref2 = db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
                             ref2.set({
                                 edited:"a-llo",
                                 editorImg:this.state.exampleAuthor,
@@ -269,7 +267,7 @@ class Board extends React.Component {
                                 tags:["process","risk"],
                                 text:`card`
                             })
-                            let ref3= db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
+                            const ref3= db.collection("Boards/"+ firebaseUid + "/Lists/alloExample2/Items").doc()
                             ref3.set({
                                 edited:"a-llo",
                                 editorImg:this.state.exampleAuthor,
@@ -300,8 +298,7 @@ class Board extends React.Component {
 
                 db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
                 .then(async (querySnapshot) => {
-                    let doc = querySnapshot.docs;
-    
+                    const doc = querySnapshot.docs;
                     for ( let i = 0; i < doc.length; i++ ) {       
                         listsId.push(doc[i].id)
                         let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
@@ -322,9 +319,9 @@ class Board extends React.Component {
                     for(let i = 0; i < listsId.length; i++ ) {
                         await db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
                         .then((querySnapshot2) => {
-                            let doc2 = querySnapshot2.docs;
+                            const doc2 = querySnapshot2.docs;
                             for ( let j = 0; j < doc2.length; j++ ) {
-                                let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
+                                const ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
                                 ref.update({
                                     index: (((j+1)*2)),
                                 })           

@@ -1,8 +1,9 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import { creatTitle, getTitleValue, setIndexForTitle } from"./ActionCreators"
 import { lib_AccessWhereMethod } from "../library/getDbData";
 import fire from "../src/fire";
+import { db } from "../src/fire";
 import Cancel from "../images/letter-x.png";
 import Mail from "../images/email.png";
 import Plus from "../images/plus1.png";
@@ -74,7 +75,7 @@ class SecondBar extends React.Component {
                 newText.push([]);
                 this.props.creatTitle(newListTitle, newText)
                 
-                const db = fire.firestore();
+                // const db = fire.firestore();
                 const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
                 titleCollection.set({
                     title: titleValue,
@@ -105,7 +106,7 @@ class SecondBar extends React.Component {
         newText.push([]);
         this.props.creatTitle(newListTitle, newText)
         
-        const db = fire.firestore();
+        // const db = fire.firestore();
         const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
         titleCollection.set({
             title: titleValue,
@@ -130,7 +131,7 @@ class SecondBar extends React.Component {
     }
 
     showInvitation = () => {
-        this.setState( prevState => {
+        this.setState(prevState => {
             const showInvitationa = !prevState.isShowInvitation
             return Object.assign({}, prevState, { 
                 isShowInvitation: showInvitationa,
@@ -148,7 +149,7 @@ class SecondBar extends React.Component {
     }
 
     writeInvitationToDb = (id, states) => {
-        const db = fire.firestore();
+        // const db = fire.firestore();
         db.collection("Users/").doc(id).get()
         .then((querySnapshot) => {
             let data = querySnapshot.data()
@@ -274,7 +275,7 @@ class SecondBar extends React.Component {
     invite = (event) => {
         if ( event.key === "Enter" ) {
             if ( this.state.userMail !== "" ) {
-                const db = fire.firestore();
+                // const db = fire.firestore();
                 db.collection("Users/").where("email", "==", this.state.userMail).get()
                 .then((querySnapshot) => {
                     if (querySnapshot.docs[0] != undefined && querySnapshot.docs[0].id != this.props.firebaseUid) {
@@ -282,7 +283,7 @@ class SecondBar extends React.Component {
                         
                         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", id).get()
                         .then((querySnapshot) => {
-                            if ( querySnapshot.docs.length == 0  ) {
+                            if ( querySnapshot.docs.length === 0  ) {
                                 this.writeInvitationToDb(id,"new")                               
                             } else {
                                 let docId = querySnapshot.docs[0].id
@@ -291,10 +292,10 @@ class SecondBar extends React.Component {
                                     if (querySnapshot.data().confirm) {
                                         alert(`${this.state.userMail} is already on your access list.` )
                                         this.showInvitation();
-                                    } else if ( querySnapshot.data().confirm == false ) {
+                                    } else if ( querySnapshot.data().confirm === false ) {
                                         alert(`Now is waiting for ${this.state.userMail} 's reply. ` )
                                         this.showInvitation();
-                                    } else if ( querySnapshot.data().confirm == null ) {
+                                    } else if ( querySnapshot.data().confirm === null ) {
                                         this.writeInvitationToDb(id,"update");
                                     }
                                 })
@@ -304,7 +305,7 @@ class SecondBar extends React.Component {
                         alert("Please enter the current email address.")
                     }
                 })
-            } else if ( this.state.userMail == "" ) {
+            } else if ( this.state.userMail === "" ) {
                 alert("Please enter email address.")
             }
         }

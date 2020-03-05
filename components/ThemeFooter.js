@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import Plus from "../images/plus.png";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 
 class ItemFooter extends React.Component {

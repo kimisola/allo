@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import { connect } from "react-redux";
 import Plus from "../images/plus.png";
-import { connect } from 'react-redux';
 
 
 // 已廢

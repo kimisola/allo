@@ -4,7 +4,8 @@ import { connect, Provider } from "react-redux";
 import { createStore } from "redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import firebase from 'firebase';
-import fire from "../src/fire";
+// import fire from "../src/fire";
+import { db } from "../src/fire";
 import Reducer from "../reducer/index";
 import LoginPage from "../components/Login";
 import Board from "../components/Board";
@@ -25,7 +26,7 @@ class App extends React.Component {
             (user) => {
                 console.log("App userrrrrrrrrr", user)
                 if (user) {
-                    const db = fire.firestore();
+                    // const db = fire.firestore();
                     let firebaseUid = user.uid;
                     let userDisplayName;
                     let userPhotoURL;
@@ -125,9 +126,9 @@ export default App
 
 ReactDOM.render(
     <Router>
-    <Provider store = { store } >
-        <App />
-    </Provider>
+        <Provider store = { store } >
+            <App />
+        </Provider>
     </Router>
 
     , document.querySelector("#root"))

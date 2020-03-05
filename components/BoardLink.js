@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
+import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { connect } from 'react-redux';
 import { switchBoard } from"./ActionCreators"
 
 class BoardLink extends React.Component {

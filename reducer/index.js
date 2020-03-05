@@ -21,8 +21,8 @@ let initialState = {
     tagsDisplayChanged: false,
 
     // index value for next new added title and comment item, default is 2
-    indexForTitle: 2,
-    indexForItem: 2,
+    // indexForTitle: 2,
+    // indexForItem: 2,
 
     //user profile
     isLoggedIn: false,
@@ -45,7 +45,7 @@ function Reducer(state = initialState, action) {
     switch(action.type) {
         case "SET_CURRENT_USER": {
             return Object.assign({}, state, {
-                isLoggedIn: ! state.isLoggedIn,
+                isLoggedIn: !state.isLoggedIn,
                 userEmail: action.userEmail,
                 userDisplayName: action.userDisplayName,
                 userPhotoURL: action.userPhotoURL,
@@ -82,11 +82,11 @@ function Reducer(state = initialState, action) {
             });
         }
 
-        case "setIndexForItem": {
-            return Object.assign({}, state, {
-                indexForItem: action.indexForItem
-            });
-        }
+        // case "setIndexForItem": {
+        //     return Object.assign({}, state, {
+        //         indexForItem: action.indexForItem
+        //     });
+        // }
 
         case "ADD_THEME": {
             return Object.assign({}, state, {
@@ -101,14 +101,14 @@ function Reducer(state = initialState, action) {
             });
         }
 
-        case "getEditedTitleValue": {
+        case "GET_EDITED_TITLE_VALUE": {
             state.listTitle.splice(action.indexOfValue, 1, action.newValue)
             return Object.assign({}, state, {
                 listTitle: state.listTitle.slice(0),
             });
         }
 
-        case "deleteTheme": {
+        case "DELETE_THEME": {
             state.listTitle.splice(action.t, 1)
             state.text.splice(action.t, 1)
             return Object.assign({}, state, {
@@ -124,9 +124,9 @@ function Reducer(state = initialState, action) {
         //     }); 
         // }
  
-        case "sendComment": {
-            let i = action.index;
-            let newText = state.text
+        case "SEND_COMMENT": {
+            const i = action.index;
+            const newText = state.text
             console.log( newText[i])
             newText[i].push({
                 img: action.newImg,
@@ -142,7 +142,7 @@ function Reducer(state = initialState, action) {
             });
         }
 
-        case "deleteComment": {
+        case "DELETE_COMMENT": {
             console.log("action.listId", "action.comId", action.listId, action.comId)
             state.text[action.listId].splice(action.comId, 1)
             return Object.assign({}, state, {
@@ -150,7 +150,7 @@ function Reducer(state = initialState, action) {
             }); 
         }
 
-        case "getEditedValue": {  // 要複製多層
+        case "GET_EDITED_VALUE": {  // 要複製多層
             let text = state.text.slice(0);
             let list = text[action.listId].slice(0);
             let item = {...list[action.comId], text:action.newTextValue, tags:action.newTextTag, edited: action.edited, editorImg: action.editorImg};
@@ -165,7 +165,7 @@ function Reducer(state = initialState, action) {
             });
         }
 
-        case "switchBoard": {
+        case "SWITCHBOARD": {
             console.log("targetLink_board", action.targetLink)
             let currentBoard = action.targetLink
             return Object.assign({}, state, {
@@ -173,7 +173,7 @@ function Reducer(state = initialState, action) {
             });
         }
 
-        case "drag-dropTheme": {
+        case "DRAG_DROP_THEME": {
             console.log("drag-dropTheme", action.sourceIndex, action.destinationIndex)
             let listTitle = state.listTitle.slice(0);
             let removeTitle = listTitle.splice(action.sourceIndex, 1)
@@ -189,7 +189,7 @@ function Reducer(state = initialState, action) {
             });
         }
 
-        case "drag-dropText": {
+        case "DRAG_DROP_TEXT": {
             console.log("drag-dropText", action.sourceTheme, action.sourceRow, action.destinationTheme, action.destinationRow)
             let text = state.text.slice(0);
             let removeText = text[action.sourceTheme].splice(action.sourceRow, 1)
@@ -201,19 +201,19 @@ function Reducer(state = initialState, action) {
             });
         }
 
-        case "change-tags-display": {
+        case "CHANGE_TAGS_DISPLAY": {
             return Object.assign({}, state, {
                 tagsDisplayChanged: !state.tagsDisplayChanged,
             });
         }
 
-        case "addBeInvitedData": {
+        case "ADD_BEINVITED_DATA": {
             return  Object.assign({}, state, {
                 beInvitedData: action.data.slice(0),
             })
         }
 
-        case "updateInvitedData": {
+        case "UPDATE_BEINVITED_DATA": {
             let beInvitedData = state.beInvitedData.slice(0)
             console.log("11111111111111", beInvitedData[action.index].confirm)
             beInvitedData[action.index].confirm = action.confirm
@@ -222,13 +222,13 @@ function Reducer(state = initialState, action) {
             })
         }
 
-        case "addInvitationData": {
+        case "ADD_INVITATION_DATA": {
             return  Object.assign({}, state, {
                 invitationData: action.data.slice(0),
             })
         }
 
-        case "unfriend": {
+        case "UNFRIEND": {
             let invitationData = state.invitationData.slice(0)
             invitationData.splice(action.index, 1)
             return  Object.assign({}, state, {

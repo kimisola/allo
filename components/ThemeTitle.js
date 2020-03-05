@@ -1,8 +1,10 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import { lib_AccessDeleteMethod } from "../library/getDbData";
+import { deleteTheme, getEditedTitleValue } from "./ActionCreators";
 import Letter from "../images/letter-x.png";
 import fire from "../src/fire";
+import { db } from "../src/fire";
 
 class ThemeTitle extends React.Component {
     constructor(props){
@@ -30,7 +32,7 @@ class ThemeTitle extends React.Component {
         let t = this.state.targetIndex
         console.log("run delete theme", t)
 
-        const db = fire.firestore();
+        // const db = fire.firestore();
         let firebaseUid = "";
         if ( this.props.currentBoard !== "" ) {
             firebaseUid = this.props.currentBoard
@@ -44,9 +46,9 @@ class ThemeTitle extends React.Component {
             let docId = querySnapshot.docs[0].id
 
             //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-            this.props.dispatch({ type: "deleteTheme", t })
+            this.props.deleteTheme(t)
             this.setState( prevState => {
-                let targetIndex = ""
+                let targetIndex = "";
                 return Object.assign({}, prevState, { 
                     isDeleteConfirmWinOpen: !prevState.isDeleteConfirmWinOpen,
                     targetIndex: targetIndex
@@ -91,12 +93,12 @@ class ThemeTitle extends React.Component {
             if ( newValue.length > 41 ) {
                 alert("Beyond the word limit!")
             } else {
-                this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})
+                this.props.getEditedTitleValue(newValue, indexOfValue)
                 this.setState({
                     isInEditMode: false
                 });
 
-                const db = fire.firestore();
+                // const db = fire.firestore();
                 let firebaseUid = "";
                 if ( this.props.currentBoard !== "" ) {
                     firebaseUid = this.props.currentBoard
@@ -179,4 +181,10 @@ const mapStateToProps = (state ,ownprops) => {
         themeIndex: ownprops.themeIndex,
     }
 }
-export default connect(mapStateToProps)(ThemeTitle)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deleteTheme: (t) => { dispatch(deleteTheme(t)) },
+        getEditedTitleValue: (newValue, indexOfValue) => { dispatch(getEditedTitleValue(newValue, indexOfValue)) }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeTitle)

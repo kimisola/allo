@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import firebase from 'firebase';
 import fire from "../src/fire";
+import { db } from "../src/fire";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import {setCurrentUser } from"./ActionCreators"
-
 
 class GLogin extends React.Component {
     uiConfig = {
@@ -15,7 +15,7 @@ class GLogin extends React.Component {
         ],
         callbacks: {
           signInSuccessWithAuthResult: (user) => {
-            const db = fire.firestore();
+            // const db = fire.firestore();
             if (user) {
               console.log("get user data", user)
               
@@ -39,8 +39,6 @@ class GLogin extends React.Component {
                   email: userEmail,
                   uid: useruid,
                   firebaseuid: firebaseUid,
-              }).then(() => {
-                  console.log("Document successfully written!")
               }).catch((error) => {
                   console.error("Error writing document: ", error);
               })

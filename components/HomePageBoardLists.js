@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import BoardLink from "./BoardLink";
 
 class BoardLists extends React.Component {
@@ -50,5 +50,4 @@ const mapStateToProps = (state, ownprops) => {
         currentUserBackground: ownprops.currentUserBackground
     }
 }
-
 export default connect(mapStateToProps)(BoardLists);

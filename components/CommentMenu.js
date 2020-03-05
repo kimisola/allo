@@ -1,9 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import fire from "../src/fire";
+import React from "react";
+import { connect } from "react-redux";
+import { lib_AccessWhereMethod, lib_AccessDeleteMethod } from "../library/getDbData";
+import { getEditedValue, deleteComment } from "./ActionCreators";
 import bin from"../images/bin.png";
-import menuImg from "../images/more.png"
-import { lib_AccessWhereMethod } from "../library/getDbData";
+import menuImg from "../images/more.png";
+import fire from "../src/fire";
+import { db } from "../src/fire";
 
 class CommentMenu extends React.Component {
     constructor(props){
@@ -26,35 +28,33 @@ class CommentMenu extends React.Component {
 
         }
         this.lib_AccessWhereMethod = lib_AccessWhereMethod.bind(this)
+        this.lib_AccessDeleteMethod = lib_AccessDeleteMethod.bind(this)
     }
 
     showImgDiv = () => {
         this.setState( prevState => {
-            const isTagImgDivShowed = !prevState.isTagImgDivShowed
-            return { isTagImgDivShowed: isTagImgDivShowed }
+            return { isTagImgDivShowed: !prevState.isTagImgDivShowed }
         });
     }
 
     showMenu = () => {
         this.setState( prevState => {
-            const showMenu = !prevState.isMenuShowed
-            return { isMenuShowed: showMenu }
+            return { isMenuShowed: !prevState.isMenuShowed }
         });
     }
 
     showOwner = () => {
         this.setState( prevState => {
-            const showOwner = !prevState.isOwnerShowed
-            return { isOwnerShowed: showOwner }
+            return { isOwnerShowed: !prevState.isOwnerShowed }
         });
     }
 
     showEditor = () => {
         this.setState( prevState => {
-            const showEditor = !prevState.isEditorShowed
-            return { isEditorShowed: showEditor }
+            return { isEditorShowed: !prevState.isEditorShowed }
         });
     }
+
 
     setDefault = () => {
         const tags = this.state.commentTags  //reset tag value
@@ -80,7 +80,7 @@ class CommentMenu extends React.Component {
             this.setState( prevState => {
                 const commentTagsCopy = prevState.commentTags
                 commentTagsCopy[target] = !prevState.commentTags[target]
-                return Object.assign({}, prevState, { commentTags: commentTagsCopy });
+                return { commentTags: commentTagsCopy };
             });
         });
         this.setState({
@@ -94,7 +94,6 @@ class CommentMenu extends React.Component {
         })
         this.getCoordinate();
         this.showMenu();
-        
     }
 
     deleteComment = () => {
@@ -103,7 +102,7 @@ class CommentMenu extends React.Component {
         console.log(listId,"listId")
         console.log(comId,"comId")
 
-        const db = fire.firestore();
+        // const db = fire.firestore();
         let firebaseUid = "";
         if ( this.props.currentBoard !== "" ) {
             firebaseUid = this.props.currentBoard
@@ -114,30 +113,29 @@ class CommentMenu extends React.Component {
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
         .then(async(querySnapshot) => {
 
-            this.props.dispatch({ type: "deleteComment", listId, comId })
-            this.showMenu();    
+            this.props.deleteComment(listId, comId);
+            this.showMenu();
 
             const docId =  querySnapshot.docs[0].id;
             db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
             .then( async(querySnapshot) => {
                 const docId2 = querySnapshot.docs[0].id
-                //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-                db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2).delete()
-                .then(() => {   
-                    console.log("Document successfully deleted!");
-                    db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").orderBy("index").get()
-                    .then((querySnapshot2) => {
-                        const doc2 = querySnapshot2.docs;
-                        for ( let j = 0; j < doc2.length; j++ ) {
-                            let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(doc2[j].id)
-                            ref.update({
-                                index: (((j+1)*2))
-                            })   
-                        }
-                    })
-                }).catch((error) => {
-                    console.error("Error removing document: ", error);
-                })
+                this.lib_AccessDeleteMethod(`Boards/${firebaseUid}/Lists/${docId}/Items`, docId2)
+                // db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2).delete()
+                // .then(() => {   
+                //     console.log("Document successfully deleted!");
+                //     db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").orderBy("index").get()
+                //     .then((querySnapshot2) => {
+                //         const doc2 = querySnapshot2.docs;
+                //         for ( let j = 0; j < doc2.length; j++ ) {
+                //             let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(doc2[j].id)
+                //             ref.update({
+                //                 index: (((j+1)*2))
+                //             })   
+                //         }
+                //     })
+                // })
+
             })
         }) 
     }
@@ -166,10 +164,10 @@ class CommentMenu extends React.Component {
             }
         });
 
-        this.props.dispatch({ type: "getEditedValue", newTextValue, newTextTag, listId, comId, edited, editorImg })
+        this.props.getEditedValue(newTextValue, newTextTag, listId, comId, edited, editorImg)
         this.showMenu();
 
-        const db = fire.firestore();
+        // const db = fire.firestore();
         let firebaseUid = "";
         if ( this.props.currentBoard !== "" ) {
             firebaseUid = this.props.currentBoard
@@ -179,7 +177,7 @@ class CommentMenu extends React.Component {
 
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((listId+1)*2)).get()
         .then((querySnapshot) => {
-            const docId =  querySnapshot.docs[0].id;
+            const docId = querySnapshot.docs[0].id;
 
             const targetData = {
                 img: this.state.defaultImg,
@@ -219,44 +217,36 @@ class CommentMenu extends React.Component {
         let data = this.props.coordinate.current.getBoundingClientRect()
         console.log(data.x);
         if ( data.y + 240 >  window.innerHeight && data.x + 420 > window.innerWidth) {
-            this.setState( prevState => {  
-                let xCoordinate = prevState.xCoordinate
-                xCoordinate = (window.innerWidth - 430)
-                let yCoordinate = prevState.yCoordinate
-                yCoordinate = (window.innerHeight - 250)
+            this.setState(() => {  
+                const xCoordinate = (window.innerWidth - 430)
+                const yCoordinate = (window.innerHeight - 250)
                 return { 
                     xCoordinate: xCoordinate,
                     yCoordinate: yCoordinate
                 }
             });
         } else if ( data.y + 240 >  window.innerHeight ) {
-            this.setState( prevState => {  
-                let xCoordinate = prevState.xCoordinate
-                xCoordinate = data.x
-                let yCoordinate = prevState.yCoordinate
-                yCoordinate = (window.innerHeight - 250)
+            this.setState(() => {  
+                const xCoordinate = data.x
+                const yCoordinate = (window.innerHeight - 250)
                 return { 
                     xCoordinate: xCoordinate,
                     yCoordinate: yCoordinate
                 }
             });
         } else if ( data.x + 420 > window.innerWidth ) {
-            this.setState( prevState => {  
-                let xCoordinate = prevState.xCoordinate
-                xCoordinate = (window.innerWidth - 430)
-                let yCoordinate = prevState.yCoordinate
-                yCoordinate = data.y
+            this.setState(() => {  
+                const xCoordinate = (window.innerWidth - 430)
+                const yCoordinate = data.y
                 return { 
                     xCoordinate: xCoordinate,
                     yCoordinate: yCoordinate
                 }
             });
         } else {
-            this.setState( prevState => {  
-                let xCoordinate = prevState.xCoordinate
-                xCoordinate = data.x
-                let yCoordinate = prevState.yCoordinate
-                yCoordinate = data.y
+            this.setState(() => {  
+                const xCoordinate = data.x
+                const yCoordinate = data.y
                 return { 
                     xCoordinate: xCoordinate,
                     yCoordinate: yCoordinate
@@ -320,7 +310,7 @@ class CommentMenu extends React.Component {
                                     <div className="deleteText">
                                         <img src={ bin } />
                                     </div>
-                                    <div onClick={ () => this.deleteComment() }>delete</div>
+                                    <div onClick={ () => this.deleteComment() }>Delete</div>
                                 </div>
                             </div>
                         </div>
@@ -344,4 +334,10 @@ const mapStateToProps = (state ,ownprops) => {
         currentBoard: state.currentBoard,
     }
 }
-export default connect(mapStateToProps)(CommentMenu)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getEditedValue: (newTextValue, newTextTag, listId, comId, edited, editorImg) => { dispatch(getEditedValue(newTextValue, newTextTag, listId, comId, edited, editorImg)) },
+        deleteComment: (listId, comId) => { dispatch(deleteComment(listId, comId)) }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CommentMenu)

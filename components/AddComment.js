@@ -1,6 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
+import { sendComment } from "./ActionCreators";
 import fire from "../src/fire";
+import { db } from "../src/fire";
 import Tick3 from "../images/tick3.png";
 import Cancel from "../images/cancel.png";
 import Plus from "../images/plusG.png";
@@ -22,45 +24,49 @@ class AddComment extends React.Component {
     openCommentWindow = () => {
         this.resetToDefault();
         this.setState( prevState => {
-            let showCommentWin = !prevState.isCommentWinShowed
-            return { isCommentWinShowed: showCommentWin }
+            return { isCommentWinShowed: !prevState.isCommentWinShowed }
         });
     }
 
     resetToDefault = () => {
-        this.setState( prevState => {
-            let newtext = prevState.newText
-            newtext = "";
-            let newimg = prevState.newImg
-            newimg = "";
-            let tagsState = [ "planning", "process", "risk", "achived" ]
-            let newtags = prevState.newTags;
-            newtags = [];
-            tagsState.forEach((item)=>{
-                this.setState( prevState => {
-                    let commentTagsCopy =  prevState.commentTags
-                    if ( commentTagsCopy[item] ){
-                        commentTagsCopy[item] = false
-                    }   
-                    return Object.assign({}, prevState, { 
-                        commentTags: commentTagsCopy,
-                        newText: newtext,
-                        newImg: newimg,
-                        newTags: newtags,
-                    });
-                });
-            })
-        });
+        this.setState({
+            commentTags: { planning: false, process: false, risk: false, achived: false },
+            newText: "",
+            newImg: "",
+            newTags: [],
+            fileName: "",
+        })
     }
+
+    // resetToDefault = () => {
+    //     this.setState( prevState => {
+    //         let newtext = prevState.newText
+    //         newtext = "";
+    //         let newimg = prevState.newImg
+    //         newimg = "";
+    //         let tagsState = [ "planning", "process", "risk", "achived" ]
+    //         let newtags = prevState.newTags;
+    //         newtags = [];
+    //         tagsState.forEach((item)=>{
+    //             this.setState( prevState => {
+    //                 let commentTagsCopy =  prevState.commentTags
+    //                 if ( commentTagsCopy[item] ){
+    //                     commentTagsCopy[item] = false
+    //                 }   
+    //                 return Object.assign({}, prevState, { 
+    //                     commentTags: commentTagsCopy,
+    //                     newText: newtext,
+    //                     newImg: newimg,
+    //                     newTags: newtags,
+    //                 });
+    //             });
+    //         })
+    //     });
+    // }
     
     getTextValue = (event) => {
         const textValue = event.target.value
-        console.log(textValue)
-        this.setState( prevState => {
-            let newtext = prevState.newText
-            newtext = textValue
-            return  { newText: newtext }
-        });
+        this.setState({ newText: textValue });
     }
 
     selectTags = (selected) => {
@@ -74,11 +80,7 @@ class AddComment extends React.Component {
                 textTag.push(element)
             }
         });
-        this.setState( prevState => {
-            let tags =  prevState.newTags
-            tags = textTag
-            return  { newTags: tags }
-        })
+        this.setState({ newTags: textTag })
     }
 
     fileUpload = (event) => {
@@ -88,34 +90,24 @@ class AddComment extends React.Component {
         const fileTypes = ["image/jpeg", "image/png","image/gif"];
         let flag = false;
 
-        this.setState( prevState => {
-            let newfileName = prevState.fileName
-            newfileName =  file.name
+        this.setState(() => {
+            let newfileName = file.name
             if (newfileName.length > 12) {
                 let shortName = newfileName.slice(0, 8) + "..." + newfileName.slice(-4)
-                return Object.assign({}, prevState, {
-                    fileName: shortName
-                }) 
+                return ({ fileName: shortName }) 
             } else {
-                return Object.assign({}, prevState, {
-                    fileName: newfileName
-                }) 
+                return ({ fileName: newfileName })
             }
         });
 
         imgRef.put(file)
-        .then(async (snapshot) => {
+        .then(() => {
             for (let i = 0; i < fileTypes.length; i++) {
-                if ( file.type == fileTypes[i] ) {
+                if ( file.type === fileTypes[i] ) {
                     flag = true
-                    imgRef.getDownloadURL().then(async(url) => {
-                        this.setState( prevState => {
-                            let newImgUrl = prevState.newImg
-                            newImgUrl = url
-                            return { 
-                                newImg: newImgUrl,
-                            }
-                        });
+                    imgRef.getDownloadURL().then((url) => {
+                        console.log(url)
+                        this.setState({ newImg: url });
                     })
                 }
             }
@@ -139,16 +131,10 @@ class AddComment extends React.Component {
         if ( newText === "" &&  fileName === "" && newTags.length === 0) {
             alert("You didn't enter anything!")
         } else {
-            this.props.dispatch({ type: "sendComment", index, newText, newImg, newTags})
+            this.props.sendComment(index, newText, newImg, newTags)
             this.openCommentWindow();
-
-            this.setState( prevState => { //清除上傳圖片名稱
-                return Object.assign({}, prevState, {
-                    fileName: ""
-                }) 
-            });
          
-            const db = fire.firestore();
+            // const db = fire.firestore();
             let firebaseUid = "";
             if ( this.props.currentBoard !== "" ) {
                 firebaseUid = this.props.currentBoard
@@ -160,17 +146,15 @@ class AddComment extends React.Component {
             .then( async (querySnapshot) => {
                 docId =  querySnapshot.docs[0].id;
 
-                let route = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc();
+                const route = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc();
                 db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").orderBy("index").get()
                 .then( async (querySnapshot2) => {
                     let doc2 = querySnapshot2.docs;
                     indexForItem = ((doc2.length+1)*2)
                     // this.props.dispatch({ type: "setIndexForItem", indexForItem})
-
                     if ( newImg === undefined ) {
                         newImg = "";
                     }
-                
                     route.set({
                         img: newImg,
                         tags: newTags,
@@ -252,4 +236,9 @@ const mapStateToProps = (state , ownprops) => {
         currentBoard: state.currentBoard,
     }
 }
-export default connect(mapStateToProps)(AddComment);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        sendComment: (index, newText, newImg, newTags) => { dispatch(sendComment(index, newText, newImg, newTags)) },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddComment);

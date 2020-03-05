@@ -1,10 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import { lib_AccessOrderByMethod } from "../library/getDbData";
 import CommentItem from "./CommentItem";
 import AddComment from "./AddComment";
 import ThemeTitle from "./ThemeTitle";
 import fire from "../src/fire";
+import { db } from "../src/fire";
 
 class Section extends React.Component {
     constructor(props){
@@ -35,113 +36,6 @@ class Section extends React.Component {
         this.lib_AccessOrderByMethod = lib_AccessOrderByMethod.bind(this);
     }
 
-    // openConfirmWin = (i) => {
-    //     console.log("run openConfirmWin", i)
-    //     this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
-    // }
-
-    // deleteTheme = () => {
-    //     let t = this.props.whichWindowOpen
-    //     console.log("run delete theme", t)
-
-    //     const db = fire.firestore();
-    //     let firebaseUid = "";
-    //     if ( this.props.currentBoard.length > 0) {
-    //         firebaseUid = this.props.currentBoard
-    //     } else {
-    //         firebaseUid = this.props.firebaseUid
-    //     } 
-
-    //     db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((t+1)*2)).get()
-    //     .then((querySnapshot) => {
-    //         let docId = querySnapshot.docs[0].id
-
-    //         //避免誤刪 code 維持 get 改成 delete 就可以刪除了
-    //         db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).delete()
-    //         .then(() => {
-    //             console.log("Document successfully deleted!", t);
-    //             this.props.dispatch({ type: "deleteTheme", t })
-    //             this.props.dispatch({ type: "deleteThemeConfirmOpen" })
-    //             db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
-    //             .then(async (querySnapshot) => {
-    //                 let doc = querySnapshot.docs;
-    //                 for ( let i = 0; i < doc.length; i++ ) {       
-    //                     let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
-    //                     ref.update({
-    //                         index: (((i+1)*2))  // 重新塞一次 index 給它
-    //                     })
-    //                 }
-    //             })
-    //         }).catch((error) => {
-    //             console.error("Error removing document: ", error);
-    //         })
-    //     })
-    // }
-
-    // changeEditMode = () => {
-    //     console.log("run changeEditMode")
-        
-    //     this.setState( prevState => {
-    //         let isInEditMode = true
-    //         return { isInEditMode: isInEditMode }
-    //     });
-    //     console.log("should go to changeEditMode", this.state.isInEditMode)
-    // }
-
-    // updateValue = () => {
-    //     let newValue = this.refs.theTextInput.value
-    //     let indexOfValue = this.props.indexWin
-
-    //     if ( newValue.length > 14 ) {
-    //         alert("標題太長囉、再短一點!")
-    //     } else {
-    //         this.props.dispatch({ type: "getEditedTitleValue", newValue, indexOfValue})
-    //         this.setState({
-    //             isInEditMode: false
-    //         });
-
-    //         const db = fire.firestore();
-    //         let firebaseUid = "";
-    //         if ( this.props.currentBoard.length > 0) {
-    //             firebaseUid = this.props.currentBoard
-    //             console.log("2222222", firebaseUid)
-    //         } else {
-    //             firebaseUid = this.props.firebaseUid
-    //             console.log("000000", firebaseUid)
-    //         } 
-    //         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((indexOfValue+1)*2)).get()
-    //         .then((querySnapshot) => {
-    //             let docId = querySnapshot.docs[0].id
-    
-    //             db.collection("Boards/" + firebaseUid + "/Lists").doc(docId)
-    //             .update({
-    //                 title: newValue,
-    //                 index: ((indexOfValue+1)*2)
-    //             }).then(() => {
-    //                 console.log("Document successfully written!");
-    //             }).catch((error) => {
-    //                 console.error("Error removing document: ", error);
-    //             })
-    //         }) 
-    //     }
-    // }
-
-    // renderEditView = () => {
-    //     return (
-    //         <React.Fragment>
-    //         <div className="head" onDoubleClick={ () => this.changeEditMode() }>
-    //             <input className="titleLeftInput" type="text" defaultValue={ this.props.title } ref="theTextInput" />
-    //             <div className="titleRight" onClick={ () => this.changeEditMode() }>
-    //                 <img src={ Letter } />
-    //             </div>
-    //             <div className="titleRight" onClick={ () => this.updateValue() }>
-    //                 <img src={ Tick2 } />
-    //             </div>
-    //         </div>
-    //         </React.Fragment>
-    //     )
-    // }
-
     addComment = (i) => {
         this.props.dispatch({ type: "addComment", i })
     }
@@ -169,10 +63,10 @@ class Section extends React.Component {
         console.log("offset", offset)
         console.log("rect", rect)
         this.setState({
-                dragInfo:{
-                left:x, top:y, index:index, markIndex:index
-                },
-                themeHeight: themeHeight
+            dragInfo:{
+            left:x, top:y, index:index, markIndex:index
+            },
+            themeHeight: themeHeight
         });
 
         const move = (e) => {  //滑鼠移動想做的事情
@@ -202,7 +96,7 @@ class Section extends React.Component {
             let sourceIndex = index;
             let destinationIndex = this.state.dragInfo.markIndex;
             console.log("sourceIndex , destinationIndex", sourceIndex , destinationIndex)
-            this.props.dispatch({ type: "drag-dropTheme", sourceIndex, destinationIndex  })
+            this.props.dispatch({ type: "DRAG_DROP_THEME", sourceIndex, destinationIndex  })
             this.setState((preState)=>{
                 return {
                     dragInfo:{left:"auto", top:"auto", index:-1, markIndex:-1}
@@ -211,7 +105,7 @@ class Section extends React.Component {
             document.removeEventListener("pointermove", move);
             document.removeEventListener("pointerup", up);
 
-            const db = fire.firestore();
+            // const db = fire.firestore();
             let firebaseUid = "";
             if ( this.props.currentBoard.length > 0) {
                 firebaseUid = this.props.currentBoard
@@ -322,7 +216,7 @@ class Section extends React.Component {
             let sourceRow = row;
             let destinationTheme = this.state.dragInfoItem.markTheme;
             let destinationRow = this.state.dragInfoItem.markRow;
-            this.props.dispatch({ type: "drag-dropText", sourceTheme, sourceRow, destinationTheme, destinationRow })
+            this.props.dispatch({ type: "DRAG_DROP_TEXT", sourceTheme, sourceRow, destinationTheme, destinationRow })
             this.setState({
                 dragInfoItem: { 
                     left:"auto", top:"auto", theme:-1, row:-1, markTheme:-1, markRow:-1 
@@ -332,7 +226,7 @@ class Section extends React.Component {
             document.removeEventListener("pointerup", up);
 
             // write in db
-            const db = fire.firestore();
+            // const db = fire.firestore();
             let dbData = [];
             let firebaseUid = "";
             if ( this.props.currentBoard.length > 0) {

@@ -1,7 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import ReplyButtons from "./HomePageReplyButtons";
-import fire from "../src/fire";
 
 class Notifications extends React.Component {
     constructor(props){
