@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { addBeInvitedData, addInvitationData } from "./ActionCreators";
-import { lib_fileUpload } from "../library/lib";
+import { uploadBackgroundImg } from "../library/lib";
 import Topbar from "./TopBar";
 import BoardLists from "./HomePageBoardLists";
 import Notifications from "./HomePageNotifications";
@@ -21,7 +21,7 @@ class HomePage extends React.Component {
             isIconTurn: false, 
             currentUserBackground: "",
         }
-        this.lib_fileUpload = lib_fileUpload.bind(this)
+        this.uploadBackgroundImg = uploadBackgroundImg.bind(this)
     } 
 
     componentDidMount() {
@@ -127,7 +127,7 @@ class HomePage extends React.Component {
 
     fileUpload = (event) => {
         const file = event.target.files[0]
-        this.lib_fileUpload("homepageCover", file)
+        this.uploadBackgroundImg("homepageCover", file)
     }
 
     render(){
@@ -195,12 +195,12 @@ class HomePage extends React.Component {
 
 const mapStateToProps = (state, ownprops) => {
     return {
-        firebaseUid: state.firebaseUid,
-        userEmail: state.userEmail,
-        userDisplayName: state.userDisplayName,
-        userPhotoURL: state.userPhotoURL,
-        beInvitedData: state.beInvitedData,
-        invitationData: state.invitationData,
+        firebaseUid: state.board.firebaseUid,
+        userEmail: state.board.userEmail,
+        userDisplayName: state.board.userDisplayName,
+        userPhotoURL: state.board.userPhotoURL,
+        beInvitedData: state.homePage.beInvitedData,
+        invitationData: state.homePage.invitationData,
     }
 }
 

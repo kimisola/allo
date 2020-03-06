@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import fire from "../src/fire";
 
-export function lib_fileUpload(ref, file) {
+export function uploadBackgroundImg(ref, file) {
     const storageRef = fire.storage().ref(ref);
     const imgRef = storageRef.child(file.name)
     const fileTypes = ["image/jpeg", "image/png","image/gif"]; 

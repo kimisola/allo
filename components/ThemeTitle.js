@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { lib_AccessDeleteMethod } from "../library/getDbData";
+import { accessDeleteMethod } from "../library/accessDb";
 import { deleteTheme, getEditedTitleValue } from "./ActionCreators";
 import Letter from "../images/letter-x.png";
 import fire from "../src/fire";
@@ -14,7 +14,7 @@ class ThemeTitle extends React.Component {
             isDeleteConfirmWinOpen: false,
             targetIndex: "",
         }
-        this.lib_AccessDeleteMethod = lib_AccessDeleteMethod.bind(this);
+        this.accessDeleteMethod = accessDeleteMethod.bind(this);
     }
 
     openConfirmWin = (i) => {
@@ -54,7 +54,7 @@ class ThemeTitle extends React.Component {
                     targetIndex: targetIndex
                 })
             });
-            this.lib_AccessDeleteMethod(`Boards/${firebaseUid}/Lists`, docId)
+            this.accessDeleteMethod(`Boards/${firebaseUid}/Lists`, docId)
 
             // db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).delete()
             // .then(() => {
@@ -169,15 +169,15 @@ class ThemeTitle extends React.Component {
 
 const mapStateToProps = (state ,ownprops) => {
     return {
-        text: state.text,
-        listTitle: state.listTitle,
-        title: ownprops.title,
-        firebaseUid: state.firebaseUid,
+        text: state.board.text,
+        listTitle: state.board.listTitle,
+        firebaseUid: state.board.firebaseUid,
         // indexWin: ownprops.indexWin,
         // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
         // whichWindowOpen: state.whichWindowOpen,
-        firebaseUid: state.firebaseUid,
-        currentBoard: state.currentBoard,
+        firebaseUid: state.board.firebaseUid,
+        currentBoard: state.board.currentBoard,
+        title: ownprops.title,
         themeIndex: ownprops.themeIndex,
     }
 }

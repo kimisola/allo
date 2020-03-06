@@ -18,9 +18,9 @@ class Notice extends React.Component {
 
 const mapStateToProps = (state, ownprops) => {
     return {
-        userDisplayName: state.userDisplayName,
-        userPhotoURL: state.userPhotoURL,
-        firebaseUid: state.firebaseUid,
+        userDisplayName: state.board.userDisplayName,
+        userPhotoURL: state.board.userPhotoURL,
+        firebaseUid: state.board.firebaseUid,
         message: ownprops.message,
         index: ownprops.index,
     }

@@ -3,6 +3,8 @@ import Plus from "../images/plus.png";
 import { connect } from "react-redux";
 
 
+//廢止?
+
 class ItemFooter extends React.Component {
     constructor(props){
         super(props);
@@ -27,9 +29,9 @@ class ItemFooter extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        text: state.text,
-        listTitle: state.listTitle,
-        addNewCommentOpen:state.addNewCommentOpen
+        text: state.board.text,
+        listTitle: state.board.listTitle,
+        // addNewCommentOpen:state.addNewCommentOpen
     }
 }
 export default connect(mapStateToProps)(ItemFooter);

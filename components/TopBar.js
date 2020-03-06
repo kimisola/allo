@@ -266,9 +266,9 @@ class Topbar extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        userDisplayName: state.userDisplayName,
-        userPhotoURL: state.userPhotoURL,
-        firebaseUid: state.firebaseUid,
+        userDisplayName: state.board.userDisplayName,
+        userPhotoURL: state.board.userPhotoURL,
+        firebaseUid: state.board.firebaseUid,
     }
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { creatTitle, getTitleValue, setIndexForTitle } from"./ActionCreators"
-import { lib_AccessWhereMethod } from "../library/getDbData";
+import { accessWhereMethod } from "../library/accessDb";
 import fire from "../src/fire";
 import { db } from "../src/fire";
 import Cancel from "../images/letter-x.png";
@@ -26,7 +26,7 @@ class SecondBar extends React.Component {
             xCoordinate: "",
             yCoordinate: "",
         }
-        this.lib_AccessWhereMethod = lib_AccessWhereMethod.bind(this)
+        this.accessWhereMethod = accessWhereMethod.bind(this)
     }
 
     componentDidUpdate() {
@@ -195,7 +195,7 @@ class SecondBar extends React.Component {
                         index: querySnapshot.docs.length,
                         read: false
                     }
-                    this.lib_AccessWhereMethod(`Users/${this.state.userFirebaseuid}/beInvited`, "userFirebaseuid", this.props.firebaseUid, targetData)
+                    this.accessWhereMethod(`Users/${this.state.userFirebaseuid}/beInvited`, "userFirebaseuid", this.props.firebaseUid, targetData)
 
                     // route.where("userFirebaseuid", "==", this.props.firebaseUid).get()
                     // .then((querySnapshot) => {
@@ -246,7 +246,7 @@ class SecondBar extends React.Component {
                             backgroundURL: backgroundURL,
                             read: null,
                         }
-                        this.lib_AccessWhereMethod(`Users/${this.props.firebaseUid}/beInvited`, "userFirebaseuid", this.state.userFirebaseuid, targetData)
+                        this.accessWhereMethod(`Users/${this.props.firebaseUid}/beInvited`, "userFirebaseuid", this.state.userFirebaseuid, targetData)
 
                         // route.where("userFirebaseuid", "==", this.state.userFirebaseuid).get()
                         // .then((querySnapshot) => {
@@ -364,16 +364,16 @@ class SecondBar extends React.Component {
 const mapStateToProps = (state) => {
     return {
         indexForTitle: state.indexForTitle,
-        text: state.text,
-        listTitle: state.listTitle,
-        titleValue: state.titleValue,
-        addNewListOpened: state.addNewListOpened,
-        deleteConfirmThemeOpen: state.deleteConfirmThemeOpen,
-        userEmail: state.userEmail,
-        userDisplayName: state.userDisplayName,
-        userPhotoURL: state.userPhotoURL,
-        firebaseUid: state.firebaseUid,
-        currentBoard: state.currentBoard,
+        text: state.board.text,
+        listTitle: state.board.listTitle,
+        titleValue: state.board.titleValue,
+        // addNewListOpened: state.addNewListOpened,
+        // deleteConfirmThemeOpen: state.deleteConfirmThemeOpen,
+        userEmail: state.board.userEmail,
+        userDisplayName: state.board.userDisplayName,
+        userPhotoURL: state.board.userPhotoURL,
+        firebaseUid: state.board.firebaseUid,
+        currentBoard: state.board.currentBoard,
     }
 }
 

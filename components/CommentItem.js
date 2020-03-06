@@ -59,7 +59,7 @@ const mapStateToProps = (state ,ownprops) => {
         item : ownprops.item,
         j :ownprops.j,
         listIndex:ownprops.listIndex,
-        tagsDisplayChanged: state.tagsDisplayChanged,
+        tagsDisplayChanged: state.board.tagsDisplayChanged,
     }
 }
 

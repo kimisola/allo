@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { lib_AccessOrderByMethod } from "../library/getDbData";
+import { accessOrderByMethod } from "../library/accessDb";
 import CommentItem from "./CommentItem";
 import AddComment from "./AddComment";
 import ThemeTitle from "./ThemeTitle";
@@ -33,7 +33,7 @@ class Section extends React.Component {
         }
         this.dragList = this.dragList.bind(this);
         this.dragItem = this.dragItem.bind(this);
-        this.lib_AccessOrderByMethod = lib_AccessOrderByMethod.bind(this);
+        this.accessOrderByMethod = accessOrderByMethod.bind(this);
     }
 
     addComment = (i) => {
@@ -133,7 +133,7 @@ class Section extends React.Component {
                 })
             }).then(() => {
 
-                this.lib_AccessOrderByMethod(`Boards/${firebaseUid}/Lists`)
+                this.accessOrderByMethod(`Boards/${firebaseUid}/Lists`)
                 // db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
                 // .then(async (querySnapshot) => {
                 // const doc = querySnapshot.docs;
@@ -268,7 +268,7 @@ class Section extends React.Component {
                                     }
                                     for ( let i = 0; i < listsId.length; i++ ) {  //讀取每一個 list 底下的 items
 
-                                        this.lib_AccessOrderByMethod(`Boards/${firebaseUid}/Lists/${listsId[i]}/Items`)
+                                        this.accessOrderByMethod(`Boards/${firebaseUid}/Lists/${listsId[i]}/Items`)
 
                                         // db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
                                         // .then((querySnapshot2) => {
@@ -438,14 +438,14 @@ class Section extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        text: state.text,
-        listTitle: state.listTitle,
-        addNewCommentOpen: state.addNewCommentOpen,
-        deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
-        whichWindowOpen: state.whichWindowOpen,
-        commentWindow: state.commentWindow,
-        firebaseUid: state.firebaseUid,
-        currentBoard: state.currentBoard,
+        text: state.board.text,
+        listTitle: state.board.listTitle,
+        // addNewCommentOpen: state.addNewCommentOpen,
+        // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
+        // whichWindowOpen: state.whichWindowOpen,
+        // commentWindow: state.commentWindow,
+        firebaseUid: state.board.firebaseUid,
+        currentBoard: state.board.currentBoard,
     }
 }
 export default connect(mapStateToProps)(Section);

@@ -222,18 +222,18 @@ class AddComment extends React.Component {
 const mapStateToProps = (state , ownprops) => {
     return {
         index: ownprops.index,
-        indexForItem: state.indexForItem,
-        text: state.text,
-        listTitle: state.listTitle,
-        commentURL: state.commentURL,
-        commentTags: state.commentTags,
-        whichTheme: state.whichTheme,
-        addNewCommentOpen: state.addNewCommentOpen,
+        // indexForItem: state.board.indexForItem,
+        text: state.board.text,
+        listTitle: state.board.listTitle,
+        // commentURL: state.board.commentURL,
+        // commentTags: state.board.commentTags,
+        // whichTheme: state.board.whichTheme,
+        // addNewCommentOpen: state.board.addNewCommentOpen,
         //commentWindow: state.commentWindow,
-        userDisplayName: state.userDisplayName,
-        userPhotoURL: state.userPhotoURL,
-        firebaseUid: state.firebaseUid,
-        currentBoard: state.currentBoard,
+        userDisplayName: state.board.userDisplayName,
+        userPhotoURL: state.board.userPhotoURL,
+        firebaseUid: state.board.firebaseUid,
+        currentBoard: state.board.currentBoard,
     }
 }
 const mapDispatchToProps = (dispatch) => {

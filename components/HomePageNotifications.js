@@ -54,11 +54,11 @@ class Notifications extends React.Component {
 
 const mapStateToProps = (state, ownprops) => {
     return {
-        firebaseUid: state.firebaseUid,
-        userEmail: state.userEmail,
-        userDisplayName: state.userDisplayName,
-        userPhotoURL: state.userPhotoURL,
-        beInvitedData: state.beInvitedData,
+        firebaseUid: state.board.firebaseUid,
+        userEmail: state.board.userEmail,
+        userDisplayName: state.board.userDisplayName,
+        userPhotoURL: state.board.userPhotoURL,
+        beInvitedData: state.homePage.beInvitedData,
         invitationData: ownprops.invitationData,
     }
 }

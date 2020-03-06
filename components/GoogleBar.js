@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import fire from "../src/fire";
 import { db } from "../src/fire";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import {setCurrentUser } from"./ActionCreators"
+import { setCurrentUser } from"./ActionCreators"
 
 class GLogin extends React.Component {
     uiConfig = {
@@ -50,6 +50,7 @@ class GLogin extends React.Component {
       };
     
     render() {
+      console.log("000000000000000000000000",this.props)
         console.log("render", this.props.firebaseUid);
         if (this.props.firebaseUid) {
           let targetURL = `/Board/${ this.props.firebaseUid }`
@@ -67,19 +68,20 @@ class GLogin extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
-      isBoardLoaded: state.isBoardLoaded,
-      text: state.text,
-      listTitle: state.listTitle,
-      deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
-      whichWindowOpen: state.whichWindowOpen,
-      commentWindow: state.commentWindow,
-      isLoggedIn: state.isLoggedIn,
-      userEmail: state.userEmail,
-      userDisplayName: state.userDisplayName,
-      userPhotoURL: state.userPhotoURL,
-      firebaseUid: state.firebaseUid,
-      useruid: status.useruid
+      isBoardLoaded: state.board.isBoardLoaded,
+      text: state.board.text,
+      listTitle: state.board.listTitle,
+      // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
+      // whichWindowOpen: state.whichWindowOpen,
+      // commentWindow: state.commentWindow,
+      // isLoggedIn: state.isLoggedIn,
+      userEmail: state.board.userEmail,
+      userDisplayName: state.board.userDisplayName,
+      userPhotoURL: state.board.userPhotoURL,
+      firebaseUid: state.board.firebaseUid,
+      useruid: state.board.useruid
   }
 }
 

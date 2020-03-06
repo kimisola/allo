@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { render } from "react-dom";
 import { updateBeInvitedData } from "./ActionCreators";
-import { lib_AccessWhereMethod } from "../library/getDbData";
+import { accessWhereMethod } from "../library/accessDb";
 import fire from "../src/fire";
 import { db } from "../src/fire";
 
@@ -12,7 +12,7 @@ class ReplyButtons extends React.Component {
         this.state = {
             confirm: this.props.confirm,
         }
-        this.lib_AccessWhereMethod = lib_AccessWhereMethod.bind(this)
+        this.accessWhereMethod = accessWhereMethod.bind(this)
     }
 
     accept = (index) =>{
@@ -37,7 +37,7 @@ class ReplyButtons extends React.Component {
                 read: false,
             })
             const oppFiredaseUid = querySnapshot.docs[index].data().userFirebaseuid
-            this.lib_AccessWhereMethod(`Users/${oppFiredaseUid}/invitation`, "userFirebaseuid", firebaseUid, { confirm: true, read: false })
+            this.accessWhereMethod(`Users/${oppFiredaseUid}/invitation`, "userFirebaseuid", firebaseUid, { confirm: true, read: false })
 
             // db.collection("Users/" + oppFiredaseUid + "/invitation").where("userFirebaseuid", "==", firebaseUid)
             // .get().then((querySnapshot) => {
@@ -98,7 +98,7 @@ class ReplyButtons extends React.Component {
 
 const mapStateToProps = (state, ownprops) => {
     return {
-        firebaseUid: state.firebaseUid,
+        firebaseUid: state.board.firebaseUid,
         index: ownprops.index,
         userFirebaseuid: ownprops.userFirebaseuid,
         confirm : ownprops.confirm,

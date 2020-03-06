@@ -6,14 +6,14 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import firebase from 'firebase';
 // import fire from "../src/fire";
 import { db } from "../src/fire";
-import Reducer from "../reducer/index";
+import rootReducer from "../reducers/index";
 import LoginPage from "../components/Login";
 import Board from "../components/Board";
 import HomePage from "../components/HomePage";
 import { setCurrentUser } from"../components/ActionCreators"
 import "../css/main.css";
 
-const store = createStore(Reducer);
+const store = createStore(rootReducer);
 
 
 class App extends React.Component {

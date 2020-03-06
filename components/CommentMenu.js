@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { lib_AccessWhereMethod, lib_AccessDeleteMethod } from "../library/getDbData";
+import { accessWhereMethod, accessDeleteMethod } from "../library/accessDb";
 import { getEditedValue, deleteComment } from "./ActionCreators";
 import bin from"../images/bin.png";
 import menuImg from "../images/more.png";
@@ -27,8 +27,8 @@ class CommentMenu extends React.Component {
             yCoordinate: "",
 
         }
-        this.lib_AccessWhereMethod = lib_AccessWhereMethod.bind(this)
-        this.lib_AccessDeleteMethod = lib_AccessDeleteMethod.bind(this)
+        this.accessWhereMethod = accessWhereMethod.bind(this)
+        this.accessDeleteMethod = accessDeleteMethod.bind(this)
     }
 
     showImgDiv = () => {
@@ -102,7 +102,6 @@ class CommentMenu extends React.Component {
         console.log(listId,"listId")
         console.log(comId,"comId")
 
-        // const db = fire.firestore();
         let firebaseUid = "";
         if ( this.props.currentBoard !== "" ) {
             firebaseUid = this.props.currentBoard
@@ -120,7 +119,7 @@ class CommentMenu extends React.Component {
             db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
             .then( async(querySnapshot) => {
                 const docId2 = querySnapshot.docs[0].id
-                this.lib_AccessDeleteMethod(`Boards/${firebaseUid}/Lists/${docId}/Items`, docId2)
+                this.accessDeleteMethod(`Boards/${firebaseUid}/Lists/${docId}/Items`, docId2)
                 // db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc(docId2).delete()
                 // .then(() => {   
                 //     console.log("Document successfully deleted!");
@@ -167,7 +166,6 @@ class CommentMenu extends React.Component {
         this.props.getEditedValue(newTextValue, newTextTag, listId, comId, edited, editorImg)
         this.showMenu();
 
-        // const db = fire.firestore();
         let firebaseUid = "";
         if ( this.props.currentBoard !== "" ) {
             firebaseUid = this.props.currentBoard
@@ -186,8 +184,7 @@ class CommentMenu extends React.Component {
                 edited: this.props.userDisplayName,
                 editorImg: this.props.userPhotoURL,
             }
-            this.lib_AccessWhereMethod(`Boards/${firebaseUid}/Lists/${docId}/Items`, "index", ((comId+1)*2), targetData)
-
+            this.accessWhereMethod(`Boards/${firebaseUid}/Lists/${docId}/Items`, "index", ((comId+1)*2), targetData)
 
             // db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
             // .then((querySnapshot) => {
@@ -207,10 +204,6 @@ class CommentMenu extends React.Component {
             // })
         })
     }
-
-    // sendEdited = () => {
-    //     this.updateContent();
-    // }
 
     getCoordinate = () => {
         console.log(this.props.coordinate.current.getBoundingClientRect(), window.innerWidth);
@@ -323,15 +316,15 @@ class CommentMenu extends React.Component {
 
 const mapStateToProps = (state ,ownprops) => {
     return {
-        listTitle: state.listTitle,
-        text: state.text,
+        listTitle: state.board.listTitle,
+        text: state.board.text,
+        firebaseUid : state.board.firebaseUid,
+        userDisplayName: state.board.userDisplayName,
+        userPhotoURL: state.board.userPhotoURL,
+        currentBoard: state.board.currentBoard,
+        coordinate : ownprops.coordinate,
         listId : ownprops.listId,
         comId :ownprops.comId,
-        firebaseUid : state.firebaseUid,
-        userDisplayName: state.userDisplayName,
-        userPhotoURL: state.userPhotoURL,
-        coordinate : ownprops.coordinate,
-        currentBoard: state.currentBoard,
     }
 }
 const mapDispatchToProps = (dispatch) => {

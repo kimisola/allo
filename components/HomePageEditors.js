@@ -1,20 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
 import { unfriend } from "./ActionCreators";
-import { lib_AccessWhereMethod } from "../library/getDbData";
+import { accessWhereMethod } from "../library/accessDb";
 import Cancel from "../images/cancel.png";
 
 class Editors extends React.Component {
     constructor(props){
         super(props);
-        this.lib_AccessWhereMethod = lib_AccessWhereMethod.bind(this)
+        this.accessWhereMethod = accessWhereMethod.bind(this)
     }
 
     unfriend = (userFirebaseuid, index) => {
 
         this.props.unfriend(userFirebaseuid, index)
 
-        this.lib_AccessWhereMethod(`Users/${this.props.firebaseUid}/invitation`, "userFirebaseuid", userFirebaseuid, { confirm: null })
+        this.accessWhereMethod(`Users/${this.props.firebaseUid}/invitation`, "userFirebaseuid", userFirebaseuid, { confirm: null })
         // const db = fire.firestore();
         // db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", userFirebaseuid)
         // .get().then((querySnapshot) => {
@@ -25,7 +25,7 @@ class Editors extends React.Component {
         //     })
         // })
 
-        this.lib_AccessWhereMethod(`Users/${userFirebaseuid}/beInvited`, "userFirebaseuid", this.props.firebaseUid, { confirm: null })
+        this.accessWhereMethod(`Users/${userFirebaseuid}/beInvited`, "userFirebaseuid", this.props.firebaseUid, { confirm: null })
 
         // db.collection("Users/" + userFirebaseuid + "/beInvited").where("userFirebaseuid", "==", this.props.firebaseUid)
         // .get().then((querySnapshot) => {
@@ -67,11 +67,11 @@ class Editors extends React.Component {
 
 const mapStateToProps = (state, ownprops) => {
     return {
-        firebaseUid: state.firebaseUid,
-        userEmail: state.userEmail,
-        userDisplayName: state.userDisplayName,
-        userPhotoURL: state.userPhotoURL,
-        invitationData: state.invitationData,
+        firebaseUid: state.board.firebaseUid,
+        userEmail: state.board.userEmail,
+        userDisplayName: state.board.userDisplayName,
+        userPhotoURL: state.board.userPhotoURL,
+        invitationData: state.homePage.invitationData,
     }
 }
 
