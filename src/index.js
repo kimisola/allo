@@ -25,7 +25,6 @@ class App extends React.Component {
             (user) => {
                 console.log("App userrrrrrrrrr", user)
                 if (user) {
-                    // const db = fire.firestore();
                     let firebaseUid = user.uid;
                     let userDisplayName;
                     let userPhotoURL;
@@ -102,9 +101,6 @@ const mapStateToProps = (state) => {
         isBoardLoaded: state.isBoardLoaded,
         text: state.text,
         listTitle: state.listTitle,
-        // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
-        // whichWindowOpen: state.whichWindowOpen,
-        // commentWindow: state.commentWindow,
         isLoggedIn: state.isLoggedIn,
         userEmail: state.userEmail,
         userDisplayName: state.userDisplayName,
