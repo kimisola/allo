@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { accessDeleteMethod } from "../library/accessDb";
-import { deleteTheme, getEditedTitleValue } from "./ActionCreators";
+import { deleteTheme, getEditedTitleValue } from "../actions/actionCreators";
 import Letter from "../images/letter-x.png";
 import fire from "../src/fire";
 import { db } from "../src/fire";
@@ -18,7 +18,6 @@ class ThemeTitle extends React.Component {
     }
 
     openConfirmWin = (i) => {
-        //this.props.dispatch({ type: "deleteThemeConfirmOpen", i })
         this.setState( prevState => {
             let targetIndex = i
             return Object.assign({}, prevState, { 
@@ -32,7 +31,6 @@ class ThemeTitle extends React.Component {
         let t = this.state.targetIndex
         console.log("run delete theme", t)
 
-        // const db = fire.firestore();
         let firebaseUid = "";
         if ( this.props.currentBoard !== "" ) {
             firebaseUid = this.props.currentBoard
@@ -55,28 +53,7 @@ class ThemeTitle extends React.Component {
                 })
             });
             this.accessDeleteMethod(`Boards/${firebaseUid}/Lists`, docId)
-
-            // db.collection("Boards/" + firebaseUid + "/Lists").doc(docId).delete()
-            // .then(() => {
-            //     console.log("Document successfully deleted!", t);
-                
-                
-
-            //     db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
-            //     .then(async (querySnapshot) => {
-            //         let doc = querySnapshot.docs;
-            //         for ( let i = 0; i < doc.length; i++ ) {       
-            //             let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
-            //             ref.update({
-            //                 index: (((i+1)*2))  //重新塞一次 index 給它
-            //             })
-            //         }
-            //     })
-            // })
         })
-
-
-
     }
 
     changeEditMode = () => {
@@ -98,7 +75,6 @@ class ThemeTitle extends React.Component {
                     isInEditMode: false
                 });
 
-                // const db = fire.firestore();
                 let firebaseUid = "";
                 if ( this.props.currentBoard !== "" ) {
                     firebaseUid = this.props.currentBoard

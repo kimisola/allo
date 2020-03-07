@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { addBeInvitedData, addInvitationData } from "./ActionCreators";
+import { addBeInvitedData, addInvitationData } from "../actions/actionCreators";
 import { uploadBackgroundImg } from "../library/lib";
 import Topbar from "./TopBar";
 import BoardLists from "./HomePageBoardLists";
 import Notifications from "./HomePageNotifications";
 import Editors from "./HomePageEditors";
-import fire from "../src/fire";
+// import fire from "../src/fire";
 import { db } from "../src/fire";
 import Gear from "../images/gear.png";
 import "../css/homePage.css";
@@ -37,7 +37,6 @@ class HomePage extends React.Component {
 
     componentDidUpdate(){
         if ( this.state.currentUserBackground === "" && this.props.firebaseUid !== "") {
-            // const db = fire.firestore();
             const firebaseUid = this.props.firebaseUid  
             
             db.collection("Boards").doc(firebaseUid).get()
@@ -88,7 +87,7 @@ class HomePage extends React.Component {
                     
                     for (let i = 0; i < querySnapshot.docs.length; i ++ ) {
                         let send = querySnapshot.docs[i].data()
-                        if ( send.confirm ) {  //找到 confirm true 的人更新自己 db 邀請函裡的資訊再渲染
+                        if ( send.confirm ) {
                             const ref = db.collection("Users").doc(send.userFirebaseuid)
                             ref.get()
                             .then((querySnapshot) =>{
@@ -125,7 +124,7 @@ class HomePage extends React.Component {
         this.setState({ isBackgroundEdited: false }); 
     }
 
-    fileUpload = (event) => {
+    uploadFile = (event) => {
         const file = event.target.files[0]
         this.uploadBackgroundImg("homepageCover", file)
     }
@@ -148,7 +147,7 @@ class HomePage extends React.Component {
                     <div className="imgUpload" style={{ display: this.state.isBackgroundEdited ? "block" : "none" }}>                      
                         <label action="/somewhere/to/upload" encType="multipart/form-data">
                             <img src={ Gear }/>             
-                            <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUpload } style={{display:'none' }} />    
+                            <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.uploadFile } style={{display:'none' }} />    
                         </label>
                     </div>
                 </div>

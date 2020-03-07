@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-// import fire from "../src/fire";
 import { db } from "../src/fire";
-import { setCommentData, setIndexForTitle, turnOnLoadingGif, switchBoard } from "./ActionCreators"
+import { setCommentData, setIndexForTitle, turnOnLoadingGif, switchBoard } from "../actions/actionCreators"
 import { uploadBackgroundImg } from "../library/lib";
 import { setGuideData } from "../library/guide";
 import Topbar from "./TopBar";
@@ -40,6 +39,7 @@ class Board extends React.Component {
 
         db.collection("Boards").doc(firebaseUid).get()
         .then((querySnapshot) => {
+            console.log(querySnapshot.data(), "querySnapshot.data().background")
             if( querySnapshot.data() !== undefined ){
                 this.setState(() => {
                     const boardURL = querySnapshot.data().background
@@ -49,27 +49,31 @@ class Board extends React.Component {
                 }); 
             } else {
                 const ref = db.collection("Boards").doc(firebaseUid)
+                const userEmail = this.props.userEmail
                 ref.set({
-                    background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
-                }).catch((error) => {
+                    background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f",
+                    owner: userEmail
+                }).then(()=>{
+                    console.log("222222222", querySnapshot.data())
+                })
+                .catch((error) => {
                     console.error("Error removing document: ", error);
                 })
             }
         })
 
-        const userEmail = this.props.userEmail
-        async function getTitles(firebaseUid) {  //每次讀取資料庫就依照定義的 index 逐個抓出來再重新定義一次
-            db.collection("Boards/").doc(firebaseUid).get().then((querySnapshot)=>{
-                if (querySnapshot.data() === undefined ) {
-                    const ref = db.collection("Boards").doc(firebaseUid)
-                    ref.set({
-                        owner : userEmail
-                    }).catch((error) => {
-                        console.error("Error removing document: ", error.message);
-                    })
-                }
-            })
-        }        
+        // const userEmail = this.props.userEmail
+        // db.collection("Boards/").doc(firebaseUid).get().then((querySnapshot)=>{
+        //     console.log("222222222", querySnapshot.data().owner)
+        //     if (querySnapshot.data().owner === undefined ) {
+        //         const ref = db.collection("Boards").doc(firebaseUid)
+        //         ref.update({
+        //             owner : userEmail
+        //         }).catch((error) => {
+        //             console.error("Error removing document: ", error.message);
+        //         })
+        //     }
+        // })
     }
 
     componentDidUpdate(prevProps){
@@ -138,7 +142,7 @@ class Board extends React.Component {
         }
     }
 
-    fileUpload = (event) => {
+    uploadFile = (event) => {
         const file = event.target.files[0]
         this.uploadBackgroundImg("boardBackground", file)
     }
@@ -167,7 +171,7 @@ class Board extends React.Component {
                     </div>
                     <label action="/somewhere/to/upload" encType="multipart/form-data" className="uploadBackground">
                         <img src={ Gear } />
-                        <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUpload } style={{display:'none' }} />
+                        <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.uploadFile } style={{display:'none' }} />
                     </label>
                 </main>             
             </React.Fragment>
@@ -180,9 +184,6 @@ const mapStateToProps = (state) => {
         isBoardLoaded: state.board.isBoardLoaded,
         text: state.board.text,
         listTitle: state.board.listTitle,
-        // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
-        // whichWindowOpen: state.whichWindowOpen,
-        // commentWindow: state.commentWindow,
         isLoggedIn: state.board.isLoggedIn,
         userEmail: state.board.userEmail,
         userDisplayName: state.board.userDisplayName,

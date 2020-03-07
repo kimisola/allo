@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { render } from "react-dom";
-import { updateBeInvitedData } from "./ActionCreators";
+// import { render } from "react-dom";
+import { updateBeInvitedData } from "../actions/actionCreators";
 import { accessWhereMethod } from "../library/accessDb";
-import fire from "../src/fire";
+// import fire from "../src/fire";
 import { db } from "../src/fire";
 
 class ReplyButtons extends React.Component {
@@ -23,8 +23,6 @@ class ReplyButtons extends React.Component {
             })
         })
         this.props.updateBeInvitedData(index, true);
-        
-        // const db = fire.firestore();
         const firebaseUid = this.props.firebaseUid
         
         //用自己的 userFirebaseuid 反推去找對方 invitation 裡面的文件、將 confirm → true
@@ -38,16 +36,6 @@ class ReplyButtons extends React.Component {
             })
             const oppFiredaseUid = querySnapshot.docs[index].data().userFirebaseuid
             this.accessWhereMethod(`Users/${oppFiredaseUid}/invitation`, "userFirebaseuid", firebaseUid, { confirm: true, read: false })
-
-            // db.collection("Users/" + oppFiredaseUid + "/invitation").where("userFirebaseuid", "==", firebaseUid)
-            // .get().then((querySnapshot) => {
-            //     const docId = querySnapshot.docs[0].id
-            //     const ref = db.collection("Users/" + oppFiredaseUid + "/invitation").doc(docId)
-            //     ref.update({ 
-            //         confirm: true,
-            //         read: false,
-            //     })
-            // })
         })
     }
 
@@ -59,7 +47,6 @@ class ReplyButtons extends React.Component {
             })
         })
 
-        // const db = fire.firestore();
         let firebaseUid = this.props.firebaseUid
         db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
         .then((querySnapshot) => {

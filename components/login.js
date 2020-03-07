@@ -65,24 +65,6 @@ class LoginPage extends React.Component {
             return Object.assign({}, prevState, { password: passwordValue }) 
         })
     }
-
-    // getEmail = (event) => {
-    //     let emailValue = event.target.value
-    //     this.setState(prevState => { 
-    //         return Object.assign({}, prevState, { 
-    //             email: emailValue ,
-    //             message: "",
-    //         }) 
-    //     })
-    // }
-
-    // getPassword = (event) => {
-    //     let passwordValue = event.target.value
-    //     console.log(passwordValue)
-    //     this.setState(prevState => { 
-    //         return Object.assign({}, prevState, { password: passwordValue }) 
-    //     })
-    // }
     
     registerWithFire = () => {
         if ( this.state.email === "" ) {
@@ -137,39 +119,8 @@ class LoginPage extends React.Component {
                 isSigninArea: isSigninArea 
             }) 
         })
+
     }
-
-    // switchToRegister = () => {
-    //     this.setState( prevState => {
-    //         let isRegisted = prevState.isRegisted
-    //         isRegisted = true
-    //         let isLoggedin = prevState.isLoggedin
-    //         isLoggedin = false
-    //         let isSigninArea = prevState.isSigninArea
-    //         isSigninArea = true
-    //         return { 
-    //             isRegisted: isRegisted,
-    //             isLoggedin: isLoggedin,
-    //             isSigninArea: isSigninArea
-    //         }
-    //     }); 
-    // }
-
-    // switchToLogin = () => {
-    //     this.setState( prevState => {
-    //         let isRegisted = prevState.isRegisted
-    //         isRegisted = false
-    //         let isLoggedin = prevState.isLoggedin
-    //         isLoggedin = true
-    //         let isSigninArea = prevState.isSigninArea
-    //         isSigninArea = true
-    //         return { 
-    //             isRegisted: isRegisted,
-    //             isLoggedin: isLoggedin,
-    //             isSigninArea: isSigninArea
-    //         }
-    //     }); 
-    // }
 
     render(){
 

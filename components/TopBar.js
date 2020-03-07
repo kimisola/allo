@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { withRouter}  from "react-router";
 import { connect } from "react-redux";
-import { setCurrentUser, switchBoard } from"./ActionCreators";
+import { setCurrentUser, switchBoard } from"../actions/actionCreators";
 import Notice from "./SecondBarNotice";
 import HomeImg from "../images/home2.png";
 import Blackboard from "../images/blackboard1.png";
@@ -10,7 +10,7 @@ import Bell from "../images/bell2.png";
 import SignOutImg from "../images/logout12.png";
 import MyLogo from "../images/myLogo.png";
 import firebase from 'firebase';
-import fire from "../src/fire";
+// import fire from "../src/fire";
 import { db } from "../src/fire";
 
 class Topbar extends React.Component {
@@ -27,7 +27,6 @@ class Topbar extends React.Component {
     }
 
     listenForNewMsg = () => {
-        // const db = fire.firestore();
         // listen for invitation
         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("read", "==", false)
         .onSnapshot(async(doc) => {
@@ -133,7 +132,6 @@ class Topbar extends React.Component {
         });
 
         // reset alert number
-        // const db = fire.firestore();
         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("read", "==", false)
         .onSnapshot((doc) => {
             let docs = doc.docs;
@@ -229,7 +227,6 @@ class Topbar extends React.Component {
                 </div></Link>
             </React.Fragment>            
         ]
-
 
         return(
             <React.Fragment>

@@ -1,10 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { accessOrderByMethod } from "../library/accessDb";
-import CommentItem from "./CommentItem";
-import AddComment from "./AddComment";
-import ThemeTitle from "./ThemeTitle";
-import fire from "../src/fire";
+import SectionItem from "./drag-dropSectionComment/SectionItem";
+import SectionItemMark from "./drag-dropSectionComment/SectionItemMark";
+import SectionItemTransform from "./drag-dropSectionComment/SectionItemTransform";
+import SectionWrapper from "./drag-dropSectionWrapper/SectionWrapper";
+import SectionWrapperMark from "./drag-dropSectionWrapper/SectionWrapperMark";
+import SectionWrapperTransform from "./drag-dropSectionWrapper/SectionWrapperTransform";
+// import fire from "../src/fire";
 import { db } from "../src/fire";
 
 class Section extends React.Component {
@@ -12,8 +15,6 @@ class Section extends React.Component {
         super(props);
         this.board = React.createRef();
         this.state = {
-            //editedMode: [],
-            //isInEditMode: false,
             themeHeight: "",
             itemHeight: "",
             dragInfo: {
@@ -132,18 +133,7 @@ class Section extends React.Component {
                     index: finalIndex
                 })
             }).then(() => {
-
                 this.accessOrderByMethod(`Boards/${firebaseUid}/Lists`)
-                // db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
-                // .then(async (querySnapshot) => {
-                // const doc = querySnapshot.docs;
-                // for ( let i = 0; i < doc.length; i++ ) {       
-                //     let ref = db.collection("Boards/" + firebaseUid + "/Lists").doc(doc[i].id)
-                //     ref.update({
-                //         index: (((i+1)*2))
-                //         })
-                //     }
-                // })
             }).catch((error)=> {
                 console.log("Error writing document: ", error.message);
             })
@@ -267,19 +257,7 @@ class Section extends React.Component {
                                         listsId.push(doc[i].id)
                                     }
                                     for ( let i = 0; i < listsId.length; i++ ) {  //讀取每一個 list 底下的 items
-
                                         this.accessOrderByMethod(`Boards/${firebaseUid}/Lists/${listsId[i]}/Items`)
-
-                                        // db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").orderBy("index").get()
-                                        // .then((querySnapshot2) => {
-                                        //     let doc2 = querySnapshot2.docs;
-                                        //     for ( let j = 0; j < doc2.length; j++ ) {
-                                        //     let ref = db.collection("Boards/" + firebaseUid + "/Lists/" + listsId[i] + "/Items").doc(doc2[j].id)
-                                        //     ref.update({
-                                        //         index: (((j+1)*2)), // 前後留空格讓之後移動可以有空間塞
-                                        //         })      
-                                        //     }
-                                        // })
                                     }
                                 })
                             })
@@ -326,56 +304,19 @@ class Section extends React.Component {
             items.push([]);
             for ( let j = 0; j < texts[i].length; j++ ) {
                 if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i <= dragInfoItem.theme && j <= dragInfoItem.row ) {
-                    console.log("top",dragInfoItem.markTheme, dragInfoItem.markRow, dragInfoItem.theme, dragInfoItem.row )
-                    items[i].push (
-                        <div className="item" key={i+100} >
-                            <div key="mark" className="mark" style={style.markItem} />
-                        </div>
-                    )
+                    items[i].push (<SectionItemMark key={ `${i}SectionItemMark${j}` } i={ i } style={ style }/>)
                 }
 
                 if ( i === dragInfoItem.theme && j === dragInfoItem.row ) {
-                    items[i].push (
-                        <div className="item" index={ `${i}-${j}` } style={{ left:dragInfoItem.left, top:dragInfoItem.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }} key={j}>
-                            <div className="itemDragArea" onPointerDown={ this.dragItem }></div>
-                            <div className="itemHead">
-                                <CommentItem item={ texts[i][j] } listIndex={ i } j={ j }/>
-                            </div>                              
-                            
-                            <div className="itemBody">
-                                <div className="message">                       
-                                    <div className="msgText"> {texts[i][j].text} </div>         
-                                    <div className="msgImg">{texts[i][j].img == "" ? "" : <img src={ texts[i][j].img } />}  </div>
-                                </div>
-                            </div>
-                        </div>
-                    )
+                    items[i].push (<SectionItemTransform key={ `${i}SectionItemTransform${j}` } i={ i } j={ j } texts={ texts } dragItem={ this.dragItem } dragInfoItem={ dragInfoItem }/>)
                 } else {
-                    items[i].push (
-                        <div className="item" index={ `${i}-${j}` } key={j}>
-                            <div className="itemDragArea" onPointerDown={ this.dragItem }></div>
-                            <div className="itemHead">
-                                <CommentItem item={ texts[i][j] } listIndex={ i } j={ j }/>
-                            </div>                              
-                            
-                            <div className="itemBody">
-                                <div className="message">                       
-                                    <div className="msgText"> {texts[i][j].text} </div>         
-                                    <div className="msgImg">{texts[i][j].img == "" ? "" : <img src={ texts[i][j].img } />}  </div>
-                                </div>
-                            </div>
-                        </div>
-                    )
+                    items[i].push (<SectionItem key={ `${i}SectionItem${j}` } i={ i } j={ j } texts={ texts } dragItem={ this.dragItem }/>)
                 }
 
                 if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i > dragInfoItem.theme && j > dragInfoItem.row ) {
-                    console.log("bottom",dragInfoItem.markTheme, dragInfoItem.markRow, dragInfoItem.theme, dragInfoItem.row )
-                    items[i].push (
-                        <div className="item" key={i+300} >
-                            <div key="mark" className="mark" style={style.markItem} />
-                        </div>
-                    )
+                    items[i].push (<SectionItemMark key={ `${i}SectionItemMark${j}` }  i={ i+100 } style={ style }/>)
                 }
+
             }
         }
 
@@ -386,46 +327,22 @@ class Section extends React.Component {
 
         for (let i = 0; i < this.props.listTitle.length; i++) {
             let item = this.props.listTitle[i];
-        
+
             if (i === dragInfo.markIndex && i <= dragInfo.index) {
-                elements.push(
-                    <div className="sectionWrapper" index={i} key={i+200}>
-                        <div key="mark" className="mark" style={ style.mark } />
-                    </div>
-                )
+                elements.push(<SectionWrapperMark key={ `${i}SectionWrapperMark` } i={ i } style={ style }/>)
             }
 
             if (i === dragInfo.index) {
-                elements.push(
-                    <div className="sectionWrapper" key={i} index={i} style={{ left:dragInfo.left, top:dragInfo.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }}>
-                        <div className="section">
-                            <div className="dragArea" onPointerDown={ this.dragList }></div>
-                            <ThemeTitle themeIndex={ i } title={ item }/>
-                            <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
-                            <AddComment index={ i }/>
-                        </div>
-                    </div>
-                )
+                elements.push(<SectionWrapperTransform key={ `${i}SectionWrapperTransform` } i={ i } stopEvent={ this.stopEvent } items={ items } item={ item } dragList = { this.dragList } dragInfo={ dragInfo }/>)
             } else {
-                elements.push(
-                    <div className="sectionWrapper" key={i} index={i}>
-                        <div className="section">
-                            <div className="dragArea" onPointerDown={ this.dragList }></div>
-                            <ThemeTitle themeIndex={ i } title={ item }/>
-                            <div className="comment" onWheel={(e) => this.stopEvent(e)}> { items[i] } </div>
-                            <AddComment index={ i }/>
-                        </div>
-                    </div>
-                )
-            }         
-            if (i === dragInfo.markIndex && i > dragInfo.index) {
-                elements.push(
-                    <div className="sectionWrapper" index={i} key={i+300}>
-                        <div key="mark" className="mark" style={style.mark}  />
-                    </div>
-                )
+                elements.push(<SectionWrapper key={ `${i}SectionWrapper` } i={ i } stopEvent={ this.stopEvent } items={ items } item={ item } dragList = { this.dragList }/>)
             }
-        }        
+
+            if (i === dragInfo.markIndex && i > dragInfo.index) {
+                elements.push(<SectionWrapperMark key={ `${i}SectionWrapperMark` } i={ i } style={ style }/>)
+            }
+
+        }    
         return(
             <React.Fragment>
                 <div className="board" ref={this.board} onWheel={(e) => this.horizontalScroll(e)}>
@@ -440,10 +357,6 @@ const mapStateToProps = (state) => {
     return {
         text: state.board.text,
         listTitle: state.board.listTitle,
-        // addNewCommentOpen: state.addNewCommentOpen,
-        // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
-        // whichWindowOpen: state.whichWindowOpen,
-        // commentWindow: state.commentWindow,
         firebaseUid: state.board.firebaseUid,
         currentBoard: state.board.currentBoard,
     }

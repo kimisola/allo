@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { unfriend } from "./ActionCreators";
+import { unfriend } from "../actions/actionCreators";
 import { accessWhereMethod } from "../library/accessDb";
 import Cancel from "../images/cancel.png";
 
@@ -11,30 +11,9 @@ class Editors extends React.Component {
     }
 
     unfriend = (userFirebaseuid, index) => {
-
         this.props.unfriend(userFirebaseuid, index)
-
         this.accessWhereMethod(`Users/${this.props.firebaseUid}/invitation`, "userFirebaseuid", userFirebaseuid, { confirm: null })
-        // const db = fire.firestore();
-        // db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", userFirebaseuid)
-        // .get().then((querySnapshot) => {
-        //     const docId = querySnapshot.docs[0].id
-        //     const ref = db.collection("Users/" + this.props.firebaseUid + "/invitation").doc(docId)
-        //     ref.update({ 
-        //         confirm: null,
-        //     })
-        // })
-
         this.accessWhereMethod(`Users/${userFirebaseuid}/beInvited`, "userFirebaseuid", this.props.firebaseUid, { confirm: null })
-
-        // db.collection("Users/" + userFirebaseuid + "/beInvited").where("userFirebaseuid", "==", this.props.firebaseUid)
-        // .get().then((querySnapshot) => {
-        //     const docId = querySnapshot.docs[0].id
-        //     const ref = db.collection("Users/" + userFirebaseuid + "/beInvited").doc(docId)
-        //     ref.update({ 
-        //         confirm: null,
-        //     })
-        // })
     }
 
     render(){

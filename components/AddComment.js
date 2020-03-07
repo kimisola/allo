@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { sendComment } from "./ActionCreators";
+import { sendComment } from "../actions/actionCreators";
 import fire from "../src/fire";
 import { db } from "../src/fire";
 import Tick3 from "../images/tick3.png";
@@ -37,32 +37,6 @@ class AddComment extends React.Component {
             fileName: "",
         })
     }
-
-    // resetToDefault = () => {
-    //     this.setState( prevState => {
-    //         let newtext = prevState.newText
-    //         newtext = "";
-    //         let newimg = prevState.newImg
-    //         newimg = "";
-    //         let tagsState = [ "planning", "process", "risk", "achived" ]
-    //         let newtags = prevState.newTags;
-    //         newtags = [];
-    //         tagsState.forEach((item)=>{
-    //             this.setState( prevState => {
-    //                 let commentTagsCopy =  prevState.commentTags
-    //                 if ( commentTagsCopy[item] ){
-    //                     commentTagsCopy[item] = false
-    //                 }   
-    //                 return Object.assign({}, prevState, { 
-    //                     commentTags: commentTagsCopy,
-    //                     newText: newtext,
-    //                     newImg: newimg,
-    //                     newTags: newtags,
-    //                 });
-    //             });
-    //         })
-    //     });
-    // }
     
     getTextValue = (event) => {
         const textValue = event.target.value
@@ -83,7 +57,7 @@ class AddComment extends React.Component {
         this.setState({ newTags: textTag })
     }
 
-    fileUpload = (event) => {
+    uploadFile = (event) => {
         const file = event.target.files[0]
         const storageRef = fire.storage().ref("image");
         const imgRef = storageRef.child(file.name)
@@ -106,7 +80,6 @@ class AddComment extends React.Component {
                 if ( file.type === fileTypes[i] ) {
                     flag = true
                     imgRef.getDownloadURL().then((url) => {
-                        console.log(url)
                         this.setState({ newImg: url });
                     })
                 }
@@ -134,7 +107,6 @@ class AddComment extends React.Component {
             this.props.sendComment(index, newText, newImg, newTags)
             this.openCommentWindow();
          
-            // const db = fire.firestore();
             let firebaseUid = "";
             if ( this.props.currentBoard !== "" ) {
                 firebaseUid = this.props.currentBoard
@@ -151,7 +123,6 @@ class AddComment extends React.Component {
                 .then( async (querySnapshot2) => {
                     let doc2 = querySnapshot2.docs;
                     indexForItem = ((doc2.length+1)*2)
-                    // this.props.dispatch({ type: "setIndexForItem", indexForItem})
                     if ( newImg === undefined ) {
                         newImg = "";
                     }
@@ -194,7 +165,7 @@ class AddComment extends React.Component {
                                     <div className="imgUpload">
                                         <img src={ Upload } />
                                     </div>
-                                    <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.fileUpload } style={{display:'none' }} />    
+                                    <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.uploadFile } style={{display:'none' }} />    
                                 </label>
                                 <div className="fileNameDiv"> {this.state.fileName} </div>
                             </div>
@@ -222,14 +193,8 @@ class AddComment extends React.Component {
 const mapStateToProps = (state , ownprops) => {
     return {
         index: ownprops.index,
-        // indexForItem: state.board.indexForItem,
         text: state.board.text,
         listTitle: state.board.listTitle,
-        // commentURL: state.board.commentURL,
-        // commentTags: state.board.commentTags,
-        // whichTheme: state.board.whichTheme,
-        // addNewCommentOpen: state.board.addNewCommentOpen,
-        //commentWindow: state.commentWindow,
         userDisplayName: state.board.userDisplayName,
         userPhotoURL: state.board.userPhotoURL,
         firebaseUid: state.board.firebaseUid,

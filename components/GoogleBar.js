@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import fire from "../src/fire";
 import { db } from "../src/fire";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { setCurrentUser } from"./ActionCreators"
+import { setCurrentUser } from"../actions/actionCreators"
 
 class GLogin extends React.Component {
     uiConfig = {
@@ -15,7 +15,6 @@ class GLogin extends React.Component {
         ],
         callbacks: {
           signInSuccessWithAuthResult: (user) => {
-            // const db = fire.firestore();
             if (user) {
               console.log("get user data", user)
               
@@ -73,10 +72,6 @@ const mapStateToProps = (state) => {
       isBoardLoaded: state.board.isBoardLoaded,
       text: state.board.text,
       listTitle: state.board.listTitle,
-      // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
-      // whichWindowOpen: state.whichWindowOpen,
-      // commentWindow: state.commentWindow,
-      // isLoggedIn: state.isLoggedIn,
       userEmail: state.board.userEmail,
       userDisplayName: state.board.userDisplayName,
       userPhotoURL: state.board.userPhotoURL,
