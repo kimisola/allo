@@ -10,7 +10,6 @@ import Bell from "../images/bell2.png";
 import SignOutImg from "../images/logout12.png";
 import MyLogo from "../images/myLogo.png";
 import firebase from 'firebase';
-// import fire from "../src/fire";
 import { db } from "../src/fire";
 
 class Topbar extends React.Component {

@@ -36,7 +36,7 @@ class Notifications extends React.Component {
                                     <div className="imgDiv">
                                         <img src={item.userPhoto} />
                                     </div>
-                                    <p>{item.userName}　invited you to edit his board.</p>
+                                    <p>{item.confrm === null ? ` ${item.userName} invited you to edit his board.` : item.confirm ? `You accepted the invitation from ${item.userName}.` : `You denied the invitation from ${item.userName}.`}</p>
                                 </div>
                                 <div className="buts">
                                 <ReplyButtons confirm={ item.confirm } index={ index } userFirebaseuid={ item.userFirebaseuid }/> 

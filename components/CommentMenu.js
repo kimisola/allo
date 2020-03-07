@@ -4,7 +4,6 @@ import { accessWhereMethod, accessDeleteMethod } from "../library/accessDb";
 import { getEditedValue, deleteComment } from "../actions/actionCreators";
 import bin from"../images/bin.png";
 import menuImg from "../images/more.png";
-import fire from "../src/fire";
 import { db } from "../src/fire";
 
 class CommentMenu extends React.Component {
@@ -236,7 +235,7 @@ class CommentMenu extends React.Component {
                     <div className="commentMenu"  style={style.menuStyle} >
                         <div className="tags" >
                             <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "#ff9f1a" : "grey" }} onClick={ () => this.selectTags("planning") }>Planning</div>
-                            <div className="tag process" style={{backgroundColor: this.state.commentTags.process ? "#00c2e0" : "grey" }} onClick={ () => this.selectTags("process") }>In Process</div>
+                            <div className="tag process" style={{backgroundColor: this.state.commentTags.process ? "#00c2e0" : "grey" }} onClick={ () => this.selectTags("process") }>Process</div>
                             <div className="tag risk" style={{backgroundColor: this.state.commentTags.risk ? "#eb5a46" : "grey" }} onClick={ () => this.selectTags("risk") }>At Risk</div>
                             <div className="tag achived" style={{backgroundColor: this.state.commentTags.achived ? "#4bbf6b" : "grey" }} onClick={ () => this.selectTags("achived") }>Achieved</div>
                         </div>
@@ -260,12 +259,6 @@ class CommentMenu extends React.Component {
                                     <div style={{display: this.state.isEditorShowed ? "none" : "block" }}>Editor</div>
                                     <div style={{display: this.state.isEditorShowed ? "block" : "none" }}>{ this.props.text[this.props.listId][this.props.comId].edited }</div>
                                 </div>
-                                {/* <div className="menuList" >
-                                    <div className="setTime">
-                                        <img src={ clock } />
-                                    </div>
-                                    <div>Due Date</div>
-                                </div> */}
                                 <div className="menuList deleteDiv">
                                     <div className="deleteText">
                                         <img src={ bin } />

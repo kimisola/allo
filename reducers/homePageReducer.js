@@ -2,6 +2,7 @@ let homePageState = {
     // for homepage notifications and editors
     beInvitedData: [],
     invitationData: [],
+    gotBeInvitedData: false,
 }
 
 export default function homePageReducer(state = homePageState, action) {
@@ -13,6 +14,7 @@ export default function homePageReducer(state = homePageState, action) {
         case "ADD_BEINVITED_DATA": {
             return  Object.assign({}, state, {
                 beInvitedData: action.data.slice(0),
+                gotBeInvitedData: true
             })
         }
 

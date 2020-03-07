@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { addBeInvitedData, addInvitationData } from "../actions/actionCreators";
-import { uploadBackgroundImg } from "../library/lib";
+import { uploadBackgroundImg, getBeInvitedData } from "../library/lib";
 import Topbar from "./TopBar";
 import BoardLists from "./HomePageBoardLists";
 import Notifications from "./HomePageNotifications";
@@ -21,7 +21,8 @@ class HomePage extends React.Component {
             isIconTurn: false, 
             currentUserBackground: "",
         }
-        this.uploadBackgroundImg = uploadBackgroundImg.bind(this)
+        this.uploadBackgroundImg = uploadBackgroundImg.bind(this);
+        this.getBeInvitedData = getBeInvitedData.bind(this);
     } 
 
     componentDidMount() {
@@ -30,17 +31,19 @@ class HomePage extends React.Component {
             return
         } else if (firebaseUid === null) {  //未登入
             window.location = "/";
-        } else  {
+        } else {
             return
         }
     }
 
     componentDidUpdate(){
-        if ( this.state.currentUserBackground === "" && this.props.firebaseUid !== "") {
-            const firebaseUid = this.props.firebaseUid  
-            
+        if ( this.state.currentUserBackground === "" && this.props.firebaseUid !== "" ) {
+            const firebaseUid = this.props.firebaseUid
+            console.log("run componentDidMount")
+
             db.collection("Boards").doc(firebaseUid).get()
             .then((querySnapshot) => {
+                console.log("get background")
                 this.setState(() => {
                     return ({ currentUserBackground: querySnapshot.data().background })
                 })
@@ -48,71 +51,44 @@ class HomePage extends React.Component {
 
             db.collection("Users").doc(firebaseUid).get()
             .then((querySnapshot) => {
+                console.log("get homepageCover")
                 this.setState(() => {
                     return ({ homepageCover: querySnapshot.data().homepageCover })
                 })
             })
             
-            db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
+            this.getBeInvitedData(firebaseUid);
+
+            db.collection("Users/" + firebaseUid + "/invitation").orderBy("index").get()
             .then((querySnapshot) => {
                 let data = [];
-                const theLastNum = querySnapshot.docs.length-1
-                for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
+                
+                for (let i = 0; i < querySnapshot.docs.length; i ++ ) {
                     let send = querySnapshot.docs[i].data()
-                    const ref = db.collection("Users").doc(send.userFirebaseuid)
-                    ref.get()
-                    .then((querySnapshot) =>{
-                        send.userName = querySnapshot.data().name;
-                        send.userPhoto =  querySnapshot.data().photo;
-
-                        const ref2 = db.collection("Boards").doc(send.userFirebaseuid)
-                        ref2.get()
+                    if ( send.confirm ) {
+                        const ref = db.collection("Users").doc(send.userFirebaseuid)
+                        ref.get()
                         .then((querySnapshot) =>{
-                            send.backgroundURL = querySnapshot.data().background
-                            data.push(send);
-                            if ( i === theLastNum ) {
-                                this.props.addBeInvitedData(data)
-                            }
-                        }).catch((error)=> {
-                            console.log("Error writing document: ", error.message);
-                        })
-                    }).catch((error)=> {
-                        console.log("Error writing document: ", error.message);
-                    })
-                }
-
-                db.collection("Users/" + firebaseUid + "/invitation").orderBy("index").get()
-                .then((querySnapshot) => {
-                    let data = [];
-                    
-                    for (let i = 0; i < querySnapshot.docs.length; i ++ ) {
-                        let send = querySnapshot.docs[i].data()
-                        if ( send.confirm ) {
-                            const ref = db.collection("Users").doc(send.userFirebaseuid)
-                            ref.get()
-                            .then((querySnapshot) =>{
-                                send.userName = querySnapshot.data().name;
-                                send.userPhoto =  querySnapshot.data().photo;
-                                const ref2 = db.collection("Boards").doc(send.userFirebaseuid)
-                                ref2.get()
-                                .then(async(querySnapshot) =>{
-                                    send.backgroundURL = querySnapshot.data().background
-                                    data.push(send);
-                                    this.props.addInvitationData(data)
-                                }).catch((error)=> {
-                                    console.log("Error writing document: ", error.message);
-                                })
+                            send.userName = querySnapshot.data().name;
+                            send.userPhoto =  querySnapshot.data().photo;
+                            const ref2 = db.collection("Boards").doc(send.userFirebaseuid)
+                            ref2.get()
+                            .then(async(querySnapshot) =>{
+                                send.backgroundURL = querySnapshot.data().background
+                                data.push(send);
+                                this.props.addInvitationData(data)
                             }).catch((error)=> {
                                 console.log("Error writing document: ", error.message);
                             })
-                        }
+                        }).catch((error)=> {
+                            console.log("Error writing document: ", error.message);
+                        })
                     }
-                }).catch((error) =>{
-                    console.log(error.message);
-                })
+                }
             }).catch((error) =>{
                 console.log(error.message);
             })
+            
         }
     }
 

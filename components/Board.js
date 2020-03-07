@@ -1,15 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
 import { db } from "../src/fire";
-import { setCommentData, setIndexForTitle, turnOnLoadingGif, switchBoard } from "../actions/actionCreators"
-import { uploadBackgroundImg } from "../library/lib";
+import { setCommentData, setIndexForTitle, turnOnLoadingGif, switchBoard, addBeInvitedData } from "../actions/actionCreators"
+import { uploadBackgroundImg, getBeInvitedData } from "../library/lib";
 import { setGuideData } from "../library/guide";
 import Topbar from "./TopBar";
 import SecondBar from "./SecondBar";
 import Section from "./Section";
 import loadingGif from "../images/loadingImg.gif";
+import PageNotFound from "../images/404.png";
 import Gear from "../images/gear.png";
-
+import { number } from "prop-types";
 
 class Board extends React.Component {
     constructor(props){
@@ -18,14 +19,16 @@ class Board extends React.Component {
             boardURL: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f",
             exampleImg: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2Fwelcome.png?alt=media&token=7a5e1d96-87c0-4a51-8dfc-e7c98b67579c",
             exampleAuthor: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/image%2F%E6%9C%AA%E5%91%BD%E5%90%8D.png?alt=media&token=264bf4c3-e1ed-42bd-8291-4928859932f7",
+            lock: false,
+            permission: null,
         }
         this.uploadBackgroundImg = uploadBackgroundImg.bind(this);
         this.setGuideData = setGuideData.bind(this);
+        this.getBeInvitedData = getBeInvitedData.bind(this);
     }
 
     componentDidMount() {
-        const props = this.props;
-        props.turnOnLoadingGif();
+        this.props.turnOnLoadingGif();
         
         let firebaseUid = "";
         if (firebaseUid === null) {  //未登入
@@ -46,49 +49,59 @@ class Board extends React.Component {
                     return { 
                         boardURL: boardURL,
                     }
-                }); 
+                });
             } else {
                 const ref = db.collection("Boards").doc(firebaseUid)
-                const userEmail = this.props.userEmail
                 ref.set({
                     background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f",
-                    owner: userEmail
-                }).then(()=>{
-                    console.log("222222222", querySnapshot.data())
-                })
-                .catch((error) => {
+                }).catch((error) => {
                     console.error("Error removing document: ", error);
                 })
             }
         })
-
-        // const userEmail = this.props.userEmail
-        // db.collection("Boards/").doc(firebaseUid).get().then((querySnapshot)=>{
-        //     console.log("222222222", querySnapshot.data().owner)
-        //     if (querySnapshot.data().owner === undefined ) {
-        //         const ref = db.collection("Boards").doc(firebaseUid)
-        //         ref.update({
-        //             owner : userEmail
-        //         }).catch((error) => {
-        //             console.error("Error removing document: ", error.message);
-        //         })
-        //     }
-        // })
     }
 
     componentDidUpdate(prevProps){
-        let props = this.props;
-        let currentBoard = this.props.currentBoard
-        if ( currentBoard !==  prevProps.currentBoard) {
-            props.turnOnLoadingGif();
-            this.setGuideData();
-            let firebaseUid = currentBoard;
-            this.getCurrentBoardData(firebaseUid);
+        // const props = this.props;
+        const currentBoard = this.props.currentBoard
+        const beInvitedData = this.props.beInvitedData
+        let confirm = false;
+        // if ( currentBoard !==  prevProps.currentBoard) {
+            
+        // }
+
+        if ( this.props.firebaseUid !== "" && beInvitedData.length === 0 && !this.state.lock ) {  //確保 didupdate 只跑一次
+            console.log("123",this.props.firebaseUid)
+            this.getBeInvitedData(this.props.firebaseUid)
+            this.setState({ lock: true })
         }
+        if ( currentBoard !== undefined && this.props.firebaseUid !== undefined && this.props.firebaseUid === currentBoard && this.state.permission === null ) { //自己的板子
+            this.setState({ permission:true })
+        }
+        console.log( currentBoard !== undefined && this.props.firebaseUid !== undefined && this.props.firebaseUid !== currentBoard  && this.props.gotBeInvitedData && this.state.permission === null)
+        if ( currentBoard !== undefined && this.props.firebaseUid !== undefined && this.props.firebaseUid !== currentBoard  && this.props.gotBeInvitedData && this.state.permission === null ) {
+            for ( let i = 0 ; i < beInvitedData.length ; i ++ ) {
+                if ( beInvitedData[i].userFirebaseuid === this.props.match.params.id ) {
+                    confirm = true;
+                    break;
+                }
+            }
+            if (confirm) {
+                console.log("correct uid")
+                this.setState({ permission:true })
+                this.props.turnOnLoadingGif();
+                this.setGuideData();
+                this.getCurrentBoardData(currentBoard);
+            } else {
+                console.log("error uid")
+                this.setState({ permission:false })
+            }
+        }
+    
     }
 
     async getCurrentBoardData(firebaseUid) {
-        let props = this.props;
+        const props = this.props;
         let myDataTitle = [];
         let myDataText = [];
         let listsId = [];
@@ -151,27 +164,30 @@ class Board extends React.Component {
 
         const style = {
             backgroundStyle: {
-                backgroundImage: `url("${this.state.boardURL}")`,
-                backgroundPosition: 'center',
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat'
+                backgroundImage: this.state.permission === null ? "" : `url("${this.state.boardURL}")`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat"
             }
         };
 
         return(
             <React.Fragment>
-                <main  style={ style.backgroundStyle} >
-                    <div className="loading"  style={{display: this.props.isBoardLoaded ? 'none' : 'block' }} > 
+                <main  style={ style.backgroundStyle } >
+                    <div className="loading" style={{display: this.props.isBoardLoaded ? "none" : "block" }} > 
                         <img src={ loadingGif } />
                     </div>
-                    <div className="view" style={{display: this.props.isBoardLoaded ? 'block' : 'block' }} >
+                    <div className="loading pageNotFound" style={{display: this.state.permission == null ? "none" :this.state.permission ? "none" : "block" }} > 
+                        <img src={ PageNotFound } />
+                    </div>
+                    <div className="view" style={{display: this.state.permission ? "block" : "none" }} >
                         <Topbar />
                         <SecondBar />
                         <Section />
                     </div>
                     <label action="/somewhere/to/upload" encType="multipart/form-data" className="uploadBackground">
                         <img src={ Gear } />
-                        <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.uploadFile } style={{display:'none' }} />
+                        <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.uploadFile } style={{display: "none" }} />
                     </label>
                 </main>             
             </React.Fragment>
@@ -190,7 +206,9 @@ const mapStateToProps = (state) => {
         userPhotoURL: state.board.userPhotoURL,
         firebaseUid: state.board.firebaseUid,
         useruid: state.board.useruid,
-        currentBoard: state.board.currentBoard
+        currentBoard: state.board.currentBoard,
+        beInvitedData: state.homePage.beInvitedData,
+        gotBeInvitedData: state.homePage.gotBeInvitedData,
     }
 }
 
@@ -201,6 +219,7 @@ const mapDispatchToProps = (dispatch) => {
         setIndexForTitle: (storeTitleIndex) => { dispatch(setIndexForTitle(storeTitleIndex))},
         turnOnLoadingGif: () => { dispatch(turnOnLoadingGif()) },
         switchBoard: (targetLink) => { dispatch(switchBoard(targetLink)) },
+        addBeInvitedData: (data) => { dispatch(addBeInvitedData(data)) },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Board)

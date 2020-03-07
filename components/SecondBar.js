@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { creatTitle, getTitleValue, setIndexForTitle } from"../actions/actionCreators"
 import { accessWhereMethod } from "../library/accessDb";
-// import fire from "../src/fire";
 import { db } from "../src/fire";
 import Cancel from "../images/letter-x.png";
 import Mail from "../images/email.png";
@@ -41,7 +40,6 @@ class SecondBar extends React.Component {
 
     addNewListOpen = () => {
         this.props.getTitleValue("")
-        //this.props.addNewListOpen()
         this.setState( prevState => {
             return Object.assign({}, prevState, { 
                 isAddNewListOpened: !prevState.isAddNewListOpened
@@ -74,8 +72,6 @@ class SecondBar extends React.Component {
                 newListTitle.push(titleValue);
                 newText.push([]);
                 this.props.creatTitle(newListTitle, newText)
-                
-                // const db = fire.firestore();
                 const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
                 titleCollection.set({
                     title: titleValue,
@@ -106,7 +102,6 @@ class SecondBar extends React.Component {
         newText.push([]);
         this.props.creatTitle(newListTitle, newText)
         
-        // const db = fire.firestore();
         const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
         titleCollection.set({
             title: titleValue,
@@ -149,7 +144,6 @@ class SecondBar extends React.Component {
     }
 
     writeInvitationToDb = (id, states) => {
-        // const db = fire.firestore();
         db.collection("Users/").doc(id).get()
         .then((querySnapshot) => {
             let data = querySnapshot.data()
@@ -167,11 +161,9 @@ class SecondBar extends React.Component {
             })
             console.log(this.state)
         })
-        .then(() => {
-            // 將自己資訊寫入被邀請人 db
-            let route = db.collection("Users/" + this.state.userFirebaseuid + "/beInvited")
-            route.get().then((querySnapshot) => {     
-                //如果是全新的執行set
+        .then(() => {  // 將自己資訊寫入被邀請人 db
+            const route = db.collection("Users/" + this.state.userFirebaseuid + "/beInvited")
+            route.get().then((querySnapshot) => {   //如果是全新的執行 set、否則找到對方的 doc 更新資料
                 if ( states === "new" ) {
                     route.doc().set({
                         userMail: this.props.userEmail,
@@ -184,7 +176,7 @@ class SecondBar extends React.Component {
                     }).catch((error)=> {
                         console.log("Error writing document: ", error.message);
                     })
-                    //否則找到對方的doc更新資料
+                    //
                 } else {
                     const targetData = {
                         userMail: this.props.userEmail,
@@ -196,30 +188,12 @@ class SecondBar extends React.Component {
                         read: false
                     }
                     this.accessWhereMethod(`Users/${this.state.userFirebaseuid}/beInvited`, "userFirebaseuid", this.props.firebaseUid, targetData)
-
-                    // route.where("userFirebaseuid", "==", this.props.firebaseUid).get()
-                    // .then((querySnapshot) => {
-                    //     let docid = querySnapshot.docs[0].id;
-                    //     route.doc(docid).update({
-                    //         userMail: this.props.userEmail,
-                    //         userName: this.props.userDisplayName,
-                    //         userPhoto: this.props.userPhotoURL,
-                    //         userFirebaseuid: this.props.firebaseUid,
-                    //         confirm: false,
-                    //         index: querySnapshot.docs.length,
-                    //         read: false,  //被邀請通知來要亮燈提醒
-                    //     }).catch((error)=> {
-                    //         console.log("Error writing document: ", error.message);
-                    //     })
-                    // })
                 }
             })
-        }).then(() => {
-            // 寫入對方資訊至自己 db 且 get 對方 board 的背景圖 url
+        }).then(() => {  // 寫入對方資訊至自己 db 且 get 對方 board 的背景圖 url
             db.collection("Boards").doc(this.state.userFirebaseuid).get()
             .then((querySnapshot) =>{
                 const backgroundURL = querySnapshot.data().background
-
                 const route = db.collection("Users/" + this.props.firebaseUid + "/invitation")
                 route.get().then((querySnapshot) => {
                     if ( states === "new" ) {
@@ -247,23 +221,6 @@ class SecondBar extends React.Component {
                             read: null,
                         }
                         this.accessWhereMethod(`Users/${this.props.firebaseUid}/beInvited`, "userFirebaseuid", this.state.userFirebaseuid, targetData)
-
-                        // route.where("userFirebaseuid", "==", this.state.userFirebaseuid).get()
-                        // .then((querySnapshot) => {
-                        //     let docid = querySnapshot.docs[0].id;
-                        //     route.doc(docid).update({
-                        //     userMail: this.state.userMail,
-                        //     userName: this.state.userName,
-                        //     userPhoto: this.state.userPhoto,
-                        //     userFirebaseuid: this.state.userFirebaseuid,
-                        //     confirm: false,
-                        //     index: querySnapshot.docs.length,
-                        //     backgroundURL: backgroundURL,
-                        //     read: null,
-                        // }).catch((error)=> {
-                        //     console.log("Error writing document: ", error.message);
-                        // })
-                    // })
                     }
                 })
                 alert(`You have sent ${this.state.userMail} an invitation.`)
@@ -275,18 +232,17 @@ class SecondBar extends React.Component {
     invite = (event) => {
         if ( event.key === "Enter" ) {
             if ( this.state.userMail !== "" ) {
-                // const db = fire.firestore();
                 db.collection("Users/").where("email", "==", this.state.userMail).get()
                 .then((querySnapshot) => {
                     if (querySnapshot.docs[0] != undefined && querySnapshot.docs[0].id != this.props.firebaseUid) {
-                        let id = querySnapshot.docs[0].id
+                        const id = querySnapshot.docs[0].id
                         
                         db.collection("Users/" + this.props.firebaseUid + "/invitation").where("userFirebaseuid", "==", id).get()
                         .then((querySnapshot) => {
                             if ( querySnapshot.docs.length === 0  ) {
                                 this.writeInvitationToDb(id,"new")                               
                             } else {
-                                let docId = querySnapshot.docs[0].id
+                                const docId = querySnapshot.docs[0].id
                                 db.collection("Users/" + this.props.firebaseUid + "/invitation/").doc(docId).get()
                                 .then((querySnapshot) => {
                                     if (querySnapshot.data().confirm) {
@@ -367,8 +323,6 @@ const mapStateToProps = (state) => {
         text: state.board.text,
         listTitle: state.board.listTitle,
         titleValue: state.board.titleValue,
-        // addNewListOpened: state.addNewListOpened,
-        // deleteConfirmThemeOpen: state.deleteConfirmThemeOpen,
         userEmail: state.board.userEmail,
         userDisplayName: state.board.userDisplayName,
         userPhotoURL: state.board.userPhotoURL,

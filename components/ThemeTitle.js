@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { accessDeleteMethod } from "../library/accessDb";
 import { deleteTheme, getEditedTitleValue } from "../actions/actionCreators";
 import Letter from "../images/letter-x.png";
-import fire from "../src/fire";
 import { db } from "../src/fire";
 
 class ThemeTitle extends React.Component {
@@ -148,9 +147,6 @@ const mapStateToProps = (state ,ownprops) => {
         text: state.board.text,
         listTitle: state.board.listTitle,
         firebaseUid: state.board.firebaseUid,
-        // indexWin: ownprops.indexWin,
-        // deleteThemeConfirmOpen: state.deleteThemeConfirmOpen,
-        // whichWindowOpen: state.whichWindowOpen,
         firebaseUid: state.board.firebaseUid,
         currentBoard: state.board.currentBoard,
         title: ownprops.title,

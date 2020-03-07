@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { db } from "../src/fire";
 import fire from "../src/fire";
 
 export function uploadBackgroundImg(ref, file) {
@@ -62,5 +62,40 @@ export function uploadBackgroundImg(ref, file) {
             }
         }).catch((error) => {
             console.log("Error removing document: ", error);
+    })
+}
+
+
+export function getBeInvitedData(firebaseUid) {
+    console.log("99999999999999999999999999999999999",firebaseUid)
+    db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
+    .then((querySnapshot) => {
+        let data = [];
+        const theLastNum = querySnapshot.docs.length-1
+        for (let i = 0 ; i < querySnapshot.docs.length ; i ++ ) {
+            let send = querySnapshot.docs[i].data()
+            const ref = db.collection("Users").doc(send.userFirebaseuid)
+            ref.get()
+            .then((querySnapshot) =>{
+                send.userName = querySnapshot.data().name;
+                send.userPhoto =  querySnapshot.data().photo;
+
+                const ref2 = db.collection("Boards").doc(send.userFirebaseuid)
+                ref2.get()
+                .then((querySnapshot) =>{
+                    send.backgroundURL = querySnapshot.data().background
+                    data.push(send);
+                    if ( i === theLastNum ) {
+                        this.props.addBeInvitedData(data)
+                    }
+                }).catch((error)=> {
+                    console.log("Error writing document: ", error.message);
+                })
+            }).catch((error)=> {
+                console.log("Error writing document: ", error.message);
+            })
+        }
+    }).catch((error) =>{
+        console.log(error.message);
     })
 }
