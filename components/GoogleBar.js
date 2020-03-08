@@ -2,14 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import firebase from 'firebase';
-import fire from "../src/fire";
 import { db } from "../src/fire";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { setCurrentUser } from"../actions/actionCreators"
 
 class GLogin extends React.Component {
     uiConfig = {
-        signInFlow: 'popup',
+        signInFlow: "popup",
         signInOptions: [
           firebase.auth.GoogleAuthProvider.PROVIDER_ID
         ],
@@ -32,7 +31,7 @@ class GLogin extends React.Component {
 
               this.props.setCurrentUser(userDisplayName, userPhotoURL, userEmail, firebaseUid, useruid)
 
-              db.collection("Users").doc(`${firebaseUid}`).update({
+              db.collection("Users").doc(firebaseUid).update({
                   name: userDisplayName,
                   photo: userPhotoURL,
                   email: userEmail,
@@ -41,16 +40,12 @@ class GLogin extends React.Component {
               }).catch((error) => {
                   console.error("Error writing document: ", error);
               })
-            } else {
-                // No user is signed in.
-            }              
+            }           
           }
-        },
-      };
+        }
+      }
     
     render() {
-      console.log("000000000000000000000000",this.props)
-        console.log("render", this.props.firebaseUid);
         if (this.props.firebaseUid) {
           let targetURL = `/Board/${ this.props.firebaseUid }`
           return <Redirect to={ targetURL } />;

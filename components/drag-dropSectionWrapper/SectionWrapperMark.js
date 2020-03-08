@@ -1,12 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
-
 class SectionWrapperMark extends React.Component {
     constructor(props){
         super(props);
     }
-
 
     render(){
         const style = this.props.style

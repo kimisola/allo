@@ -8,7 +8,6 @@ class SectionWrapper extends React.Component {
         super(props);
     }
 
-
     render(){
         const i = this.props.i
         const items = this.props.items

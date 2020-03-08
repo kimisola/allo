@@ -8,25 +8,6 @@ import ContentImg3 from "../images/loginpage_content3.png";
 import Mylogo from "../images/myLogo.png";
 import Postit from "../images/post-it-w.png"
 import firebase from "firebase";
-// import { withStyles } from '@material-ui/core/styles';    移除安裝
-// import TextField from '@material-ui/core/TextField';
-
-// const InviteFriend = withStyles({
-//     root: {
-//       '& label.Mui-focused': {
-//         color: "#ffffff",
-//       },
-//       '& .MuiInput-underline:after': {
-//         borderBottomColor: "#ffffff",
-//       },
-//       '& .MuiInput-formControl': {
-//         marginTop: "2vh",
-//       },
-//     '& .MuiInput-root': {
-//         height: "4.5vh",
-//       },
-//     },
-// })(TextField);
 
 class LoginPage extends React.Component {
     constructor(props){
@@ -45,41 +26,27 @@ class LoginPage extends React.Component {
         let emailValue = event.target.value
         const pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         if ( pattern.test(emailValue) ||  emailValue.length === 0) {
-            this.setState(prevState => { 
-                return Object.assign({}, prevState, { 
+            this.setState({ 
                     email: emailValue ,
                     message: "",
-                }) 
-            })
+                })
         } else {
-            this.setState(prevState => { 
-                return Object.assign({}, prevState, { message: "The email address is badly formatted." }) 
-            })
+            this.setState({ message: "The email address is badly formatted." }) 
         }
     }
 
     getPassword = (event) => {
         let passwordValue = event.target.value
-        console.log(passwordValue)
-        this.setState(prevState => { 
-            return Object.assign({}, prevState, { password: passwordValue }) 
-        })
+        this.setState({ password: passwordValue }) 
     }
     
     registerWithFire = () => {
         if ( this.state.email === "" ) {
-            this.setState(prevState => { 
-                return Object.assign({}, prevState, { message: "error" }) 
-            })
+            this.setState({ message: "error" }) 
         }
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((user) => {
-            var user = firebase.auth().currentUser;
-            console.log(user);
-        }).catch((error) => {
-            this.setState(prevState => { 
-                return Object.assign({}, prevState, { message: error.message }) 
-            })
+        .catch((error) => {
+            this.setState({ message: error.message }) 
         });
     }
 
@@ -91,17 +58,8 @@ class LoginPage extends React.Component {
 
     loginWithFire = () => {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then((user) => {
-            var user = firebase.auth().currentUser;
-            console.log(user);
-        // if (user) {
-        //     console.log("Login successfully")
-        // } else {
-        // }
-        }).catch((error) => {
-            this.setState(prevState => { 
-                return Object.assign({}, prevState, { message: error.message }) 
-            })
+        .catch((error) => {
+            this.setState({ message: error.message }) 
         });
     }
 
@@ -112,14 +70,11 @@ class LoginPage extends React.Component {
     }
 
     switchSigninArea = (isRegisted, isLoggedin, isSigninArea) => {
-        this.setState(prevState => { 
-            return Object.assign({}, prevState, { 
-                isRegisted: isRegisted,
-                isLoggedin: isLoggedin,
-                isSigninArea: isSigninArea 
-            }) 
+        this.setState({ 
+            isRegisted: isRegisted,
+            isLoggedin: isLoggedin,
+            isSigninArea: isSigninArea 
         })
-
     }
 
     render(){
@@ -140,28 +95,31 @@ class LoginPage extends React.Component {
             }
         }
         const textContent = [ 
-                <div className="textContent">
-                    <div className="details"style = {{textAlign: "left"}}>
-                        <p>a-llo’s boards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
-                    </div>
-                    <div className="slogan">
-                        <p>Enhance your teamwork </p>
-                        <p>with <span className="webName">a-llo</span> !</p>
-                    </div>
-                </div>
-                ];
-        const Sign = [ 
             <div className="textContent">
-                <div className="SignDetails" style = {{textAlign: "center", fontSize:"19px"}}>
+                <div className="details"style={{ textAlign: "left" }}>
+                    <p>a-llo’s boards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
+                </div>
+                <div className="slogan">
+                    <p>Enhance your teamwork </p>
+                    <p>with <span className="webName">a-llo</span> !</p>
+                </div>
+            </div>
+            ];
+
+        const sign = [ 
+            <div className="textContent">
+                <div className="SignDetails" style={{textAlign: "center", fontSize:"19px" }}>
                     <p>Sign up for your account</p>
                 </div>
                 <div className="slogan">
                 </div>
             </div>
             ];
-        const Log = [ 
+
+            
+        const login = [ 
             <div className="textContent">
-                <div className="details" style = {{textAlign: "center", fontSize:"19px"}}>
+                <div className="details" style={{ textAlign: "center", fontSize:"19px" }}>
                     <p>Log in to a-llo</p>
                 </div>
                 <div className="slogan">
@@ -183,9 +141,6 @@ class LoginPage extends React.Component {
                             </div>                           
                         </div>
                         <div className="topBar-Right">
-                            {/* <div className="regist"> Regist </div>
-                            <div className="login"> Login </div> */}
-                            {/* <div className="guide"> Guide </div> */}
                         </div>
                     </div>
                     <div className="login-background">
@@ -193,25 +148,22 @@ class LoginPage extends React.Component {
                             <div className="login-content">
                                 <div className="buttons">
                                     <div className="registerButton" onClick={ () => this.switchSigninArea(true, false, true) }>
-                                        <label className="b-button switch-register"  value="Register" >Register</label>
+                                        <label className="b-button switch-register" value="Register">Register</label>
                                     </div>
                                     <div className="loginButton" onClick={ () => this.switchSigninArea(false, true, true) }>
-                                        <label className="b-button switch-login" type="button" value="Login" >Login</label>
+                                        <label className="b-button switch-login" type="button" value="Login">Login</label>
                                     </div>
                                 </div>
                                 <div className="signinArea" style={ style.signinArea }>
 
                                     {/* 註冊滑出的 div */}
                                     <div className="signup" style={ style.signup }>
-                                        
                                         <div className="rigister-div">
                                             <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
                                             <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword } onKeyPress={ this.registerWithFireByEnter }/>
-                                            <button onClick={ this.registerWithFire } style={{ display:  this.state.isSigninArea ? this.state.isLoggedin ?  "none" : "block" :"none"}}>Register</button>
+                                            <button onClick={ this.registerWithFire } style={{ display:  this.state.isSigninArea ? this.state.isLoggedin ?  "none" : "block"  :  "none" }}>Register</button>
                                         </div>
-                                        
                                         <p className="errmsg"> {this.state.message} </p>
-                                        
                                     </div>
 
                                     {/* 登入滑出的 div */}
@@ -219,18 +171,17 @@ class LoginPage extends React.Component {
                                         <div className="login-div">
                                             <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
                                             <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword } onKeyPress={ this.loginWithFireByEnter }/>
-                                            <button onClick={ this.loginWithFire } style={{ display: this.state.isLoggedin ? 'block' : 'none' }}>Log in</button>
+                                            <button onClick={ this.loginWithFire } style={{ display: this.state.isLoggedin ? "block" : "none" }}>Log in</button>
                                         </div>
                                         <p className="errmsg"> {this.state.message} </p>
-
-                                        <div className="googleBar" style={{ display: this.state.isLoggedin ? 'block' : 'none' }}>
+                                        <div className="googleBar" style={{ display: this.state.isLoggedin ? "block" : "none" }}>
                                             <div className="or"><div></div>OR<div></div></div>
                                             <GLogin />
                                         </div>
                                     </div>
 
                                 </div>              
-                                { this.state.isSigninArea ? this.state.isLoggedin ? Log : Sign   : textContent }                 
+                                { this.state.isSigninArea ? this.state.isLoggedin ? login : sign  :  textContent }                 
                                 </div>
 
                             <div className="login-img">

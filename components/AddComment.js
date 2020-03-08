@@ -47,7 +47,7 @@ class AddComment extends React.Component {
         let tags = this.state.commentTags
         tags[selected] = !tags[selected]
 
-        let tagsState = [ "planning", "process", "risk", "achived" ]
+        const tagsState = [ "planning", "process", "risk", "achived" ]
         let textTag = []
         tagsState.forEach((element) => {
             if ( tags[element] ) {
@@ -116,7 +116,7 @@ class AddComment extends React.Component {
 
             db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((index+1)*2)).get()
             .then( async (querySnapshot) => {
-                docId =  querySnapshot.docs[0].id;
+                docId = querySnapshot.docs[0].id;
 
                 const route = db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").doc();
                 db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").orderBy("index").get()

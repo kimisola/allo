@@ -24,12 +24,11 @@ class CommentMenu extends React.Component {
             defaultOwnerImg: "",
             xCoordinate: "",
             yCoordinate: "",
-
         }
         this.accessWhereMethod = accessWhereMethod.bind(this)
         this.accessDeleteMethod = accessDeleteMethod.bind(this)
     }
-
+   
     showImgDiv = () => {
         this.setState( prevState => {
             return { isTagImgDivShowed: !prevState.isTagImgDivShowed }
@@ -78,7 +77,7 @@ class CommentMenu extends React.Component {
             this.setState( prevState => {
                 const commentTagsCopy = prevState.commentTags
                 commentTagsCopy[target] = !prevState.commentTags[target]
-                return { commentTags: commentTagsCopy };
+                return ({ commentTags: commentTagsCopy });
             });
         });
         this.setState({
@@ -115,7 +114,7 @@ class CommentMenu extends React.Component {
 
             const docId =  querySnapshot.docs[0].id;
             db.collection("Boards/" + firebaseUid + "/Lists/" + docId + "/Items").where("index", "==", ((comId+1)*2)).get()
-            .then( async(querySnapshot) => {
+            .then(async(querySnapshot) => {
                 const docId2 = querySnapshot.docs[0].id
                 this.accessDeleteMethod(`Boards/${firebaseUid}/Lists/${docId}/Items`, docId2)
             })
@@ -126,8 +125,7 @@ class CommentMenu extends React.Component {
         this.setState( prevState => {
            let commentTagsCopy =  prevState.commentTags
            commentTagsCopy[e] = !prevState.commentTags[e]
-           console.log( prevState.commentTags)
-           return Object.assign({}, prevState, { commentTags: commentTagsCopy });
+           return ({ commentTags: commentTagsCopy });
         })
     }
 
@@ -231,7 +229,7 @@ class CommentMenu extends React.Component {
             <React.Fragment>
                 <div className="tagDiv" onMouseEnter={ this.showImgDiv } onMouseLeave={ this.showImgDiv }>
                 <div className="tagImgDiv" style={ style.tagImgDiv } onClick={ () => this.setDefault() }><img src={ menuImg } /></div>
-                    <div className="showMenuBackground" style={{display: this.state.isMenuShowed ? 'block' : 'none' }} onClick={ () => this.showMenu() }></div>
+                    <div className="showMenuBackground" style={{display: this.state.isMenuShowed ? "block" : "none" }} onClick={ () => this.showMenu() }></div>
                     <div className="commentMenu"  style={style.menuStyle} >
                         <div className="tags" >
                             <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "#ff9f1a" : "grey" }} onClick={ () => this.selectTags("planning") }>Planning</div>

@@ -1,9 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-// import { render } from "react-dom";
 import { updateBeInvitedData } from "../actions/actionCreators";
 import { accessWhereMethod } from "../library/accessDb";
-// import fire from "../src/fire";
 import { db } from "../src/fire";
 
 class ReplyButtons extends React.Component {
@@ -47,12 +45,12 @@ class ReplyButtons extends React.Component {
             })
         })
 
-        let firebaseUid = this.props.firebaseUid
+        const firebaseUid = this.props.firebaseUid
         db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
         .then((querySnapshot) => {
             console.log(querySnapshot.docs[index].data().userFirebaseuid)
-            let docId = querySnapshot.docs[index].id
-            let ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
+            const docId = querySnapshot.docs[index].id
+            const ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
             ref.update({
                 confirm: null,
             })

@@ -101,6 +101,7 @@ class Topbar extends React.Component {
     }
 
     componentDidMount(prevProps){
+        console.log("!this.props.firebaseUid", !this.props.firebaseUid)
         if ( !this.props.firebaseUid ) {
             return;
         }
@@ -187,7 +188,7 @@ class Topbar extends React.Component {
 
         const menuStyle = {
             menuStyle: {
-                display: this.state.isShowedAlert ? 'block' : 'none',
+                display: this.state.isShowedAlert ? "bock" : "none",
                 position: "absolute",
                 top: (this.state.yCoordinate + 40),
                 left: (this.state.xCoordinate - 60),

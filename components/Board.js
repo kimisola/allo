@@ -10,7 +10,6 @@ import Section from "./Section";
 import loadingGif from "../images/loadingImg.gif";
 import PageNotFound from "../images/404.png";
 import Gear from "../images/gear.png";
-import { number } from "prop-types";
 
 class Board extends React.Component {
     constructor(props){
@@ -42,7 +41,6 @@ class Board extends React.Component {
 
         db.collection("Boards").doc(firebaseUid).get()
         .then((querySnapshot) => {
-            console.log(querySnapshot.data(), "querySnapshot.data().background")
             if( querySnapshot.data() !== undefined ){
                 this.setState(() => {
                     const boardURL = querySnapshot.data().background
@@ -62,23 +60,23 @@ class Board extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-        // const props = this.props;
         const currentBoard = this.props.currentBoard
         const beInvitedData = this.props.beInvitedData
         let confirm = false;
-        // if ( currentBoard !==  prevProps.currentBoard) {
-            
-        // }
 
+        if ( currentBoard !==  prevProps.currentBoard) {
+            this.props.turnOnLoadingGif();
+            this.setGuideData();
+            let firebaseUid = currentBoard;
+            this.getCurrentBoardData(firebaseUid);
+        }
         if ( this.props.firebaseUid !== "" && beInvitedData.length === 0 && !this.state.lock ) {  //確保 didupdate 只跑一次
-            console.log("123",this.props.firebaseUid)
             this.getBeInvitedData(this.props.firebaseUid)
             this.setState({ lock: true })
         }
         if ( currentBoard !== undefined && this.props.firebaseUid !== undefined && this.props.firebaseUid === currentBoard && this.state.permission === null ) { //自己的板子
             this.setState({ permission:true })
         }
-        console.log( currentBoard !== undefined && this.props.firebaseUid !== undefined && this.props.firebaseUid !== currentBoard  && this.props.gotBeInvitedData && this.state.permission === null)
         if ( currentBoard !== undefined && this.props.firebaseUid !== undefined && this.props.firebaseUid !== currentBoard  && this.props.gotBeInvitedData && this.state.permission === null ) {
             for ( let i = 0 ; i < beInvitedData.length ; i ++ ) {
                 if ( beInvitedData[i].userFirebaseuid === this.props.match.params.id ) {
@@ -87,17 +85,11 @@ class Board extends React.Component {
                 }
             }
             if (confirm) {
-                console.log("correct uid")
                 this.setState({ permission:true })
-                this.props.turnOnLoadingGif();
-                this.setGuideData();
-                this.getCurrentBoardData(currentBoard);
             } else {
-                console.log("error uid")
                 this.setState({ permission:false })
             }
         }
-    
     }
 
     async getCurrentBoardData(firebaseUid) {

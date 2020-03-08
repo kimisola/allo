@@ -41,7 +41,7 @@ class SecondBar extends React.Component {
     addNewListOpen = () => {
         this.props.getTitleValue("")
         this.setState( prevState => {
-            return Object.assign({}, prevState, { 
+            return ({ 
                 isAddNewListOpened: !prevState.isAddNewListOpened
             })
         });
@@ -52,84 +52,67 @@ class SecondBar extends React.Component {
         this.props.getTitleValue(value);      
     }
 
-    creatTitle = (event) => {
-        let newText = this.props.text;
-        let newListTitle =  this.props.listTitle;
+    creatTitle = (firebaseUid) => {
         let titleValue =  this.props.titleValue;
-        let indexForTitle = this.props.indexForTitle;
-        let firebaseUid = "";
-        if ( this.props.currentBoard !== "" ) {
-            firebaseUid = this.props.currentBoard
-        } else {
-            firebaseUid = this.props.firebaseUid
-        }
-
-        if (event.key === "Enter" ) {
-            if ( titleValue.length > 41 ) {
-                alert("The text is too long!")
-            } else {
-                this.addNewListOpen();
-                newListTitle.push(titleValue);
-                newText.push([]);
-                this.props.creatTitle(newListTitle, newText)
-                const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
-                titleCollection.set({
-                    title: titleValue,
-                    index: indexForTitle
-                }).then(() => {
-                    this.props.setIndexForTitle(indexForTitle + 2)  //更新預備用的 title index
-                }).catch(() => {
-                    console.error("Error writing document: ", error.message);
-                })
-            }
-        }
-    }
-
-    creatTitleByButton = () => {
         let newText = this.props.text;
-        let newListTitle =  this.props.listTitle;
-        let titleValue =  this.props.titleValue;
         let indexForTitle = this.props.indexForTitle;
-        let firebaseUid = "";
-        if ( this.props.currentBoard !== "" ) {
-            firebaseUid = this.props.currentBoard
-        } else {
-            firebaseUid = this.props.firebaseUid
-        }
+        let newListTitle =  this.props.listTitle;
 
         this.addNewListOpen();
         newListTitle.push(titleValue);
         newText.push([]);
         this.props.creatTitle(newListTitle, newText)
-        
         const titleCollection = db.collection("Boards/" + firebaseUid + "/Lists").doc();
         titleCollection.set({
             title: titleValue,
-            index: indexForTitle
+            index: (newListTitle.length)*2
         }).then(() => {
-            this.props.setIndexForTitle(indexForTitle + 2)
+            this.props.setIndexForTitle(indexForTitle + 2)  //更新預備用的 title index
         }).catch(() => {
             console.error("Error writing document: ", error.message);
         })
     }
 
+    creatTitleByEnter = (event) => {
+        let titleValue =  this.props.titleValue;
+        let firebaseUid = "";
+        if ( this.props.currentBoard !== "" ) {
+            firebaseUid = this.props.currentBoard
+        } else {
+            firebaseUid = this.props.firebaseUid
+        }
+        console.log(firebaseUid)
+        if (event.key === "Enter" ) {
+            if ( titleValue.length > 41 ) {
+                alert("The text is too long!")
+            } else {
+                this.creatTitle(firebaseUid);
+            }
+        }
+    }
+
+    creatTitleByButton = () => {
+        let firebaseUid = "";
+        if ( this.props.currentBoard !== "" ) {
+            firebaseUid = this.props.currentBoard
+        } else {
+            firebaseUid = this.props.firebaseUid
+        }
+        this.creatTitle(firebaseUid);
+    }
+
     getCoordinate = () => {
         const data = this.myRef.current.getBoundingClientRect()
-        this.setState( prevState => {  
-            const xCoordinate = data.x
-            const yCoordinate = data.y
-            return Object.assign({}, prevState, {
-                xCoordinate: xCoordinate,
-                yCoordinate: yCoordinate
-            })     
-        });
+        this.setState({
+            xCoordinate: data.x,
+            yCoordinate: data.y
+        }) 
     }
 
     showInvitation = () => {
         this.setState(prevState => {
-            const showInvitationa = !prevState.isShowInvitation
-            return Object.assign({}, prevState, { 
-                isShowInvitation: showInvitationa,
+            return ({ 
+                isShowInvitation: !prevState.isShowInvitation,
                 userMail: "",
             })
         });
@@ -138,28 +121,19 @@ class SecondBar extends React.Component {
         
     getMailValue = (event) => {  
         let mailValue = event.target.value
-        this.setState( prevState => {
-            return  Object.assign({}, prevState, { userMail: mailValue })
-        });
+        this.setState({ userMail: mailValue })
     }
 
     writeInvitationToDb = (id, states) => {
         db.collection("Users/").doc(id).get()
         .then((querySnapshot) => {
             let data = querySnapshot.data()
-            this.setState( prevState => {
-                let usermail =  data.email
-                let username =  data.name
-                let userphoto =  data.photo
-                let userfirebaseuid =  data.firebaseuid 
-                return Object.assign({}, prevState, { 
-                    userMail: usermail,
-                    userName: username,
-                    userPhoto: userphoto,
-                    userFirebaseuid: userfirebaseuid
-                });
-            })
-            console.log(this.state)
+            this.setState({ 
+                userMail: data.email,
+                userName: data.name,
+                userPhoto: data.photo,
+                userFirebaseuid: data.firebaseuid
+            });
         })
         .then(() => {  // 將自己資訊寫入被邀請人 db
             const route = db.collection("Users/" + this.state.userFirebaseuid + "/beInvited")
@@ -176,7 +150,6 @@ class SecondBar extends React.Component {
                     }).catch((error)=> {
                         console.log("Error writing document: ", error.message);
                     })
-                    //
                 } else {
                     const targetData = {
                         userMail: this.props.userEmail,
@@ -305,7 +278,7 @@ class SecondBar extends React.Component {
                 <div className="addThemeDiv" style={{display: this.state.isAddNewListOpened ? "block" : "none" }}>
                     <div className="addTheme">
                         <p>Add new list：</p>
-                        <input type="text" value={ this.props.titleValue } onChange={ this.getTitleValue } onKeyPress={ this.creatTitle } ref={ this.titleInput }/>
+                        <input type="text" value={ this.props.titleValue } onChange={ this.getTitleValue } onKeyPress={ this.creatTitleByEnter } ref={ this.titleInput }/>
                         <div className="buttons">
                             <div className="no" onClick={ this.addNewListOpen }>cancel</div>
                             <div className="yes" onClick={ this.creatTitleByButton }>confirm</div>

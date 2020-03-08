@@ -7,7 +7,6 @@ import Topbar from "./TopBar";
 import BoardLists from "./HomePageBoardLists";
 import Notifications from "./HomePageNotifications";
 import Editors from "./HomePageEditors";
-// import fire from "../src/fire";
 import { db } from "../src/fire";
 import Gear from "../images/gear.png";
 import "../css/homePage.css";
@@ -39,8 +38,6 @@ class HomePage extends React.Component {
     componentDidUpdate(){
         if ( this.state.currentUserBackground === "" && this.props.firebaseUid !== "" ) {
             const firebaseUid = this.props.firebaseUid
-            console.log("run componentDidMount")
-
             db.collection("Boards").doc(firebaseUid).get()
             .then((querySnapshot) => {
                 console.log("get background")
@@ -51,12 +48,10 @@ class HomePage extends React.Component {
 
             db.collection("Users").doc(firebaseUid).get()
             .then((querySnapshot) => {
-                console.log("get homepageCover")
                 this.setState(() => {
                     return ({ homepageCover: querySnapshot.data().homepageCover })
                 })
             })
-            
             this.getBeInvitedData(firebaseUid);
 
             db.collection("Users/" + firebaseUid + "/invitation").orderBy("index").get()
@@ -88,7 +83,6 @@ class HomePage extends React.Component {
             }).catch((error) =>{
                 console.log(error.message);
             })
-            
         }
     }
 
@@ -123,7 +117,7 @@ class HomePage extends React.Component {
                     <div className="imgUpload" style={{ display: this.state.isBackgroundEdited ? "block" : "none" }}>                      
                         <label action="/somewhere/to/upload" encType="multipart/form-data">
                             <img src={ Gear }/>             
-                            <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.uploadFile } style={{display:'none' }} />    
+                            <input name="progressbarTW_img" type="file" accept="image/gif, image/jpeg, image/png" onChange={ this.uploadFile } style={{display: "none"}} />    
                         </label>
                     </div>
                 </div>

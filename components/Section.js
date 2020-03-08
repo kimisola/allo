@@ -7,7 +7,6 @@ import SectionItemTransform from "./drag-dropSectionComment/SectionItemTransform
 import SectionWrapper from "./drag-dropSectionWrapper/SectionWrapper";
 import SectionWrapperMark from "./drag-dropSectionWrapper/SectionWrapperMark";
 import SectionWrapperTransform from "./drag-dropSectionWrapper/SectionWrapperTransform";
-// import fire from "../src/fire";
 import { db } from "../src/fire";
 
 class Section extends React.Component {
@@ -80,7 +79,7 @@ class Section extends React.Component {
             console.log(markIndex)
             if ( markIndex <= 0 ) {
                 markIndex = 0;
-            }else if ( markIndex > this.props.listTitle.length-1 ) {
+            } else if ( markIndex > this.props.listTitle.length-1 ) {
                 markIndex = this.props.listTitle.length-1;
             }
             this.setState({
@@ -106,7 +105,6 @@ class Section extends React.Component {
             document.removeEventListener("pointermove", move);
             document.removeEventListener("pointerup", up);
 
-            // const db = fire.firestore();
             let firebaseUid = "";
             if ( this.props.currentBoard.length > 0) {
                 firebaseUid = this.props.currentBoard
@@ -164,10 +162,10 @@ class Section extends React.Component {
         console.log("offset", offset)
         console.log("rect", rect)
         this.setState({
-                dragInfoItem: {
-                    left:x, top:y, theme:theme, row:row, markTheme:theme, markRow: row
-                },
-                itemHeight: itemHeight
+            dragInfoItem: {
+                left:x, top:y, theme:theme, row:row, markTheme:theme, markRow: row
+            },
+            itemHeight: itemHeight
         });
         console.log("rect", this.state.height)
         const move = (e) => {
@@ -216,7 +214,6 @@ class Section extends React.Component {
             document.removeEventListener("pointerup", up);
 
             // write in db
-            // const db = fire.firestore();
             let dbData = [];
             let firebaseUid = "";
             if ( this.props.currentBoard.length > 0) {
@@ -234,9 +231,8 @@ class Section extends React.Component {
                     let sourceItem = db.collection("Boards/" + firebaseUid + "/Lists/"+ sourceThemeRef +"/Items").doc(sourceItemRef)
                     sourceItem.get().then((querySnapshot) => {
                         dbData.push(querySnapshot.data());
-                        sourceItem.delete().then(() => {   
-                            console.log("Document successfully deleted!");
-                        }).catch((error) => {
+                        sourceItem.delete()
+                        .catch((error) => {
                             console.error("Error removing document: ", error);
                         });
 
@@ -246,7 +242,7 @@ class Section extends React.Component {
                             dbData[0].index = ((destinationRow + 1)*2 )-1
                             console.log("destinationRow", destinationRow, dbData[0])
 
-                            let ref = db.collection("Boards/" + firebaseUid + "/Lists/"+ destinationTheme +"/Items").doc()
+                            const ref = db.collection("Boards/" + firebaseUid + "/Lists/"+ destinationTheme +"/Items").doc()
                             ref.set(dbData[0])
                             .then(() => {
                                 db.collection("Boards/" + firebaseUid + "/Lists").orderBy("index").get()
