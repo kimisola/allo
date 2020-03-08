@@ -175,7 +175,7 @@ class Section extends React.Component {
             let x = e.clientX - offset.x;
             let y = e.clientY - offset.y;
             let themeWidth = 278;
-            let rowHeight = 200;
+            let rowHeight = 130;
             let markTheme = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);  //代表同主題寬度 x 軸
             let markRow = Math.floor(( y + rect.height/3 ) / rowHeight);  //代表主題內留言高度 y 軸
             console.log("markTheme, markRow", markTheme, markRow)
@@ -187,8 +187,8 @@ class Section extends React.Component {
 
             if ( markRow <= 0 ) {
                 markRow = 0;
-            } else if ( markRow > this.props.text[markTheme].length-1 ) {
-                markRow = this.props.text[markTheme].length-1;
+            } else if ( markRow > this.props.text[markTheme].length ) {
+                markRow = this.props.text[markTheme].length;
             }
             this.setState({
                 dragInfoItem: {
@@ -297,22 +297,33 @@ class Section extends React.Component {
         const dragInfoItem = this.state.dragInfoItem;
 
         for ( let i = 0; i < texts.length; i++ ) {
-            items.push([]);
+            items.push([]);  // 關鍵在 push 的先後順序
             for ( let j = 0; j < texts[i].length; j++ ) {
-                if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i <= dragInfoItem.theme && j <= dragInfoItem.row ) {
-                    items[i].push (<SectionItemMark key={ `${i}SectionItemMark${j}` } i={ i } style={ style }/>)
+                // 因為是往上拖曳， j <= 原本所在的位置所以要先 push mark 使他先渲染出來
+                if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && j <= dragInfoItem.row ) { 
+                    items[i].push (<SectionItemMark key={ `${i}SectionItemMark${j}` } style={ style }/>)
                 }
 
-                if ( i === dragInfoItem.theme && j === dragInfoItem.row ) {
+                // 渲染抓取的目標物(傾斜)
+                if ( i === dragInfoItem.theme && j === dragInfoItem.row ) { 
                     items[i].push (<SectionItemTransform key={ `${i}SectionItemTransform${j}` } i={ i } j={ j } texts={ texts } dragItem={ this.dragItem } dragInfoItem={ dragInfoItem }/>)
                 } else {
+                    // 留言拖曳到不同主題時的情境。因為如果 j 往下拖曳到大於自己原本所在的位置時，會先經過 else 的判斷式，先渲染出沒有拖曳事件的 component，
+                    // 程式再往下跑到 314 行渲染出大於時的 mark，所以這邊要先判斷是否是拖曳到不同主題，且往下拖曳
+                    if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i !== dragInfoItem.theme && j > dragInfoItem.row ) {
+                        items[i].push (<SectionItemMark key={ `${i}SectionItemMark${j}` } style={ style }/>)
+                    }
                     items[i].push (<SectionItem key={ `${i}SectionItem${j}` } i={ i } j={ j } texts={ texts } dragItem={ this.dragItem }/>)
-                }
+                }   // ↑ 沒有 drag-drop 事件時的渲染
 
-                if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i > dragInfoItem.theme && j > dragInfoItem.row ) {
-                    items[i].push (<SectionItemMark key={ `${i}SectionItemMark${j}` }  i={ i+100 } style={ style }/>)
+                // 因為是往下拖曳， j > 原本所在的位置所以是後 push mark
+                if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i === dragInfoItem.theme && j > dragInfoItem.row ) { 
+                    items[i].push (<SectionItemMark key={ `${i}SectionItemMark${j}` } style={ style }/>)
                 }
-
+            }
+            // 當把 item 跨主題移動到未有留言的主題或是跨主題的最下方(因為該主題的留言長度會維持原樣，所以如果多塞一個 item 到最下方，j 會進不了 for 迴圈，所以會無法顯示 mark)
+            if ( i === dragInfoItem.markTheme && texts[i].length === dragInfoItem.markRow) {  
+                items[i].push (<SectionItemMark key={ `${i}SectionItemMark${texts[i].length}` } style={ style }/>)
             }
         }
 
@@ -337,7 +348,6 @@ class Section extends React.Component {
             if (i === dragInfo.markIndex && i > dragInfo.index) {
                 elements.push(<SectionWrapperMark key={ `${i}SectionWrapperMark` } i={ i } style={ style }/>)
             }
-
         }    
         return(
             <React.Fragment>

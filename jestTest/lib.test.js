@@ -2,7 +2,7 @@ import homePageReducer from '../reducers/homePageReducer';
 
 //輸入 initial state 與 action 後，返回預期的 state
 
-describe('homePageReducer', () => {
+describe("homePageReducer", () => {
 
 	let HomePageReducer;
 	beforeEach(() => {

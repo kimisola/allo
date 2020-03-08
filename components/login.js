@@ -97,7 +97,7 @@ class LoginPage extends React.Component {
         const textContent = [ 
             <div className="textContent">
                 <div className="details"style={{ textAlign: "left" }}>
-                    <p>a-llo’s boards enable you to organize and prioritize your projects in a fun, flexible, and rewarding way.</p>
+                    <p>a-llo’s boards enable you to organize your projects in a fun and more flexible.</p>
                 </div>
                 <div className="slogan">
                     <p>Enhance your teamwork </p>
@@ -215,13 +215,13 @@ class LoginPage extends React.Component {
                             </div>
                             <div className="text">
                                 <h2>-Sectional schedule management</h2>
-                                <p>Drag and drop between list and comment offers you more flexibility.</p>
+                                <p>Drag and drop between theme and card offers you more flexibility.</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="login-footer">
-                        <div>&copy; 2020 a-llo Copyright </div>
+                        <div>Copyright &copy; 2020 Anny Lin. All rights reserved. </div>
                     </div>
                 </div>
             </React.Fragment>
