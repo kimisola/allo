@@ -20,23 +20,6 @@
     width: 120px; margin-left: -13px;
 }
 
-/* .login-page>.login-topBar>.topBar-Right>.guide {
-    font-size: 20px;line-height: 36px; color: white;margin-right: 20px;
-}
-
-.login-page>.login-topBar>.topBar-Right>.regist {
-    width: 100px; height: 46px; color: white; border-radius: 10px;font-weight: bold;font-size: 20px;line-height: 46px;margin-right: 20px;
-}
-
-.login-page>.login-topBar>.topBar-Right>.regist:hover {
-    background-color:rgba(255, 255, 255, 0.7); color: rgba(0, 146, 199, 1);
-}
-
-.login-page>.login-topBar>.topBar-Right>.login {
-    width: 100px; height: 46px; color: rgba(0, 146, 199, 1);background-color:white;border-radius: 10px;font-weight: bold;font-size: 20px;line-height: 46px;margin-right: 20px;
-} */
-
-/* background-color: rgba(0, 146, 199, 1) */
 .login-page>.login-background {
     background: linear-gradient(135deg, #0079bf, #5067c5); padding: 30px 0;
 }
@@ -47,8 +30,24 @@
     display: flex; flex-direction: column-reverse; margin: 0% 0 3% 3%;
 }
 .login-page>.login-background>.login-main>.login-img {
-    width: 52%; display: flex; flex-direction: column-reverse;
+    width: 52%; display: flex; flex-direction: column-reverse;  height: 70vh;
 }
+.login-page>.login-background>.login-main>.login-img img {
+    position: absolute;
+    width: 42%;
+    animation-name: oxxo;
+    animation-duration:1s;
+    animation-timing-function:cubic-bezier(.69,1.59,.49,.7);
+    filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+}
+@keyframes oxxo {
+    from {
+        bottom: 800px;
+    }
+    to {
+        bottom: 0px;
+    }
+  }
 
 .login-page>.login-background>.login-main>.login-content>.signinArea {
     transition: 0.5s 0.5s cubic-bezier(0.25,0.1,0.25,1); max-width: 400px; display: flex; flex-direction: column;
@@ -68,7 +67,7 @@
 }
 
 .login-page>.login-content {
-    display: flex; flex-direction: column; width: 70%; margin: 0 auto;
+    display: flex; flex-direction: column; width: 80%; margin: 0 auto;
 }
 
 .login-page>.login-content>.section {
@@ -76,7 +75,15 @@
 }
 
 .login-page>.login-content>.section>.picture {
-    width: 50%;
+    width: 40%;filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));border-radius: 8px;
+}
+
+.login-page>.login-content>.section>.picture img{
+    border-radius: 8px;
+}
+
+.login-page>.login-content>.section>.picture2 {
+    width: 40%;filter: drop-shadow(-12px 12px 7px rgba(0, 0, 0, 0.5));border-radius: 8px;
 }
 
 .login-page>.login-content>.section>.text {
@@ -91,13 +98,6 @@
 .login-page>.login-background>.login-main>.login-content>.signinArea>.signup {
     display: flex;flex-direction: column;width: 400px;transition: 0.5s 0.5s cubic-bezier(0.25,0.1,0.25,1);justify-content: center;align-items: center;
 }
-
-/* .login-page>.login-background>.login-main>.login-content>.signinArea>.login>.passwordDiv {
-    display: flex; justify-content: space-between;
-}
-.login-page>.login-background>.login-main>.login-content>.signinArea>.login>.passwordDiv>.login-img {
-    width: 42px;
-} */
 
 .login-page>.login-background>.login-main>.login-content>.signinArea>.signup>.errmsg ,
 .login-page>.login-background>.login-main>.login-content>.signinArea>.login>.errmsg {
@@ -114,11 +114,6 @@
 .login-page>.login-background>.login-main>.login-content>.signinArea>.login>.login-div button{
     width: 261px; padding: 5px 0;height: 30px; color: white; font-weight: bold; background-color: rgba(255, 193, 77, 1); border: none;cursor: pointer;
 }
-
-/* .login-page>.login-background>.login-main>.login-content>.signinArea>.signup>.rigister-div>.rigister-img,
-.login-page>.login-background>.login-main>.login-content>.signinArea>.login>.login-div>.login-img{
-    width: 48px;
-} */
 
 .login-page>.login-background>.login-main>.login-content>.signinArea>.login>.googleBar {
     display: flex;justify-content: center; flex-direction: column;
@@ -174,29 +169,32 @@
 
 
 @media (min-width: 1601px) {
-    .login-page>.login-background>.login-main>.login-img {
+    .login-page>.login-background>.login-main>.login-img img{
         width: 42%;
     }
 }
 
-@media (min-width: 1450px) and (max-width: 1600px) {
-    .login-page>.login-background>.login-main>.login-img {
+@media (min-width: 1451px) and (max-width: 1600px) {
+    .login-page>.login-background>.login-main>.login-img img{
         width: 48%;
     }
 }
 
-@media (min-width: 1121px) and (max-width: 1200px) {
+@media (min-width: 1121px) and (max-width: 1450px) {
     .login-page>.login-background>.login-main>.login-content {
-        margin: 10% 6% 3.5% 6%; width: 80%;
+        margin: 10% 6% 3.5% 6%;
     }
-    .login-page>.login-background>.login-main>.login-img {
-        width: 130%;
+    .login-page>.login-background>.login-main>.login-img img{
+        width: 52%;
     }
 }
 
 @media (min-width: 1001px) and (max-width: 1120px) {
     .login-page>.login-background>.login-main>.login-content {
         margin: 6% 0 3% 3%;
+    }
+    .login-page>.login-background>.login-main>.login-img img{
+        width: 52%;
     }
 }
 @media (min-width: 900px) and (max-width: 1000px) {
@@ -208,6 +206,9 @@
     }
     .login-page>.login-background>.login-main>.login-content>.textContent>.slogan p {
         font-size: 28px;
+    }
+    .login-page>.login-background>.login-main>.login-img img{
+        width: 52%;
     }
 }
 

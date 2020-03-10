@@ -85,18 +85,25 @@ class LoginPage extends React.Component {
             },
             signup: {
                 opacity: this.state.isRegisted ? "1" : "0" ,
-                height: this.state.isRegisted ? "250px" : "0px", 
+                height: this.state.isRegisted ? "285px" : "0px", 
                 zIndex: this.state.isRegisted ? "10" : "",
             },
             login: {
                 opacity: this.state.isLoggedin ? "1" : "0" ,
-                height: this.state.isLoggedin ? "250px" : "0px",
+                height: this.state.isLoggedin ? "285px" : "0px",
                 zIndex: this.state.isLoggedin ? "10" : "",
+            },
+            registerButton: {
+                color: this.state.isRegisted ? "rgba(51, 51, 51, 0.8)" : "white",
+            },
+            loginButton: {
+                color: this.state.isLoggedin ? "rgba(51, 51, 51, 0.8)" : "white",
             }
         }
+        
         const textContent = [ 
-            <div className="textContent">
-                <div className="details"style={{ textAlign: "left" }}>
+            <div className="textContent" key="a1">
+                <div className="details" style={{ textAlign: "left" }}>
                     <p>a-llo’s boards enable you to organize your projects in a fun and more flexible.</p>
                 </div>
                 <div className="slogan">
@@ -107,8 +114,8 @@ class LoginPage extends React.Component {
             ];
 
         const sign = [ 
-            <div className="textContent">
-                <div className="SignDetails" style={{textAlign: "center", fontSize:"19px" }}>
+            <div className="textContent" key="a1">
+                <div className="SignDetails" style={{ textAlign: "center", fontSize:"19px" }}>
                     <p>Sign up for your account</p>
                 </div>
                 <div className="slogan">
@@ -116,9 +123,8 @@ class LoginPage extends React.Component {
             </div>
             ];
 
-            
         const login = [ 
-            <div className="textContent">
+            <div className="textContent" key="a1">
                 <div className="details" style={{ textAlign: "center", fontSize:"19px" }}>
                     <p>Log in to a-llo</p>
                 </div>
@@ -147,17 +153,17 @@ class LoginPage extends React.Component {
                         <div className="login-main">
                             <div className="login-content">
                                 <div className="buttons">
-                                    <div className="registerButton" onClick={ () => this.switchSigninArea(true, false, true) }>
+                                    <div className="registerButton" onClick={ () => this.switchSigninArea(true, false, true) } style={ style.registerButton }>
                                         <label className="b-button switch-register" value="Register">Register</label>
                                     </div>
-                                    <div className="loginButton" onClick={ () => this.switchSigninArea(false, true, true) }>
+                                    <div className="loginButton" onClick={ () => this.switchSigninArea(false, true, true) } style={ style.loginButton }>
                                         <label className="b-button switch-login" type="button" value="Login">Login</label>
                                     </div>
                                 </div>
                                 <div className="signinArea" style={ style.signinArea }>
 
                                     {/* 註冊滑出的 div */}
-                                    <div className="signup" style={ style.signup }>
+                                    <div className="signup" style={ style.signup } key="signup">
                                         <div className="rigister-div">
                                             <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
                                             <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword } onKeyPress={ this.registerWithFireByEnter }/>
@@ -167,7 +173,7 @@ class LoginPage extends React.Component {
                                     </div>
 
                                     {/* 登入滑出的 div */}
-                                    <div className="login" style={style.login}>
+                                    <div className="login" style={style.login} key="login">
                                         <div className="login-div">
                                             <input type="email" placeholder="Email *" onChange={ this.getEmail }/>
                                             <input label="Password" placeholder="Password *" type="password" onChange={ this.getPassword } onKeyPress={ this.loginWithFireByEnter }/>
@@ -205,7 +211,7 @@ class LoginPage extends React.Component {
                                 <h2>-Cooperate with anyone.</h2>
                                 <p>Whether it is your personal jobs, team project or travel plan among friends and family. a-llo organizes and gets everything leap to the eye.</p>
                             </div>
-                            <div className="picture">
+                            <div className="picture picture2">
                                 <img src={ ContentImg2 }/>
                             </div>
                         </div>

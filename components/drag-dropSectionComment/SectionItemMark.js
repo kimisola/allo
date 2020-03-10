@@ -17,10 +17,10 @@ class SectionItemMark extends React.Component {
     }
 }
 
-const mapStateToProps = (state,ownprops) => {
+const mapStateToProps = (state, ownprops) => {
     return {
-        style:ownprops.style,
-        key:ownprops.key
+        style: ownprops.style,
+        key: ownprops.key
     }
 }
 export default connect(mapStateToProps)(SectionItemMark);

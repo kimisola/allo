@@ -14,7 +14,6 @@ import "../css/main.css";
 
 const store = createStore(rootReducer);
 
-
 class App extends React.Component {
     constructor(props){
         super(props);
@@ -23,7 +22,6 @@ class App extends React.Component {
     componentDidMount() {
         this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
             (user) => {
-                console.log("App userrrrrrrrrr", user)
                 if (user) {
                     let firebaseUid = user.uid;
                     let userDisplayName;
@@ -50,7 +48,6 @@ class App extends React.Component {
                     ref.get().then((querySnapshot) => {
                         if ( querySnapshot.data() !== undefined ) {
                             const ref = db.collection("Users").doc(firebaseUid)
-                            console.log("querySnapshotquerySnapshot")
                             ref.update({
                                 name: userDisplayName,
                                 photo: userPhotoURL,

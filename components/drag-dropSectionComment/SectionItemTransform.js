@@ -12,7 +12,7 @@ class SectionItem extends React.Component {
         const j = this.props.j
         const texts = this.props.texts
         let dragInfoItem = this.props.dragInfoItem
-        const key =this.props.key
+        const key = this.props.key
         return(
             <div className="item" index={ `${i}-${j}` }  key={ key } style={{ left:dragInfoItem.left, top:dragInfoItem.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }}>
                 <div className="itemDragArea" onPointerDown={ this.props.dragItem }></div>
@@ -31,14 +31,14 @@ class SectionItem extends React.Component {
     }
 }
 
-const mapStateToProps = (state,ownprops) => {
+const mapStateToProps = (state, ownprops) => {
     return {
         i: ownprops.i,
         j: ownprops.j,
-        texts:ownprops.texts,
-        dragItem:ownprops.dragItem,
-        dragInfoItem:ownprops.dragInfoItem,
-        key:ownprops.key
+        texts: ownprops.texts,
+        dragItem: ownprops.dragItem,
+        dragInfoItem: ownprops.dragInfoItem,
+        key: ownprops.key
     }
 }
 export default connect(mapStateToProps)(SectionItem);

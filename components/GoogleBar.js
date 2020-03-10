@@ -38,7 +38,7 @@ class GLogin extends React.Component {
                   uid: useruid,
                   firebaseuid: firebaseUid,
               }).catch((error) => {
-                  console.error("Error writing document: ", error);
+                  console.error("Error writing document: ", error.message);
               })
             }           
           }
@@ -62,7 +62,6 @@ class GLogin extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
       isBoardLoaded: state.board.isBoardLoaded,
       text: state.board.text,

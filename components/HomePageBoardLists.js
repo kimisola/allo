@@ -29,7 +29,7 @@ class BoardLists extends React.Component {
                             boardBackground={ item.backgroundURL }
                             targetLink={ item.userFirebaseuid }
                             boardName={ item.userName }
-                            key={index}
+                            key={ index }
                             /> : ""
                         )}
                         </div>

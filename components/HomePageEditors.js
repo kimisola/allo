@@ -24,7 +24,7 @@ class Editors extends React.Component {
                         <div className="category">Access List</div>
                         <div className="contents">
                             { this.props.invitationData.map((item, index) =>
-                                <div className="content" key={index}>
+                                <div className="content" key={ index }>
                                     <div className="userDetails">
                                         <div className="userPhoto">
                                             <img src={ item.userPhoto } />
@@ -44,7 +44,7 @@ class Editors extends React.Component {
     }
 }
 
-const mapStateToProps = (state, ownprops) => {
+const mapStateToProps = (state) => {
     return {
         firebaseUid: state.board.firebaseUid,
         userEmail: state.board.userEmail,

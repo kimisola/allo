@@ -14,7 +14,7 @@
 
 /* top bar */
 #root>.topBar {
-    display: flex; background-color: #026aa7; justify-content: space-between; flex-wrap: wrap; padding: 0px 5px;
+    display: flex; background-color: #026aa7; justify-content: space-between; flex-wrap: wrap; padding: 0px 5px; height: 38px;
 }
 
 #root>.topBar>.topLeft,
@@ -50,7 +50,7 @@
 #root>.topBar>.topRight>.signOutImg img,
 #root>.topBar>.topRight>.boardList>.alert img,
 #root>.topBar>.topLeft>.home img {
-    width: 22px; cursor: pointer;
+    width: 22px; height: 22px; cursor: pointer;
 }
 
 #root>.topBar>.topRight>.memberIcon {
@@ -58,7 +58,7 @@
 }
 
 #root>.topBar>.topRight>.memberIcon img {
-    border-radius: 100%;
+    border-radius: 100%;height: 32px;
 }
 #root>.topBar>.topLeft>.home,
 #root>.topBar>.topRight>.memberIcon,
@@ -72,17 +72,17 @@
 #root>.topBar>.topRight>.boardList>.alert>.alertMsg {
     border-radius: 100%; background-color: rgba(250,0,0,0.9); width: 18px;height: 18px;position: absolute;right: -2px;top: -1px;text-align: center;color: white;padding-bottom: 3px;
 }
-#root>.topBar>.topRight>.alertDiv>a .alertMenu {
+#root>.topBar>.topRight>.alertDiv>.alertMenu {
     width: 150px;border-radius: 3px; background-color: rgba(0,0,0,0.6); z-index: 50;
 }
-#root>.topBar>.topRight>a .alertMenu>.showMenuBackground {
+#root>.topBar>.topRight>.alertMenu>.showMenuBackground {
     position: fixed; top: 0; right: 0;left: 0;bottom: 0;
 }
 
-#root>.topBar>.topRight>a .alertMenu li {
+#root>.topBar>.topRight>.alertMenu li {
     background-color: rgba(0,0,0,0.6); color: white; font-size: 13px; list-style:none; padding: 3px 8px 3px 8px; z-index: 5; list-style:none;
 }
-#root>.topBar>.topRight>a .alertMenu li:hover {
+#root>.topBar>.topRight>.alertMenu li:hover {
     background-color: rgba(0,0,0,0.8);
 }
 
@@ -140,21 +140,6 @@
 }
 
 
-/* .homepage>.mainContent>.menu>.list>.listTitle {
-    position: relative;
-}
-.homepage>.mainContent>.menu>.list>.listContent>.content {
-    display: flex;justify-content: space-between;margin-bottom: 8px;padding: 4px 10px;
-}
-
-.homepage>.mainContent>.menu>.list>.listContent>.content:hover {
-    background-color: rgba(211, 211, 211,0.28); border-radius: 5px;
-}
-.homepage>.mainContent>.menu>.list>.listContent>.content>.delete {
-    width: 16px;
-} */
-
-
 /* boardLists */
 .homepage>.mainContent>.boardLists {
     margin: 0 0 70px 100px; max-height: 700px; border:1px solid rgba(211, 211, 211, 0.6);width: 75%;flex-grow: 4; display: flex; flex-direction: column;background-color: rgba(254, 246, 251, 0.36);box-shadow:3px 3px 12px lightgray
@@ -208,7 +193,6 @@
 
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts {
     display: flex; flex-wrap: wrap;align-items: center;
-
 }
 
 .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts>.accept,
@@ -287,7 +271,7 @@
     }
 }
 
-@media (min-width: 750px) and (max-width: 860px) {
+@media (min-width: 751px) and (max-width: 860px) {
     .homepage>.mainContent>.menu {
         justify-content: space-between; margin-left: 0; font-size: 14px;
     }
@@ -302,17 +286,17 @@
     .homepage>.mainContent>.editors>.section>.contents>.content {
         width: 100%;
     }
-}
-
-@media (min-width: 751px) and (max-width: 860px) {
-    .homepage>.mainContent>.editors>.section>.contents>.content {
-        width: 100%;
+    .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts {
+        display: none;
     }
 }
 
 @media (min-width: 651px) and (max-width: 750px) {
     .homepage>.mainContent>.editors>.section>.contents>.content {
         width: 100%;
+    }
+    .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts {
+        display: none;
     }
 }
 
@@ -334,6 +318,9 @@
     .homepage>.mainContent>.editors>.section>.contents>.content {
         width: 100%;
     }
+    .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts {
+        display: none;
+    }
 }
 
 @media (min-width: 391px) and (max-width: 450px) {
@@ -354,9 +341,12 @@
     .homepage>.mainContent>.editors>.section>.contents>.content {
         width: 100%;
     }
+    .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts {
+        display: none;
+    }
 }
 
-@media (max-width: 390px) {
+@media (min-width: 360px) and (max-width: 390px) {
     .homepage {
         width: 90%; margin: -60px auto 0px auto;
     }
@@ -369,9 +359,13 @@
     .homepage>.mainContent>.menu>a .readBoard, 
     .homepage>.mainContent>.menu>a .readNotice, 
     .homepage>.mainContent>.menu>a .readEditor {
-        padding: 0 10px 0 10px;
+        padding: 0 5px;
     }
     .homepage>.mainContent>.editors>.section>.contents>.content {
         width: 100%;
     }
+    .homepage>.mainContent>.notifications>.section>.bars>.sanckbar>.buts {
+        display: none;
+    }
 }
+

@@ -28,8 +28,6 @@ class ThemeTitle extends React.Component {
 
     deleteTheme = () => {
         let t = this.state.targetIndex
-        console.log("run delete theme", t)
-
         let firebaseUid = "";
         if ( this.props.currentBoard !== "" ) {
             firebaseUid = this.props.currentBoard
@@ -39,7 +37,6 @@ class ThemeTitle extends React.Component {
 
         db.collection("Boards/" + firebaseUid + "/Lists").where("index", "==", ((t+1)*2)).get()
         .then((querySnapshot) => {
-            console.log(querySnapshot.docs[0].id)
             let docId = querySnapshot.docs[0].id
 
             //避免誤刪 code 維持 get 改成 delete 就可以刪除了
@@ -64,7 +61,6 @@ class ThemeTitle extends React.Component {
     updateValue = (event) => {
         let newValue = this.refs.theTextInput.value
         let indexOfValue = this.props.themeIndex
-        console.log("updateValue",newValue, indexOfValue )
         if ( event.key === "Enter" ) {
             if ( newValue.length > 41 ) {
                 alert("Beyond the word limit!")
@@ -89,8 +85,6 @@ class ThemeTitle extends React.Component {
                     .update({
                         title: newValue,
                         index: ((indexOfValue+1)*2)
-                    }).then(() => {
-                        console.log("Document successfully written!");
                     }).catch((error) => {
                         console.error("Error removing document: ", error.message);
                     })

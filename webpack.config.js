@@ -19,11 +19,6 @@ module.exports = {
                'babel-loader',
             ],
         },
-        // { 
-        //   test: /\.js$/, 
-        //   exclude: /node_modules/, 
-        //   loader: "babel-loader" 
-        // },
         {
           test: /\.css$/,
           use: [
@@ -37,5 +32,5 @@ module.exports = {
   　　　}
       ],
     },
-    mode: 'development'
+  mode: 'development'
 };

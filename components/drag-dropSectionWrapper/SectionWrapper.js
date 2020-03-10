@@ -14,7 +14,7 @@ class SectionWrapper extends React.Component {
         const item = this.props.item
         const key =this.props.key
         return(
-            <div className="sectionWrapper" key={key} index={i}>
+            <div className="sectionWrapper" key={ key } index={ i }>
                 <div className="section">
                     <div className="dragArea" onPointerDown={ this.props.dragList }></div>
                     <ThemeTitle themeIndex={ i } title={ item }/>
@@ -26,14 +26,14 @@ class SectionWrapper extends React.Component {
     }
 }
 
-const mapStateToProps = (state,ownprops) => {
+const mapStateToProps = (state, ownprops) => {
     return {
         i: ownprops.i,
         stopEvent: ownprops.stopEvent,
-        items:ownprops.items,
-        dragList:ownprops.dragList,
-        item:ownprops.item,
-        key:ownprops.key
+        items: ownprops.items,
+        dragList: ownprops.dragList,
+        item: ownprops.item,
+        key: ownprops.key
     }
 }
 export default connect(mapStateToProps)(SectionWrapper);

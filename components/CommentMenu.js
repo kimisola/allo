@@ -54,7 +54,7 @@ class CommentMenu extends React.Component {
     }
 
     setDefault = () => {
-        const tags = this.state.commentTags  //reset tag value
+        const tags = this.state.commentTags
         const tagsState = [ "planning", "process", "risk", "achived" ]
         tagsState.forEach((element) => {
             if ( tags[element] ) { 
@@ -96,8 +96,6 @@ class CommentMenu extends React.Component {
     deleteComment = () => {
         let listId = this.props.listId;
         let comId = this.props.comId;
-        console.log(listId,"listId")
-        console.log(comId,"comId")
 
         let firebaseUid = "";
         if ( this.props.currentBoard !== "" ) {
@@ -170,9 +168,7 @@ class CommentMenu extends React.Component {
     }
 
     getCoordinate = () => {
-        console.log(this.props.coordinate.current.getBoundingClientRect(), window.innerWidth);
         let data = this.props.coordinate.current.getBoundingClientRect()
-        console.log(data.x);
         if ( data.y + 240 >  window.innerHeight && data.x + 420 > window.innerWidth) {
             this.setState(() => {  
                 const xCoordinate = (window.innerWidth - 430)
@@ -272,7 +268,7 @@ class CommentMenu extends React.Component {
     }
 }
 
-const mapStateToProps = (state ,ownprops) => {
+const mapStateToProps = (state, ownprops) => {
     return {
         listTitle: state.board.listTitle,
         text: state.board.text,

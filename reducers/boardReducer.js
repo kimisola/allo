@@ -10,10 +10,6 @@ let boardState = {
     //change css of tags
     tagsDisplayChanged: false,
 
-    // index value for next new added title and comment item, default is 2
-    // indexForTitle: 2,
-    // indexForItem: 2,
-
     //user profile
     isLoggedIn: false,
     userEmail: "",
@@ -26,11 +22,7 @@ let boardState = {
     currentBoard: "",
 }
 
-
 export default function boardReducer(state = boardState, action) {  
-    console.log("reducer run boardReducer")
-    console.log("boardReducer", action)
-    console.log("boardReducer", boardState)
 
     switch(action.type) {
         case "SET_CURRENT_USER": {
@@ -63,12 +55,6 @@ export default function boardReducer(state = boardState, action) {
                 indexForTitle: action.storeTitleIndex
             });
         }
-
-        // case "setIndexForItem": {
-        //     return Object.assign({}, state, {
-        //         indexForItem: action.indexForItem
-        //     });
-        // }
 
         case "ADD_THEME": {
             return Object.assign({}, state, {
@@ -123,7 +109,7 @@ export default function boardReducer(state = boardState, action) {
             }); 
         }
 
-        case "GET_EDITED_VALUE": {  // 要複製多層
+        case "GET_EDITED_VALUE": {
             let text = state.text.slice(0);
             let list = text[action.listId].slice(0);
             let item = {...list[action.comId], text:action.newTextValue, tags:action.newTextTag, edited: action.edited, editorImg: action.editorImg};
@@ -142,7 +128,6 @@ export default function boardReducer(state = boardState, action) {
         }
 
         case "DRAG_DROP_THEME": {
-            console.log("drag-dropTheme", action.sourceIndex, action.destinationIndex)
             let listTitle = state.listTitle.slice(0);
             let removeTitle = listTitle.splice(action.sourceIndex, 1)
             listTitle.splice(action.destinationIndex, 0, `${removeTitle}`)
@@ -150,7 +135,6 @@ export default function boardReducer(state = boardState, action) {
             let text = state.text.slice(0);
             let removeText = text.splice(action.sourceIndex, 1)
             text.splice(action.destinationIndex, 0, removeText[0])
-            console.log("drag-dropTheme", text, listTitle)
             return Object.assign({}, state, {
                 text: text.slice(0),
                 listTitle: listTitle.slice(0),
@@ -158,12 +142,9 @@ export default function boardReducer(state = boardState, action) {
         }
 
         case "DRAG_DROP_TEXT": {
-            console.log("drag-dropText", action.sourceTheme, action.sourceRow, action.destinationTheme, action.destinationRow)
             let text = state.text.slice(0);
             let removeText = text[action.sourceTheme].splice(action.sourceRow, 1)
-            console.log("drag-dropText", text[action.destinationTheme])
             text[action.destinationTheme].splice(action.destinationRow, 0, removeText[0])
-            console.log("drag-dropText", removeText[0])
             return Object.assign({}, state, {
                 text: text.slice(0),
             });

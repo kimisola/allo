@@ -8,7 +8,7 @@ class SectionWrapperMark extends React.Component {
 
     render(){
         const style = this.props.style
-        const key =this.props.key
+        const key = this.props.key
         const i = this.props.i
         return(
             <div className="sectionWrapper" index={i} key={key}>
@@ -18,11 +18,11 @@ class SectionWrapperMark extends React.Component {
     }
 }
 
-const mapStateToProps = (state,ownprops) => {
+const mapStateToProps = (state, ownprops) => {
     return {
-        style:ownprops.style,
-        i:ownprops.i,
-        key:ownprops.key
+        style: ownprops.style,
+        i: ownprops.i,
+        key: ownprops.key
     }
 }
 export default connect(mapStateToProps)(SectionWrapperMark);

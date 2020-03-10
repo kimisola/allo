@@ -14,12 +14,7 @@ class ReplyButtons extends React.Component {
     }
 
     accept = (index) =>{
-        console.log(index)
-        this.setState(prevState => {
-            return Object.assign({}, prevState, {
-                confirm: true
-            })
-        })
+        this.setState({ confirm: true })
         this.props.updateBeInvitedData(index, true);
         const firebaseUid = this.props.firebaseUid
         
@@ -39,16 +34,12 @@ class ReplyButtons extends React.Component {
 
     deny = (index) => {
         this.props.updateBeInvitedData(index, null);
-        this.setState(prevState => {
-            return Object.assign({}, prevState, {
-                confirm: null
-            })
-        })
+        this.setState({ confirm: null })
+
 
         const firebaseUid = this.props.firebaseUid
         db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
         .then((querySnapshot) => {
-            console.log(querySnapshot.docs[index].data().userFirebaseuid)
             const docId = querySnapshot.docs[index].id
             const ref = db.collection("Users/" + firebaseUid + "/beInvited").doc(docId)
             ref.update({

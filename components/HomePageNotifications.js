@@ -16,25 +16,25 @@ class Notifications extends React.Component {
                         <div className="category">Notifications</div>
                         <div className="bars">
                             {this.props.invitationData.map((item, index)=>
-                                <React.Fragment key={index}> 
+                                <React.Fragment key={ index }> 
                                 <div className="sanckbar">
                                     <div className="msg">
                                         <div className="imgDiv">
-                                            <img src={item.userPhoto} />
+                                            <img src={ item.userPhoto } />
                                         </div>
-                                        <p>{item.userName}　accepted your co-editing invitation.</p>
+                                        <p>{item.userName} accepted your co-editing invitation.</p>
                                     </div>
                                 </div>
                                 </React.Fragment>
                             )}
                             {this.props.beInvitedData.map((item, index)=>
-                                <React.Fragment key={index}> 
+                                <React.Fragment key={ index }> 
                                 <div className="sanckbar">
                                     <div className="msg">
                                         <div className="imgDiv">
-                                            <img src={item.userPhoto} />
+                                            <img src={ item.userPhoto } />
                                         </div>
-                                        <p>{item.confrm === null ? ` ${item.userName} invited you to edit his board.` : item.confirm ? `You accepted the invitation from ${item.userName}.` : `You denied the invitation from ${item.userName}.`}</p>
+                                        <p>{item.confrm === null ? `You denied the invitation from ${item.userName}. ` : item.confirm ? `You accepted the invitation from ${item.userName}.` : `${item.userName} invited you to edit his board.`}</p>
                                     </div>
                                     <div className="buts">
                                     <ReplyButtons confirm={ item.confirm } index={ index } userFirebaseuid={ item.userFirebaseuid }/> 

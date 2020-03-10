@@ -70,7 +70,7 @@ class Board extends React.Component {
             let firebaseUid = currentBoard;
             this.getCurrentBoardData(firebaseUid);
         }
-        if ( this.props.firebaseUid !== "" && beInvitedData.length === 0 && !this.state.lock ) {  //確保 didupdate 只跑一次
+        if ( this.props.firebaseUid !== "" && beInvitedData.length === 0 && !this.state.lock ) {
             this.getBeInvitedData(this.props.firebaseUid)
             this.setState({ lock: true })
         }

@@ -40,7 +40,6 @@ class HomePage extends React.Component {
             const firebaseUid = this.props.firebaseUid
             db.collection("Boards").doc(firebaseUid).get()
             .then((querySnapshot) => {
-                console.log("get background")
                 this.setState(() => {
                     return ({ currentUserBackground: querySnapshot.data().background })
                 })
@@ -162,7 +161,7 @@ class HomePage extends React.Component {
     }
 }
 
-const mapStateToProps = (state, ownprops) => {
+const mapStateToProps = (state) => {
     return {
         firebaseUid: state.board.firebaseUid,
         userEmail: state.board.userEmail,

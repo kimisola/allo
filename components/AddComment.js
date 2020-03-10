@@ -148,7 +148,7 @@ class AddComment extends React.Component {
     render(){
         return(
             <React.Fragment>
-                <div className="addItem" style={{display: this.state.isCommentWinShowed ? 'block' : 'none' }}>               
+                <div className="addItem" style={{display: this.state.isCommentWinShowed ? "block" : "none" }}>               
                     <div className="tags">
                         <div className="tag planning" style={{backgroundColor: this.state.commentTags.planning ? "#ff9f1a" : "grey" }} onClick={ () => this.selectTags("planning") }>Planning</div>
                         <div className="tag process" style={{backgroundColor: this.state.commentTags.process ? "#00c2e0" : "grey" }} onClick={ () => this.selectTags("process") }>Process</div>
@@ -190,7 +190,7 @@ class AddComment extends React.Component {
     }
 }
 
-const mapStateToProps = (state , ownprops) => {
+const mapStateToProps = (state, ownprops) => {
     return {
         index: ownprops.index,
         text: state.board.text,

@@ -30,13 +30,13 @@ class SectionItem extends React.Component {
     }
 }
 
-const mapStateToProps = (state,ownprops) => {
+const mapStateToProps = (state, ownprops) => {
     return {
         i: ownprops.i,
         j: ownprops.j,
-        texts:ownprops.texts,
-        dragItem:ownprops.dragItem,
-        key:ownprops.key
+        texts: ownprops.texts,
+        dragItem: ownprops.dragItem,
+        key: ownprops.key
     }
 }
 export default connect(mapStateToProps)(SectionItem);

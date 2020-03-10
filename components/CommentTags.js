@@ -53,7 +53,7 @@ class CommentTags extends React.Component {
     }
 }
 
-const mapStateToProps = (state ,ownprops) => {
+const mapStateToProps = (state, ownprops) => {
     return {
         item : ownprops.item,
         j :ownprops.j,

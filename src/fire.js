@@ -1,7 +1,6 @@
-/* installation: npm install firebase --save */
-import firebase from 'firebase';
-import 'firebase/auth';
-import 'firebase/firestore';
+import firebase from "firebase";
+import "firebase/auth";
+import "firebase/firestore";
 
 
 var firebaseConfig = {

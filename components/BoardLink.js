@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { switchBoard } from"../actions/actionCreators"
 
-class BoardLink extends React.Component {
+ class BoardLink extends React.Component {
     constructor(props){
         super(props);
     }
@@ -32,8 +32,8 @@ class BoardLink extends React.Component {
 
         return(
             <React.Fragment>
-                <div className="board" style={ boardStyle.board } onClick={ this.switchBoard } > 
-                    <Link to={ targetURL } style={ boardStyle.link }>  { this.props.boardName } </Link>
+                <div className="board" style={ boardStyle.board } onClick={ this.switchBoard }> 
+                    <Link to={ targetURL } style={ boardStyle.link }>{ this.props.boardName }</Link>
                 </div>
             </React.Fragment>
         )
@@ -58,3 +58,5 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(BoardLink);
+
+export { BoardLink }

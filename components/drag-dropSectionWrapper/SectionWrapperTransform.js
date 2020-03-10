@@ -13,7 +13,7 @@ class SectionWrapperTransform extends React.Component {
         const items = this.props.items
         const item = this.props.item
         let dragInfo = this.props.dragInfo
-        const key =this.props.key
+        const key = this.props.key
 
         return(
             <div className="sectionWrapper" key={key} index={i} style={{ left:dragInfo.left, top:dragInfo.top, position:"absolute", transform:"rotate(5deg)", zIndex: "100" }}>
@@ -28,15 +28,15 @@ class SectionWrapperTransform extends React.Component {
     }
 }
 
-const mapStateToProps = (state,ownprops) => {
+const mapStateToProps = (state, ownprops) => {
     return {
         i: ownprops.i,
         stopEvent: ownprops.stopEvent,
-        items:ownprops.items,
-        dragList:ownprops.dragList,
-        dragInfo:ownprops.dragInfo,
-        item:ownprops.item,
-        key:ownprops.key
+        items: ownprops.items,
+        dragList: ownprops.dragList,
+        dragInfo: ownprops.dragInfo,
+        item: ownprops.item,
+        key: ownprops.key
     }
 }
 export default connect(mapStateToProps)(SectionWrapperTransform);

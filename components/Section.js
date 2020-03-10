@@ -59,9 +59,6 @@ class Section extends React.Component {
             };
         let x = e.clientX - offset.x;  //這裡的 x y 是取得 div 最左上角為起點的座標數字 
         let y = e.clientY - offset.y;
-        console.log("index", index)
-        console.log("offset", offset)
-        console.log("rect", rect)
         this.setState({
             dragInfo:{
             left:x, top:y, index:index, markIndex:index
@@ -76,7 +73,6 @@ class Section extends React.Component {
             let y = e.clientY - offset.y;
             const themeWidth = 278;
             let markIndex = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);
-            console.log(markIndex)
             if ( markIndex <= 0 ) {
                 markIndex = 0;
             } else if ( markIndex > this.props.listTitle.length-1 ) {
@@ -95,7 +91,6 @@ class Section extends React.Component {
 
             let sourceIndex = index;
             let destinationIndex = this.state.dragInfo.markIndex;
-            console.log("sourceIndex , destinationIndex", sourceIndex , destinationIndex)
             this.props.dispatch({ type: "DRAG_DROP_THEME", sourceIndex, destinationIndex  })
             this.setState((preState)=>{
                 return {
@@ -124,9 +119,6 @@ class Section extends React.Component {
                 } else { 
                     finalIndex = ((destinationIndex+1)*2)+1 
                 }
-                console.log(beforeIndex)
-                console.log(afterIndex)
-                console.log(finalIndex)
                 ref.update({
                     index: finalIndex
                 })
@@ -145,40 +137,32 @@ class Section extends React.Component {
         e.preventDefault();
         e.stopPropagation();
         let item = e.currentTarget.parentElement;
-        console.log(item)
         let rect = item.getBoundingClientRect();
         let itemHeight = rect.height
         let index = item.getAttribute("index");
-        console.log(index)
         let theme = parseInt(index.split("-")[0])
         let row = parseInt(index.split("-")[1])
-        console.log(index,theme, row)
         let offset = {  //滑鼠所在位置到該 div 最左上的座標的距離  → rect.x y 所指 div 最左上角的座標
             x:e.clientX - rect.x,
             y:e.clientY - rect.y
         };
         let x = e.clientX - offset.x;  //這裡的 x y 是取得 div 最左上角為起點的座標數字 
         let y = e.clientY - offset.y;
-        console.log("offset", offset)
-        console.log("rect", rect)
         this.setState({
             dragInfoItem: {
                 left:x, top:y, theme:theme, row:row, markTheme:theme, markRow: row
             },
             itemHeight: itemHeight
         });
-        console.log("rect", this.state.height)
         const move = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log("scroll left", this.board.current.scrollLeft);
             let x = e.clientX - offset.x;
             let y = e.clientY - offset.y;
             let themeWidth = 278;
             let rowHeight = 130;
             let markTheme = Math.floor((( x + rect.width/2 )+this.board.current.scrollLeft )/ themeWidth);  //代表同主題寬度 x 軸
             let markRow = Math.floor(( y + rect.height/3 ) / rowHeight);  //代表主題內留言高度 y 軸
-            console.log("markTheme, markRow", markTheme, markRow)
             if ( markTheme <= 0 ) {
                 markTheme = 0;
             } else if ( markTheme > this.props.text.length-1 ) {
@@ -240,8 +224,6 @@ class Section extends React.Component {
                         .then((querySnapshot) => {
                             let destinationTheme = querySnapshot.docs[0].id
                             dbData[0].index = ((destinationRow + 1)*2 )-1
-                            console.log("destinationRow", destinationRow, dbData[0])
-
                             const ref = db.collection("Boards/" + firebaseUid + "/Lists/"+ destinationTheme +"/Items").doc()
                             ref.set(dbData[0])
                             .then(() => {
@@ -316,13 +298,13 @@ class Section extends React.Component {
                     items[i].push (<SectionItem key={ `${i}SectionItem${j}` } i={ i } j={ j } texts={ texts } dragItem={ this.dragItem }/>)
                 }   // ↑ 沒有 drag-drop 事件時的渲染
 
-                // 因為是往下拖曳， j > 原本所在的位置所以是後 push mark
+                // 在同主題內往下拖曳中， j > 原本所在的位置所以是後 push mark
                 if ( i === dragInfoItem.markTheme && j === dragInfoItem.markRow && i === dragInfoItem.theme && j > dragInfoItem.row ) { 
                     items[i].push (<SectionItemMark key={ `${i}SectionItemMark${j}` } style={ style }/>)
                 }
             }
-            // 當把 item 跨主題移動到未有留言的主題或是跨主題的最下方(因為該主題的留言長度會維持原樣，所以如果多塞一個 item 到最下方，j 會進不了 for 迴圈，所以會無法顯示 mark)
-            if ( i === dragInfoItem.markTheme && texts[i].length === dragInfoItem.markRow) {  
+            // 當把 item 跨主題移動到未有留言的主題或是跨(同)主題的最下方(因為該主題的留言長度會維持原樣，所以如果多塞一個 item 到最下方時，j 會進不了 for 迴圈，所以會無法顯示 mark)
+            if ( i === dragInfoItem.markTheme && texts[i].length === dragInfoItem.markRow) {
                 items[i].push (<SectionItemMark key={ `${i}SectionItemMark${texts[i].length}` } style={ style }/>)
             }
         }

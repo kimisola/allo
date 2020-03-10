@@ -6,9 +6,6 @@ let homePageState = {
 }
 
 export default function homePageReducer(state = homePageState, action) {
-    console.log("reducer run homePageReducer")
-    console.log("homePageReducer", action)
-    console.log("homePageReducer", homePageState)
 
     switch(action.type) {
         case "ADD_BEINVITED_DATA": {

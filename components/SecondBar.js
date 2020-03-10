@@ -81,7 +81,6 @@ class SecondBar extends React.Component {
         } else {
             firebaseUid = this.props.firebaseUid
         }
-        console.log(firebaseUid)
         if (event.key === "Enter" ) {
             if ( titleValue.length > 41 ) {
                 alert("The text is too long!")
