@@ -112,9 +112,12 @@
 }
 .login-page>.login-background>.login-main>.login-content>.signinArea>.signup>.rigister-div button,
 .login-page>.login-background>.login-main>.login-content>.signinArea>.login>.login-div button{
-    width: 261px; padding: 5px 0;height: 30px; color: white; font-weight: bold; background-color: rgba(255, 193, 77, 1); border: none;cursor: pointer;
+    width: 261px; padding: 5px 0;height: 30px; color: white; font-weight: bold; background-color: rgba(255, 193, 77, 1); border: none;cursor: pointer;box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);    transition: all .3s ease;    border-radius: 4px;
 }
-
+.login-page>.login-background>.login-main>.login-content>.signinArea>.signup>.rigister-div button:hover,
+.login-page>.login-background>.login-main>.login-content>.signinArea>.login>.login-div button:hover{
+    color: rgb(24, 94, 245);transform: translateY(-1px);box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+}
 .login-page>.login-background>.login-main>.login-content>.signinArea>.login>.googleBar {
     display: flex;justify-content: center; flex-direction: column;
 }
@@ -154,13 +157,12 @@
 
 .registerButton:hover,
 .loginButton:hover {
-    transform: translateY(1.5px); box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
+    transform: translateY(1.5px); background-color: rgb(248, 193, 91); color: rgb(106, 120, 243);box-shadow: 0 7px 14px rgba(50,50,93,.1), 0 3px 6px rgba(0,0,0,.08);
 }
 
 .registerButton,
 .loginButton {
-    width: 100px; height: 36px; color: white; background-color: rgba(255, 193, 77, 1);border-radius: 20px;font-weight: bold;font-size: 20px;padding: 5px;display: flex; justify-content: center; align-items: center;
-    box-shadow: 0 4px 5px rgba(204,133,0,0.7);cursor: pointer;z-index: 10;
+    width: 100px; height: 36px; color: white; background-color: rgba(255, 193, 77, 1);border-radius: 20px;font-weight: bold;font-size: 20px;padding: 5px;display: flex; justify-content: center; align-items: center;box-shadow: 0 4px 2px rgba(15, 10, 1, 0.4);cursor: pointer;z-index: 10;transition: all .3s ease;
 }
 .registerButton label,
 .loginButton label {

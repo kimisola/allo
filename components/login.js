@@ -94,10 +94,12 @@ class LoginPage extends React.Component {
                 zIndex: this.state.isLoggedin ? "10" : "",
             },
             registerButton: {
-                color: this.state.isRegisted ? "rgba(51, 51, 51, 0.8)" : "white",
+                color: this.state.isRegisted ? "rgb(106, 120, 243)" : "",
+                backgroundColor: this.state.isRegisted ?  "rgb(248, 193, 91)" :"",
             },
             loginButton: {
-                color: this.state.isLoggedin ? "rgba(51, 51, 51, 0.8)" : "white",
+                color: this.state.isLoggedin ? "rgb(106, 120, 243)" : "",
+                backgroundColor: this.state.isLoggedin ?  "rgb(248, 193, 91)" :"",
             }
         }
         

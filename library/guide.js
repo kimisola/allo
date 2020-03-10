@@ -1,7 +1,6 @@
 import { db } from "../src/fire";
 
 export function setGuideData() {
-    console.log("lib_setInitialData")
     let props = this.props;
     let firebaseUid = this.props.currentBoard;
     db.collection("Boards").doc(firebaseUid).get()
@@ -20,8 +19,6 @@ export function setGuideData() {
                 background: "https://firebasestorage.googleapis.com/v0/b/allo-dc54c.appspot.com/o/homepageCover%2Fmaldives-1993704_1920.jpg?alt=media&token=b17d4f00-7e8f-4e2c-978f-c8ea14bb3a7f"
             }).then(() => {
                 //新增初始範例
-                console.log("lib_ssssetInitialData")
-
                 props.setCommentData(["Welcome to a-llo guide !","List"], [
                     [{
                     edited:"a-llo",
@@ -107,8 +104,6 @@ export function setGuideData() {
                         even more quickly.
                         
                         Now enjoy it !`
-                    }).then(()=>{
-                        console.log("Document successfully written!");
                     }).catch((error) => {
                         console.error("Error removing document: ", error.message);
                     })

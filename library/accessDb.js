@@ -1,11 +1,6 @@
-// import React from "react";
-// import { connect } from "react-redux";
-// import fire from "../src/fire";
 import { db } from "../src/fire";
 
 export function accessWhereMethod(dbPath, column, target, targetData) {
-    console.log("lib_AccessWhereMethod")
-    // const db = fire.firestore();
     db.collection(dbPath).where(column, "==", target).get()
     .then((querySnapshot) => {
         const docId = querySnapshot.docs[0].id
@@ -19,8 +14,6 @@ export function accessWhereMethod(dbPath, column, target, targetData) {
 
 //重新 set list / item 的 index
 export function accessOrderByMethod(dbPath) {
-    console.log("lib_AccessOrderByMethod")
-    // const db = fire.firestore();
     db.collection(dbPath).orderBy("index").get()
     .then((querySnapshot) => {
         const doc = querySnapshot.docs;
@@ -37,8 +30,6 @@ export function accessOrderByMethod(dbPath) {
 }
 
 export function accessDeleteMethod(dbPath, docId) {
-    console.log("lib_AccessDeleteMethod", dbPath, docId)
-    // const db = fire.firestore();
     //避免誤刪 code 維持 get 改成 delete 就可以刪除了
     db.collection(dbPath).doc(docId).delete()
     .then(() => {

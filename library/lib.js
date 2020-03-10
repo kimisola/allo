@@ -1,4 +1,3 @@
-import React from "react";
 import { db } from "../src/fire";
 import fire from "../src/fire";
 
@@ -13,34 +12,19 @@ export function uploadBackgroundImg(ref, file) {
                 if ( file.type == fileTypes[i] ) { 
                     flag = true
                     if (file.size > 190000 ) {
-                    // console.log("Uploaded a blob or file!");
                     imgRef.getDownloadURL().then( async (url) => {
-                        // console.log(url)
                         if ( ref === "homepageCover" ) {
-                            this.setState( prevState => {
-                                let homepageCover = url
-                                return Object.assign({}, prevState, {
-                                    homepageCover: homepageCover,
-                                })
-                            });
+                            this.setState({ homepageCover: url })
                             const db = fire.firestore();
                             let firebaseUid = this.props.firebaseUid
                             db.collection("Users").doc(firebaseUid)
                             .update({
                                 homepageCover: this.state.homepageCover
-                            }).then(()=>{
-                                console.log("successed", this.state.homepageCover)
-                            })
-                            .catch((error)=> {
+                            }).catch((error)=> {
                                 console.log("Error writing document: ", error.message);
                             })
                         } else {
-                            this.setState( prevState => {
-                                let boardURL = url
-                                return Object.assign({}, prevState, {
-                                    boardURL: boardURL,
-                                })
-                            });
+                            this.setState({ boardURL: url })
                             const db = fire.firestore();
                             let firebaseUid = this.props.firebaseUid
                             db.collection("Boards").doc(firebaseUid)
@@ -67,7 +51,6 @@ export function uploadBackgroundImg(ref, file) {
 
 
 export function getBeInvitedData(firebaseUid) {
-    console.log("99999999999999999999999999999999999",firebaseUid)
     db.collection("Users/" + firebaseUid + "/beInvited").orderBy("index").get()
     .then((querySnapshot) => {
         let data = [];
