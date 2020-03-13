@@ -57,7 +57,8 @@ Drag and drop between theme and card offers you more flexibility.
 Users can receive co-editing invitations and see the responses from your guests.
 
 
-<img style="border: 1px solid white; border-radius: 4px" src="https://i.imgur.com/2p6Qmyf.png" width="200px" /><img style="border: 1px solid white; border-radius: 4px" src="https://i.imgur.com/HZhAR1U.png" width="200px" />
+<img style="border: 1px solid white; border-radius: 4px" src="https://i.imgur.com/2p6Qmyf.png" width="200px" /><img style="border: 1px solid white; border-radius: 4px; margin-right: 20px" src="https://i.imgur.com/HZhAR1U.png" width="200px" />
+
 <img style="border: 1px solid white; border-radius: 4px" src="https://i.imgur.com/Plv4NWM.gif" width="400px" />
 
 ### Co-editing
@@ -83,7 +84,7 @@ Users can control the horizontal scroll by scrolling mouse wheel.
 
 a-llo provides two ways to register and login: use their own email or sign up with Google. 
 
-<img style="border: 1px solid white; border-radius: 4px" src="https://i.imgur.com/jBbwlGc.png" width="260px" /><img style="border: 1px solid white; border-radius: 4px" src="https://i.imgur.com/3U5dVFV.png" width="260px" />
+<img style="border: 1px solid white; border-radius: 4px; margin-right: 20px" src="https://i.imgur.com/jBbwlGc.png" width="260px" /><img style="border: 1px solid white; border-radius: 4px" src="https://i.imgur.com/3U5dVFV.png" width="260px" />
 
 ## Contact
 
