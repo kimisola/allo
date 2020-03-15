@@ -41,7 +41,6 @@ class Section extends React.Component {
     }
 
     stopEvent = (e) => {
-        e.preventDefault();
         e.stopPropagation();
     }
 
@@ -53,7 +52,7 @@ class Section extends React.Component {
         const rect = theme.getBoundingClientRect();
         const themeRect = e.currentTarget.parentElement.getBoundingClientRect();
         const themeHeight = themeRect.height
-        let offset = {  //滑鼠所在位置到該 div 最左上的座標的距離  → rect.x y 所指 div 最左上角的座標
+        let offset = {    //滑鼠所在位置到該 div 最左上的座標的距離  → rect.x y 所指 div 最左上角的座標
                 x:e.clientX - rect.x,
                 y:e.clientY - rect.y
             };
@@ -251,7 +250,6 @@ class Section extends React.Component {
     horizontalScroll = (e) => {
         if (e.deltaY !== 0) {
             e.stopPropagation()
-            e.preventDefault()
             this.board.current.scrollLeft += e.deltaY
         }
     }
